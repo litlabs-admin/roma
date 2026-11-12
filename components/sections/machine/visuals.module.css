@@ -1,0 +1,405 @@
+/* Dream-machine card illustrations — geometry ported from Fruitful's inline embed CSS
+   (index.html .dm_visual blocks). Everything is in a 637-unit design space:
+   --u = 1/637 of the card width, via container-query units, so the art scales as one. */
+
+.visual {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  container-type: inline-size;
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-sans);
+  color: var(--color-ink-900);
+}
+.visual * {
+  --u: calc(100cqw / 637);
+}
+
+/* Diagonal checkerboard of well tints (Fruitful: mint→blue on 1 & 4, grey on 2 & 3). */
+.warm {
+  background: linear-gradient(180deg, rgba(253, 243, 225, 0.2) 0%, #f1d6ce 47%, #ffffff 100%);
+}
+.neutral {
+  background: linear-gradient(180deg, rgba(232, 228, 218, 0) 0%, #efebe2 47%, #ffffff 100%);
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Card 1 · connect (Fruitful composer) ─────────────────────────────── */
+
+.cCard,
+.cDoc {
+  position: absolute;
+}
+.cCard {
+  left: calc(var(--u) * 53.45);
+  top: calc(var(--u) * 62.4);
+  width: calc(var(--u) * 322.5);
+  height: calc(var(--u) * 224.6);
+  transform: rotate(-9.68deg);
+}
+.cInner {
+  position: absolute;
+  left: calc(var(--u) * 12.84);
+  top: 0;
+  width: calc(var(--u) * 296.8);
+  padding: calc(var(--u) * 6.42) 0;
+  border-radius: calc(var(--u) * 19.3);
+  background: rgba(255, 255, 255, 0.9);
+  border: calc(var(--u) * 0.8) solid #fff;
+  backdrop-filter: blur(calc(var(--u) * 12.84));
+  -webkit-backdrop-filter: blur(calc(var(--u) * 12.84));
+  box-shadow:
+    0 calc(var(--u) * 12.84) calc(var(--u) * 19.25) rgba(58, 20, 14, 0.06),
+    0 calc(var(--u) * 6.42) calc(var(--u) * 6.42) rgba(58, 20, 14, 0.02);
+}
+.cHead {
+  display: flex;
+  align-items: flex-start;
+  gap: calc(var(--u) * 12.84);
+  padding: calc(var(--u) * 6.42) calc(var(--u) * 12.84);
+}
+.cQ {
+  flex: 1;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: calc(var(--u) * 14.44);
+  line-height: calc(var(--u) * 21.66);
+  letter-spacing: -0.01em;
+}
+.cClose,
+.cLink,
+.cSend {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 32.1);
+  height: calc(var(--u) * 32.1);
+  border-radius: calc(var(--u) * 12.8);
+}
+.cClose {
+  background: var(--color-cream-200);
+}
+.cClose svg,
+.cSend svg {
+  width: calc(var(--u) * 19.3);
+  height: calc(var(--u) * 19.3);
+}
+.cLink {
+  background: none;
+  color: var(--color-ink-600);
+}
+.cLink svg {
+  width: calc(var(--u) * 14);
+  height: calc(var(--u) * 14);
+}
+.cSend {
+  background: var(--color-red-600);
+  color: #fff;
+}
+.cOpts {
+  position: relative;
+}
+.cOpt {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 9.63);
+  height: calc(var(--u) * 38.5);
+  padding: 0 calc(var(--u) * 9.63);
+}
+.cOpt span,
+.cPh {
+  font-weight: 500;
+  font-size: calc(var(--u) * 12.84);
+  line-height: calc(var(--u) * 19.25);
+}
+.cRadio {
+  position: relative;
+  flex: none;
+  width: calc(var(--u) * 32.1);
+  height: calc(var(--u) * 32.1);
+  background: radial-gradient(circle at 50% 50%, #fff 0 calc(var(--u) * 9.25), transparent calc(var(--u) * 9.25));
+}
+.cRadio::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--u) * 6.4);
+  border-radius: 50%;
+  border: calc(var(--u) * 0.8) solid var(--color-sand-400);
+}
+/* Rests centred on row 2; the timeline lifts it one row (−437.5% of its height) first. */
+.cDot {
+  position: absolute;
+  left: calc(var(--u) * 21.28);
+  top: calc(var(--u) * 53.35);
+  width: calc(var(--u) * 8.8);
+  height: calc(var(--u) * 8.8);
+  border-radius: 50%;
+  background: var(--color-red-600);
+}
+.cInput {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 9.63);
+  height: calc(var(--u) * 38.5);
+  padding: 0 calc(var(--u) * 9.63);
+}
+.cPh {
+  flex: 1;
+  color: var(--color-ink-500);
+}
+
+/* second layer — the backup document (Fruitful .dm-c-photo frame) */
+.cDoc {
+  left: calc(var(--u) * 351.35);
+  top: calc(var(--u) * 131.75);
+  width: calc(var(--u) * 218.3);
+  height: calc(var(--u) * 226.5);
+  padding: calc(var(--u) * 14.33);
+  border-radius: calc(var(--u) * 22.9);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(calc(var(--u) * 5.73));
+  -webkit-backdrop-filter: blur(calc(var(--u) * 5.73));
+  box-shadow: inset 0 calc(var(--u) * -5.73) calc(var(--u) * 5.73) rgba(255, 255, 255, 0.73);
+  transform: rotate(7.8deg);
+}
+.cDocInner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: calc(var(--u) * 15) calc(var(--u) * 14);
+  border-radius: calc(var(--u) * 16);
+  background: #fff;
+  font-size: calc(var(--u) * 10.5);
+  line-height: 1.3;
+}
+.cDocHead {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 3);
+  padding-bottom: calc(var(--u) * 9);
+  border-bottom: calc(var(--u) * 0.8) solid var(--color-sand-300);
+}
+.cDocLabel {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: calc(var(--u) * 8.5);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-red-700);
+}
+.cDocCheck {
+  font-weight: 500;
+  font-size: calc(var(--u) * 12);
+}
+.cDocLines {
+  margin: 0;
+  padding: calc(var(--u) * 6) 0;
+  list-style: none;
+}
+.cDocLines li,
+.cDocTotal {
+  display: flex;
+  justify-content: space-between;
+  gap: calc(var(--u) * 8);
+  padding: calc(var(--u) * 4.5) 0;
+  color: var(--color-ink-600);
+}
+.cDocTotal {
+  border-top: calc(var(--u) * 0.8) solid var(--color-sand-300);
+  padding-top: calc(var(--u) * 8);
+  color: var(--color-ink-900);
+  font-weight: 600;
+}
+.cDocChip {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) * 4);
+  align-self: flex-start;
+  margin-top: auto;
+  padding: calc(var(--u) * 3.5) calc(var(--u) * 8) calc(var(--u) * 3.5) calc(var(--u) * 6);
+  border-radius: 999px;
+  background: #e2f0de;
+  color: #0b5d05;
+  font-weight: 500;
+  font-size: calc(var(--u) * 9.5);
+}
+.cDocChip svg {
+  width: calc(var(--u) * 10);
+  height: calc(var(--u) * 10);
+}
+
+/* ── Card 2 · routing ─────────────────────────────────────────────────── */
+
+.rPanel {
+  position: absolute;
+  left: 18.05%;
+  top: 16.28%;
+  width: 63.9%;
+  height: 67.5%;
+  overflow: hidden;
+  border-radius: 4.5% / 6.25%;
+  background: rgba(255, 255, 255, 0.83);
+}
+.rBlob {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 46% 64% at 49.4% 16%,
+    rgba(178, 21, 21, 0.16) 0%,
+    rgba(178, 21, 21, 0.08) 45%,
+    rgba(178, 21, 21, 0) 100%
+  );
+}
+.rLabel {
+  font-family: var(--font-sans);
+  font-size: 14.2px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* ── Card 3 · stream (Fruitful map marquee) ───────────────────────────── */
+
+.sWindow {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.3) 6%, #000 19%, #000 81%, rgba(0, 0, 0, 0.3) 94%, rgba(0, 0, 0, 0.06) 100%);
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.3) 6%, #000 19%, #000 81%, rgba(0, 0, 0, 0.3) 94%, rgba(0, 0, 0, 0.06) 100%);
+}
+.sDrift {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.sTile {
+  position: absolute;
+  top: 49.954%;
+  width: 60.597%;
+  aspect-ratio: 386 / 560;
+  padding: calc(var(--u) * 30) calc(var(--u) * 28);
+  border-radius: calc(var(--u) * 36);
+  border: calc(var(--u) * 1.5) solid var(--color-sand-300);
+  background: #fff;
+  box-shadow: 0 calc(var(--u) * 20) calc(var(--u) * 40) rgba(58, 20, 14, 0.06);
+  transform: translateY(-50%) rotate(-18.31deg);
+  font-size: calc(var(--u) * 17);
+  line-height: 1.3;
+}
+.sTop {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 12);
+}
+.sBadge {
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 40);
+  height: calc(var(--u) * 40);
+  border-radius: 50%;
+  background: var(--color-red-100);
+  color: var(--color-red-800);
+  font-weight: 600;
+  font-size: calc(var(--u) * 17);
+}
+.sTitle {
+  font-weight: 500;
+  font-size: calc(var(--u) * 20);
+}
+.sLabel {
+  margin: calc(var(--u) * 30) 0 0;
+  font-family: var(--font-mono);
+  font-size: calc(var(--u) * 13);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-500);
+}
+.sAmount {
+  margin: calc(var(--u) * 6) 0 calc(var(--u) * 22);
+  font-weight: 600;
+  font-size: calc(var(--u) * 40);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.sLines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sLines li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "code amt" "chip amt";
+  align-items: center;
+  row-gap: calc(var(--u) * 6);
+  padding: calc(var(--u) * 14) 0;
+  border-top: calc(var(--u) * 1.5) solid var(--color-sand-300);
+}
+.sCode {
+  grid-area: code;
+  font-weight: 500;
+}
+.sChip {
+  grid-area: chip;
+  justify-self: start;
+  padding: calc(var(--u) * 3) calc(var(--u) * 10);
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: calc(var(--u) * 12.5);
+}
+.sLineAmt {
+  grid-area: amt;
+  font-weight: 500;
+  color: var(--color-ink-600);
+}
+.matched {
+  background: #e2f0de;
+  color: #0b5d05;
+}
+.recoverable {
+  background: var(--color-red-600);
+  color: #fff;
+}
+.review {
+  background: #eed9a8;
+  color: #5c4413;
+}
+.sFoot {
+  display: flex;
+  justify-content: space-between;
+  padding-top: calc(var(--u) * 16);
+  border-top: calc(var(--u) * 1.5) solid var(--color-sand-300);
+  font-weight: 600;
+}
+.sScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 65.2%, #ffffff 90%);
+}
+
+/* ── Card 4 · recovery (Fruitful goals) ───────────────────────────────── */
+
+.gPanel {
+  filter: drop-shadow(0 14px 18px rgba(58, 20, 14, 0.07));
+}
+.gText {
+  font-family: var(--font-sans);
+}
+.gScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 80.7%, #ffffff 90%);
+}

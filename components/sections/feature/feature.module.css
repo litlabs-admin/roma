@@ -1,0 +1,387 @@
+/* Feature story — DESIGN.md §G.3 (structure from Fruitful .goalflow-*) */
+
+.section {
+  position: relative;
+  z-index: 1;
+  padding-bottom: 7.5rem; /* Fruitful .v-space-120 */
+  /* The statement sits mid-stage, so the stage opens with ~half a screen of empty space.
+     Pull the section up into it so the gap after the trust strip reads as one section
+     space, not two. The stage is transparent and the strip has nothing clickable. */
+  margin-top: calc(-1 * min(24vh, 13rem));
+}
+.section:has(.container[data-static]) {
+  margin-top: 0;
+}
+
+.container {
+  position: relative;
+  height: 400vh;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  z-index: 1;
+  overflow: clip;
+}
+
+/* ── statement ── */
+.statement {
+  padding-inline: var(--gutter);
+  text-align: center;
+  pointer-events: none;
+}
+/* Floats mid-stage by default; the static (reduced-motion) mode puts it back in flow.
+   `translate` (not `transform`) so GSAP's transforms never compound with it. */
+.statement {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  translate: 0 -50%;
+  z-index: 0;
+}
+.statementText {
+  max-width: 40rem;
+  margin: 0 auto;
+  text-wrap: balance;
+}
+@media (min-width: 992px) {
+  .statementText {
+    max-width: none;
+  }
+}
+.nowrap {
+  white-space: nowrap;
+}
+
+/* ── two-column layout, vertically centred in the stage ── */
+.layoutWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  max-width: var(--container-md);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  padding-top: calc(var(--nav-h) * 0.6);
+}
+.layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  width: 100%;
+}
+
+.column {
+  position: relative;
+  flex: 1 1 0;
+  max-width: 27rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+  padding-block: 1rem;
+}
+.columnTop {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.heading {
+  margin: 0;
+  text-wrap: balance;
+}
+.body {
+  margin: 0;
+  max-width: 34rem;
+  color: var(--color-ink-600);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.progress {
+  position: absolute;
+  left: -2rem;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  border-radius: 100px;
+  background: rgba(17, 17, 17, 0.1);
+  overflow: hidden;
+}
+.progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 100px;
+  background: var(--color-red-600);
+}
+
+/* channel card (Fruitful .goalflow_content-bottom) */
+.card {
+  position: relative;
+  padding: 1.5rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+}
+.cardTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+.cardSub {
+  margin: 0.25rem 0 1.25rem;
+  font-size: 0.9375rem;
+  color: var(--color-ink-500);
+}
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+.tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem;
+  border: 2px solid var(--color-sand-300);
+  border-radius: 1rem;
+  background: transparent;
+  color: var(--color-ink-900);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 200ms var(--ease-state),
+    background-color 200ms var(--ease-state);
+}
+@media (hover: hover) {
+  .tab:hover {
+    background: var(--color-cream-50);
+    border-color: var(--color-sand-400);
+  }
+}
+.tabActive,
+.tabActive:hover {
+  border-color: var(--color-red-600);
+  background: var(--color-white);
+}
+.tabIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.75rem;
+  background: var(--color-cream-200);
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition:
+    background-color 200ms var(--ease-state),
+    color 200ms var(--ease-state);
+}
+.tabActive .tabIcon {
+  background: var(--color-red-600);
+  color: #fff;
+}
+.tabCheck {
+  position: absolute;
+  right: 0.625rem;
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  color: var(--color-red-600);
+  transform: scale(0);
+  transform-origin: 100% 50%;
+  transition: transform 200ms var(--ease-state);
+}
+.tabCheck svg {
+  width: 100%;
+  height: 100%;
+}
+.tabActive .tabCheck {
+  transform: scale(1);
+}
+
+.hint {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1;
+  color: var(--color-ink-500);
+  pointer-events: none;
+}
+.hintCard {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: 1.5rem;
+}
+
+/* ── visual: phone (Fruitful .goalflow-visual_list + .goalflow-phone) ── */
+.visual {
+  position: relative;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: min(78vh, 50rem);
+  aspect-ratio: 214.48 / 449.16; /* Fruitful phone body */
+  will-change: transform;
+}
+/* Bezel: same proportions as Fruitful's CSS phone */
+.panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: 16.45% / 7.85%;
+  background: #1c1c1e;
+  box-shadow:
+    inset 0 0 0 1px #3a3a3c,
+    inset 0 0 0 2px #111;
+}
+/* Screen aperture — 400 × 868 canvas fits it exactly */
+.panelHost {
+  position: absolute;
+  left: 3.18%;
+  top: 1.52%;
+  width: 93.63%;
+  height: 96.96%;
+  border-radius: 14.73% / 6.79%;
+  overflow: hidden;
+  container-type: inline-size;
+  background: #f5f3ef;
+}
+/* Long, soft cast shadow toward the lower right, in warm ink. Stacked offsets build the
+   "extrusion"; the largest layers fade it out. Same shape as the phone so corners match. */
+.phoneShadow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 16.45% / 7.85%;
+  pointer-events: none;
+  box-shadow:
+    2px 3px 4px rgba(42, 22, 14, 0.18),
+    8px 12px 14px rgba(42, 22, 14, 0.12),
+    18px 28px 30px rgba(42, 22, 14, 0.1),
+    34px 52px 50px rgba(42, 22, 14, 0.08),
+    56px 86px 80px rgba(42, 22, 14, 0.06),
+    84px 128px 110px rgba(42, 22, 14, 0.04);
+}
+.caption {
+  position: absolute;
+  top: 100%;
+  margin: 1rem 0 0;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  color: var(--color-ink-500);
+}
+
+/* ── tablet ── */
+@media (max-width: 991px) {
+  .layout {
+    gap: 2.5rem;
+  }
+  .visual {
+    height: min(68vh, 42rem);
+  }
+  .column {
+    gap: 2.5rem;
+  }
+}
+
+/* ── mobile: stacked, panel on top, card hidden (Fruitful) ── */
+@media (max-width: 767px) {
+  .layoutWrap {
+    align-items: stretch;
+    padding-top: calc(var(--nav-h) + 1rem);
+    padding-bottom: 1.5rem;
+  }
+  .layout {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 1.75rem;
+  }
+  .visual {
+    height: min(58svh, 32rem);
+    align-self: center;
+  }
+  .phoneShadow {
+    box-shadow:
+      2px 3px 4px rgba(42, 22, 14, 0.16),
+      8px 12px 14px rgba(42, 22, 14, 0.1),
+      20px 32px 34px rgba(42, 22, 14, 0.07),
+      40px 64px 60px rgba(42, 22, 14, 0.05);
+  }
+  .caption {
+    margin-top: 0.5rem;
+    font-size: 0.625rem;
+  }
+  .column {
+    max-width: none;
+    gap: 0;
+    padding: 0 0 0 1.25rem;
+  }
+  .progress {
+    left: 0;
+  }
+  .columnTop {
+    gap: 0.75rem;
+  }
+  .heading {
+    font-size: 1.5rem;
+  }
+  .body {
+    font-size: 0.9375rem;
+  }
+  .card {
+    display: none;
+  }
+}
+@media (max-width: 767px) and (max-height: 700px) {
+  .body {
+    display: none;
+  }
+}
+
+/* ── reduced motion / no-JS-motion: not pinned, statement above, final state ── */
+.container[data-static] {
+  height: auto;
+}
+.container[data-static] .sticky {
+  position: relative;
+  height: auto;
+  overflow: visible;
+  padding-block: var(--section-lg);
+}
+.container[data-static] .statement {
+  position: relative;
+  top: auto;
+  translate: none;
+}
+.container[data-static] .layoutWrap {
+  position: relative;
+  padding-top: 4rem;
+}
+.container[data-static] .hint {
+  display: none;
+}

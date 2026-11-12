@@ -1,0 +1,170 @@
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  color: #fff;
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
+}
+/* scrolled within the hero: solid deep red-black so copy never runs under white nav text */
+.overHero {
+  background-color: var(--color-red-950);
+}
+.solid,
+.isOpen {
+  color: var(--color-ink-900);
+  background-color: var(--color-cream-50);
+  border-bottom-color: var(--color-sand-300);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  max-width: var(--container-xl);
+  min-height: var(--nav-h);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+.logoImg {
+  width: auto;
+  height: 1.5rem;
+  transition: filter 150ms ease;
+}
+/* On the hero the whole mark goes white — the red rosette disappears into red art. */
+.logoOnDark {
+  filter: brightness(0) invert(1);
+}
+@media (min-width: 992px) {
+  .logoImg {
+    height: 1.625rem;
+  }
+}
+
+.links {
+  display: none;
+  align-items: center;
+  gap: 0.25rem;
+}
+@media (min-width: 992px) {
+  .links {
+    display: flex;
+  }
+}
+
+.link {
+  border-radius: 999px;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 150ms ease;
+}
+@media (hover: hover) {
+  .nav[data-theme="dark"] .link:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+  .nav[data-theme="light"] .link:hover {
+    background-color: #f1ebdf;
+  }
+}
+.nav[data-theme="dark"] :focus-visible {
+  outline-color: #fff;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.login {
+  display: none;
+}
+@media (min-width: 992px) {
+  .login {
+    display: inline-block;
+  }
+}
+
+.menuBtn {
+  display: inline-grid;
+  place-content: center;
+  gap: 6px;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: -0.5rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+.menuBtn span {
+  display: block;
+  width: 1.25rem;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 300ms var(--ease-out);
+}
+.isOpen .menuBtn span:first-child {
+  transform: translateY(3.75px) rotate(45deg);
+}
+.isOpen .menuBtn span:last-child {
+  transform: translateY(-3.75px) rotate(-45deg);
+}
+@media (min-width: 992px) {
+  .menuBtn {
+    display: none;
+  }
+}
+/* Below 480 the nav CTA lives in the sheet */
+@media (max-width: 479px) {
+  .actions > a:not(.login) {
+    display: none;
+  }
+}
+
+.sheet {
+  position: fixed;
+  inset: var(--nav-h) 0 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2rem var(--gutter) 2.5rem;
+  background: var(--color-cream-50);
+  color: var(--color-ink-900);
+}
+.sheet[hidden] {
+  display: none;
+}
+.sheetLinks {
+  display: flex;
+  flex-direction: column;
+}
+.sheetLinks a {
+  padding-block: 0.875rem;
+  border-bottom: 1px solid var(--color-sand-300);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  color: inherit;
+}
+@media (min-width: 992px) {
+  .sheet {
+    display: none !important;
+  }
+}

@@ -1,0 +1,86 @@
+/* Closing CTA — Hyperline PreFooterCta (12xmjlp33p3jc.js + 13h23878bn8-w.css), type and
+   background only. Full-bleed band, no radius of its own. */
+
+.section {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  overflow: hidden;
+  /* tuck under the FAQ sheet's 2.5rem rounded bottom corners */
+  margin-top: -2.5rem;
+  padding: calc(2.5rem + 6rem) var(--gutter) 7rem;
+  background: var(--color-ink-900);
+  color: var(--color-on-dark);
+}
+@media (min-width: 1024px) {
+  .section {
+    padding: calc(2.5rem + 8rem) 5rem 9rem;
+  }
+}
+
+.texture {
+  z-index: -3;
+  object-fit: cover;
+}
+/* Hyperline scrim (SCRIM_RGB 42,38,32), verbatim. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(180deg, rgba(42, 38, 32, 0.55) 0%, rgba(42, 38, 32, 0) 42%);
+}
+/* Roma: melt the texture into the footer colour so the band has no bottom seam. */
+.fade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(17, 17, 17, 0) 55%, var(--color-ink-900) 100%);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 45rem;
+  margin-inline: auto;
+  text-align: center;
+}
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+/* Hyperline text-h1: 1.75rem / 2.5rem at lg, 500, −0.01em — set a step larger to suit
+   Roma's display scale. */
+.heading {
+  margin: 0;
+  font-weight: 500;
+  font-size: 2.25rem;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+@media (min-width: 768px) {
+  .heading {
+    font-size: 3.25rem;
+  }
+}
+@media (min-width: 1024px) {
+  .heading {
+    font-size: 4rem;
+  }
+}
+.sub {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-on-dark-muted);
+  text-wrap: pretty;
+}
+@media (min-width: 1024px) {
+  .sub {
+    font-size: 1.25rem;
+  }
+}

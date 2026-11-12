@@ -1,0 +1,145 @@
+/* Footer — Hyperline structure (footer[data-theme=dark].bg-surface-0, 2/3/6-col grid,
+   text-small links, one bottom row), Roma tokens, plus the clipped "roma" wordmark. */
+
+.footer {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  background: var(--color-ink-900);
+  color: var(--color-on-dark);
+}
+.inner {
+  width: 100%;
+  max-width: var(--container-lg);
+  margin-inline: auto;
+  padding: 3rem var(--gutter) 0;
+}
+@media (min-width: 1024px) {
+  .inner {
+    padding-top: 4rem;
+  }
+}
+
+/* ── link grid: 2 cols, 3 from 640px, 6-col track from 1024px ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem 2rem;
+}
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.colTitle {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--color-on-dark);
+}
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.link {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-on-dark-muted);
+  text-decoration: none;
+  transition: color 150ms ease-out;
+}
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    color: var(--color-on-dark);
+  }
+}
+.link:focus-visible {
+  color: var(--color-on-dark);
+  outline-color: #fff;
+}
+
+/* ── bottom row ── */
+.bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 4rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.5);
+}
+@media (min-width: 1024px) {
+  .bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5rem;
+  }
+}
+
+/* ── oversized wordmark ──
+   Wordmark.tsx fits the word to this box's width, sets --x-top (distance from the
+   word box's top to its x-height) and the box height (65% of the x-height). */
+.wordClip {
+  --x-top: 0.3em;
+  position: relative;
+  width: 100%;
+  max-width: var(--container-lg);
+  height: 9rem; /* replaced on mount */
+  margin: 2.5rem auto 0;
+  padding-inline: var(--gutter);
+  overflow: clip;
+  box-sizing: border-box;
+}
+@media (min-width: 1024px) {
+  .wordClip {
+    margin-top: 3.5rem;
+  }
+}
+.wordRise {
+  position: absolute;
+  top: 0;
+  left: var(--gutter);
+  right: var(--gutter);
+}
+.word {
+  display: flex;
+  align-items: baseline;
+  width: max-content;
+  margin-top: calc(-1 * var(--x-top));
+  font-size: 18vw;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+  color: var(--color-cream-50);
+}
+/* Exactly one x-height tall, sitting on the baseline like a letter. */
+.wordO {
+  display: inline-block;
+  width: 1.04ex;
+  height: 1.04ex;
+  margin: 0 0.035em;
+  transform: translateY(0.02ex);
+  color: var(--color-red-600);
+}
+.wordO svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

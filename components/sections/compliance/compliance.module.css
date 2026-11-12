@@ -1,0 +1,143 @@
+/* Compliance — layout from runroma.com's security section (Image 3), in Roma tokens.
+   No fill: the light red comes from the page backdrop. */
+
+.section {
+  position: relative;
+  z-index: 1;
+}
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: var(--container-md);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  padding-block: var(--section-lg);
+  text-align: center;
+}
+.heading {
+  max-width: 34rem;
+  margin: 0;
+  text-wrap: balance;
+}
+.body {
+  max-width: 30rem;
+  margin: 1.5rem 0 0;
+  color: var(--color-ink-600);
+  text-wrap: pretty;
+}
+
+.badges {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  margin: 4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.badge {
+  width: 9.375rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  /* the medallions sit on the page; a soft contact shadow grounds them on the red */
+  filter: drop-shadow(0 1.25rem 1.5rem rgba(58, 20, 14, 0.18));
+}
+.badge img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Joined strip: shared edges drawn once, outer corners rounded (runroma.com). */
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  max-width: 60rem;
+  margin: 4.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+.pillar {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1.25rem 1.25rem 1.375rem;
+  border: 1px solid rgba(178, 21, 21, 0.14);
+  background: var(--color-white);
+}
+.pillar + .pillar {
+  border-left-width: 0;
+}
+.pillar:first-child {
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+}
+.pillar:last-child {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.icon {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: 0.0625rem;
+  color: var(--color-red-600);
+}
+.pillarTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+.pillarBody {
+  margin: 0.125rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-ink-600);
+}
+
+@media (max-width: 991px) {
+  .pillars {
+    grid-template-columns: 1fr;
+    max-width: 26rem;
+  }
+  .pillar + .pillar {
+    border-left-width: 1px;
+    border-top-width: 0;
+  }
+  .pillar:first-child {
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  }
+  .pillar:last-child {
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  }
+}
+
+@media (max-width: 767px) {
+  .badges {
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .badge {
+    width: 6rem;
+  }
+  .pillars {
+    gap: 0.5rem;
+    margin-top: 3rem;
+    max-width: none;
+  }
+  .pillar,
+  .pillar + .pillar,
+  .pillar:first-child,
+  .pillar:last-child {
+    border-width: 1px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* Reduced motion: the backdrop doesn't scrub, so the section paints its own band. */
+.section[data-static] {
+  background: radial-gradient(circle at 50% 50%, #fbeeeb 0%, var(--color-red-100) 100%);
+}

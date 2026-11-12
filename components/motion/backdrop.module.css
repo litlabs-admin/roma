@@ -1,0 +1,21 @@
+/* Fixed, page-wide colour backdrop (see PageBackdrop.tsx). */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+/* Compliance: red-100 with a lighter centre. */
+.light {
+  background-image: radial-gradient(circle at 50% 50%, #fbeeeb 0%, var(--color-red-100) 100%);
+}
+/* Stories: Roma red glowing in the middle, deepening to red-900 at the edges. */
+.red {
+  background-image: radial-gradient(circle at 50% 50%, var(--color-red-700) 0%, var(--color-red-900) 100%);
+}

@@ -1,0 +1,281 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Roma design tokens — see DESIGN.md §B–§F. Never hard-code these values.
+   ────────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1440px;
+
+  /* Brand */
+  --color-red-100: #f4d9d4;
+  --color-red-600: #b21515;
+  --color-red-700: #9b1212;
+  --color-red-800: #7a0e0e;
+  --color-red-900: #4a0a08; /* edge of the stories backdrop (red-700 → red-900 radial) */
+  --color-red-950: #1f0a08;
+
+  /* Warm neutrals */
+  --color-cream-50: #faf7f1;
+  --color-cream-100: #fdf3e1;
+  --color-cream-200: #f8f1e1;
+  --color-sand-300: #e8e4da;
+  --color-sand-400: #d6cfc0;
+  --color-white: #ffffff;
+
+  /* Text */
+  --color-ink-900: #111111;
+  --color-ink-800: #2a2a2a;
+  --color-ink-600: #5a574f;
+  --color-ink-500: #6b665c;
+
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: var(--font-source-serif), Georgia, serif;
+
+  --radius-sm: 0.75rem;
+  --radius-md: 1.25rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-pill: 999px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-state: cubic-bezier(0.14, 0.43, 0.32, 1);
+  --ease-inout: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+:root {
+  --color-on-dark: #ffffff;
+  --color-on-dark-muted: rgba(255, 255, 255, 0.8);
+
+  --overlay-hero: rgba(31, 10, 8, 0.5);
+  --border-on-dark: rgba(255, 255, 255, 0.45);
+  --fill-on-dark: rgba(0, 0, 0, 0.28);
+
+  --shadow-raise: 0 1px 0 rgba(17, 17, 17, 0.04), 0 24px 60px -24px rgba(58, 20, 14, 0.28);
+
+  --container-xl: 90rem;
+  --container-lg: 75rem;
+  --container-md: 64rem;
+  --container-sm: 50.75rem;
+
+  --gutter: 1.25rem;
+  --section-lg: 5rem;
+  --section-md: 3.5rem;
+  --nav-h: 4.5rem;
+
+  --dur-micro: 150ms;
+  --dur-state: 400ms;
+  --dur-swap: 500ms;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 2rem;
+    --section-lg: 6rem;
+    --section-md: 4rem;
+  }
+}
+
+@media (min-width: 992px) {
+  :root {
+    --gutter: 2.5rem;
+    --section-lg: 7rem;
+    --section-md: 5rem;
+    --nav-h: 5.5625rem;
+  }
+}
+
+/* Fluid root (Different AI): 16px at the 1440 design width, scales down to 14px at 992. */
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+@media (min-width: 992px) and (max-width: 1440px) {
+  html {
+    font-size: clamp(14px, 1.1111vw, 16px);
+  }
+}
+
+body {
+  background: var(--color-cream-50);
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-red-600);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-red-600);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ── Layout primitives ─────────────────────────────────────────────────── */
+@utility container-xl {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+@utility container-lg {
+  width: 100%;
+  max-width: var(--container-lg);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+@utility container-md {
+  width: 100%;
+  max-width: var(--container-md);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ── Type tokens (DESIGN.md §C.4) ─────────────────────────────────────── */
+@utility type-display {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 2.75rem;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  @media (min-width: 768px) {
+    font-size: 4rem;
+  }
+  @media (min-width: 992px) {
+    font-size: 5.5rem;
+  }
+}
+@utility type-h2 {
+  font-weight: 500;
+  font-size: 2rem;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  @media (min-width: 768px) {
+    font-size: 2.5rem;
+  }
+  @media (min-width: 992px) {
+    font-size: 3.25rem;
+  }
+}
+@utility type-h3 {
+  font-weight: 500;
+  font-size: 1.75rem;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  @media (min-width: 768px) {
+    font-size: 2rem;
+  }
+  @media (min-width: 992px) {
+    font-size: 2.5rem;
+  }
+}
+@utility type-h4 {
+  font-weight: 500;
+  font-size: 1.375rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  @media (min-width: 768px) {
+    font-size: 1.5rem;
+  }
+  @media (min-width: 992px) {
+    font-size: 1.75rem;
+  }
+}
+@utility type-h5 {
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  @media (min-width: 768px) {
+    font-size: 1.25rem;
+  }
+  @media (min-width: 992px) {
+    font-size: 1.375rem;
+  }
+}
+@utility type-lead {
+  font-weight: 400;
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  @media (min-width: 768px) {
+    font-size: 1.125rem;
+  }
+  @media (min-width: 992px) {
+    font-size: 1.25rem;
+  }
+}
+@utility type-small {
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+@utility type-label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Serif accent: one phrase per heading (DESIGN.md §C.4) */
+.accent {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  font-size: 1.04em;
+}
+
+/* Pre-paint entrance guard; the fallback reveals content if JS never runs the entrance. */
+.js-motion [data-anim],
+.js-motion [data-hero] [data-w] {
+  opacity: 0;
+  animation: enterFallback 0s linear 4s forwards;
+}
+/* Once GSAP owns the elements, drop the fallback so it can't override inline styles. */
+.motion-ready [data-anim],
+.motion-ready [data-hero] [data-w] {
+  animation: none;
+}
+@keyframes enterFallback {
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

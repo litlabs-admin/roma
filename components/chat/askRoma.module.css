@@ -1,0 +1,890 @@
+/* Ask Roma — floating assistant. Structure and timings from Hyperline's widget.js,
+   re-skinned with Roma tokens (app/globals.css). Motion: transform + opacity (DESIGN.md §F.10);
+   the dock's width eases between views as in the reference. Hovers only on fine pointers (§F.7).
+   Everything is instant under prefers-reduced-motion (§F.11). */
+
+.root {
+  /* Widths per view (Hyperline: 460 / 580 / 700). */
+  --w-suggest: min(560px, calc(100vw - 32px));
+  --w-chat: min(680px, calc(100vw - 32px));
+  --bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  --hover-fill: #f1ebdf; /* DESIGN.md §B.5 --nav-hover-on-light */
+  --panel-shadow: 0 1px 0 rgba(17, 17, 17, 0.04), 0 24px 60px -20px rgba(58, 20, 14, 0.32),
+    0 6px 16px -6px rgba(58, 20, 14, 0.12);
+  font-family: var(--font-sans);
+  color: var(--color-ink-900);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ── Rosette mark ─────────────────────────────────────────────────────── */
+.mark {
+  display: block;
+  overflow: visible;
+}
+.petal,
+.ring {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+}
+
+/* ── 1. Launcher pill ─────────────────────────────────────────────────── */
+.btnLayer {
+  position: fixed;
+  z-index: 110; /* above the nav (100) */
+  left: 50%;
+  bottom: var(--bottom);
+  transform: translateX(-50%);
+}
+
+.launcher {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 18px 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-pill);
+  /* Frosted cream glass: reads on the dark-red hero and on cream sections alike. */
+  background: color-mix(in srgb, var(--color-cream-50) 80%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: var(--panel-shadow);
+  color: var(--color-ink-900);
+  font: 500 0.9375rem/1 var(--font-sans);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 250ms var(--ease-out),
+    background-color 200ms var(--ease-out);
+}
+.launcher:active {
+  transform: scale(0.97);
+}
+.launcher:focus-visible {
+  outline-offset: 3px;
+  border-radius: var(--radius-pill);
+}
+
+.launcherMark {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  color: var(--color-red-600);
+  transition: transform 700ms var(--ease-out);
+}
+
+/* Shortcut hint: slides open on hover (grid 0fr → 1fr), fine pointers only. */
+.hint {
+  display: grid;
+  grid-template-columns: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-columns 320ms var(--ease-state),
+    opacity 200ms var(--ease-out);
+}
+.hint > span {
+  overflow: hidden;
+  min-width: 0;
+}
+.hint kbd {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 3px 6px;
+  border-radius: 6px;
+  background: rgba(17, 17, 17, 0.06);
+  color: var(--color-ink-500);
+  font: 500 0.6875rem/1 var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+/* Arrival (first appearance): rise + settle, then the petals bloom one by one. */
+.launcher[data-anim="arrive"] {
+  animation: launcherIn 600ms var(--ease-out) both;
+}
+.launcher[data-anim="arrive"] .petal {
+  animation: petalBloom 700ms var(--ease-out) both;
+  animation-delay: calc(220ms + var(--i) * 45ms);
+}
+.launcher[data-anim="arrive"] .ring {
+  animation: ringIn 600ms var(--ease-out) both 120ms;
+}
+/* Coming back after the panel folds (Hyperline btn-in). */
+.launcher[data-anim="pop"] {
+  animation: launcherPop 220ms var(--ease-out) both;
+}
+
+@keyframes launcherIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes launcherPop {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes petalBloom {
+  from {
+    opacity: 0;
+    transform: scale(0.3) rotate(-30deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ringIn {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .launcher:hover {
+    transform: translateY(-2px);
+    background: color-mix(in srgb, var(--color-cream-50) 94%, transparent);
+  }
+  .launcher:hover:active {
+    transform: translateY(-1px) scale(0.97);
+  }
+  /* Rosette turns a sixth (it's 6-fold, so it lands on itself) while the petals ripple. */
+  .launcher:hover .launcherMark {
+    transform: rotate(60deg);
+  }
+  .launcher:not([data-anim]):hover .petal {
+    animation: petalWave 520ms ease-in-out both;
+    animation-delay: calc(var(--i) * 40ms);
+  }
+  .launcher:hover .hint,
+  .launcher:focus-visible .hint {
+    grid-template-columns: 1fr;
+    opacity: 1;
+  }
+}
+@keyframes petalWave {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.15;
+  }
+}
+
+/* ── 2. The dock: one panel, input at the bottom, grows upward ───────── */
+.dock {
+  position: fixed;
+  z-index: 110;
+  left: 50%;
+  bottom: calc(var(--bottom) + var(--kb, 0px));
+  width: var(--w-suggest);
+  transform: translateX(-50%);
+  transform-origin: 50% 100%;
+  transition: width 300ms var(--ease-state);
+  /* `backwards`, not `both`: a lingering opacity animation would make the dock a backdrop root
+     and the panel's backdrop-filter would blur nothing (noted in Hyperline's widget.js). */
+  animation: dockIn 260ms var(--ease-out) backwards;
+}
+.root[data-view="chat"] .dock {
+  width: var(--w-chat);
+}
+.root[data-closing] .dock {
+  animation: dockOut 170ms cubic-bezier(0.4, 0, 1, 1) both;
+  pointer-events: none;
+}
+@keyframes dockIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+}
+@keyframes dockOut {
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(6px) scale(0.97);
+  }
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  max-height: min(600px, calc(var(--vvh, 100dvh) - 40px));
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-md);
+  /* Solid, like Hyperline's box: a backdrop blur here was nearly invisible (panel is ~opaque)
+     but had to be repainted every frame while an answer grows the panel. */
+  background: var(--color-cream-50);
+  box-shadow: var(--panel-shadow);
+}
+
+/* Header: title left, icon controls right. */
+.tools {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 2px 2px 2px 8px;
+}
+.toolsTitle {
+  color: var(--color-ink-500);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+.toolsActions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.toolItem {
+  position: relative;
+  display: inline-flex;
+}
+.icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-ink-600);
+  cursor: pointer;
+  transition:
+    background-color 150ms var(--ease-out),
+    color 150ms var(--ease-out),
+    transform 150ms var(--ease-out);
+}
+.icon svg,
+.icon > span {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+.icon:active {
+  transform: scale(0.94);
+}
+@media (hover: hover) and (pointer: fine) {
+  .icon:hover {
+    background: var(--hover-fill);
+    color: var(--color-ink-900);
+  }
+}
+.spin {
+  animation: spin 520ms var(--ease-out);
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* Tooltips (CSS only, Hyperline .tip): fade + 4px rise, with a hover bridge. */
+.tip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  z-index: 3;
+  width: max-content;
+  max-width: min(280px, calc(100vw - 48px));
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--color-ink-900);
+  color: var(--color-cream-50);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  opacity: 0;
+  transform: translate(-50%, 4px);
+  pointer-events: none;
+  transition:
+    opacity 150ms var(--ease-out),
+    transform 150ms var(--ease-out);
+}
+.tip::after {
+  content: "";
+  position: absolute;
+  inset: 100% 0 auto;
+  height: 8px;
+}
+.tipAbout {
+  left: auto;
+  right: 0;
+  width: 260px;
+  transform: translateY(4px);
+}
+.toolItem:hover .tip,
+.toolItem:focus-within .tip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+.toolItem:hover .tipAbout,
+.toolItem:focus-within .tipAbout {
+  transform: none;
+}
+@media (hover: none) {
+  .toolItem:hover .tip:not(.tipAbout) {
+    opacity: 0;
+  }
+}
+
+/* ── 3. Starter / follow-up rows ─────────────────────────────────────── */
+.suggest {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition:
+    grid-template-rows 280ms var(--ease-state),
+    opacity 200ms var(--ease-out);
+}
+.suggest > .rows {
+  min-height: 0;
+  overflow: hidden;
+}
+/* Typing folds the starters away smoothly (Hyperline hides them instantly). */
+.suggest[data-collapsed] {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 2px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-ink-600);
+  font: inherit;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+  animation: rowIn 380ms var(--ease-out) both;
+  animation-delay: calc(80ms + var(--i) * 50ms);
+  transition:
+    background-color 150ms var(--ease-out),
+    color 150ms var(--ease-out);
+}
+.row svg {
+  flex: none;
+  width: 15px;
+  height: 15px;
+  color: var(--color-ink-500);
+  transition: transform 220ms var(--ease-out), color 150ms var(--ease-out);
+}
+.row:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+@media (hover: hover) and (pointer: fine) {
+  .row:not(:disabled):hover {
+    background: var(--hover-fill);
+    color: var(--color-ink-900);
+  }
+  .row:not(:disabled):hover svg {
+    transform: translateX(3px);
+    color: var(--color-red-600);
+  }
+}
+.followups {
+  margin-top: -6px;
+  padding: 0;
+}
+.followups .row {
+  animation-delay: calc(60ms + var(--i) * 60ms);
+}
+@keyframes rowIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── 4. Conversation ─────────────────────────────────────────────────── */
+.log {
+  flex: 1 1 auto; /* inline height = content (eased); shrinks to fit the box, then scrolls */
+  min-height: 0;
+  padding: 4px 10px 8px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none; /* scrolls, but no native bar/arrows (the top-edge fade signals overflow) */
+  animation: growIn 240ms var(--ease-out) both;
+  transition:
+    height 320ms var(--ease-out),
+    opacity 180ms var(--ease-out),
+    transform 180ms var(--ease-out);
+}
+.logInner {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.log::-webkit-scrollbar,
+.field textarea::-webkit-scrollbar {
+  display: none;
+}
+/* Top edge fades once the conversation is scrolled (Hyperline data-log-scrolled). */
+.root[data-log-scrolled] .log {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 24px);
+  mask-image: linear-gradient(to bottom, transparent, #000 24px);
+}
+.root[data-resetting] .log {
+  opacity: 0;
+  transform: translateY(6px);
+}
+@keyframes growIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.user {
+  align-self: flex-end;
+  max-width: 80%;
+  padding: 8px 14px;
+  border-radius: 16px 16px 6px 16px;
+  background: var(--color-sand-300);
+  color: var(--color-ink-900);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  animation: msgIn 320ms var(--ease-out) both;
+}
+.user + .bot {
+  margin-top: 4px;
+}
+@keyframes msgIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.bot {
+  color: var(--color-ink-900);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  animation: fadeIn 200ms var(--ease-out) both;
+}
+.bot p {
+  margin: 0 0 8px;
+}
+.bot p:last-child {
+  margin-bottom: 0;
+}
+.bot ul,
+.bot ol {
+  margin: 4px 0 8px;
+  padding-left: 20px;
+}
+.bot ul {
+  list-style: disc;
+}
+.bot ol {
+  list-style: decimal;
+}
+.bot li {
+  margin: 2px 0;
+}
+.bot li::marker {
+  color: var(--color-red-600);
+}
+.bot strong {
+  font-weight: 600;
+}
+.bot a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--color-red-600) 45%, transparent);
+  transition: text-decoration-color 150ms var(--ease-out);
+}
+.bot a:hover {
+  text-decoration-color: var(--color-red-600);
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Thinking: the rosette turns slowly while its petals pulse in sequence. Exactly one text line
+   tall, so the first words replace it without the answer jumping. */
+.thinking {
+  display: flex;
+  align-items: center;
+  height: 1.55em;
+}
+.thinkingMark {
+  width: 22px;
+  height: 22px;
+  color: var(--color-red-600);
+  animation: turn 6s linear infinite;
+}
+.thinkingMark .petal {
+  animation: petalPulse 1.2s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 120ms);
+}
+@keyframes turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes petalPulse {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+/* Answer reveal: each new word fades in as it mounts (words already shown keep their node,
+   so they don't replay). Opacity only — no movement, so lines never wobble. */
+.word {
+  animation: wordIn 420ms ease-out both; /* WORD_FADE_MS in AskRoma.tsx */
+}
+@keyframes wordIn {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Calm, inline status note — never a red alert. */
+.note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--color-cream-200);
+  color: var(--color-ink-600);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  animation: msgIn 280ms var(--ease-out) both;
+}
+.noteActions {
+  display: inline-flex;
+  gap: 14px;
+}
+.retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-ink-900);
+  font: inherit;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-red-600) 45%, transparent);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.retry svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 300ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .retry:hover svg {
+    transform: rotate(-90deg);
+  }
+}
+
+/* Demo callout under the latest answer, from the 3rd question on. */
+.demo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 8px 8px 14px;
+  border: 1px solid var(--color-sand-300);
+  border-radius: 14px;
+  background: color-mix(in srgb, #fff 70%, transparent);
+  color: var(--color-ink-600);
+  font-size: 0.875rem;
+  animation: rowIn 380ms var(--ease-out) both 60ms;
+}
+.cta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-red-600);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color 200ms var(--ease-out),
+    transform 150ms var(--ease-out);
+}
+.cta:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .cta:hover {
+    background: var(--color-red-800);
+  }
+}
+
+/* ── 5. Input ────────────────────────────────────────────────────────── */
+.form {
+  display: block;
+}
+.field {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  min-height: 46px;
+  padding: 6px 6px 6px 12px;
+  border: 1px solid var(--color-sand-300);
+  border-radius: 14px;
+  background: #fff;
+  transition:
+    border-color 150ms var(--ease-out),
+    box-shadow 200ms var(--ease-out);
+}
+.field:focus-within {
+  border-color: var(--color-sand-400);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-red-600) 8%, transparent);
+}
+.fieldMark {
+  flex: none;
+  align-self: center;
+  width: 18px;
+  height: 18px;
+  color: var(--color-red-600);
+  transition: transform 500ms var(--ease-out);
+}
+.field:focus-within .fieldMark {
+  transform: rotate(60deg);
+}
+.field textarea {
+  flex: 1;
+  min-width: 0;
+  min-height: 32px;
+  max-height: 120px;
+  padding: 5px 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink-900);
+  font: inherit;
+  font-size: 1rem; /* ≥16px: no iOS zoom on focus */
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  resize: none;
+  outline: none;
+  scrollbar-width: none;
+}
+.field textarea:focus-visible {
+  outline: none;
+}
+.field textarea::placeholder {
+  color: var(--color-ink-500);
+  opacity: 0.75;
+}
+.counter {
+  flex: none;
+  align-self: center;
+  color: var(--color-ink-500);
+  font: 500 0.6875rem/1 var(--font-mono);
+  animation: fadeIn 200ms var(--ease-out) both;
+}
+.counter[data-full] {
+  color: var(--color-red-600);
+}
+
+.send {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-red-600);
+  color: #fff;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    background-color 250ms var(--ease-out),
+    color 250ms var(--ease-out),
+    transform 150ms var(--ease-out);
+}
+.send svg,
+.send > span {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+.send > span {
+  transition: transform 220ms var(--ease-out);
+}
+.send:disabled {
+  background: var(--color-sand-300);
+  color: var(--color-ink-500);
+  cursor: not-allowed;
+}
+.send:not(:disabled):active {
+  transform: scale(0.94);
+}
+@media (hover: hover) and (pointer: fine) {
+  .send:not(:disabled):hover {
+    background: var(--color-red-800);
+  }
+  .send:not(:disabled):hover > span {
+    transform: translateY(-2px);
+  }
+}
+/* On send the arrow flies up and out, then comes back from below (DESIGN.md btnSwap rhythm). */
+.send > .fly {
+  animation: sendFly 520ms var(--ease-out);
+}
+@keyframes sendFly {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  45% {
+    transform: translateY(-160%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(160%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .root {
+    --bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    --w-suggest: calc(100vw - 24px);
+    --w-chat: calc(100vw - 24px);
+  }
+  .btnLayer {
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  }
+  .box {
+    max-height: min(560px, calc(var(--vvh, 100dvh) - 24px));
+  }
+}
+
+/* ── Reduced motion: final states, no movement ───────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .launcher,
+  .launcher .petal,
+  .launcher .ring,
+  .dock,
+  .root[data-closing] .dock,
+  .row,
+  .log,
+  .user,
+  .bot,
+  .note,
+  .demo,
+  .counter,
+  .spin,
+  .send > .fly,
+  .thinkingMark {
+    animation: none !important;
+  }
+  .thinkingMark .petal {
+    animation: none;
+    opacity: 0.6;
+  }
+  .word {
+    animation: none;
+  }
+  .launcher,
+  .launcherMark,
+  .fieldMark,
+  .dock,
+  .suggest,
+  .log,
+  .hint,
+  .row svg,
+  .send > span {
+    transition: none !important;
+  }
+  .launcher:hover,
+  .launcher:hover .launcherMark,
+  .field:focus-within .fieldMark,
+  .send:not(:disabled):hover > span,
+  .row:not(:disabled):hover svg {
+    transform: none !important;
+  }
+}
