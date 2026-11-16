@@ -27,3 +27,17 @@ export function logoHeightRem(logo: Logo, area = 3600, min = 18, max = 44): numb
   const h = Math.min(max, Math.max(min, Math.sqrt(area / aspect)));
   return Math.round((h / 16) * 1000) / 1000;
 }
+
+// Distributor / retailer logos for /platform's coverage strip. Official marks (Wikimedia
+// Commons; KeHE from kehe.com's 1-colour logo), rendered to single-ink alpha masks at
+// 160px tall. Third-party trademarks: shown only to name the portals Roma connects to.
+export const channelLogos: Logo[] = [
+  { name: "UNFI", src: "/logos/channels/unfi.png", w: 340, h: 160 },
+  { name: "KeHE", src: "/logos/channels/kehe.png", w: 635, h: 160 },
+  { name: "Target", src: "/logos/channels/target.png", w: 126, h: 160 },
+  { name: "Walmart", src: "/logos/channels/walmart.png", w: 842, h: 160 },
+  { name: "Costco", src: "/logos/channels/costco.png", w: 575, h: 160 },
+  { name: "Kroger", src: "/logos/channels/kroger.png", w: 431, h: 160 },
+  { name: "Whole Foods Market", src: "/logos/channels/wholefoods.png", w: 160, h: 160 },
+  { name: "Amazon", src: "/logos/channels/amazon.png", w: 530, h: 160 },
+];

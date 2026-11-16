@@ -251,8 +251,8 @@ export const leanCopy = {
 export const proofCopy = {
   heading: { before: "Real dollars, back on the ", accent: "books", after: "." } as Heading,
   stats: [
-    { value: 53, prefix: "$", suffix: "K", label: "recovered by Good Day Chocolate within 6 months" },
-    { value: 23, prefix: "$", suffix: "K", label: "recovered by Smash Kitchen" },
+    { value: 53, prefix: "$", suffix: "K", label: "in deductions recovered within 6 months" },
+    { value: 23, prefix: "$", suffix: "K", label: "in deductions recovered" },
     { value: 25, prefix: "", suffix: "", label: "brands pay for Roma to recover their deductions" },
   ],
   note: "Results vary by brand. Not a guarantee of recovery.",

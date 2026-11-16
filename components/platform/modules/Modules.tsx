@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
 import { ILLUSTRATIVE, MODULES, modulesCopy, type ModuleKey } from "@/lib/content/platform";
@@ -10,7 +10,8 @@ import s from "./modules.module.css";
 
 /**
  * The three modules — Hyperline's FeatureTabs (media square + tab list, active tab
- * shows its description; panels cross-fade, no autoplay) in Roma's card language.
+ * shows its description; panels cross-fade) in Roma's card language, timed: each tab
+ * holds 5s (a red bar fills on it), then the next one takes over, looping.
  *
  * Each module's mock plays one state change when it is shown: backup lines are matched
  * (deductions), bars grow against last year (analytics), lines get their GL codes
@@ -18,6 +19,7 @@ import s from "./modules.module.css";
  */
 
 const SWAP = 0.3; // s cross-fade between panels (Hyperline: 300ms)
+const AUTO = 5; // s per tab before autoplay moves on (client brief)
 const ENTER_START = "top 70%";
 
 type Q = (sel: string) => Element[];
@@ -94,7 +96,9 @@ export default function Modules() {
   const Mock = MODULE_MOCKS[mod.key];
   const { before, accent, after } = modulesCopy.heading;
 
-  // Section entrance + "entered" flag (the first mock waits for it).
+  const [inView, setInView] = useState(false);
+
+  // Section entrance, and whether the card is on screen (drives the autoplay).
   useLayoutEffect(() => {
     const el = root.current;
     if (!el || prefersReducedMotion()) return;
@@ -102,6 +106,12 @@ export default function Modules() {
       const q = gsap.utils.selector(el);
       rise(q("[data-md-head]"), q("[data-md-head]")[0]);
       rise(q("[data-md-card]"), q("[data-md-card]")[0], { start: "top 85%" });
+      ScrollTrigger.create({
+        trigger: q("[data-md-card]")[0],
+        start: ENTER_START,
+        end: "bottom 20%",
+        onToggle: (self) => setInView(self.isActive),
+      });
     }, el);
     const stop = refreshWhenReady();
     return () => {
@@ -109,6 +119,25 @@ export default function Modules() {
       ctx.revert();
     };
   }, []);
+
+  // Autoplay: the active tab's bar fills over AUTO seconds, then the next tab takes
+  // over, looping back to the first. Starts only once the card is in view, stops while
+  // it is off screen; hover does not pause it; a click restarts the timer on that tab.
+  useEffect(() => {
+    const el = root.current;
+    if (!el || !inView || prefersReducedMotion()) return;
+    const bar = el.querySelector<HTMLElement>(`[data-md-progress="${active}"]`);
+    if (!bar) return;
+    const tw = gsap.fromTo(
+      bar,
+      { "--p": 0 },
+      { "--p": 1, duration: AUTO, ease: "none", onComplete: () => setActive((a) => (a + 1) % MODULES.length) },
+    );
+    return () => {
+      tw.kill();
+      gsap.set(bar, { "--p": 0 });
+    };
+  }, [active, inView]);
 
   // Per-panel state timeline: play now if the section was already seen, else on enter.
   useLayoutEffect(() => {
@@ -184,6 +213,7 @@ export default function Modules() {
               >
                 <span className={s.tabNum}>{String(i + 1).padStart(2, "0")}</span>
                 <span className={s.tabTitle}>{m.tab}</span>
+                <span className={s.progress} data-md-progress={i} aria-hidden="true" />
               </button>
             ))}
           </div>

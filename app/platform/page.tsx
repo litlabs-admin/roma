@@ -30,8 +30,9 @@ export default function PlatformPage() {
         <Coverage />
         <Modules />
         <LeanTeam />
-        <Proof />
+        {/* backdrop journey as on home: cream → light red (Compliance) → red (Proof) → FAQ sheet */}
         <Compliance />
+        <Proof />
         <Faq />
         <ClosingCta secondary={platformClosing.secondary} />
       </main>

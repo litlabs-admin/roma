@@ -107,6 +107,29 @@
   background: var(--color-cream-200);
   color: var(--color-ink-900);
 }
+/* Autoplay timer: --p goes 0 → 1 over 5s on the active tab (Modules.tsx). Mobile: a
+   bar along the bottom of the pill; desktop: fills the rail (see the ≥992px block). */
+.progress {
+  --p: 0;
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 0.2rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-red-600);
+  transform: scaleX(var(--p));
+  transform-origin: 0% 50%;
+  pointer-events: none;
+}
+.tab:not(.tabActive) .progress {
+  visibility: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .progress {
+    --p: 1;
+  }
+}
 .tabNum {
   display: none;
   font-family: var(--font-mono);
@@ -133,7 +156,7 @@
   .tabActive {
     background: transparent;
   }
-  /* active rail (Roma's progress-rail red, DESIGN §E.11) */
+  /* active rail: a faint red track; the timer fills it (DESIGN §E.11 progress rail) */
   .tab::before {
     content: "";
     position: absolute;
@@ -142,13 +165,23 @@
     bottom: 1.1rem;
     width: 3px;
     border-radius: 2px;
-    background: var(--color-red-600);
+    background: var(--color-red-100);
     transform: scaleY(0);
     transform-origin: 50% 0%;
     transition: transform var(--dur-state) var(--ease-out);
   }
   .tabActive::before {
     transform: scaleY(1);
+  }
+  .progress {
+    left: 0;
+    right: auto;
+    top: 1.1rem;
+    bottom: 1.1rem;
+    width: 3px;
+    height: auto;
+    transform: scaleY(var(--p));
+    transform-origin: 50% 0%;
   }
   .tabNum {
     display: inline;

@@ -1,7 +1,17 @@
-/* Proof — three stat blocks separated by hairlines (Hyperline billing stats). */
+/* Proof — on the red backdrop (home Stories logic). No fill of its own: the red comes
+   from PageBackdrop. Text outside the cards uses --pf-fg / --pf-muted, which the scroll
+   timeline moves from ink to white as the red fades in (SSR = final, white). */
 
 .section {
-  padding-block: var(--section-lg);
+  --pf-fg: #ffffff;
+  --pf-muted: rgba(255, 255, 255, 0.78);
+  position: relative;
+  z-index: 1;
+  padding-block: var(--section-lg) calc(var(--section-lg) + 2.5rem);
+  color: var(--pf-fg);
+}
+.section[data-static] {
+  background: radial-gradient(circle at 50% 50%, var(--color-red-700) 0%, var(--color-red-900) 100%);
 }
 .inner {
   width: 100%;
@@ -19,15 +29,15 @@
 .list {
   display: grid;
   grid-template-columns: 1fr;
+  gap: 1rem;
   margin: 4rem 0 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--color-sand-300);
 }
 @media (min-width: 768px) {
   .list {
     grid-template-columns: repeat(3, 1fr);
-    border-bottom: 1px solid var(--color-sand-300);
+    gap: 1.5rem;
   }
 }
 @media (max-width: 767px) {
@@ -36,52 +46,240 @@
   }
 }
 
-.stat {
+/* White stat card: raised object on red. */
+.card {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  padding: 2rem 0;
-  border-bottom: 1px solid var(--color-sand-300);
+  padding: 1.75rem 1.5rem 0.5rem;
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  color: var(--color-ink-900);
+  overflow: hidden;
+  box-shadow: 0 30px 60px -30px rgba(31, 10, 8, 0.6);
 }
-@media (min-width: 768px) {
-  .stat {
-    padding: 2.5rem 2rem;
-    border-bottom: 0;
-  }
-  .stat + .stat {
-    border-left: 1px solid var(--color-sand-300);
-  }
-  .stat:first-child {
-    padding-left: 0;
-  }
-}
-
-.value {
-  margin: 0;
-  color: var(--color-red-600);
+.brand {
+  color: var(--color-red-700);
+  font-family: var(--font-mono);
   font-weight: 500;
-  font-size: 3.5rem;
-  line-height: 1;
-  letter-spacing: -0.045em;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.value {
+  margin: 1rem 0 0;
+  font-weight: 500;
+  font-size: 4rem;
+  line-height: 0.95;
+  letter-spacing: -0.05em;
   font-variant-numeric: tabular-nums;
 }
 @media (min-width: 992px) {
   .value {
-    font-size: 5rem;
+    font-size: 4.75rem;
   }
 }
 .label {
-  max-width: 22ch;
-  margin: 0;
+  max-width: 24ch;
+  margin: 0.75rem 0 0;
   color: var(--color-ink-600);
   font-size: 1rem;
-  line-height: 1.45;
+  line-height: 1.4;
   text-wrap: pretty;
+}
+
+/* Visual well at the foot of each card */
+.visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 9.5rem;
+  margin: 1.75rem -1rem 0;
+  padding: 1rem 1.25rem 0.75rem;
+  border-radius: calc(var(--radius-xl) - 0.5rem);
+  background: var(--well-warm);
+}
+
+/* 1 · curve */
+.chart {
+  position: relative;
+  height: 5.75rem;
+}
+.chart svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.area {
+  fill: rgba(255, 255, 255, 0.75);
+}
+.curve {
+  fill: none;
+  stroke: var(--color-red-600);
+  stroke-width: 2.25;
+  stroke-linecap: round;
+}
+.endDot {
+  position: absolute;
+  right: 0;
+  top: 4.4%;
+  width: 0.75rem;
+  height: 0.75rem;
+  margin: -0.375rem -0.375rem 0 0;
+  border-radius: 50%;
+  background: var(--color-red-600);
+  box-shadow: 0 0 0 4px #fff;
+}
+.endTag {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.5rem);
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: var(--color-ink-900);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.months {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  color: var(--ui-axis);
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+/* 2 · pipeline */
+.visualPipe {
+  justify-content: center;
+  gap: 1.1rem;
+  background: var(--well-neutral);
+}
+.pipe {
+  position: relative;
+}
+.track {
+  position: absolute;
+  left: 0.5rem;
+  right: 0.5rem;
+  top: 0.45rem;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-sand-300);
+}
+.fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--data-ok);
+  transform-origin: 0% 50%;
+}
+.stages {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.stages li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-ink-600);
+  font-size: 0.75rem;
+}
+.stages li:first-child {
+  align-items: flex-start;
+}
+.stages li:last-child {
+  align-items: flex-end;
+}
+.node {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid var(--color-sand-400);
+}
+.node i {
+  position: absolute;
+  inset: -1.5px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--data-ok);
+  color: #fff;
+}
+.node svg {
+  width: 0.6rem;
+  height: 0.6rem;
+  stroke-width: 2.4;
+}
+.credited {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: var(--data-ok-bg);
+  color: var(--data-ok-fg);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.credited svg {
+  width: 0.8rem;
+  height: 0.8rem;
+  stroke-width: 2.2;
+}
+
+/* 3 · logo wall */
+.visualWall {
+  justify-content: center;
+  background: var(--well-neutral);
+}
+.wall {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+}
+.wallCell {
+  display: grid;
+  place-items: center;
+  height: 2.35rem;
+  padding: 0 0.6rem;
+  border-radius: 0.6rem;
+  background: rgba(255, 255, 255, 0.85);
+}
+.wallLogo {
+  display: block;
+  max-width: 100%;
+  height: 1.05rem;
+  background-color: var(--color-ink-800);
+  opacity: 0.8;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.more {
+  background: var(--color-red-600);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
 }
 
 .note {
   margin-top: 1.5rem;
-  color: var(--color-ink-500);
+  color: var(--pf-muted);
   font-size: 0.75rem;
   text-align: center;
 }
