@@ -17,7 +17,10 @@ import s from "./closing.module.css";
  * footer black at the bottom, where Hyperline's mockup used to hide the seam. The
  * band tucks under the FAQ sheet's rounded bottom corners.
  */
-export default function ClosingCta() {
+type Cta = { label: string; href: string };
+
+/** `secondary` adds an outline button beside the demo CTA (used on /platform for "Try now"). */
+export default function ClosingCta({ secondary }: { secondary?: Cta } = {}) {
   const root = useRef<HTMLElement>(null);
   const { before, accent, after } = closingCta.heading;
 
@@ -51,10 +54,15 @@ export default function ClosingCta() {
             {closingCta.sub}
           </p>
         </div>
-        <div data-reveal>
+        <div className={s.actions} data-reveal>
           <Button href={closingCta.cta.href} variant="inverse">
             {closingCta.cta.label}
           </Button>
+          {secondary && (
+            <Button href={secondary.href} variant="ghostOnDark" className={s.secondary}>
+              {secondary.label}
+            </Button>
+          )}
         </div>
       </div>
     </section>

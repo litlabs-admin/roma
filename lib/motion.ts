@@ -20,3 +20,18 @@ export function isBelow(bp: number): boolean {
 
 export const clamp = (x: number, a: number, b: number) => (x < a ? a : x > b ? b : x);
 export const smooth = (t: number) => t * t * (3 - 2 * t);
+
+/**
+ * First element matching `sel` that is actually rendered. With Cache Components, a
+ * route you navigated away from stays in the DOM under `display: none` (React
+ * <Activity>), so a bare document query can find the hidden page's element.
+ */
+export function queryVisible<T extends Element = HTMLElement>(sel: string): T | null {
+  if (typeof document === "undefined") return null;
+  return (Array.from(document.querySelectorAll<T>(sel)).find((el) => el.getClientRects().length > 0) ?? null) as T | null;
+}
+
+export function queryAllVisible<T extends Element = HTMLElement>(sel: string): T[] {
+  if (typeof document === "undefined") return [];
+  return Array.from(document.querySelectorAll<T>(sel)).filter((el) => el.getClientRects().length > 0);
+}

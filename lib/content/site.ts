@@ -1,8 +1,10 @@
 // Copy for the homepage — sourced from "Messaging and Positioning – Roma.pdf".
 // Keep copy here, not inside animation code (DESIGN.md §I.2).
 
+// Hash targets are absolute ("/#…") so they also work from other routes (/platform).
 export const navLinks = [
-  { label: "Deduction management", href: "#how-it-works" },
+  { label: "How it works", href: "/platform" },
+  { label: "Deduction management", href: "/#how-it-works" },
   { label: "Analytics", href: "#" },
   { label: "Accounting", href: "#" },
   { label: "Pricing", href: "#" },
@@ -60,12 +62,13 @@ export const footer = {
     {
       title: "Resources",
       links: [
+        { label: "How Roma works", href: "/platform" },
         { label: "Deduction management", href: "/deduction-management" },
         { label: "Analytics", href: "/analytics" },
         { label: "Accounting", href: "/accounting" },
         { label: "Pricing", href: "/pricing" },
         { label: "Deduction Codes", href: "/deduction-codes" },
-        { label: "FAQs", href: "#faq" },
+        { label: "FAQs", href: "/#faq" },
       ],
     },
     {

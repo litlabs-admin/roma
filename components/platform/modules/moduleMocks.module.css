@@ -1,0 +1,640 @@
+/* Module illustrations — 640 × 480 units, --u = 1/640 of the well width.
+   Same language as the capability cards and the home machine cards. */
+
+.scene {
+  --u: calc(100cqw / 640);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  color: var(--color-ink-900);
+  font-size: calc(var(--u) * 13);
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+.warm {
+  background: var(--well-warm);
+}
+.neutral {
+  background: var(--well-neutral);
+}
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 80%, #ffffff 98%);
+  pointer-events: none;
+}
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+.right {
+  text-align: right;
+}
+
+.paper {
+  position: absolute;
+  border: calc(var(--u) * 1) solid var(--color-sand-300);
+  border-radius: calc(var(--u) * 18);
+  background: #fff;
+  box-shadow:
+    0 calc(var(--u) * 18) calc(var(--u) * 34) rgba(var(--mock-shadow-rgb), 0.08),
+    0 calc(var(--u) * 3) calc(var(--u) * 6) rgba(var(--mock-shadow-rgb), 0.04);
+}
+/* the main surface runs off the bottom of the well, under the scrim */
+.main {
+  bottom: calc(var(--u) * -40);
+  display: flex;
+  flex-direction: column;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: calc(var(--u) * 10);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-500);
+  white-space: nowrap;
+}
+.muted {
+  color: var(--color-ink-500);
+}
+.av {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: calc(var(--u) * 34);
+  height: calc(var(--u) * 34);
+  border-radius: 50%;
+  background: var(--color-red-100);
+  color: var(--color-red-800);
+  font-weight: 600;
+  font-size: calc(var(--u) * 14);
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) * 4);
+  padding: calc(var(--u) * 3) calc(var(--u) * 9);
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: calc(var(--u) * 11.5);
+  white-space: nowrap;
+}
+.tag svg {
+  width: calc(var(--u) * 11);
+  height: calc(var(--u) * 11);
+  stroke-width: 2.2;
+}
+.ok {
+  background: var(--data-ok-bg);
+  color: var(--data-ok-fg);
+}
+.wait {
+  background: var(--color-cream-200);
+  color: var(--color-ink-600);
+}
+.swap {
+  display: grid;
+  justify-items: start;
+}
+.swap > * {
+  grid-area: 1 / 1;
+}
+
+/* shared head */
+.head {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 12);
+  padding: calc(var(--u) * 20) calc(var(--u) * 22) calc(var(--u) * 16);
+  border-bottom: calc(var(--u) * 1) solid var(--ui-line);
+}
+.headText {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 3);
+  flex: 1;
+  min-width: 0;
+}
+.headText b {
+  font-weight: 500;
+  font-size: calc(var(--u) * 15);
+}
+.headText > span:not(.mono) {
+  color: var(--color-ink-500);
+  font-size: calc(var(--u) * 11.5);
+}
+.headBig {
+  font-size: calc(var(--u) * 17) !important;
+}
+.headAmt {
+  font-weight: 600;
+  font-size: calc(var(--u) * 20);
+  letter-spacing: -0.02em;
+}
+
+/* ── deductions ── */
+.fields {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: calc(var(--u) * 16);
+  padding: calc(var(--u) * 16) calc(var(--u) * 22);
+  border-bottom: calc(var(--u) * 1) solid var(--ui-line);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(var(--u) * 8);
+  min-width: 0;
+}
+.select {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--u) * 8);
+  width: 100%;
+  height: calc(var(--u) * 34);
+  padding: 0 calc(var(--u) * 11);
+  border: calc(var(--u) * 1) solid var(--color-sand-300);
+  border-radius: calc(var(--u) * 9);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.selectOpen {
+  border-color: var(--color-red-600);
+  box-shadow: 0 0 0 calc(var(--u) * 3) rgba(178, 21, 21, 0.12);
+}
+.select svg {
+  width: calc(var(--u) * 13);
+  height: calc(var(--u) * 13);
+  color: var(--color-ink-500);
+}
+.lines {
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--u) * 16) calc(var(--u) * 22);
+}
+.lines > .mono {
+  margin-bottom: calc(var(--u) * 8);
+}
+.line {
+  display: grid;
+  grid-template-columns: 1fr calc(var(--u) * 54) calc(var(--u) * 92) calc(var(--u) * 18);
+  align-items: center;
+  gap: calc(var(--u) * 10);
+  height: calc(var(--u) * 44);
+  border-top: calc(var(--u) * 1) solid var(--ui-line-soft);
+  white-space: nowrap;
+}
+.lineItem {
+  font-weight: 500;
+}
+.lineQty {
+  color: var(--color-ink-500);
+  text-align: right;
+}
+.lineAmt {
+  font-weight: 600;
+  text-align: right;
+}
+.tick {
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 18);
+  height: calc(var(--u) * 18);
+  border-radius: 50%;
+  background: var(--data-ok-fg);
+  color: #fff;
+}
+.tick svg {
+  width: calc(var(--u) * 11);
+  height: calc(var(--u) * 11);
+  stroke-width: 2.4;
+}
+
+.popover {
+  z-index: 2;
+  padding: calc(var(--u) * 8);
+  border-radius: calc(var(--u) * 14);
+  pointer-events: auto;
+  transform-origin: 10% 0%;
+}
+.search {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 8);
+  height: calc(var(--u) * 34);
+  padding: 0 calc(var(--u) * 10);
+  margin-bottom: calc(var(--u) * 6);
+  border-radius: calc(var(--u) * 8);
+  background: var(--ui-well);
+  color: var(--color-ink-500);
+  font-size: calc(var(--u) * 12);
+}
+.search svg {
+  width: calc(var(--u) * 13);
+  height: calc(var(--u) * 13);
+}
+.opts {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.optSel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--u) * 38);
+  height: calc(var(--u) * 38);
+  border-radius: calc(var(--u) * 8);
+  background: var(--color-cream-200);
+}
+.opt {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 10);
+  height: calc(var(--u) * 38);
+  padding: 0 calc(var(--u) * 10);
+  border-radius: calc(var(--u) * 8);
+  color: var(--color-ink-600);
+  font-size: calc(var(--u) * 12.5);
+  white-space: nowrap;
+  cursor: default;
+  transition: background-color 150ms ease;
+}
+.opt b {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: calc(var(--u) * 11);
+  color: var(--color-ink-900);
+}
+.optOn {
+  color: var(--color-ink-900);
+  font-weight: 500;
+}
+.optCheck {
+  display: grid;
+  margin-left: auto;
+  color: var(--color-red-600);
+}
+.optCheck svg {
+  width: calc(var(--u) * 14);
+  height: calc(var(--u) * 14);
+  stroke-width: 2.2;
+}
+
+/* ── analytics ── */
+.compare {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) * 6);
+  padding: calc(var(--u) * 7) calc(var(--u) * 10) calc(var(--u) * 7) calc(var(--u) * 12);
+  border: calc(var(--u) * 1) solid var(--color-sand-300);
+  border-radius: 999px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.compare svg {
+  width: calc(var(--u) * 13);
+  height: calc(var(--u) * 13);
+  color: var(--color-ink-500);
+}
+.vs {
+  color: var(--color-ink-500);
+  font-weight: 400;
+}
+.legend {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 18);
+  padding: calc(var(--u) * 16) calc(var(--u) * 22) calc(var(--u) * 4);
+  color: var(--color-ink-600);
+  font-size: calc(var(--u) * 12);
+}
+.legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) * 6);
+}
+.legend i {
+  width: calc(var(--u) * 10);
+  height: calc(var(--u) * 10);
+  border-radius: calc(var(--u) * 3);
+}
+.hint {
+  margin-left: auto;
+  color: var(--ui-axis);
+  font-size: calc(var(--u) * 11);
+}
+.swNow {
+  background: var(--color-red-600);
+}
+.swPrev {
+  background: var(--color-sand-400);
+}
+.bars {
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--u) * 6) calc(var(--u) * 12) 0;
+  pointer-events: auto;
+}
+.barRow {
+  display: grid;
+  grid-template-columns: calc(var(--u) * 64) 1fr calc(var(--u) * 48);
+  align-items: center;
+  gap: calc(var(--u) * 12);
+  padding: calc(var(--u) * 5) calc(var(--u) * 10);
+  border-radius: calc(var(--u) * 10);
+  transition: background-color 150ms ease;
+  cursor: default;
+}
+.barLabel {
+  color: var(--color-ink-600);
+  font-weight: 500;
+}
+.barTrack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: calc(var(--u) * 3);
+  height: calc(var(--u) * 28);
+}
+.barTrack::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--u) * -6) auto calc(var(--u) * -6) 0;
+  width: calc(var(--u) * 1);
+  background: var(--color-sand-300);
+}
+.barNow,
+.barPrev {
+  display: block;
+  height: calc(var(--u) * 11);
+  border-radius: 0 calc(var(--u) * 4) calc(var(--u) * 4) 0;
+  transform-origin: 0% 50%;
+  transition: opacity 150ms ease;
+}
+.barNow {
+  background: var(--color-red-600);
+}
+.barPrev {
+  background: var(--color-sand-400);
+}
+.barVal {
+  text-align: right;
+  font-weight: 600;
+}
+/* tooltip: shown for the hovered row, or the first row when nothing is hovered */
+.tip {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 2);
+  margin-left: calc(var(--u) * 12);
+  padding: calc(var(--u) * 7) calc(var(--u) * 10);
+  border-radius: calc(var(--u) * 8);
+  background: var(--color-ink-900);
+  color: #fff;
+  font-size: calc(var(--u) * 11);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(calc(var(--u) * -4), -50%);
+  transition:
+    opacity 200ms ease,
+    transform 300ms var(--ease-out);
+}
+.tip b {
+  font-weight: 500;
+}
+.tip::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--u) * -4);
+  top: 50%;
+  width: calc(var(--u) * 8);
+  height: calc(var(--u) * 8);
+  background: inherit;
+  transform: translateY(-50%) rotate(45deg);
+}
+.down {
+  color: #9fd59a;
+}
+.up {
+  color: #f0a69a;
+}
+.bars:not(:hover) .barRow:first-child .tip,
+.barRow:hover .tip {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+.barRow:hover {
+  background: var(--ui-well);
+}
+.bars:hover .barRow:not(:hover) .barNow,
+.bars:hover .barRow:not(:hover) .barPrev {
+  opacity: 0.45;
+}
+.axis {
+  display: flex;
+  justify-content: space-between;
+  margin: calc(var(--u) * 8) calc(var(--u) * 82) 0 calc(var(--u) * 98);
+  color: var(--ui-axis);
+  font-size: calc(var(--u) * 10.5);
+}
+
+/* ── accounting ── */
+.gl {
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--u) * 8) calc(var(--u) * 12) 0;
+  pointer-events: auto;
+}
+.glRow {
+  display: grid;
+  grid-template-columns: calc(var(--u) * 110) 1fr calc(var(--u) * 100);
+  align-items: center;
+  gap: calc(var(--u) * 12);
+  height: calc(var(--u) * 54);
+  padding: 0 calc(var(--u) * 10);
+  border-bottom: calc(var(--u) * 1) solid var(--ui-line-soft);
+  border-radius: calc(var(--u) * 8);
+  white-space: nowrap;
+  cursor: default;
+  transition: background-color 150ms ease;
+}
+.glHead {
+  height: calc(var(--u) * 34);
+  color: var(--color-ink-500);
+  font-size: calc(var(--u) * 11.5);
+  pointer-events: none;
+}
+.glRow:not(.glHead):hover {
+  background: var(--ui-well);
+}
+.glRef {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 2);
+}
+.glRef b {
+  font-weight: 600;
+}
+.glRef span {
+  color: var(--color-ink-500);
+  font-size: calc(var(--u) * 11);
+}
+.glCode {
+  padding: calc(var(--u) * 4) calc(var(--u) * 9);
+  border-radius: calc(var(--u) * 6);
+  background: var(--color-cream-200);
+  color: var(--color-ink-800);
+  font-family: var(--font-mono);
+  font-size: calc(var(--u) * 11);
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+.glRow:hover .glCode {
+  background: var(--data-ok-bg);
+  color: var(--data-ok-fg);
+}
+.glAmt {
+  font-weight: 600;
+}
+.unmapped {
+  padding: calc(var(--u) * 4) calc(var(--u) * 9);
+  border: calc(var(--u) * 1) dashed var(--color-sand-400);
+  border-radius: calc(var(--u) * 6);
+  color: var(--color-ink-500);
+  font-size: calc(var(--u) * 11);
+}
+.toast {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 12);
+  padding: calc(var(--u) * 14);
+  border-radius: calc(var(--u) * 14);
+}
+.toastHead {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 10);
+}
+.seal {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: calc(var(--u) * 28);
+  height: calc(var(--u) * 28);
+  border-radius: 50%;
+  background: var(--data-ok-fg);
+  color: #fff;
+}
+.seal svg {
+  width: calc(var(--u) * 14);
+  height: calc(var(--u) * 14);
+  stroke-width: 2.2;
+}
+.seg {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: calc(var(--u) * 2);
+  padding: calc(var(--u) * 3);
+  border-radius: 999px;
+  background: var(--ui-well);
+}
+.segItem {
+  padding: calc(var(--u) * 5) calc(var(--u) * 8);
+  border-radius: 999px;
+  color: var(--color-ink-600);
+  font-weight: 500;
+  font-size: calc(var(--u) * 11);
+  text-align: center;
+  white-space: nowrap;
+}
+.segOn {
+  background: #fff;
+  color: var(--color-ink-900);
+  box-shadow: 0 calc(var(--u) * 1) calc(var(--u) * 3) rgba(var(--mock-shadow-rgb), 0.12);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .opt:not(.optOn):hover {
+    background: var(--ui-well);
+    color: var(--color-ink-900);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tip,
+  .barNow,
+  .barPrev,
+  .opt,
+  .glRow,
+  .glCode {
+    transition: none;
+  }
+}
+
+/* ── fillers that make the surfaces feel like the real screens ── */
+.activity {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 10);
+  margin: 0 calc(var(--u) * 22);
+  padding: calc(var(--u) * 16) 0;
+  border-top: calc(var(--u) * 1) solid var(--ui-line);
+}
+.actItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 10);
+  color: var(--color-ink-600);
+  font-size: calc(var(--u) * 12);
+}
+.actItem i {
+  width: calc(var(--u) * 7);
+  height: calc(var(--u) * 7);
+  border-radius: 50%;
+  background: var(--data-ok);
+  box-shadow: 0 0 0 calc(var(--u) * 3) rgba(47, 154, 58, 0.14);
+}
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: calc(var(--u) * 10);
+  margin: calc(var(--u) * 18) calc(var(--u) * 22) 0;
+  padding-top: calc(var(--u) * 16);
+  border-top: calc(var(--u) * 1) solid var(--ui-line);
+}
+.kpi {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 6);
+  padding: calc(var(--u) * 12);
+  border-radius: calc(var(--u) * 10);
+  background: var(--ui-well);
+}
+.kpi b {
+  font-weight: 600;
+  font-size: calc(var(--u) * 20);
+  letter-spacing: -0.02em;
+}
+.good {
+  color: var(--data-ok-fg);
+}
+.glTotal {
+  height: calc(var(--u) * 46);
+  border-bottom: 0;
+  font-weight: 600;
+  pointer-events: none;
+}

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { navLinks } from "@/lib/content/site";
+import { queryVisible } from "@/lib/motion";
 import s from "./nav.module.css";
 
 /**
@@ -17,7 +18,8 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const hero = document.querySelector<HTMLElement>("[data-hero]");
+    // Visible hero only: a previously visited route may still be in the DOM, hidden.
+    const hero = queryVisible<HTMLElement>("[data-hero]");
     const update = () => {
       const limit = hero ? hero.offsetHeight - 72 : 200;
       setSolid(window.scrollY > limit);
@@ -57,9 +59,9 @@ export default function Nav() {
 
         <nav aria-label="Primary" className={s.links}>
           {navLinks.map((l) => (
-            <a key={l.label} href={l.href} className={s.link}>
+            <Link key={l.label} href={l.href} className={s.link}>
               {l.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -87,9 +89,9 @@ export default function Nav() {
       <div id="mobile-menu" className={s.sheet} hidden={!open}>
         <nav aria-label="Mobile" className={s.sheetLinks}>
           {navLinks.map((l) => (
-            <a key={l.label} href={l.href} onClick={() => setOpen(false)}>
+            <Link key={l.label} href={l.href} onClick={() => setOpen(false)}>
               {l.label}
-            </a>
+            </Link>
           ))}
           <a href="#" onClick={() => setOpen(false)}>
             Log in

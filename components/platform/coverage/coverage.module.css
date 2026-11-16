@@ -1,0 +1,126 @@
+/* Coverage strip — channel names as a ruled typographic row. */
+
+.section {
+  padding-block: var(--section-md);
+}
+.inner {
+  width: 100%;
+  max-width: var(--container-lg);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  text-align: center;
+}
+.heading {
+  max-width: 22ch;
+  margin: 0 auto;
+  text-wrap: balance;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 3rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--color-sand-300);
+}
+@media (min-width: 768px) {
+  .list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (min-width: 1200px) {
+  .list {
+    grid-template-columns: repeat(8, auto);
+    justify-content: space-between;
+    border-bottom: 1px solid var(--color-sand-300);
+  }
+}
+
+.name {
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid var(--color-sand-300);
+  color: var(--color-ink-800);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+@media (min-width: 992px) {
+  .name {
+    font-size: 1.5rem;
+    padding-block: 1.5rem;
+  }
+}
+@media (min-width: 1200px) {
+  .name {
+    border-bottom: 0;
+    padding-inline: 0.5rem;
+  }
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 2rem;
+}
+.metaMain {
+  margin: 0;
+  color: var(--color-ink-900);
+  font-weight: 500;
+}
+.note {
+  margin: 0;
+  color: var(--color-ink-500);
+  font-size: 0.75rem;
+}
+
+/* "Connected" dot: lights up green as the row reveals; pulses once on hover. */
+.name {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  transition: color 150ms ease;
+}
+.dot {
+  position: relative;
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--data-ok);
+}
+.dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--data-ok);
+  opacity: 0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .name:hover {
+    color: var(--color-ink-900);
+  }
+  .name:hover .dot::after {
+    animation: dotPulse 900ms var(--ease-out);
+  }
+}
+@keyframes dotPulse {
+  from {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dot::after {
+    animation: none !important;
+  }
+}

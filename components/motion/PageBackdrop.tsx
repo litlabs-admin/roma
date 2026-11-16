@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { prefersReducedMotion } from "@/lib/motion";
+import { prefersReducedMotion, queryAllVisible, queryVisible } from "@/lib/motion";
 import s from "./backdrop.module.css";
 
 /**
@@ -41,15 +41,17 @@ export default function PageBackdrop() {
     if (!el) return;
     // Reduced motion: no scroll-linked colour; the sections paint their own static
     // bands instead (see their [data-static] rules).
+    // Visible sections only: a previously visited route may still be in the DOM, hidden.
     if (prefersReducedMotion()) {
-      document.querySelectorAll("[data-backdrop]").forEach((sec) => sec.setAttribute("data-static", ""));
-      return () => document.querySelectorAll("[data-backdrop]").forEach((sec) => sec.removeAttribute("data-static"));
+      const secs = queryAllVisible("[data-backdrop]");
+      secs.forEach((sec) => sec.setAttribute("data-static", ""));
+      return () => secs.forEach((sec) => sec.removeAttribute("data-static"));
     }
 
     const ctx = gsap.context(() => {
       el.querySelectorAll<HTMLElement>("[data-layer]").forEach((layer) => {
         const key = layer.dataset.layer as keyof typeof BACKDROP_RANGES;
-        const trigger = document.querySelector(`[data-backdrop="${key}"]`);
+        const trigger = queryVisible(`[data-backdrop="${key}"]`);
         if (!trigger || !BACKDROP_RANGES[key]) return;
         gsap.fromTo(
           layer,

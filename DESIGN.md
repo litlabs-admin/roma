@@ -115,6 +115,8 @@ All values are CSS custom properties defined in `app/styles/tokens.css` and expo
 | `--data-recoverable` | `#B21515` | `#FFFFFF` | Recoverable amount chip |
 | `--data-remit` | `#2A2A2A` | `#FFFFFF` | Remittance / source pill |
 
+Implemented in `app/globals.css` as `--data-{promo,shortage,fees,ok}-{bg,fg}`, `--data-ok` (#2F9A3A, lines/dots), `--data-source`, plus in-UI surfaces `--ui-well`, `--ui-line`, `--ui-line-soft`, `--ui-axis` and the illustration wells `--well-warm` / `--well-neutral` (the home machine-card tints). The `type-h1` utility (page titles on non-home pages) also exists there.
+
 ### B.5 Overlays, borders, states
 | Token | Value | Usage |
 |---|---|---|
@@ -512,6 +514,21 @@ section.feature                  z-index 1
 
 - `components/layout/Footer.tsx`: black (ink-900) continues from the CTA. Link grid 2 → 3 (640px) → 6-column track (1024px); headings 0.875rem/500 white, links 0.875rem on-dark-muted → white on hover (150ms). Bottom row: tagline + copyright at 50% white. Links and copy from runroma.com (`lib/content/site.ts → footer`).
 - `components/layout/Wordmark.tsx`: oversized "roma" in Fraunces 800 (cream-50 on black, −0.035em), the "o" is the rosette as an inline SVG in red-600. JS fits the word to the container width and clips it to **65% of the x-height** (measured from the rosette, which is exactly 1ex); the rest runs off the bottom of the page. One-shot rise on entry.
+
+### G.9 "How Roma works" page (`/platform`, references: Hyperline capability hero + billing grid)
+
+Route `app/platform/page.tsx`; sections in `components/platform/*`; all copy and illustrative data in `lib/content/platform.ts`. Order: hero → capabilities 2×2 → coverage → modules tabs → why Roma → proof → compliance → FAQ → closing CTA (with a secondary "Try now").
+
+- **Framing (client decision, Nov 2026):** the page is "How Roma works". "Platform" is the URL only, never a headline.
+- **Tone rule for retailers/distributors (client decision):** name them only as channels or portals (UNFI, KeHE, Target, Walmart, Costco, Kroger, Whole Foods, Amazon). Never imply wrongdoing ("took", "keeping", "owe you"); deductions are "invalid" or "recoverable". Names are set as type, never as retailer logos.
+- **CTAs:** "Book a demo →" (`DEMO_HREF`) + "Try now" → `https://app.runroma.com/signup` (ghost on dark). No pricing on the page.
+- **Hero:** red-950 band with `[data-hero]` (drives the nav states). `container-lg`; title row is 2 columns ≥992px (pill + `type-h1` left; lead + CTAs right), stacked below. The page's one pill (§E.3) is a static label with a book icon. Below: a `--radius-xl` card whose ground is `public/images/cta/texture-bg.webp` (an image, not a gradient, §A.8), a translucent white frame (no blur), and an HTML deductions inbox window (`--radius-lg` top corners, `--shadow-raise`) sitting flush on the card's bottom edge. The window is rem-based and drops columns with container queries (56 / 46 / 30 / 22rem). Load: pill → words (70ms) → lead → actions → card (y 36, 1.1s) → rows (80ms) → each status settles from "Reviewing" to Matched / Recoverable.
+- **Illustrations below the hero** follow the home machine cards: wells tinted with `--well-warm` / `--well-neutral` (fade to white into the card), raised "paper" objects (white, sand-300 hairline, a soft two-layer warm shadow scaled in `--u`), tilt and layering, initial avatars, mono labels, a bottom scrim. Canvases: capabilities 560 × 420, modules 640 × 480, `--u = 100cqw / W`. Each plays one state change once on enter; capability cards replay it on hover once finished, and their layered objects fan out or straighten (transform only, no scale on the card).
+- **Modules:** one white card, well left and tabs right ≥992px (rail = red-600 3px, mono numbers), wrapped pill tabs below. ARIA tablist with arrow / Home / End keys; no autoplay; 300ms cross-fade then the panel's state timeline. Pointer interactions inside the art: reason-code options highlight, each analytics bar shows its own tooltip (first by default), remittance rows highlight and their GL code turns green.
+- **Why Roma:** the §E.11 numbered block, used for real: sticky heading left, ledger rows right; rows rest at .4 and the one at the reading line is full and nudged 1rem.
+- **Proof:** PDF figures only ($53K, $23K, 25 brands) in red-600, count-up once; caption "Results vary by brand. Not a guarantee of recovery."
+- Every illustration carries "Illustrative data. Not a guarantee of recovery."
+- **Client navigation:** with Cache Components the previous route stays in the DOM hidden, so document-wide queries use `queryVisible` / `queryAllVisible` (`lib/motion.ts`), and effects must fully reset inline styles in cleanup.
 
 ---
 

@@ -1,0 +1,73 @@
+/* /platform mock kit — chips, pills and glyphs sized in em (they follow the mock's
+   font-size). Colours are the §B.4 product-UI data tokens from globals.css. */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.28em 0.7em;
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 0.86em;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+.promo {
+  background: var(--data-promo-bg);
+  color: var(--data-promo-fg);
+}
+.shortage {
+  background: var(--data-shortage-bg);
+  color: var(--data-shortage-fg);
+}
+.fees {
+  background: var(--data-fees-bg);
+  color: var(--data-fees-fg);
+}
+.matched {
+  background: var(--data-ok-bg);
+  color: var(--data-ok-fg);
+}
+.recoverable {
+  background: var(--color-red-600);
+  color: #fff;
+}
+.pending {
+  background: var(--color-cream-200);
+  color: var(--color-ink-600);
+}
+.neutral {
+  background: var(--ui-line);
+  color: var(--color-ink-600);
+}
+.dot {
+  width: 0.45em;
+  height: 0.45em;
+  border-radius: 50%;
+  background: currentColor;
+}
+.chip .glyph {
+  width: 1.05em;
+  height: 1.05em;
+  stroke-width: 2;
+}
+
+.source {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28em 0.65em;
+  border-radius: 0.45em;
+  background: var(--data-source);
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.82em;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.glyph {
+  display: block;
+  flex: none;
+  width: 1em;
+  height: 1em;
+}

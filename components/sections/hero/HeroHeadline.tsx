@@ -55,8 +55,12 @@ export default function HeroHeadline({ id, lines }: { id: string; lines: Line[] 
 
     let current = 0;
     let delayed: gsap.core.Tween | null = null;
+    // Guards callbacks from a previous mount: with Cache Components the page is hidden
+    // (React <Activity>) on navigation and this effect re-runs when it is shown again.
+    let alive = true;
 
     const wordsIn = (i: number, first = false) => {
+      if (!alive) return;
       gsap.set(layers[i], { autoAlpha: 1 });
       const tl = gsap.timeline({
         onComplete: () => {
@@ -77,6 +81,7 @@ export default function HeroHeadline({ id, lines }: { id: string; lines: Line[] 
     };
 
     const next = () => {
+      if (!alive) return;
       if (!visible || document.hidden) {
         delayed = gsap.delayedCall(0.5, next);
         return;
@@ -101,10 +106,15 @@ export default function HeroHeadline({ id, lines }: { id: string; lines: Line[] 
     hero?.addEventListener("hero:headline-in", start, { once: true });
 
     return () => {
+      alive = false;
       io.disconnect();
       delayed?.kill();
       hero?.removeEventListener("hero:headline-in", start);
-      gsap.killTweensOf(h.querySelectorAll("[data-w]"));
+      const words = h.querySelectorAll("[data-w]");
+      gsap.killTweensOf(words);
+      // Back to the SSR state so a re-run starts clean.
+      gsap.set(words, { clearProps: "all" });
+      gsap.set(layers, { clearProps: "opacity,visibility" });
     };
   }, []);
 

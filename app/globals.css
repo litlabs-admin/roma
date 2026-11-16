@@ -69,6 +69,27 @@
   --dur-micro: 150ms;
   --dur-state: 400ms;
   --dur-swap: 500ms;
+
+  /* Product-UI data colours (DESIGN.md §B.4), only inside product mock-ups. */
+  --data-promo-bg: #f4d9d4;
+  --data-promo-fg: #7a0e0e;
+  --data-shortage-bg: #eed9a8;
+  --data-shortage-fg: #5c4413;
+  --data-fees-bg: #d7dce3;
+  --data-fees-fg: #27313f;
+  --data-ok-bg: #e2f0de;
+  --data-ok-fg: #0b5d05;
+  --data-ok: #2f9a3a;
+  --data-source: #2a2a2a;
+  /* Product-UI surfaces: muted well, in-UI dividers (§D.7), axis labels. */
+  --ui-well: #fbf9f5;
+  --ui-line: #efe9dd;
+  --ui-line-soft: #f1ebdf;
+  --ui-axis: #b4ad9f;
+  /* Illustration wells (same tints as the home machine cards): fade into the white card. */
+  --well-warm: linear-gradient(180deg, rgba(253, 243, 225, 0.2) 0%, #f1d6ce 47%, #ffffff 100%);
+  --well-neutral: linear-gradient(180deg, rgba(232, 228, 218, 0) 0%, #efebe2 47%, #ffffff 100%);
+  --mock-shadow-rgb: 58, 20, 14;
 }
 
 @media (min-width: 768px) {
@@ -166,6 +187,19 @@ html.lenis body {
   }
   @media (min-width: 992px) {
     font-size: 5.5rem;
+  }
+}
+/* Page titles on non-home pages (the home hero uses type-display). */
+@utility type-h1 {
+  font-weight: 500;
+  font-size: 2.5rem;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  @media (min-width: 768px) {
+    font-size: 3.25rem;
+  }
+  @media (min-width: 992px) {
+    font-size: 4rem;
   }
 }
 @utility type-h2 {

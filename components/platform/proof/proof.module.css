@@ -1,0 +1,87 @@
+/* Proof — three stat blocks separated by hairlines (Hyperline billing stats). */
+
+.section {
+  padding-block: var(--section-lg);
+}
+.inner {
+  width: 100%;
+  max-width: var(--container-lg);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.heading {
+  max-width: 18ch;
+  margin: 0 auto;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 4rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--color-sand-300);
+}
+@media (min-width: 768px) {
+  .list {
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid var(--color-sand-300);
+  }
+}
+@media (max-width: 767px) {
+  .list {
+    margin-top: 2.5rem;
+  }
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--color-sand-300);
+}
+@media (min-width: 768px) {
+  .stat {
+    padding: 2.5rem 2rem;
+    border-bottom: 0;
+  }
+  .stat + .stat {
+    border-left: 1px solid var(--color-sand-300);
+  }
+  .stat:first-child {
+    padding-left: 0;
+  }
+}
+
+.value {
+  margin: 0;
+  color: var(--color-red-600);
+  font-weight: 500;
+  font-size: 3.5rem;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  font-variant-numeric: tabular-nums;
+}
+@media (min-width: 992px) {
+  .value {
+    font-size: 5rem;
+  }
+}
+.label {
+  max-width: 22ch;
+  margin: 0;
+  color: var(--color-ink-600);
+  font-size: 1rem;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+
+.note {
+  margin-top: 1.5rem;
+  color: var(--color-ink-500);
+  font-size: 0.75rem;
+  text-align: center;
+}
