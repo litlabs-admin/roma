@@ -8,6 +8,7 @@ export const navLinks = [
   { label: "Analytics", href: "#" },
   { label: "Accounting", href: "#" },
   { label: "Pricing", href: "#" },
+  { label: "Blog", href: "/blogs" },
 ];
 
 export const hero = {
@@ -32,7 +33,7 @@ export const hero = {
 export const statement = {
   label: "What Roma does",
   segments: [
-    { text: "Every month, deductions from UNFI, KeHE and your retailers add up to" },
+    { text: "Every month, deductions from your retailers add up to" },
     { text: "2–3% of your revenue.", highlight: true },
     { text: "Many deductions are invalid, but nobody has time to check, so they get" },
     { text: "written off.", highlight: true },

@@ -397,7 +397,7 @@ Words: 35ms (reveal) / 70ms (hero in) / 40ms (hero out). List items/tiles: 80ms.
 
 **Purpose:** One central sentence block that says what Roma does — problem, cost, fix — before any proof. Read slowly, revealed in reading order.
 
-**Copy** (`lib/content/site.ts` → `statement`): "Every month, deductions from UNFI, KeHE and your retailers add up to ⟨2–3% of your revenue⟩. Many deductions are invalid, but nobody has time to check, so they get ⟨written off⟩. Roma matches ⟨every deduction⟩ to your invoices and promos, so you can ⟨get back what’s yours⟩."
+**Copy** (`lib/content/site.ts` → `statement`): "Every month, deductions from your retailers add up to ⟨2–3% of your revenue⟩. Many deductions are invalid, but nobody has time to check, so they get ⟨written off⟩. Roma matches ⟨every deduction⟩ to your invoices and promos, so you can ⟨get back what’s yours⟩."
 Rules: ≤ 50 words; ≤ 4 highlights; highlights are money or outcome phrases only (red = money at stake, A.6 #5); PDF guardrails apply.
 
 **Layout:** section `padding-block: var(--section-lg)` on cream-50 (continuous with the page, no band). Paragraph centred (ragged edges by choice — justified was tried and reverted), `max-width: 56rem`, gutters, `text-wrap: pretty`, type token `statement`. No eyebrow, no CTA.
@@ -459,7 +459,7 @@ section.feature                  z-index 1
 
 **App panel (HTML-built product UI, not an image)**
 - Device: a **laptop** from 768px up (beside the column ≥992px; stacked above it at 768–991px with the four channel tabs in one row), the original **phone** below 768px (a laptop's screen text would be ~5px there). Both run the same timeline; only the geometry differs (`Layout` objects `LAPTOP` / `PHONE` in `data.ts`).
-- Laptop: lid = dark bezel (2.5% sides, 3% top, 3.5% chin, camera dot) around a 16:10 aperture, over a thin base 108% wide with a thumb notch. Screen canvas **800 × 500**: head across the top (rosette beside a 32u serif headline); screen 1 puts the pull diagram left and the Valid/Recoverable split right; screen 2's bands hold their two tiles side by side; screen 3's card splits into chart (left) and dispute rows (right). Visual box `aspect-ratio 1 / 0.69375`.
+- Laptop: modern MacBook proportions, lid = thin dark bezel (1.2% sides, 1.8% top, 2% chin, camera dot) around a 16:10 aperture, over a slim base (0.03W) 108% wide with a thumb notch. Screen canvas **800 × 500**: head across the top (rosette beside a 32u serif headline); screen 1 puts the pull diagram left and the Valid/Recoverable split right; screen 2's bands hold their two tiles side by side; screen 3's card splits into chart (left) and dispute rows (right). Visual box `aspect-ratio 1 / 0.678`.
 - Phone: Fruitful's proportions — body `aspect-ratio 214.48/449.16`, bezel `#1C1C1E` with radius `16.45% / 7.85%`; screen aperture inset `3.18% / 1.52%`, size `93.63% × 96.96%`, radius `14.73% / 6.79%`. Behind it, a phone-shaped layer casts a long, soft shadow toward the lower right (stacked warm-ink box-shadows, light from upper-left). Height `min(78vh, 50rem)` desktop · `min(68vh, 42rem)` tablet · `min(58svh, 32rem)` mobile.
 - Phone screen authored in design units on a **400 × 868** canvas (fits the aperture exactly; all coordinates live in the `Layout` objects in `data.ts`); `--u = 100cqw / var(--canvas-w)` (400 or 800) (container query units, Fruitful technique), so every value below is copied as-is: `calc(var(--u) * N)`.
 - Screen bg `#F5F3EF`. In-screen type follows Fruitful's phone scale (UI 14–16u, figures 17–19u, serif headline 38u, figure 40u) so it stays legible at phone width.
@@ -549,7 +549,7 @@ Routes `app/blogs/page.tsx` and `app/blogs/[slug]/page.tsx` (prerendered via `ge
 - **Reading progress:** a 2px red-600 bar fixed under the nav, `scaleX` 0 → 1 across the article body (origin left). Explains a state (§A.6.4); not shown under reduced motion.
 - **Motion:** header uses the G.9 hero load sequence (words 70ms); featured card, grid cards (80ms stagger), article figures and h2s use the one-shot `rise` (16px, 0.5s) from `components/platform/motion.ts`. SSR markup is the final state.
 - **After the article:** author card (§E.6, monogram + name + role + one-line bio) → "Keep reading" grid sheet (3 posts, same category first) → closing CTA.
-- **Navigation:** "Blog" lives in the footer Resources column only.
+- **Navigation:** "Blog" (`/blogs`) is the last top-nav link and also sits in the footer Resources column.
 
 ---
 

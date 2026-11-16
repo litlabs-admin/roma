@@ -304,43 +304,43 @@
   border-radius: 16.45% / 7.85%;
 }
 
-/* Laptop: lid (bezel + 16:10 screen) over a thin base. In units of the lid width W:
-   bezel 2.5% at the sides, 3% top, 3.5% chin → lid 0.65875W; base 0.035W tall.
-   The visual box is W × 0.69375W; percentages below are of that box or of the lid.
-   The 800 × 500 canvas fits the aperture exactly. */
+/* Laptop (modern MacBook proportions): thin-bezel lid with a 16:10 screen over a slim base.
+   In units of the lid width W: bezel 1.2% at the sides, 1.8% top, 2% chin → lid 0.648W;
+   base 0.03W tall. The visual box is W × 0.678W; percentages below are of that box or
+   of the lid. The 800 × 500 canvas fits the aperture exactly. */
 .isLaptop {
   flex: 1 1 0;
   min-width: 0;
-  max-width: calc(min(68vh, 44rem) * 1.4414);
-  aspect-ratio: 1 / 0.69375;
+  max-width: calc(min(68vh, 44rem) * 1.4749);
+  aspect-ratio: 1 / 0.678;
 }
 .isLaptop .panel {
-  height: 94.955%;
-  border-radius: 2.4% 2.4% 0.6% 0.6% / 3.64% 3.64% 0.91% 0.91%;
+  height: 95.575%;
+  border-radius: 2% 2% 0.5% 0.5% / 3.086% 3.086% 0.772% 0.772%;
 }
 /* camera */
 .isLaptop .panel::before {
   content: "";
   position: absolute;
   left: 50%;
-  top: 2.277%;
-  width: 0.55%;
+  top: 1.389%;
+  width: 0.5%;
   aspect-ratio: 1;
   border-radius: 50%;
   background: #3a3a3c;
   translate: -50% -50%;
 }
 .isLaptop .panelHost {
-  left: 2.5%;
-  top: 4.554%;
-  width: 95%;
-  height: 90.133%;
-  border-radius: 0.4% / 0.64%;
+  left: 1.2%;
+  top: 2.778%;
+  width: 97.6%;
+  height: 94.136%;
+  border-radius: 0.82% / 1.31%;
 }
 /* inside the lid + base box only: any part of it left uncovered would read as a light patch */
 .isLaptop .shadow {
   inset: 0;
-  border-radius: 2.4% 2.4% 2% 2% / 3.46% 3.46% 3% 3%;
+  border-radius: 2% 2% 2% 2% / 2.95% 2.95% 2.95% 2.95%;
 }
 .base {
   position: absolute;
@@ -348,7 +348,7 @@
   left: -4%;
   bottom: 0;
   width: 108%;
-  height: 5.045%;
+  height: 4.425%;
   border-radius: 0.3% 0.3% 3% 3% / 8% 8% 92% 92%;
   background: linear-gradient(to bottom, #48484a, #2c2c2e 35%, #1c1c1e 80%, #111);
 }
@@ -382,7 +382,7 @@
     flex: none;
     align-self: center;
     /* 92%: the base is 8% wider than the lid and must stay on screen */
-    width: min(92%, calc((100svh - 30rem) * 1.4414));
+    width: min(92%, calc((100svh - 30rem) * 1.4749));
     max-width: none;
   }
   .column {
