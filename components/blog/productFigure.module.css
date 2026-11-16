@@ -1,0 +1,221 @@
+/* In-article product figures (DESIGN.md §G.10). Product-UI colours are the §B.4 data
+   tokens; the window is the only element with --shadow-raise (§D.7). */
+
+.figure {
+  margin: 2.5rem 0;
+}
+
+.ground {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 1.5rem 0.75rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-red-950);
+}
+@media (min-width: 768px) {
+  .ground {
+    padding: 2.5rem 2rem;
+  }
+}
+.texture {
+  z-index: -1;
+  object-fit: cover;
+  object-position: 30% 50%;
+}
+
+.window {
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  box-shadow: var(--shadow-raise);
+  color: var(--color-ink-900);
+  font-size: 0.75rem;
+  line-height: 1.35;
+  container-type: inline-size;
+}
+@media (min-width: 768px) {
+  .window {
+    font-size: 0.8125rem;
+  }
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--ui-line);
+}
+.barTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+}
+.barTitle b {
+  font-weight: 600;
+}
+.muted {
+  color: var(--color-ink-500);
+}
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.matchedTo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  color: var(--color-ink-600);
+}
+
+.table {
+  font-variant-numeric: tabular-nums;
+}
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.7fr) minmax(0, 0.9fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--ui-line-soft);
+}
+.cDate {
+  display: none;
+}
+@container (min-width: 34rem) {
+  .row {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 0.5fr) minmax(0, 0.8fr) minmax(0, 0.9fr);
+  }
+  .cDate {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15em;
+  }
+}
+.head {
+  background: var(--ui-well);
+  color: var(--color-ink-500);
+  font-size: 0.92em;
+}
+.rowFlag {
+  background: color-mix(in srgb, var(--data-promo-bg) 35%, white);
+}
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  min-width: 0;
+  white-space: nowrap;
+}
+.num {
+  text-align: right;
+}
+.cStatus {
+  display: flex;
+  justify-content: flex-end;
+}
+.note {
+  color: var(--color-red-700);
+  font-style: normal;
+  font-size: 0.9em;
+}
+
+.foot {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  color: var(--color-ink-600);
+}
+.rec {
+  color: var(--color-red-600);
+  font-size: 1.15em;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Trade-rate bars (same colours as the /platform analytics mock). */
+.legend {
+  display: inline-flex;
+  gap: 1rem;
+  color: var(--color-ink-600);
+}
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+.swNow,
+.swPrev {
+  width: 0.7em;
+  height: 0.7em;
+  border-radius: 2px;
+}
+.swNow {
+  background: var(--color-red-600);
+}
+.swPrev {
+  background: var(--color-sand-400);
+}
+
+.bars {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.25rem 1rem 1.25rem;
+}
+.barRow {
+  display: grid;
+  grid-template-columns: 4.25rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+}
+.barLabel {
+  color: var(--color-ink-600);
+  font-weight: 500;
+}
+.barTrack {
+  display: grid;
+  gap: 3px;
+}
+.barNow,
+.barPrev {
+  display: block;
+  height: 0.6rem;
+  border-radius: 0 4px 4px 0;
+}
+.barNow {
+  background: var(--color-red-600);
+}
+.barPrev {
+  background: var(--color-sand-400);
+}
+.barVal {
+  display: grid;
+  justify-items: end;
+  min-width: 4.5rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.delta {
+  font-size: 0.85em;
+  font-weight: 500;
+}
+.down {
+  color: var(--data-ok-fg);
+}
+.up {
+  color: var(--color-red-700);
+}
+
+.caption {
+  margin-top: 0.75rem;
+  color: var(--color-ink-500);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}

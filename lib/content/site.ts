@@ -68,6 +68,7 @@ export const footer = {
         { label: "Accounting", href: "/accounting" },
         { label: "Pricing", href: "/pricing" },
         { label: "Deduction Codes", href: "/deduction-codes" },
+        { label: "Blog", href: "/blogs" },
         { label: "FAQs", href: "/#faq" },
       ],
     },

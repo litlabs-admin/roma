@@ -530,6 +530,23 @@ Route `app/platform/page.tsx`; sections in `components/platform/*`; all copy and
 - Every illustration carries "Illustrative data. Not a guarantee of recovery."
 - **Client navigation:** with Cache Components the previous route stays in the DOM hidden, so document-wide queries use `queryVisible` / `queryAllVisible` (`lib/motion.ts`), and effects must fully reset inline styles in cleanup.
 
+### G.10 Blog (`/blogs`, `/blogs/[slug]`, reference: Vodex `/resources/blog`, adapted)
+
+Routes `app/blogs/page.tsx` and `app/blogs/[slug]/page.tsx` (prerendered via `generateStaticParams`; unknown slugs call `notFound()`, since `dynamicParams` is unavailable with Cache Components); components in `components/blog/*`; every post, author and image credit in `lib/content/blog.ts` (typed blocks, no MDX). Same tone rule as G.9 for retailers and distributors, same banned copy (§A.8), PDF-approved proof only ($53K Good Day Chocolate, $23K Smash Kitchen, 25 brands).
+
+- **Editorial photography (exception to §A.6.3, blog only, client decision Nov 2026):** article covers and in-body figures may use warm, documentary photography (shelves, warehouses, paperwork, founders at work). No people posed at the camera, no visible third-party UI, no filters or gradient overlays. Covers 3:2, 2000w WebP; body photos 1600w. Product-UI figures inside articles still follow §A.6.3 and carry the "Illustrative data" caption.
+- **Listing:** hero (red-950, `[data-hero]`, PlatformHero composition: pill → `type-h1` with one accent → lead → topic list as mono labels with 6px red square bullets; no CTAs) → featured card → "Latest" grid sheet → closing CTA. No category filter or search until there are more than ~9 posts.
+- **Featured card:** one white card, sand-300 border, `--radius-lg`; ≥992px a `1.15fr 1fr` split, image left (fills the row, min 3:2), body padded 3rem; stacked below 992px.
+- **Post card:** §E.6 card with the image flush on top (3:2, top corners follow the card radius), body padding 1.5rem (1.25rem mobile): category label → `type-h5` title → excerpt (3-line clamp, ink-600, small) → meta row pinned to the bottom (`margin-top: auto`, tabular-nums). Whole card is one link (title `::after` inset 0). Grid: 3 columns ≥992px, 2 ≥768px (odd last card centred at column width), 1 below; gap 1.5rem.
+- **Hover (strict §F.7):** border sand-300 → sand-400 (150ms), title underline swipe (§E.2 mechanics), arrow nudge `translate(3px,-3px)`. No image zoom, no lift, no shadow.
+- **Article header:** red-950 `[data-hero]` band: "All articles" back link → meta label (category · date · read time) → `type-h1` (max 18ch) → lead (on-dark-muted, max 38rem) → author (initials monogram 2.5rem, cream-200 on red-800). The cover (`--radius-lg`, 3:2 below 992px, 2:1 at ≥992px) straddles the band: the band ends halfway down the image (computed with container query units on the header).
+- **Article body:** 2 columns ≥992px (`13rem` sticky table of contents at `top: calc(var(--nav-h) + 2rem)`, gap 5rem), single column below. Measure max 64ch. h2 = `type-h4` (margin-top 3rem, `scroll-margin-top: calc(var(--nav-h) + 1.5rem)`), h3 = `type-h5` (2rem); paragraphs body token in ink-800 at line-height 1.6 (long-form reading), 1.25rem apart, `text-wrap: pretty`; lists with 6px red-600 square bullets; quote = 2px red-600 rule, `type-h5` weight 400; callout = §E.6 card on white with a mono label; photo figure `--radius-md` with a small ink-500 caption; tables in a bordered `--radius-sm` frame, hairline rows, tabular-nums, horizontal scroll on narrow screens.
+- **Table of contents:** "On this page" label; links small ink-600; active link ink-900 with a 2px red-600 left rule and `aria-current="location"`. Active section is computed with a rAF-throttled scroll listener (heading top ≤ nav height + 2rem), not IntersectionObserver.
+- **Reading progress:** a 2px red-600 bar fixed under the nav, `scaleX` 0 → 1 across the article body (origin left). Explains a state (§A.6.4); not shown under reduced motion.
+- **Motion:** header uses the G.9 hero load sequence (words 70ms); featured card, grid cards (80ms stagger), article figures and h2s use the one-shot `rise` (16px, 0.5s) from `components/platform/motion.ts`. SSR markup is the final state.
+- **After the article:** author card (§E.6, monogram + name + role + one-line bio) → "Keep reading" grid sheet (3 posts, same category first) → closing CTA.
+- **Navigation:** "Blog" lives in the footer Resources column only.
+
 ---
 
 ## H. Responsive design summary
@@ -623,3 +640,4 @@ Mobile-first Tailwind for layout; breakpoints `md 768 / lg 992 / xl 1440`. JS re
 3. **Case-study link** for the announcement pill (Good Day Chocolate, $53K) — no URL yet.
 4. **Higher-resolution customer logos** (current files are ≤ 336px wide; fine at ≤ 44px height on 2× screens, not beyond).
 5. Vector Roma logo (SVG) — only a 512px PNG exists.
+6. **Blog sample content** (G.10): the four articles, their author names and roles, and the Unsplash photography (credits in `lib/content/blog.ts`) were written for the client preview. Replace with real authors and approved posts before launch.
