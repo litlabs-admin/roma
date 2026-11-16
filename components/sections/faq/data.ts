@@ -11,7 +11,7 @@ export type Faq = { q: string; a: string };
 export const FAQS: Faq[] = [
   {
     q: "Does Roma replace my current accounting or ERP system?",
-    a: "No. Roma works alongside your existing accounting stack. It captures and organizes your UNFI and KeHE deductions in one place, so your team has visibility without changing how you book or reconcile.",
+    a: "No. Roma works alongside your existing accounting stack. It captures and organizes your UNFI, KeHE and retailer deductions in one place, so your team has visibility without changing how you book or reconcile.",
   },
   {
     q: "Which distributors does Roma support?",
@@ -27,7 +27,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: "What kind of brands is Roma built for?",
-    a: "Roma is designed for CPG food and beverage brands selling through UNFI and KeHE, typically used by VP Finance, Controllers, and AR Managers who need clarity over distributor deductions.",
+    a: "Roma is designed for CPG food and beverage brands selling through UNFI, KeHE and major retailers, typically used by VP Finance, Controllers, and AR Managers who need clarity over distributor deductions.",
   },
   {
     q: "Can small teams use Roma, or is it only for larger brands?",

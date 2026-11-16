@@ -6,7 +6,7 @@ import { prefersReducedMotion } from "@/lib/motion";
 import { splitChars } from "@/components/ui/splitChars";
 import AppPanel from "./AppPanel";
 import { buildPanelTimeline } from "./panelTimeline";
-import { SCENARIOS, featureCopy } from "./data";
+import { LAPTOP, PHONE, SCENARIOS, featureCopy, type Layout } from "./data";
 import s from "./feature.module.css";
 
 /**
@@ -20,6 +20,9 @@ import s from "./feature.module.css";
  *  2. Screens (the remaining two viewports): scroll maps to a TARGET time on the
  *     panel's paused timeline; a proxy clock eases toward it (0.3s power3.out).
  *     Lenis smoothing → scrub 0.6 → eased clock = the "crazy smooth" feel.
+ *
+ * Device: a laptop from 768px up (beside the column ≥992px, above it below that), the
+ * original phone on phones. Both run the same timeline, only the geometry differs.
  */
 
 // Copied from Fruitful GF_IN — fractions of the viewport of scroll after the pin.
@@ -34,9 +37,14 @@ const GF_IN = {
 
 type Clock = { t: number };
 
+/** Phones get the phone screen; a laptop's text would be unreadable at phone width. */
+const LAPTOP_MQ = "(min-width: 768px)";
+
 export default function FeatureStory() {
   const [active, setActive] = useState(0);
   const scenario = SCENARIOS[active];
+  // Laptop on the server (most traffic); corrected before paint on phones.
+  const [layout, setLayout] = useState<Layout>(LAPTOP);
 
   const container = useRef<HTMLDivElement>(null);
   const host = useRef<HTMLDivElement>(null);
@@ -58,13 +66,32 @@ export default function FeatureStory() {
     });
   }, []);
 
-  // (Re)build the panel timeline whenever the scenario changes. Runs before the
+  // Track the device breakpoint. A swap re-renders the panel and rebuilds its timeline
+  // (effect below); the frame's size changes, so ScrollTrigger re-measures.
+  useLayoutEffect(() => {
+    const mq = window.matchMedia(LAPTOP_MQ);
+    const sync = () => setLayout(mq.matches ? LAPTOP : PHONE);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  const firstLayout = useRef(true);
+  useLayoutEffect(() => {
+    if (firstLayout.current) {
+      firstLayout.current = false;
+      return;
+    }
+    const id = requestAnimationFrame(() => ScrollTrigger.refresh());
+    return () => cancelAnimationFrame(id);
+  }, [layout]);
+
+  // (Re)build the panel timeline whenever the scenario or the device changes. Runs before the
   // mount effect below on first render, so the scroll wiring always has a timeline.
   useLayoutEffect(() => {
     const el = host.current;
     if (!el) return;
     screenTl.current?.kill();
-    const tl = buildPanelTimeline(el, scenario);
+    const tl = buildPanelTimeline(el, scenario, layout);
     screenTl.current = tl;
 
     if (reduced.current || prefersReducedMotion()) {
@@ -88,7 +115,7 @@ export default function FeatureStory() {
     } else {
       tl.time(clock.current.t);
     }
-  }, [scenario, goTo]);
+  }, [scenario, layout, goTo]);
 
   // Scroll wiring — once.
   useLayoutEffect(() => {
@@ -247,6 +274,7 @@ export default function FeatureStory() {
   };
 
   const chars = splitChars;
+  const isLaptop = layout.variant === "laptop";
 
   const [st1, stAccent, stDot, st2] = featureCopy.statementDesktop;
 
@@ -316,18 +344,19 @@ export default function FeatureStory() {
                 </div>
               </div>
 
-              <div className={s.visual} data-gf-visual>
+              <div className={`${s.visual} ${isLaptop ? s.isLaptop : s.isPhone}`} data-gf-visual>
                 {/* long cast shadow, light from upper-left (Fruitful phone shadow, rebuilt in CSS) */}
-                <span className={s.phoneShadow} aria-hidden="true" />
+                <span className={s.shadow} aria-hidden="true" />
                 <div className={s.panel} id="feature-panel" role="tabpanel" aria-label={`${scenario.channel} deductions example`}>
                   <div ref={host} className={s.panelHost} aria-hidden="true">
-                    <AppPanel key={scenario.key} s={scenario} />
+                    <AppPanel key={`${layout.variant}-${scenario.key}`} s={scenario} layout={layout} />
                   </div>
                   <p className="sr-only">
                     Example for {scenario.channel}: {scenario.total} deducted this quarter, split into {scenario.bars.map((b) => `${b.label} ${b.amount}`).join(", ")}.{" "}
                     {scenario.split.recoverable} identified as recoverable. {scenario.inDispute} in dispute and recoveries tracked to cash.
                   </p>
                 </div>
+                {isLaptop && <span className={s.base} aria-hidden="true" />}
                 <p className={s.caption}>{featureCopy.caption}</p>
               </div>
             </div>

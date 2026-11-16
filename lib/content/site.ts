@@ -20,7 +20,7 @@ export const hero = {
   // `accent` marks the serif phrase (one per line).
   lines: [
     { before: "Stop writing off ", accent: "deductions", after: "." },
-    { before: "Get back what UNFI and KeHE ", accent: "owe you", after: "." },
+    { before: "Every invalid deduction, ", accent: "disputed", after: "." },
   ],
   lead: "Roma pulls every deduction from your distributor and retailer portals, matches it to your invoices and promos, and helps you dispute the invalid ones. Live in 5 minutes. No ERP or IT project.",
   primary: { label: "Book a demo", href: "#demo" },
@@ -32,7 +32,7 @@ export const hero = {
 export const statement = {
   label: "What Roma does",
   segments: [
-    { text: "Every month, UNFI, KeHE and your retailers quietly take" },
+    { text: "Every month, deductions from UNFI, KeHE and your retailers add up to" },
     { text: "2–3% of your revenue.", highlight: true },
     { text: "Many deductions are invalid, but nobody has time to check, so they get" },
     { text: "written off.", highlight: true },

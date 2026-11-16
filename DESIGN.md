@@ -28,9 +28,11 @@ Data decisions made with the team:
 ## A. Brand and design philosophy
 
 ### A.1 What Roma is (one paragraph, use this to sanity-check any copy)
-Natural and specialty CPG brands ($1M–$50M, sweet spot $3–10M) selling through UNFI, KeHE and major retailers lose 2–3% of revenue to deductions — chargebacks, promo claims, shortages, fees — taken straight out of their payments. Many are invalid, but no one on a lean team has time to check, so the money is written off by default. Roma pulls every deduction from distributor and retailer portals, categorizes it, matches it to invoices and promo agreements, and lets the brand dispute invalid ones from one place. Live in 5 minutes, no ERP or IT project, from $399/month.
+Natural and specialty CPG brands ($1M–$50M, sweet spot $3–10M) selling through UNFI, KeHE and major retailers lose 2–3% of revenue to deductions — chargebacks, promo claims, shortages, fees — deducted straight from their payments. Many are invalid, but no one on a lean team has time to check, so the money is written off by default. Roma pulls every deduction from distributor and retailer portals, categorizes it, matches it to invoices and promo agreements, and lets the brand dispute invalid ones from one place. Live in 5 minutes, no ERP or IT project, from $399/month.
 
-**Value proposition (headline-level):** Stop writing off deductions. Roma recovers what UNFI, KeHE and retailers owe you.
+**Value proposition (headline-level):** Stop writing off deductions. Roma recovers invalid deductions across UNFI, KeHE and retailers.
+
+**Tone rule for retailers/distributors (client decision, Nov 2026, site-wide):** name them only as channels or portals (UNFI, KeHE, Target, Walmart, Costco, Kroger, Whole Foods, Amazon). Never imply wrongdoing ("take", "took", "keeping", "owe you"); deductions are "invalid" or "recoverable". Where copy names channels, say "UNFI, KeHE and retailers" (or "UNFI, KeHE, Target, Walmart and more"), not UNFI and KeHE alone. Names are set as type, never as retailer logos.
 
 ### A.2 Audience
 The founder (or one finance person) of a $1M–$50M natural CPG brand. Owns the P&L, wears five hats, has no AR team. Suspects deductions eat margin but has never had time to look. Hates software projects, wants **proof in dollars, fast**. Often loops in a CFO or bookkeeper to validate — so the page must also survive a sceptical finance read.
@@ -369,7 +371,7 @@ Words: 35ms (reveal) / 70ms (hero in) / 40ms (hero out). List items/tiles: 80ms.
 2. Announcement pill: "Good Day Chocolate recovered $53K in deductions →" (PDF proof point, quotable).
 3. H1 (`display`), rotating every 3.6s between two lines (first line is the SSR/SEO line):
    - "Stop writing off ⟨deductions⟩."
-   - "Get back what UNFI and KeHE ⟨owe you⟩."
+   - "Every invalid deduction, ⟨disputed⟩."
 4. Lead (`lead`, on-dark-muted, max 36rem): "Roma pulls every deduction from your distributor and retailer portals, matches it to your invoices and promos, and helps you dispute the invalid ones. Live in 5 minutes. No ERP or IT project."
 5. Actions: `inverse` "Book a demo →" + white `ArrowLink` "See how it works" (scrolls to feature section).
 
@@ -395,7 +397,7 @@ Words: 35ms (reveal) / 70ms (hero in) / 40ms (hero out). List items/tiles: 80ms.
 
 **Purpose:** One central sentence block that says what Roma does — problem, cost, fix — before any proof. Read slowly, revealed in reading order.
 
-**Copy** (`lib/content/site.ts` → `statement`): "Every month, UNFI, KeHE and your retailers quietly take ⟨2–3% of your revenue⟩. Many deductions are invalid, but nobody has time to check, so they get ⟨written off⟩. Roma matches ⟨every deduction⟩ to your invoices and promos, so you can ⟨get back what’s yours⟩."
+**Copy** (`lib/content/site.ts` → `statement`): "Every month, deductions from UNFI, KeHE and your retailers add up to ⟨2–3% of your revenue⟩. Many deductions are invalid, but nobody has time to check, so they get ⟨written off⟩. Roma matches ⟨every deduction⟩ to your invoices and promos, so you can ⟨get back what’s yours⟩."
 Rules: ≤ 50 words; ≤ 4 highlights; highlights are money or outcome phrases only (red = money at stake, A.6 #5); PDF guardrails apply.
 
 **Layout:** section `padding-block: var(--section-lg)` on cream-50 (continuous with the page, no band). Paragraph centred (ragged edges by choice — justified was tried and reverted), `max-width: 56rem`, gutters, `text-wrap: pretty`, type token `statement`. No eyebrow, no CTA.
@@ -441,25 +443,27 @@ section.feature                  z-index 1
  └ div.container   height: 400vh (desktop+mobile)     ← ScrollTrigger trigger
     └ div.sticky   position: sticky; top: 0; height: 100vh (100svh mobile)
        ├ div.statement     absolute, centred (top 50%, yPercent −50), pointer-events none
-       └ div.layout        --container-md, flex row, gap 4rem, align center
-          ├ div.column     flex 1  (progress rail, h3, steps, channel card)
-          └ div.visual     flex 1, height 75vh, max-height 46rem  (app panel + caption)
+       └ div.layout        --container-lg, flex row, gap 4rem, align center (stacked < 992px)
+          ├ div.column     0 1 24rem  (progress rail, h3, body, channel card)
+          └ div.visual     flex 1, laptop ≤ min(68vh, 44rem) tall (phone < 768px)  (app panel + caption)
 ```
 
 **Content** (copy lives in `components/sections/feature/data.ts`)
-- Statement (`h2`, centred, break after "yours."): "Your distributors are keeping money that's ⟨yours⟩. Let's get it back." (Tone-of-voice line from the PDF, verbatim.) Split into characters for the highlight.
+- Statement (`h2`, centred, break after "yours."): "Invalid deductions are money that's ⟨yours⟩. Let's get it back." (Adapted from the PDF's tone-of-voice line to meet the tone rule in §A.1.) Split into characters for the highlight.
 - Column (Fruitful structure: top copy + scenario card, progress rail on the left):
   - `h3`: "Nothing gets written off ⟨by default⟩." (from the PDF's approved recovery line)
-  - Body (ink-600, 1rem/1.5): "Roma connects to your distributor and retailer portals, pulls every deduction and matches it to your invoices and promo agreements. You see what was taken, why, and what's recoverable — then dispute the invalid ones from one place."
+  - Body (ink-600, 1rem/1.5): "Roma connects to your distributor and retailer portals, pulls every deduction and matches it to your invoices and promo agreements. You see what was deducted, why, and what's recoverable — then dispute the invalid ones from one place."
   - Channel card (white, E.6): "Built for how you sell." / "Pick a channel to see its deductions." + 2×2 tabs **UNFI · KeHE · Target · Walmart** (the four remittance sources the FAQ names). Icon well 2.25rem with the channel initial (mono), check badge on active. "Keep scrolling ↓" hint sits 1.5rem under the card.
 - Pull → Match → Recover is told by the panel itself: its sub-line crossfades "Every deduction this quarter" → "Matched to invoices & promos" → "Disputed & recovered".
 - Caption under panel (12px, ink-500): "Illustrative data. Not a guarantee of recovery." (PDF guardrail: never promise recovery amounts.)
 
 **App panel (HTML-built product UI, not an image)**
-- Device: a **phone**, Fruitful's proportions — body `aspect-ratio 214.48/449.16`, bezel `#1C1C1E` with radius `16.45% / 7.85%`; screen aperture inset `3.18% / 1.52%`, size `93.63% × 96.96%`, radius `14.73% / 6.79%`. Behind it, a phone-shaped layer casts a long, soft shadow toward the lower right (stacked warm-ink box-shadows, light from upper-left). Height `min(78vh, 50rem)` desktop · `min(68vh, 42rem)` tablet · `min(58svh, 32rem)` mobile.
-- Screen authored in design units on a **400 × 868** canvas (fits the aperture exactly; all coordinates are constants in `data.ts`); `--u = 100cqw / 400` (container query units, Fruitful technique), so every value below is copied as-is: `calc(var(--u) * N)`.
+- Device: a **laptop** from 768px up (beside the column ≥992px; stacked above it at 768–991px with the four channel tabs in one row), the original **phone** below 768px (a laptop's screen text would be ~5px there). Both run the same timeline; only the geometry differs (`Layout` objects `LAPTOP` / `PHONE` in `data.ts`).
+- Laptop: lid = dark bezel (2.5% sides, 3% top, 3.5% chin, camera dot) around a 16:10 aperture, over a thin base 108% wide with a thumb notch. Screen canvas **800 × 500**: head across the top (rosette beside a 32u serif headline); screen 1 puts the pull diagram left and the Valid/Recoverable split right; screen 2's bands hold their two tiles side by side; screen 3's card splits into chart (left) and dispute rows (right). Visual box `aspect-ratio 1 / 0.69375`.
+- Phone: Fruitful's proportions — body `aspect-ratio 214.48/449.16`, bezel `#1C1C1E` with radius `16.45% / 7.85%`; screen aperture inset `3.18% / 1.52%`, size `93.63% × 96.96%`, radius `14.73% / 6.79%`. Behind it, a phone-shaped layer casts a long, soft shadow toward the lower right (stacked warm-ink box-shadows, light from upper-left). Height `min(78vh, 50rem)` desktop · `min(68vh, 42rem)` tablet · `min(58svh, 32rem)` mobile.
+- Phone screen authored in design units on a **400 × 868** canvas (fits the aperture exactly; all coordinates live in the `Layout` objects in `data.ts`); `--u = 100cqw / var(--canvas-w)` (400 or 800) (container query units, Fruitful technique), so every value below is copied as-is: `calc(var(--u) * N)`.
 - Screen bg `#F5F3EF`. In-screen type follows Fruitful's phone scale (UI 14–16u, figures 17–19u, serif headline 38u, figure 40u) so it stays legible at phone width.
-- Head at y=40: red rosette 24u, serif headline 38u/500/−0.045em "Where your ⟨channel⟩ money went"; sub-line 16u/500 crossfades "Every deduction this quarter" → "Matched to invoices & promos" → "Disputed & recovered".
+- Head at y=40: red rosette 24u, serif headline 38u/500/−0.045em "Your ⟨channel⟩ deductions, sorted"; sub-line 16u/500 crossfades "Every deduction this quarter" → "Matched to invoices & promos" → "Disputed & recovered".
 - **Screen 1 — Pull** (system diagram, Fruitful screen 1): remittance pill (dark, 150×58u at (125,150)) "Deducted this quarter / $48,210" → 12u stem → Roma badge (44u red square, white rosette, at (178,250)) → three 12u routes (cubic, vertical tangents) → three category bars (w 112u, gap 14u, x 18/144/270, bottom 500u, heights ∝ amounts, min 90u) with amount + label.
 - **Screen 2 — Match** (Fruitful band hand-off): bars strip (routes/badge/text fade 0.18s), then each bar's box grows **vertically** (0.29s `power2.inOut`) then **horizontally** to full width (0.27s `power1.inOut`) into a band that *clips* its content — nothing scales. Inside each band: category label pill (left) and deduction tiles (right, 230×62u): name + amount, then a chip that wipes in (`clip-path inset 0 100% → 0`, 0.36s): green "Matched · Promo Q3-07" or red "Recoverable · $1,240".
 - **Screen 3 — Recover**: bands fade (0.25s); recovery panel builds: "Recovered so far" + figure (serif 40u, counts up), area chart (path drawn with DrawSVG 0.9s, area fades in), 3 dispute rows (status chips: Filed / In review / Credited) sliding in from x −6%, stagger .08.
@@ -520,7 +524,7 @@ section.feature                  z-index 1
 Route `app/platform/page.tsx`; sections in `components/platform/*`; all copy and illustrative data in `lib/content/platform.ts`. Order: hero → capabilities 2×2 → coverage → modules tabs → why Roma → proof → compliance → FAQ → closing CTA (with a secondary "Try now").
 
 - **Framing (client decision, Nov 2026):** the page is "How Roma works". "Platform" is the URL only, never a headline.
-- **Tone rule for retailers/distributors (client decision):** name them only as channels or portals (UNFI, KeHE, Target, Walmart, Costco, Kroger, Whole Foods, Amazon). Never imply wrongdoing ("took", "keeping", "owe you"); deductions are "invalid" or "recoverable". Names are set as type, never as retailer logos.
+- **Tone rule for retailers/distributors:** site-wide, see §A.1.
 - **CTAs:** "Book a demo →" (`DEMO_HREF`) + "Try now" → `https://app.runroma.com/signup` (ghost on dark). No pricing on the page.
 - **Hero:** red-950 band with `[data-hero]` (drives the nav states). `container-lg`; title row is 2 columns ≥992px (pill + `type-h1` left; lead + CTAs right), stacked below. The page's one pill (§E.3) is a static label with a book icon. Below: a `--radius-xl` card whose ground is `public/images/cta/texture-bg.webp` (an image, not a gradient, §A.8), a translucent white frame (no blur), and an HTML deductions inbox window (`--radius-lg` top corners, `--shadow-raise`) sitting flush on the card's bottom edge. The window is rem-based and drops columns with container queries (56 / 46 / 30 / 22rem). Load: pill → words (70ms) → lead → actions → card (y 36, 1.1s) → rows (80ms) → each status settles from "Reviewing" to Matched / Recoverable.
 - **Illustrations below the hero** follow the home machine cards: wells tinted with `--well-warm` / `--well-neutral` (fade to white into the card), raised "paper" objects (white, sand-300 hairline, a soft two-layer warm shadow scaled in `--u`), tilt and layering, initial avatars, mono labels, a bottom scrim. Canvases: capabilities 560 × 420, modules 640 × 480, `--u = 100cqw / W`. Each plays one state change once on enter; capability cards replay it on hover once finished, and their layered objects fan out or straighten (transform only, no scale on the card).

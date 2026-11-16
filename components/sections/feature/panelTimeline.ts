@@ -1,11 +1,12 @@
 import { gsap } from "@/lib/gsap";
-import { BAND_W, BAND_X, SYS_H, SYS_TOP, PANEL, barGeometry, bandGeometry, type Scenario } from "./data";
+import { barGeometry, bandGeometry, type Layout, type Scenario } from "./data";
 import { formatMoney } from "./AppPanel";
 
 /**
  * The panel's own build — a PAUSED timeline driven by scroll through an eased
  * clock (never scrubbed directly). Port of Fruitful's gfScreenTimeline:
- * same stages, same timings, same labels. DESIGN.md §G.3.
+ * same stages, same timings, same labels. DESIGN.md §G.3. The timing is identical for
+ * every layout (phone / laptop), so the scroll mapping never depends on the device.
  *
  *   0.00 – 2.50  screen 1 builds (badge pops, routes draw, figures land, split fills)
  *   strip  2.50  screen 1 strips back to bare shapes
@@ -15,7 +16,7 @@ import { formatMoney } from "./AppPanel";
  *   settled      screen 2 complete — where a tab click parks the panel
  *   screen3      bands dissolve, recovered markers fly to the chart, card builds
  */
-export function buildPanelTimeline(host: HTMLElement, s: Scenario) {
+export function buildPanelTimeline(host: HTMLElement, s: Scenario, L: Layout) {
   const q = gsap.utils.selector(host);
   const tl = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
 
@@ -56,18 +57,18 @@ export function buildPanelTimeline(host: HTMLElement, s: Scenario) {
   // ── bars → bands. Percentages resolve against the system box, so this survives
   // any resize with no re-measuring. Nothing scales: each band animates its own box
   // and clips the content inside it, which keeps every number crisp throughout.
-  const pw = (n: number) => `${(n / PANEL.w) * 100}%`;
-  const ph = (n: number) => `${(n / SYS_H) * 100}%`;
-  const bars = barGeometry(s);
-  const bands = bandGeometry();
+  const pw = (n: number) => `${(n / L.panel.w) * 100}%`;
+  const ph = (n: number) => `${(n / L.sysH) * 100}%`;
+  const bars = barGeometry(L, s);
+  const bands = bandGeometry(L);
   bands.forEach((band, i) => {
     const src = bars[i];
     const el = q(`[data-gf="band"][data-band="${band.key}"]`);
     if (!el.length) return;
-    gsap.set(el, { left: pw(src.x), width: pw(src.w), top: ph(src.y - SYS_TOP), height: ph(src.h) });
+    gsap.set(el, { left: pw(src.x), width: pw(src.w), top: ph(src.y - L.sysTop), height: ph(src.h) });
     tl.to(el, { top: ph(band.top), height: ph(band.h), duration: 0.29, ease: "power2.inOut" }, T_VERT).to(
       el,
-      { left: pw(BAND_X), width: pw(BAND_W), duration: 0.27, ease: "power1.inOut" },
+      { left: pw(L.bandX), width: pw(L.bandW), duration: 0.27, ease: "power1.inOut" },
       T_HORIZ,
     );
   });
@@ -121,7 +122,7 @@ export function buildPanelTimeline(host: HTMLElement, s: Scenario) {
     .to(subs[2], { opacity: 1, duration: 0.25 }, S3 + 0.16);
 
   const screenEl = host.querySelector<HTMLElement>("[data-panel-screen]");
-  const uPx = () => (screenEl ? screenEl.offsetWidth / PANEL.w : 1);
+  const uPx = () => (screenEl ? screenEl.offsetWidth / L.panel.w : 1);
   const markers = q('[data-gf="marker"]');
   tl.set(markers, { opacity: 1 }, FLY);
   markers.forEach((m) => {

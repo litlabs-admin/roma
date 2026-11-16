@@ -1,13 +1,12 @@
-/* Phone screen — authored on a 400 × 868 canvas; --u = one design unit (Fruitful technique).
-   Every number below is a design unit; nothing is computed. Type sizes follow Fruitful's
-   phone (14–16u UI text, 40u serif headline) so they stay legible at phone width. DESIGN.md §G.3 */
+/* Product screen — authored on the device canvas (phone 400 × 868, laptop 800 × 500; the
+   width comes in as --canvas-w); --u = one design unit (Fruitful technique). Every number
+   below is a design unit; positions live in data.ts (Layout). Type sizes follow Fruitful's
+   phone (14–16u UI text, 40u serif headline) so they stay legible. DESIGN.md §G.3 */
 
 .screen {
-  --u: calc(100cqw / 400);
+  --u: calc(100cqw / var(--canvas-w, 400));
   position: absolute;
   inset: 0 auto auto 0;
-  width: calc(var(--u) * 400);
-  height: calc(var(--u) * 868);
   background: #f5f3ef;
   color: #111;
   font-family: var(--font-sans);
@@ -24,9 +23,6 @@
 
 /* head */
 .head {
-  left: calc(var(--u) * 24);
-  top: calc(var(--u) * 40);
-  width: calc(var(--u) * 352);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,8 +66,6 @@
 .system {
   left: 0;
   top: 0;
-  width: calc(var(--u) * 400);
-  height: calc(var(--u) * 868);
 }
 .paths {
   left: 0;
@@ -201,14 +195,10 @@
 /* screen 2 */
 .system2 {
   left: 0;
-  width: calc(var(--u) * 400);
-  height: calc(var(--u) * 636);
 }
 .spine {
   left: 0;
   top: 0;
-  width: calc(var(--u) * 400);
-  height: calc(var(--u) * 636);
   z-index: 0;
 }
 /* The band clips its own content — the whole mechanism of the bar → band hand-off. */
@@ -223,7 +213,6 @@
 .bandWires {
   left: 0;
   top: 0;
-  width: calc(var(--u) * 384);
   height: 100%;
 }
 .bandLabel {
@@ -310,8 +299,6 @@
 .system3 {
   left: 0;
   top: 0;
-  width: calc(var(--u) * 400);
-  height: calc(var(--u) * 868);
   pointer-events: none;
 }
 .card {
@@ -323,8 +310,6 @@
   position: absolute;
 }
 .cardHead {
-  left: calc(var(--u) * 18);
-  top: calc(var(--u) * 18);
   display: flex;
   flex-direction: column;
 }
@@ -349,8 +334,6 @@
   overflow: visible;
 }
 .axis {
-  left: calc(var(--u) * 16);
-  width: calc(var(--u) * 336);
   height: calc(var(--u) * 14);
 }
 .axis span {
@@ -366,22 +349,10 @@
 .axis span:last-child {
   transform: translateX(-100%);
 }
-.split3 {
-  left: calc(var(--u) * 14);
-  right: calc(var(--u) * 14);
-  top: calc(var(--u) * 356);
-}
-.rows {
-  left: 0;
-  right: 0;
-  top: calc(var(--u) * 420);
-  height: calc(var(--u) * 180);
-}
 .row {
   position: absolute;
   left: 0;
   right: 0;
-  height: calc(var(--u) * 60);
   display: flex;
   align-items: center;
   gap: calc(var(--u) * 12);
@@ -465,4 +436,39 @@
   font-size: calc(var(--u) * 13);
   font-weight: 700;
   box-shadow: 0 0 0 calc(var(--u) * 3) #fff;
+}
+
+/* ── laptop (800 × 500): head reads left to right; rosette beside the headline ── */
+.laptop .head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: calc(var(--u) * 12);
+  align-items: center;
+  text-align: left;
+}
+.laptop .mark {
+  width: calc(var(--u) * 26);
+  height: calc(var(--u) * 26);
+}
+.laptop .headline {
+  margin: 0;
+  font-size: calc(var(--u) * 32);
+  white-space: nowrap;
+}
+.laptop .subs {
+  grid-column: 2;
+  margin-top: calc(var(--u) * 6);
+}
+.laptop .sub {
+  font-size: calc(var(--u) * 15);
+}
+/* dispute rows sit in the card's right half, divided from the chart by a hairline */
+.laptop .rows {
+  border-left: 1px solid #f1ebdf;
+}
+.laptop .row {
+  padding: 0 calc(var(--u) * 20);
+}
+.laptop .row:first-child {
+  border-top: 0;
 }

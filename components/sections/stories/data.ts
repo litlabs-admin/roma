@@ -7,7 +7,7 @@
 
 export const storiesCopy = {
   heading: { before: "Trusted by 25 brands that stopped writing off ", accent: "deductions", after: "." },
-  lead: "From emerging natural brands to established CPG teams, finance leads use Roma to recover what UNFI, KeHE and retailers owe them.",
+  lead: "From emerging natural brands to established CPG teams, finance leads use Roma to recover invalid deductions across UNFI, KeHE and their retailers.",
   primary: { label: "Customer stories", href: "#" },
   secondary: { label: "Book a demo", href: "#demo" },
 };
@@ -28,7 +28,7 @@ export const STORIES: Story[] = [
     brand: "Good Day Chocolate",
     metric: "$53K recovered in 6 months",
     quote:
-      "We were writing off UNFI and KeHE deductions because nobody had time to check them. Within six months on Roma we'd recovered $53K. Money that was ours all along.",
+      "We were writing off UNFI and KeHE deductions because nobody had time to check them. Within six months on Roma we'd recovered $53K we would have written off.",
     author: "Jasen Arias, VP Ops & Growth @ Good Day Chocolate",
     href: "#",
     photo: {

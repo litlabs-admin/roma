@@ -18,14 +18,14 @@ export const FOLLOWUPS_TOKEN = "<<FOLLOWUPS>>";
 const POSITIONING = `
 WHO ROMA IS FOR: Natural and specialty CPG food & beverage brands doing $1M–$50M in revenue (sweet spot $3–10M), 11–50 employees, selling through UNFI, KeHE and major retailers. Typical users: founders, VP Finance, Controllers, AR Managers. Not a fit for pre-distribution brands.
 
-THE PROBLEM: Distributors and retailers take deductions straight out of payments: chargebacks, promo claims, shortages, fees. They add up to 2–3% of revenue. Many are invalid, but nobody on a lean team has time to check, so the money is written off by default.
+THE PROBLEM: Distributors and retailers deduct amounts directly from payments: chargebacks, promo claims, shortages, fees. They add up to 2–3% of revenue. Many are invalid, but nobody on a lean team has time to check, so the money is written off by default.
 
 WHY CURRENT SOLUTIONS FAIL:
 - Doing nothing: most brands absorb deductions as a cost of doing business; margin leaks every month, invisibly.
 - Spreadsheets: someone downloads portal exports and tries to match them to invoices. Slow, error-prone, abandoned when that person gets busy.
 - Bookkeepers: they record deductions, they don't recover them. Disputing needs portal know-how and backup they don't have.
 
-WHAT ROMA OFFERS: Roma pulls every deduction from distributor and retailer portals, categorizes it and matches it to invoices and promo agreements. Brands see what was taken, why, and what's recoverable, and dispute invalid ones from one place.
+WHAT ROMA OFFERS: Roma pulls every deduction from distributor and retailer portals, categorizes it and matches it to invoices and promo agreements. Brands see what was deducted, why, and what's recoverable, and dispute invalid ones from one place.
 
 WHY ROMA IS DIFFERENT:
 - Live in 5 minutes, with no ERP or IT project (setup time varies by portal).
@@ -35,9 +35,9 @@ WHY ROMA IS DIFFERENT:
 
 END-STATE OUTCOME: Every deduction is accounted for. Invalid ones are disputed, not written off. The brand gets cash back, knows its true margin by channel, and spends zero hours on spreadsheets.
 
-VALUE PROPOSITION: Stop writing off deductions. Roma recovers what UNFI, KeHE and retailers owe you.
+VALUE PROPOSITION: Stop writing off deductions. Roma recovers invalid deductions across UNFI, KeHE and retailers.
 
-ELEVATOR PITCH: Emerging CPG brands quietly lose 2–3% of revenue to UNFI, KeHE and retailer deductions nobody has time to check. Roma matches every one to your invoices and promos, so you stop writing off money that's yours, and you're live in 5 minutes.
+ELEVATOR PITCH: For emerging CPG brands, deductions from UNFI, KeHE and retailers add up to 2–3% of revenue, and nobody has time to check them. Roma matches every one to your invoices and promos, so you stop writing off money that's yours, and you're live in 5 minutes.
 
 OUTCOMES: Cash back from invalid deductions that would otherwise be written off. 25+ hours a week freed from portal downloads and spreadsheets. A true view of margin by distributor, retailer and promo. Confidence that nothing slips through unchecked.
 

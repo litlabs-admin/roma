@@ -1,27 +1,92 @@
-// Feature section content + phone-screen geometry (DESIGN.md §G.3).
-// Every coordinate is in design units on a 400 × 868 phone canvas (Fruitful authors at
-// 402 × 874), copied straight into `calc(var(--u) * N)` — author once, scale by width.
+// Feature section content + product-screen geometry (DESIGN.md §G.3).
+// Every coordinate is in design units on the device canvas: 400 × 868 for the phone
+// (Fruitful authors at 402 × 874), 800 × 500 for the laptop (16:10). Values are copied
+// straight into `calc(var(--u) * N)` — author once, scale by width.
 // Numbers are ILLUSTRATIVE (the panel says so); they add up within each scenario.
 
-export const PANEL = { w: 400, h: 868 } as const;
+export type Box = { x: number; y: number; w: number; h: number };
 
-export const PILL = { x: 125, y: 228, w: 150, h: 64 } as const;
-export const BADGE = { x: 176, y: 336, size: 48 } as const;
-export const STROKE = 12;
-export const BAR = { bottom: 700, w: 110, xs: [16, 145, 274], maxH: 236, minH: 96 } as const;
-export const SPLIT = { x: 16, y: 724, w: 368 } as const;
+/** Everything that differs between the phone and the laptop screen. */
+export type Layout = {
+  variant: "phone" | "laptop";
+  panel: { w: number; h: number };
+  head: { x: number; y: number; w: number };
+  pill: Box;
+  badge: { x: number; y: number; size: number };
+  stroke: number;
+  bar: { bottom: number; w: number; xs: readonly number[]; maxH: number; minH: number };
+  split: { x: number; y: number; w: number };
+  // screens 2 + 3 start under the screen head
+  sysTop: number;
+  sysH: number;
+  bandX: number;
+  bandW: number;
+  /** Tile size; `y` is the first tile's top inside its band, `dx`/`dy` step to the next. */
+  tile: { x: number; y: number; w: number; h: number; dx: number; dy: number };
+  /** Height of one band (its two tiles plus padding). */
+  groupH: number;
+  label: { x: number; w: number };
+  spineX: number;
+  card: Box; // screen 3 card (absolute)
+  cardHead: { x: number; y: number };
+  chart: Box; // inside card
+  split3: { x: number; y: number; w: number }; // inside card
+  rows: { x: number; y: number; w: number }; // inside card
+  rowH: number;
+};
 
-export const SYS_TOP = 216; // screens 2 + 3 start under the screen head
-export const SYS_H = 636;
-export const BAND_X = 8;
-export const BAND_W = 384;
-export const TILE = { x: 148, w: 236, h: 76, step: 84 } as const;
-export const LABEL = { x: 16, w: 84 } as const;
-export const SPINE_X = 58;
+export const PHONE: Layout = {
+  variant: "phone",
+  panel: { w: 400, h: 868 },
+  head: { x: 24, y: 40, w: 352 },
+  pill: { x: 125, y: 228, w: 150, h: 64 },
+  badge: { x: 176, y: 336, size: 48 },
+  stroke: 12,
+  bar: { bottom: 700, w: 110, xs: [16, 145, 274], maxH: 236, minH: 96 },
+  split: { x: 16, y: 724, w: 368 },
+  sysTop: 216,
+  sysH: 636,
+  bandX: 8,
+  bandW: 384,
+  tile: { x: 148, y: 8, w: 236, h: 76, dx: 0, dy: 84 },
+  groupH: 2 * 84 + 8,
+  label: { x: 16, w: 84 },
+  spineX: 58,
+  card: { x: 16, y: 228, w: 368, h: 620 },
+  cardHead: { x: 18, y: 18 },
+  chart: { x: 16, y: 100, w: 336, h: 220 },
+  split3: { x: 14, y: 356, w: 340 },
+  rows: { x: 0, y: 420, w: 368 },
+  rowH: 60,
+};
 
-export const CARD = { x: 16, y: 228, w: 368, h: 620 } as const; // screen 3 card (absolute)
-export const CHART = { x: 16, y: 100, w: 336, h: 220 } as const; // inside card
-export const ROW_H = 60;
+// Laptop: head across the top; screen 1 puts the pull diagram left and the split right,
+// screen 2 lays each band's two tiles side by side, screen 3 splits the card into
+// chart (left) and dispute rows (right).
+export const LAPTOP: Layout = {
+  variant: "laptop",
+  panel: { w: 800, h: 500 },
+  head: { x: 32, y: 26, w: 736 },
+  pill: { x: 197, y: 104, w: 150, h: 54 },
+  badge: { x: 250, y: 196, size: 44 },
+  stroke: 12,
+  bar: { bottom: 474, w: 140, xs: [46, 202, 358], maxH: 150, minH: 76 },
+  split: { x: 546, y: 372, w: 222 },
+  sysTop: 104,
+  sysH: 380,
+  bandX: 16,
+  bandW: 768,
+  tile: { x: 152, y: 18, w: 300, h: 76, dx: 316, dy: 0 },
+  groupH: 112,
+  label: { x: 32, w: 96 },
+  spineX: 80,
+  card: { x: 16, y: 104, w: 768, h: 380 },
+  cardHead: { x: 20, y: 18 },
+  chart: { x: 20, y: 96, w: 360, h: 176 },
+  split3: { x: 20, y: 314, w: 360 },
+  rows: { x: 412, y: 92, w: 356 },
+  rowH: 80,
+};
 
 export type CategoryKey = "promo" | "shortage" | "fees";
 
@@ -59,7 +124,7 @@ export const SCENARIOS: Scenario[] = [
     key: "unfi",
     channel: "UNFI",
     initial: "U",
-    headline: "Where your UNFI money went",
+    headline: "Your UNFI deductions, sorted",
     total: "$48,210",
     bars: [
       { key: "promo", label: "Promo & MCB", band: "Promo", amount: "$24,860", value: 24860 },
@@ -94,7 +159,7 @@ export const SCENARIOS: Scenario[] = [
     key: "kehe",
     channel: "KeHE",
     initial: "K",
-    headline: "Where your KeHE money went",
+    headline: "Your KeHE deductions, sorted",
     total: "$31,560",
     bars: [
       { key: "promo", label: "MCB & EP", band: "Promo", amount: "$17,920", value: 17920 },
@@ -129,7 +194,7 @@ export const SCENARIOS: Scenario[] = [
     key: "target",
     channel: "Target",
     initial: "T",
-    headline: "Where your Target money went",
+    headline: "Your Target deductions, sorted",
     total: "$22,880",
     bars: [
       { key: "promo", label: "Promo", band: "Promo", amount: "$9,760", value: 9760 },
@@ -164,7 +229,7 @@ export const SCENARIOS: Scenario[] = [
     key: "walmart",
     channel: "Walmart",
     initial: "W",
-    headline: "Where your Walmart money went",
+    headline: "Your Walmart deductions, sorted",
     total: "$27,340",
     bars: [
       { key: "promo", label: "Promo & rollbacks", band: "Promo", amount: "$11,920", value: 11920 },
@@ -201,11 +266,12 @@ export const BAND_ORDER: CategoryKey[] = ["promo", "shortage", "fees"];
 
 // ── geometry helpers ──────────────────────────────────────────────────────
 
-export function barGeometry(s: Scenario) {
+export function barGeometry(L: Layout, s: Scenario) {
+  const { bar } = L;
   const max = Math.max(...s.bars.map((b) => b.value));
   return s.bars.map((b, i) => {
-    const h = Math.round(Math.max(BAR.minH, (b.value / max) * BAR.maxH));
-    return { ...b, x: BAR.xs[i], y: BAR.bottom - h, w: BAR.w, h };
+    const h = Math.round(Math.max(bar.minH, (b.value / max) * bar.maxH));
+    return { ...b, x: bar.xs[i], y: bar.bottom - h, w: bar.w, h };
   });
 }
 
@@ -215,21 +281,28 @@ export function route(fromX: number, fromY: number, toX: number, toY: number) {
   return `M${fromX} ${fromY}C${fromX} ${mid} ${toX} ${mid} ${toX} ${toY}`;
 }
 
-export const GROUP_H = 2 * TILE.step + 8; // two tiles per band
-export function bandGeometry() {
-  return BAND_ORDER.map((key, k) => ({ key, top: 8 + k * (GROUP_H + 8), h: GROUP_H }));
+/** Band rows, in screen-2 coordinates (0 = sysTop). */
+export function bandGeometry(L: Layout) {
+  return BAND_ORDER.map((key, k) => ({ key, top: 8 + k * (L.groupH + 8), h: L.groupH }));
+}
+
+/** Tile box inside its band (band-relative). */
+export function tileAt(L: Layout, tileIndex: number) {
+  return { x: L.tile.x - L.bandX + tileIndex * L.tile.dx, y: L.tile.y + tileIndex * L.tile.dy };
 }
 
 /** Absolute (panel) position of a tile's icon — where a recovered marker flies from. */
-export function tileIconAt(bandIndex: number, tileIndex: number) {
-  const top = SYS_TOP + 8 + bandIndex * (GROUP_H + 8) + 8 + tileIndex * TILE.step;
-  return { x: TILE.x + 12 + 8, y: top + 12 + 9 };
+export function tileIconAt(L: Layout, bandIndex: number, tileIndex: number) {
+  const t = tileAt(L, tileIndex);
+  const top = L.sysTop + 8 + bandIndex * (L.groupH + 8) + t.y;
+  return { x: L.bandX + t.x + 12 + 8, y: top + 12 + 9 };
 }
 
-export function chartPoints(curve: number[]) {
+export function chartPoints(L: Layout, curve: number[]) {
+  const { chart } = L;
   return curve.map((v, i) => ({
-    x: (i / (curve.length - 1)) * CHART.w,
-    y: CHART.h - 6 - v * (CHART.h - 18),
+    x: (i / (curve.length - 1)) * chart.w,
+    y: chart.h - 6 - v * (chart.h - 18),
   }));
 }
 
@@ -251,25 +324,25 @@ export function smoothPath(pts: { x: number; y: number }[]) {
 }
 
 /** Which chart points the three recovered markers land on, and which tiles they leave from. */
-export function markerPlan(s: Scenario) {
+export function markerPlan(L: Layout, s: Scenario) {
   const from: { x: number; y: number }[] = [];
   BAND_ORDER.forEach((k, bi) => {
     s.tiles[k].forEach((t, ti) => {
-      if (t.status === "recoverable") from.push(tileIconAt(bi, ti));
+      if (t.status === "recoverable") from.push(tileIconAt(L, bi, ti));
     });
   });
-  const pts = chartPoints(s.curve);
+  const pts = chartPoints(L, s.curve);
   const at = [2, 4, 6].map((i) => ({
-    x: CARD.x + CHART.x + pts[i].x,
-    y: CARD.y + CHART.y + pts[i].y,
+    x: L.card.x + L.chart.x + pts[i].x,
+    y: L.card.y + L.chart.y + pts[i].y,
   }));
   return at.map((to, i) => ({ to, from: from[i] || from[from.length - 1] }));
 }
 
 export const featureCopy = {
-  statementDesktop: ["Your distributors are keeping money that’s ", "yours", ".", "Let’s get it back."],
+  statementDesktop: ["Invalid deductions are money that’s ", "yours", ".", "Let’s get it back."],
   heading: { before: "Nothing gets written off ", accent: "by default", after: "." },
-  body: "Roma connects to your distributor and retailer portals, pulls every deduction and matches it to your invoices and promo agreements. You see what was taken, why, and what’s recoverable, then dispute the invalid ones from one place.",
+  body: "Roma connects to your distributor and retailer portals, pulls every deduction and matches it to your invoices and promo agreements. You see what was deducted, why, and what’s recoverable, then dispute the invalid ones from one place.",
   cardTitle: "Built for how you sell.",
   cardSub: "Pick a channel to see its deductions.",
   caption: "Illustrative data. Not a guarantee of recovery.",
