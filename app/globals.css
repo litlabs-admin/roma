@@ -286,13 +286,15 @@ html.lenis body {
 
 /* Pre-paint entrance guard; the fallback reveals content if JS never runs the entrance. */
 .js-motion [data-anim],
-.js-motion [data-hero] [data-w] {
+.js-motion [data-hero] [data-w],
+.js-motion [data-nav-light] [data-w] {
   opacity: 0;
   animation: enterFallback 0s linear 4s forwards;
 }
 /* Once GSAP owns the elements, drop the fallback so it can't override inline styles. */
 .motion-ready [data-anim],
-.motion-ready [data-hero] [data-w] {
+.motion-ready [data-hero] [data-w],
+.motion-ready [data-nav-light] [data-w] {
   animation: none;
 }
 @keyframes enterFallback {

@@ -25,9 +25,12 @@ export default function Nav() {
   useEffect(() => {
     // Visible hero only: a previously visited route may still be in the DOM, hidden.
     const hero = queryVisible<HTMLElement>("[data-hero]");
+    // Pages that open on cream (contact, demo) mark their hero [data-nav-light]: the
+    // nav is solid cream from the top.
+    const light = !!queryVisible("[data-nav-light]");
     const update = () => {
       const limit = hero ? hero.offsetHeight - 72 : 200;
-      setSolid(window.scrollY > limit);
+      setSolid(light || window.scrollY > limit);
       setScrolled(window.scrollY > 8);
     };
     update();

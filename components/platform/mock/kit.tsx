@@ -75,6 +75,8 @@ const GLYPHS = {
   chart: ["M2.5 13.5h11", "M4.5 11V8M8 11V4.5M11.5 11V6.5"],
   arrow: ["M3 8h10M9 4l4 4-4 4"],
   stack: ["M8 2.5 13.5 5 8 7.5 2.5 5z", "M2.5 8 8 10.5 13.5 8", "M2.5 11 8 13.5 13.5 11"],
+  alert: ["M8 14a6 6 0 1 0 0-12 6 6 0 0 0 0 12z", "M8 5v3.5", "M8 11h.01"],
+  mail: ["M2.5 4h11v8h-11z", "m2.5 4.5 5.5 4 5.5-4"],
 } as const;
 
 export type GlyphKey = keyof typeof GLYPHS;

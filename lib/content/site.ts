@@ -80,6 +80,8 @@ export const footer = {
         { label: "Analytics", href: "/analytics" },
         { label: "Accounting", href: "/accounting" },
         { label: "Pricing", href: "/pricing" },
+        { label: "Book a demo", href: "/book-a-demo" },
+        { label: "Contact us", href: "/contact" },
         { label: "Deduction Codes", href: "/deduction-codes" },
         { label: "Blog", href: "/blogs" },
         { label: "FAQs", href: "/#faq" },
