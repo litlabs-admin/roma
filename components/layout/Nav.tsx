@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { DEMO_HREF, SIGNUP_HREF } from "@/components/chat/data";
 import Button from "@/components/ui/Button";
 import { navLinks } from "@/lib/content/site";
@@ -17,6 +18,9 @@ export default function Nav() {
   const [solid, setSolid] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  // Active route (DESIGN.md §G.11): red on cream, a soft pill on the dark hero.
+  const isActive = (href: string) => !href.includes("#") && href !== "/" && (pathname === href || pathname.startsWith(`${href}/`));
 
   useEffect(() => {
     // Visible hero only: a previously visited route may still be in the DOM, hidden.
@@ -60,7 +64,7 @@ export default function Nav() {
 
         <nav aria-label="Primary" className={s.links}>
           {navLinks.map((l) => (
-            <Link key={l.label} href={l.href} className={s.link}>
+            <Link key={l.label} href={l.href} className={`${s.link} ${isActive(l.href) ? s.active : ""}`} aria-current={isActive(l.href) ? "page" : undefined}>
               {l.label}
             </Link>
           ))}
@@ -90,7 +94,13 @@ export default function Nav() {
       <div id="mobile-menu" className={s.sheet} hidden={!open}>
         <nav aria-label="Mobile" className={s.sheetLinks}>
           {navLinks.map((l) => (
-            <Link key={l.label} href={l.href} onClick={() => setOpen(false)}>
+            <Link
+              key={l.label}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              className={isActive(l.href) ? s.sheetActive : undefined}
+              aria-current={isActive(l.href) ? "page" : undefined}
+            >
               {l.label}
             </Link>
           ))}

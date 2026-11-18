@@ -1,0 +1,558 @@
+/* Drill-down (Analytics signature, DESIGN.md §G.11). Split header, then a CSS-sticky
+   stage at every width; levels are stacked HTML layers, the zoom block is measured. */
+
+.section {
+  position: relative;
+  padding-top: var(--section-lg);
+}
+.head {
+  display: grid;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: var(--container-lg);
+  margin: 0 auto 2.5rem;
+  padding-inline: var(--gutter);
+}
+@media (min-width: 992px) {
+  .head {
+    grid-template-columns: 1.2fr 1fr;
+    align-items: end;
+    gap: 4rem;
+    margin-bottom: 1rem;
+  }
+}
+.headLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--color-ink-500);
+}
+.label::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--color-red-600);
+}
+.heading {
+  max-width: 15ch;
+  margin: 0;
+  text-wrap: balance;
+}
+.lead {
+  max-width: 34rem;
+  margin: 0;
+  color: var(--color-ink-600);
+  text-wrap: pretty;
+}
+
+/* ── pin ── */
+.pin {
+  position: relative;
+  height: 460vh;
+}
+.sticky {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  height: 100svh;
+  padding-top: var(--nav-h);
+}
+.frame {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: var(--container-lg);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  min-height: 1.5rem;
+  font-size: 0.875rem;
+}
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-ink-500);
+  opacity: 0.35;
+  transition:
+    opacity var(--dur-state) var(--ease-state),
+    color var(--dur-state) var(--ease-state);
+}
+.crumbOn {
+  opacity: 1;
+}
+.crumbNow {
+  color: var(--color-ink-900);
+  font-weight: 500;
+}
+.chev {
+  color: var(--color-sand-400);
+}
+
+.stage {
+  position: relative;
+  height: clamp(24rem, calc(100svh - var(--nav-h) - 10rem), 38rem);
+  overflow: hidden;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-xl);
+  background: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem 1.25rem;
+}
+@media (min-width: 768px) {
+  .layer {
+    padding: 2rem 2.25rem;
+  }
+}
+/* SSR / no-JS: the finished state is the last level; GSAP takes over the rest. */
+.layer:not(.layerLast) {
+  opacity: 0;
+  visibility: hidden;
+}
+.section[data-static] .layer {
+  opacity: 1;
+  visibility: visible;
+}
+.lhead {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 0.35rem 1rem;
+}
+.eyebrow {
+  grid-column: 1 / -1;
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.total {
+  font-weight: 500;
+  font-size: 2.5rem;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+@media (min-width: 992px) {
+  .total {
+    font-size: 3.5rem;
+  }
+}
+.caption {
+  padding-bottom: 0.35rem;
+  color: var(--color-ink-500);
+  font-size: 0.875rem;
+  text-align: right;
+}
+
+.area {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border-radius: 14px;
+  background: var(--ui-well);
+  padding: 1.25rem;
+}
+@media (min-width: 768px) {
+  .area {
+    padding: 1.75rem;
+  }
+}
+
+/* quarter: one stacked bar + legend */
+.quarterArea {
+  display: flex;
+  flex-direction: column;
+}
+.stack {
+  display: flex;
+  flex: 1;
+  gap: 3px;
+  min-height: 4.5rem;
+}
+.seg {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-width: 0;
+  padding: 0.6rem 0.7rem;
+  border-radius: 8px;
+  background: #e7dccd;
+  color: var(--color-ink-800);
+  font-weight: 500;
+  font-size: 0.8125rem;
+}
+.seg:nth-child(3) {
+  background: #ddd0bf;
+}
+.seg:nth-child(4) {
+  background: #d3c4b1;
+}
+.seg:nth-child(5) {
+  background: #c9b9a4;
+}
+.segSel {
+  background: var(--color-red-600) !important;
+  color: #fff;
+}
+.segLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.legend {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem 1rem;
+  margin-top: 1.5rem;
+}
+@media (min-width: 768px) {
+  .legend {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+.legendItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 0.5rem;
+  font-size: 0.8125rem;
+}
+.legendItem b {
+  grid-column: 2;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+.pct {
+  grid-column: 2;
+  color: var(--color-ink-500);
+  font-size: 0.75rem;
+}
+.sw {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 2px;
+  background: #c9b9a4;
+}
+.swSel {
+  background: var(--color-red-600);
+}
+
+/* bars */
+.barsArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.barRow {
+  display: grid;
+  grid-template-columns: 7rem 1fr 5rem;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  max-height: 3.5rem;
+}
+@media (min-width: 768px) {
+  .barRow {
+    grid-template-columns: 12rem 1fr 6.5rem;
+    gap: 1.25rem;
+  }
+}
+.barName {
+  overflow: hidden;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.barTrack {
+  height: 100%;
+  max-height: 2.25rem;
+  min-height: 1.25rem;
+}
+.bar {
+  display: block;
+  height: 100%;
+  border-radius: 8px;
+  background: #ddd0bf;
+}
+.barSel {
+  background: var(--color-red-600);
+}
+.barAmt {
+  font-weight: 600;
+  text-align: right;
+}
+
+/* lines */
+.linesArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.line {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--ui-line);
+  border-radius: 10px;
+  background: #fff;
+}
+.lineNo {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+.lineItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+.lineItem b {
+  font-weight: 500;
+}
+.lineItem span {
+  color: var(--color-ink-500);
+  font-size: 0.8125rem;
+}
+.lineAmt {
+  font-weight: 600;
+}
+.lineSel {
+  border-color: var(--color-red-600);
+  box-shadow: 0 0 0 3px rgba(178, 21, 21, 0.12);
+}
+.lineSel .lineAmt {
+  color: var(--color-red-700);
+}
+
+/* the one line */
+.detailArea {
+  display: grid;
+  place-items: center;
+}
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: min(100%, 30rem);
+  padding: 1.5rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-md);
+  background: #fff;
+  box-shadow:
+    0 16px 30px rgba(var(--mock-shadow-rgb), 0.08),
+    0 3px 6px rgba(var(--mock-shadow-rgb), 0.04);
+}
+.detailTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.detailTop .eyebrow {
+  grid-column: auto;
+}
+.detailTotal {
+  color: var(--color-red-700);
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: -0.03em;
+}
+.fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1.25rem;
+  margin: 0;
+}
+.fields dt {
+  color: var(--color-ink-500);
+  font-size: 0.75rem;
+}
+.fields dd {
+  margin: 0.15rem 0 0;
+  font-weight: 500;
+  font-size: 0.9375rem;
+}
+.backup {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  background: var(--color-cream-200);
+}
+.backup > svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-left: auto;
+  color: var(--color-red-600);
+}
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  width: 2.25rem;
+  height: 2.75rem;
+  padding: 0.35rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: 4px;
+  background: #fff;
+}
+.page i {
+  height: 3px;
+  border-radius: 2px;
+  background: #e8e1d4;
+}
+.page .pageHl {
+  background: var(--color-red-600);
+}
+.backupText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.backupText b {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+.backupText span {
+  color: var(--color-ink-500);
+  font-size: 0.75rem;
+}
+
+.zoom {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  background: var(--color-red-600);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+}
+.progress {
+  position: relative;
+  flex: 1 1 8rem;
+  max-width: 14rem;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(17, 17, 17, 0.1);
+  overflow: hidden;
+}
+.progressFill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-red-600);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+.hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-ink-600);
+  font-size: 0.875rem;
+}
+.hint svg {
+  width: 1rem;
+  height: 1rem;
+}
+.note {
+  margin-left: auto;
+  color: var(--color-ink-500);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 767px) {
+  .layer {
+    gap: 1rem;
+  }
+  .lhead {
+    grid-template-columns: 1fr;
+  }
+  .caption {
+    padding: 0;
+    text-align: left;
+  }
+  .seg {
+    font-size: 0.7rem;
+    padding: 0.4rem;
+  }
+  .note {
+    margin-left: 0;
+    width: 100%;
+  }
+  .line {
+    gap: 0.6rem;
+    padding: 0.55rem 0.75rem;
+  }
+  .lineItem span {
+    display: none;
+  }
+}
+
+/* Reduced motion: no pin, every level stacked in its finished state. */
+.section[data-static] .pin {
+  height: auto;
+}
+.section[data-static] .sticky {
+  position: static;
+  display: block;
+  height: auto;
+  padding-top: 0;
+}
+.section[data-static] .stage {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.section[data-static] .layer {
+  position: relative;
+  inset: auto;
+  min-height: 26rem;
+  border-bottom: 1px solid var(--color-sand-300);
+}
+.section[data-static] .crumbs,
+.section[data-static] .progress,
+.section[data-static] .hint,
+.section[data-static] .zoom {
+  display: none;
+}

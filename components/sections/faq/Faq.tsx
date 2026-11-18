@@ -24,11 +24,13 @@ function replayOnEnter(trigger: Element, tl: gsap.core.Timeline) {
   ScrollTrigger.create({ trigger, start: "top 80%", onEnter: () => void tl.play() });
 }
 
-export default function Faq() {
+/** `order`: optional indexes into FAQS, so a product page can lead with its own question. */
+export default function Faq({ order }: { order?: number[] } = {}) {
+  const items = order ? order.map((i) => FAQS[i]).filter(Boolean) : FAQS;
   const root = useRef<HTMLElement>(null);
   const answers = useRef<(HTMLDivElement | null)[]>([]);
   const icons = useRef<(SVGSVGElement | null)[]>([]);
-  const [open, setOpen] = useState<boolean[]>(() => FAQS.map(() => false));
+  const [open, setOpen] = useState<boolean[]>(() => items.map(() => false));
 
   useLayoutEffect(() => {
     const el = root.current;
@@ -84,7 +86,7 @@ export default function Faq() {
 
       <div className={s.container}>
         <ul className={s.list}>
-          {FAQS.map((f, i) => {
+          {items.map((f, i) => {
             const id = `faq-${i}`;
             return (
               <li key={f.q} className={`${s.item} ${open[i] ? s.isOpen : ""}`} data-faq-item>

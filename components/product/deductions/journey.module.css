@@ -1,0 +1,314 @@
+/* Journey (DM signature, DESIGN.md §G.11). Desktop: CSS sticky pin, chapters left with
+   a progress rail, one stage right. Below 992px / reduced motion: stacked chapters, each
+   with its own stage. */
+
+.section {
+  position: relative;
+  padding-top: var(--section-lg);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+  text-align: center;
+}
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--color-ink-500);
+}
+.label::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--color-red-600);
+}
+.heading {
+  margin: 0;
+  text-wrap: balance;
+}
+.lead {
+  max-width: 36rem;
+  margin: 0;
+  color: var(--color-ink-600);
+  text-wrap: balance;
+}
+
+/* ── pin ── */
+.pin {
+  position: relative;
+}
+@media (min-width: 992px) {
+  .pin {
+    height: 400vh;
+  }
+  .sticky {
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    padding-top: var(--nav-h);
+  }
+}
+
+.layout {
+  width: 100%;
+  max-width: var(--container-lg);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+@media (min-width: 992px) {
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 25rem) minmax(0, 1fr);
+    align-items: center;
+    gap: 4.5rem;
+  }
+}
+
+.chaptersCol {
+  position: relative;
+}
+.rail {
+  display: none;
+}
+@media (min-width: 992px) {
+  .rail {
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    display: block;
+    width: 2px;
+    border-radius: 2px;
+    background: rgba(17, 17, 17, 0.1);
+  }
+  .railFill {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--color-red-600);
+    transform: scaleY(0);
+    transform-origin: 50% 0;
+  }
+}
+
+.chapters {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  margin: 3rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 992px) {
+  .chapters {
+    gap: 0;
+    margin: 0;
+    padding-left: 1.75rem;
+  }
+}
+
+.chapter {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1rem;
+}
+@media (min-width: 992px) {
+  .chapter {
+    padding: 1.1rem 0;
+    border-top: 1px solid var(--color-sand-300);
+    opacity: 0.4;
+    transition: opacity var(--dur-state) var(--ease-state);
+  }
+  .chapter:first-child {
+    border-top: 0;
+  }
+  .chapter.on {
+    opacity: 1;
+  }
+}
+.num {
+  padding-top: 0.45rem;
+  color: var(--color-red-600);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+.chText {
+  min-width: 0;
+}
+.chTitle {
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* Body + points: always open when stacked; on desktop only the active chapter opens. */
+.more {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+.moreInner {
+  overflow: hidden;
+}
+@media (min-width: 992px) {
+  .more {
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 500ms var(--ease-state);
+  }
+  .on .more {
+    grid-template-rows: 1fr;
+  }
+}
+.chBody {
+  max-width: 40ch;
+  margin: 0.75rem 0 0;
+  color: var(--color-ink-600);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+.points {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 1.25rem 0 0.25rem;
+  padding: 0;
+  list-style: none;
+}
+.points li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-ink-800);
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
+.pIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.5rem;
+  background: var(--color-red-100);
+  color: var(--color-red-700);
+}
+.pIcon svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+/* ── stages ── */
+.canvas {
+  --u: calc(100cqw / 560);
+  position: absolute;
+  inset: 0;
+  font-size: calc(var(--u) * 13);
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-900);
+  user-select: none;
+}
+.stageOne,
+.stageAll {
+  position: relative;
+  aspect-ratio: 560 / 460;
+  container-type: inline-size;
+  overflow: hidden;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-xl);
+  background: var(--well-warm);
+}
+.stageOne {
+  grid-column: 1 / -1;
+  margin-top: 1.75rem;
+}
+/* Phones: the stage runs edge to edge and crops 30 units off each side of the canvas,
+   so the scene reads ~25% larger (objects that bleed off read as intentional). */
+@media (max-width: 767px) {
+  .stageOne {
+    aspect-ratio: 500 / 460;
+    margin-inline: calc(-1 * var(--gutter));
+    border-inline: 0;
+    border-radius: 0;
+  }
+  .stageOne .canvas {
+    --u: calc(100cqw / 500);
+    right: auto;
+    left: calc(var(--u) * -30);
+    width: calc(var(--u) * 560);
+  }
+}
+.stageCol {
+  display: none;
+}
+@media (min-width: 992px) {
+  .stageOne {
+    display: none;
+  }
+  .stageCol {
+    display: block;
+  }
+  .stageAll {
+    width: min(100%, calc((100vh - var(--nav-h) - 6rem) * 560 / 460));
+    margin-left: auto;
+  }
+}
+.caption {
+  margin-top: 1rem;
+  color: var(--color-ink-500);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  text-align: center;
+}
+
+/* Reduced motion: the stacked layout at every width. */
+.section[data-static] .pin {
+  height: auto;
+}
+.section[data-static] .sticky {
+  position: static;
+  display: block;
+  height: auto;
+  padding-top: 0;
+}
+.section[data-static] .layout {
+  display: block;
+  max-width: 48rem;
+}
+.section[data-static] .chapter {
+  opacity: 1;
+  border-top: 0;
+  padding: 0;
+}
+.section[data-static] .chapters {
+  gap: 4rem;
+  margin-top: 3rem;
+  padding-left: 0;
+}
+.section[data-static] .more {
+  grid-template-rows: 1fr;
+}
+.section[data-static] .stageOne {
+  display: block;
+}
+.section[data-static] .stageCol,
+.section[data-static] .rail {
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  .section {
+    padding-bottom: var(--section-lg);
+  }
+}

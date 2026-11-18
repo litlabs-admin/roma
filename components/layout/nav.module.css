@@ -168,3 +168,14 @@
     display: none !important;
   }
 }
+
+/* Active route (DESIGN.md §G.11): red text on cream, a soft pill on the dark hero. */
+.nav[data-theme="light"] .active {
+  color: var(--color-red-600);
+}
+.nav[data-theme="dark"] .active {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+.sheetLinks .sheetActive {
+  color: var(--color-red-600);
+}

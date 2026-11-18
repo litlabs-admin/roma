@@ -6,7 +6,15 @@ import { prefersReducedMotion } from "@/lib/motion";
 import { ILLUSTRATIVE, MODULES, modulesCopy, type ModuleKey } from "@/lib/content/platform";
 import { refreshWhenReady, rise } from "@/components/platform/motion";
 import { MODULE_MOCKS } from "./ModuleMocks";
+import ArrowLink from "@/components/ui/ArrowLink";
 import s from "./modules.module.css";
+
+/** Each module's own product page (DESIGN.md §G.11). */
+const MODULE_HREF: Record<ModuleKey, string> = {
+  deductions: "/deduction-management",
+  analytics: "/analytics",
+  accounting: "/accounting",
+};
 
 /**
  * The three modules — Hyperline's FeatureTabs (media square + tab list, active tab
@@ -233,6 +241,9 @@ export default function Modules() {
                 <li key={p}>{p}</li>
               ))}
             </ul>
+            <ArrowLink href={MODULE_HREF[mod.key]} className={s.explore}>
+              Explore {mod.tab.toLowerCase()}
+            </ArrowLink>
             <p className="sr-only">Illustration: {mod.summary}</p>
           </div>
         </div>

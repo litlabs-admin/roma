@@ -108,11 +108,11 @@ export default function PlatformHero() {
         <figure className={s.figure}>
           <div className={s.card} data-anim="card">
             <Image src="/images/cta/texture-bg.webp" alt="" fill sizes="(max-width: 1200px) 100vw, 75rem" quality={85} fetchPriority="high" loading="eager" className={s.texture} />
+            <figcaption className={s.caption}>{ILLUSTRATIVE}</figcaption>
             <div className={s.sheet}>
               <InboxWindow />
             </div>
           </div>
-          <figcaption className={s.caption}>{ILLUSTRATIVE}</figcaption>
           <p className="sr-only">{inbox.summary}</p>
         </figure>
       </div>

@@ -9,9 +9,9 @@ import { DEMO_HREF, SIGNUP_HREF } from "@/components/chat/data";
 // Hash targets are absolute ("/#…") so they also work from other routes (/platform).
 export const navLinks = [
   { label: "How it works", href: "/platform" },
-  { label: "Deduction management", href: "/#how-it-works" },
-  { label: "Analytics", href: "/platform#modules" },
-  { label: "Accounting", href: "/platform#modules" },
+  { label: "Deduction management", href: "/deduction-management" },
+  { label: "Analytics", href: "/analytics" },
+  { label: "Accounting", href: "/accounting" },
   { label: "Pricing", href: "#" },
   { label: "Blog", href: "/blogs" },
 ];
