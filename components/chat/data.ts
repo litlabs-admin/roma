@@ -1,6 +1,8 @@
 // Ask Roma — all user-facing copy for the floating assistant (DESIGN.md §I.2: copy lives in data files).
 
-export const DEMO_HREF = "#demo"; // matches the hero CTA; swap when the booking URL exists
+export const DEMO_HREF = "#demo"; // swap when the booking URL exists
+/** Self-serve signup — the primary CTA site-wide (client: PLG first, Nov 2026). */
+export const SIGNUP_HREF = "https://app.runroma.com/signup";
 
 export const chatCopy = {
   launcher: "Ask Roma",

@@ -26,7 +26,7 @@ type Q = (sel: string) => Element[];
 
 const BUILD: Record<ModuleKey, (q: Q) => gsap.core.Timeline> = {
   // Backup lines are read and ticked, the reason-code picker opens and settles on
-  // R-14, then the status resolves to Matched.
+  // R-14, then the status resolves to Backup attached.
   deductions(q) {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
     const sel = q('[data-mm="sel"]');
@@ -181,7 +181,7 @@ export default function Modules() {
   };
 
   return (
-    <section ref={root} className={s.section} aria-labelledby="modules-heading">
+    <section ref={root} className={s.section} id="modules" aria-labelledby="modules-heading">
       <div className={s.inner}>
         <div className={s.head}>
           <p className={`${s.label} type-label`} data-md-head>

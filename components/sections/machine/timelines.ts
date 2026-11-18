@@ -159,7 +159,7 @@ const SCENE_BUILDERS: ((q: Q) => gsap.core.Timeline)[] = [
       .to(q('[data-ss="live"]'), { scale: 1, duration: 0.3, stagger: 0.08, ease: "back.out(3)" }, 1.4);
   },
   // 02 · Match — cards slide together, rows light up left then right, links draw,
-  // the seal stamps, and the deduction flips Unmatched → Matched.
+  // the seal stamps, and the deduction flips No backup → Backup attached.
   (q) => {
     const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
     gsap.set(q('[data-ss="docL"]'), { x: -30, opacity: 0 });

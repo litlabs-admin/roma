@@ -54,17 +54,33 @@ export default function FeatureStory() {
   const hold = useRef<number | null>(null);
   const pendingSwitch = useRef<{ now: number } | null>(null);
   const reduced = useRef(false);
+  const questions = useRef<HTMLOListElement>(null);
 
-  const goTo = useCallback((t: number, vars: gsap.TweenVars) => {
-    drive.current?.kill();
-    drive.current = gsap.to(clock.current, {
-      t,
-      ...vars,
-      onUpdate: () => {
-        screenTl.current?.time(clock.current.t);
-      },
-    });
+  /** Light the question the panel is answering. Switches exactly when the screen's
+   *  sub-line does (labels "strip" and "screen3"), so list and screen always agree. */
+  const syncQuestion = useCallback((t: number) => {
+    const tl = screenTl.current;
+    const list = questions.current;
+    if (!tl || !list) return;
+    const L = tl.labels;
+    const i = t < L.strip + 0.16 ? 0 : t < L.screen3 + 0.16 ? 1 : 2;
+    if (list.dataset.active !== String(i)) list.dataset.active = String(i);
   }, []);
+
+  const goTo = useCallback(
+    (t: number, vars: gsap.TweenVars) => {
+      drive.current?.kill();
+      drive.current = gsap.to(clock.current, {
+        t,
+        ...vars,
+        onUpdate: () => {
+          screenTl.current?.time(clock.current.t);
+          syncQuestion(clock.current.t);
+        },
+      });
+    },
+    [syncQuestion],
+  );
 
   // Track the device breakpoint. A swap re-renders the panel and rebuilds its timeline
   // (effect below); the frame's size changes, so ScrollTrigger re-measures.
@@ -115,7 +131,8 @@ export default function FeatureStory() {
     } else {
       tl.time(clock.current.t);
     }
-  }, [scenario, layout, goTo]);
+    syncQuestion(clock.current.t);
+  }, [scenario, layout, goTo, syncQuestion]);
 
   // Scroll wiring — once.
   useLayoutEffect(() => {
@@ -308,7 +325,17 @@ export default function FeatureStory() {
                     <span className="accent">{featureCopy.heading.accent}</span>
                     {featureCopy.heading.after}
                   </h3>
-                  <p className={s.body}>{featureCopy.body}</p>
+                  <ol ref={questions} className={s.questions}>
+                    {featureCopy.questions.map((item, i) => (
+                      <li key={item.q} data-q={i}>
+                        <span className={s.qNum} aria-hidden="true">
+                          0{i + 1}
+                        </span>
+                        <span className={s.qText}>{item.q}</span>
+                        <span className={s.qPillar}>{item.pillar}</span>
+                      </li>
+                    ))}
+                  </ol>
                 </div>
                 <div className={s.card} data-gf-card>
                   <p className={s.cardTitle}>{featureCopy.cardTitle}</p>
@@ -352,8 +379,9 @@ export default function FeatureStory() {
                     <AppPanel key={`${layout.variant}-${scenario.key}`} s={scenario} layout={layout} />
                   </div>
                   <p className="sr-only">
-                    Example for {scenario.channel}: {scenario.total} deducted this quarter, split into {scenario.bars.map((b) => `${b.label} ${b.amount}`).join(", ")}.{" "}
-                    {scenario.split.recoverable} identified as recoverable. {scenario.inDispute} in dispute and recoveries tracked to cash.
+                    Example for {scenario.channel}: {scenario.total} deducted this quarter, {scenario.rate.now}% of sales against {scenario.rate.prev}% a year ago, split into{" "}
+                    {scenario.bars.map((b) => `${b.label} ${b.amount}`).join(", ")}. Each deduction is checked against its backup and {scenario.rows.length} are disputed and tracked
+                    from filed to credited. The same lines are booked to GL codes, ready to export.
                   </p>
                 </div>
                 {isLaptop && <span className={s.base} aria-hidden="true" />}

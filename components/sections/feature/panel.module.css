@@ -125,7 +125,17 @@
 
 .split,
 .split3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: calc(var(--u) * 12);
+}
+.legendRing {
+  border: calc(var(--u) * 2) solid #2a2a2a;
+  background: #fff;
+}
+.muted {
+  color: #8c8577;
 }
 .legend {
   display: flex;
@@ -285,6 +295,17 @@
 .chipOk em {
   background: #fff;
   color: #0b5d05;
+}
+/* backup tile: names the document it was checked against (no status claim) */
+.chipDoc {
+  background: #f4efe4;
+  color: #2a2a2a;
+}
+.chipDoc em {
+  background: #fff;
+  color: #5a574f;
+  text-transform: none;
+  letter-spacing: 0.01em;
 }
 .chipRec {
   background: #f4d9d4;
@@ -471,4 +492,73 @@
 }
 .laptop .row:first-child {
   border-top: 0;
+}
+
+/* screen 3: GL booking */
+.gl {
+  display: flex;
+  flex-direction: column;
+}
+/* lines share the old chart box evenly, so the card has no dead band on any device */
+.glRow {
+  display: grid;
+  grid-template-columns: calc(var(--u) * 46) 1fr auto;
+  align-items: center;
+  flex: 1;
+  max-height: calc(var(--u) * 64);
+  border-top: 1px solid #f1ebdf;
+  font-size: calc(var(--u) * 14);
+}
+.glRow:last-child {
+  border-bottom: 1px solid #f1ebdf;
+}
+.glCode {
+  font-family: var(--font-mono);
+  font-size: calc(var(--u) * 11);
+  color: #8c8577;
+}
+.glName {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) * 8);
+  font-weight: 500;
+  color: #2a2a2a;
+}
+.glName i {
+  width: calc(var(--u) * 8);
+  height: calc(var(--u) * 8);
+  border-radius: 50%;
+}
+.glAmt {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.tie {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) * 6);
+  font-weight: 500;
+  color: #0b5d05;
+}
+.tie svg {
+  width: calc(var(--u) * 14);
+  height: calc(var(--u) * 14);
+  padding: calc(var(--u) * 2);
+  border-radius: 50%;
+  background: #e2f0de;
+}
+.exportPill {
+  padding: calc(var(--u) * 5) calc(var(--u) * 12);
+  border: 1px solid #e8e4da;
+  border-radius: 999px;
+  font-weight: 500;
+  color: #2a2a2a;
+}
+.rowsLabel {
+  font-family: var(--font-mono);
+  font-size: calc(var(--u) * 10);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8c8577;
 }

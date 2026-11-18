@@ -138,7 +138,7 @@ export function BackupMock() {
           <span className={c.swap}>
             <span className={`${c.tag} ${c.ok}`} data-cm="final">
               <Glyph k="check" />
-              Matched
+              Checked
             </span>
             <span className={`${c.tag} ${c.wait} ${c.hidden}`} data-cm="pending">
               Checking…

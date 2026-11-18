@@ -19,8 +19,8 @@ import s from "./closing.module.css";
  */
 type Cta = { label: string; href: string };
 
-/** `secondary` adds an outline button beside the demo CTA (used on /platform for "Try now"). */
-export default function ClosingCta({ secondary }: { secondary?: Cta } = {}) {
+/** Try now leads; `secondary` (default: Book a demo) sits beside it as an outline button. */
+export default function ClosingCta({ secondary = closingCta.secondary }: { secondary?: Cta } = {}) {
   const root = useRef<HTMLElement>(null);
   const { before, accent, after } = closingCta.heading;
 

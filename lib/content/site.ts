@@ -1,34 +1,45 @@
-// Copy for the homepage — sourced from "Messaging and Positioning – Roma.pdf".
+// Copy for the homepage — sourced from "Messaging and Positioning – Roma.pdf" and the
+// client's website feedback (Nov 2026): three pillars (Analytics, Recovery, Accounting),
+// Try now first, 170+ brands, no "Matched"/"Recoverable" claims.
+
 // Keep copy here, not inside animation code (DESIGN.md §I.2).
+
+import { DEMO_HREF, SIGNUP_HREF } from "@/components/chat/data";
 
 // Hash targets are absolute ("/#…") so they also work from other routes (/platform).
 export const navLinks = [
   { label: "How it works", href: "/platform" },
   { label: "Deduction management", href: "/#how-it-works" },
-  { label: "Analytics", href: "#" },
-  { label: "Accounting", href: "#" },
+  { label: "Analytics", href: "/platform#modules" },
+  { label: "Accounting", href: "/platform#modules" },
   { label: "Pricing", href: "#" },
   { label: "Blog", href: "/blogs" },
 ];
 
 export const hero = {
   announce: {
-    long: "Good Day Chocolate recovered $53K in deductions",
+    long: "Good Day Chocolate recovered $53K in 6 months",
     short: "Good Day Chocolate recovered $53K",
     href: "#",
   },
   // Rotating H1 (Different AI). First line is the SSR / SEO line.
-  // `accent` marks the serif phrase (one per line).
+  // `accent` marks the serif phrase (one per line). The rotation walks the three
+  // pillars (Analytics → Recovery → Accounting) and returns to the brand line.
   lines: [
-    { before: "Stop writing off ", accent: "deductions", after: "." },
-    { before: "Every invalid deduction, ", accent: "disputed", after: "." },
+    { before: "Every deduction, ", accent: "accounted for", after: "." },
+    { before: "Every deduction, ", accent: "explained", after: "." },
+    { before: "Every deduction, ", accent: "disputed", after: "." },
+    { before: "Every deduction, ", accent: "booked", after: "." },
   ],
-  lead: "Roma pulls every deduction from your distributor and retailer portals, matches it to your invoices and promos, and helps you dispute the invalid ones. Live in 5 minutes. No ERP or IT project.",
-  primary: { label: "Book a demo", href: "#demo" },
-  secondary: { label: "See how it works", href: "#how-it-works" },
+  lead: "Roma pulls every deduction from your distributor and retailer portals. See where the money went, dispute the invalid ones, and book the rest.",
+  // PLG first (client, Nov 2026): Try now leads, demo is the secondary path.
+  primary: { label: "Try now", href: SIGNUP_HREF },
+  secondary: { label: "Book a demo", href: DEMO_HREF },
+  micro: "Live in under 5 minutes. No ERP or IT project.",
 };
 
-// Brand statement after the hero (DESIGN.md §G.1b). ≤ 50 words, ≤ 4 highlights;
+// Brand statement — no longer on the page (client: "a lot of words"); kept as the
+// plain-language summary the Ask Roma knowledge base quotes. (DESIGN.md §G.1b) ≤ 50 words, ≤ 4 highlights;
 // highlights are money / outcome phrases only and reveal to Roma red.
 export const statement = {
   label: "What Roma does",
@@ -45,15 +56,16 @@ export const statement = {
 };
 
 export const trust = {
-  labelMuted: "Recovering deductions for",
-  label: "natural & specialty brands",
+  labelMuted: "Trusted by",
+  label: "170+ CPG brands",
 };
 
 // Closing CTA + footer — copy and links from runroma.com.
 export const closingCta = {
-  heading: { before: "Visibility over every ", accent: "dollar", after: "." },
-  sub: "See Roma in action. 5 minutes. No commitment.",
-  cta: { label: "Book a demo", href: "#demo" },
+  heading: { before: "See where every deduction ", accent: "went", after: "." },
+  sub: "Connect a portal and see your own numbers in under 5 minutes. Or book 30 minutes and we’ll walk you through them.",
+  cta: { label: "Try now", href: SIGNUP_HREF },
+  secondary: { label: "Book a demo", href: DEMO_HREF },
 };
 
 export type FooterLink = { label: string; href: string; external?: boolean };
@@ -86,5 +98,5 @@ export const footer = {
     },
   ] as { title: string; links: FooterLink[] }[],
   tagline: "The OS for CPG finance",
-  copyright: "©2026 Alphastar Technologies Pvt. Ltd. All rights reserved.",
+  copyright: "©2026 Roma Technologies Inc. All rights reserved.",
 };

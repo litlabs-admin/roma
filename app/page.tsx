@@ -1,6 +1,5 @@
 import Nav from "@/components/layout/Nav";
 import Hero from "@/components/sections/hero/Hero";
-import Statement from "@/components/sections/statement/Statement";
 import TrustStrip from "@/components/sections/trust/TrustStrip";
 import FeatureStory from "@/components/sections/feature/FeatureStory";
 import MachineFlow from "@/components/sections/machine/MachineFlow";
@@ -17,7 +16,6 @@ export default function Home() {
       <Nav />
       <main>
         <Hero />
-        <Statement />
         <TrustStrip />
         <FeatureStory />
         <MachineFlow />

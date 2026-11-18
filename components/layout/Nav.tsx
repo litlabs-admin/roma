@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { DEMO_HREF, SIGNUP_HREF } from "@/components/chat/data";
 import Button from "@/components/ui/Button";
 import { navLinks } from "@/lib/content/site";
 import { queryVisible } from "@/lib/motion";
@@ -69,8 +70,8 @@ export default function Nav() {
           <a href="#" className={`${s.link} ${s.login}`}>
             Log in
           </a>
-          <Button href="#demo" variant={dark ? "inverse" : "primary"} size="small">
-            Book a demo
+          <Button href={SIGNUP_HREF} variant={dark ? "inverse" : "primary"} size="small">
+            Try now
           </Button>
           <button
             type="button"
@@ -96,9 +97,12 @@ export default function Nav() {
           <a href="#" onClick={() => setOpen(false)}>
             Log in
           </a>
+          <a href={DEMO_HREF} onClick={() => setOpen(false)}>
+            Book a demo
+          </a>
         </nav>
-        <Button href="#demo" variant="primary" onClick={() => setOpen(false)}>
-          Book a demo →
+        <Button href={SIGNUP_HREF} variant="primary" onClick={() => setOpen(false)}>
+          Try now →
         </Button>
       </div>
     </header>

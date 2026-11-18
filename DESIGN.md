@@ -362,18 +362,19 @@ Words: 35ms (reveal) / 70ms (hero in) / 40ms (hero out). List items/tiles: 80ms.
 
 **Layout**
 - `section.hero`: `height: 100svh; min-height: 40rem; max-height: 75rem` (desktop), `min-height: 36rem` mobile. Full-bleed. Text block vertically centred: `padding-top: var(--nav-h); padding-bottom: 2rem`.
-- No product frame in the hero (removed 12 Nov at the team's request). The hero ends on the art; the trust strip follows on cream.
+- **Before/after stage** under the copy (client feedback, 18 Nov — replaces the 12 Nov "no product frame" decision). `section.hero` now grows to fit it (`height:auto`, padding-top `nav-h + 3.5rem`); the stage's control peeks above the fold at 1440×900.
+- Stage = Concept A "The Remittance" (`components/sections/hero/HeroStage.tsx`, data in `stageData.ts`). Before: one UNFI remittance on paper + clutter (portal email, spreadsheet, POD backup, red-pen note). Control on the frame's top edge: "See what Roma can do" → becomes a `Before Roma / With Roma` toggle (`aria-pressed`, focus kept, polite live region). With Roma: the same lines FLIP from their paper positions into three zones — 01 Analytics "Where it went" (grouped by type, share of deducted), 02 Recovery "Was it right?" (the doubted shortage + its POD, track Filed → In review, Credited shown as *next*, never reached), 03 Accounting "Booked" (GL lines that tie to the check). ~2.8s, `power3.inOut` travel. Numbers reconcile (14,608.64 − 2,045.00 = 12,563.64). No "Recoverable"/"Matched" states anywhere.
+- Both states are full DOM in one grid cell (CSS = final state; JS sets start states; GSAP clears only `transform,opacity,visibility`). Phones: the hidden state is taken out of flow so the stage is sized by what's showing. Reduced motion: 200ms crossfade.
 - Copy block: `--container-sm` (50.75rem), centred, `text-align:center`. Internal gaps (Different): announce → H1 `3rem` (2rem mobile); H1 → lead `1.5rem`; lead → actions `2rem`.
 
 
 **Content hierarchy**
 1. Nav (transparent): Roma logo rendered fully white on the hero (`filter: brightness(0) invert(1)` — the red rosette disappears into red art; normal colours once solid), links "Deduction management · Analytics · Accounting · Pricing", right: "Log in" link + `inverse` button "Book a demo".
 2. Announcement pill: "Good Day Chocolate recovered $53K in deductions →" (PDF proof point, quotable).
-3. H1 (`display`), rotating every 3.6s between two lines (first line is the SSR/SEO line):
-   - "Stop writing off ⟨deductions⟩."
-   - "Every invalid deduction, ⟨disputed⟩."
-4. Lead (`lead`, on-dark-muted, max 36rem): "Roma pulls every deduction from your distributor and retailer portals, matches it to your invoices and promos, and helps you dispute the invalid ones. Live in 5 minutes. No ERP or IT project."
-5. Actions: `inverse` "Book a demo →" + white `ArrowLink` "See how it works" (scrolls to feature section).
+3. H1 (`display`), rotating every 3.6s through the three pillars (first line is the SSR/SEO line):
+   - "Every deduction, ⟨accounted for⟩." → "⟨explained⟩" → "⟨disputed⟩" → "⟨booked⟩"
+4. Lead (`lead`, on-dark-muted, max 36rem): "Roma pulls every deduction from your distributor and retailer portals. See where the money went, dispute the invalid ones, and book the rest."
+5. Actions: `inverse` "Try now →" (signup; PLG-first per client) + white `ArrowLink` "Book a demo". Microcopy: "Live in under 5 minutes. No ERP or IT project."
 
 **Colour:** image + `--overlay-hero`; all text white; accent words white (serif carries emphasis, not colour).
 
@@ -393,7 +394,10 @@ Words: 35ms (reveal) / 70ms (hero in) / 40ms (hero out). List items/tiles: 80ms.
 - Tablet: display 4rem; lead 1.125rem; actions inline.
 - Mobile: display 2.75rem, line breaks balanced; announce text shortens to "Good Day Chocolate recovered $53K →"; actions stack full-width ≤ 479px; nav collapses to logo + menu button (full-screen cream sheet with links + primary CTA).
 
-### G.1b Brand statement (after the hero)
+### G.1b Brand statement (after the hero) — REMOVED 18 Nov
+Cut at the client's request ("a lot of words"). Home order is now: Hero → Trust → Feature story (three questions) → Machine → Compliance → Stories → FAQ → Closing. (A "How do you handle deductions today?" comparison was tried here on 18 Nov and removed.) The spec below is kept for reference only.
+
+
 
 **Purpose:** One central sentence block that says what Roma does — problem, cost, fix — before any proof. Read slowly, revealed in reading order.
 

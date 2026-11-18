@@ -36,7 +36,7 @@ export const STREAM = { vbW: 637, gap: 433, travel: 3, secondsPerScreen: 26 } as
 
 export const machineCopy = {
   // One serif accent, on the outcome word (DESIGN.md §A).
-  heading: { before: "This is your deduction", accent: "recovery", after: " machine." },
+  heading: { before: "Connect once. Every deduction,", accent: "handled", after: "." },
 };
 
 export type MachineCard = {
@@ -46,36 +46,38 @@ export type MachineCard = {
   note?: string;
 };
 
+// Same four cards as before, rewritten to cover all three pillars and to carry the
+// verified figures in the copy (<5 min, 90%, $50M+ — client + runroma.com).
 export const MACHINE_CARDS: MachineCard[] = [
   {
     key: "connect",
-    title: "Live in 5 minutes",
+    title: "Live in under 5 minutes",
     body: "Connect your distributor and retailer portals. No ERP, no IT project, no CSV exports.*",
     note: "*Setup time varies by portal.",
   },
   {
     key: "routing",
     title: "The full picture",
-    body: "Every deduction across KeHE, UNFI, Target, Walmart and more, by channel, deduction type and promo, in one view.",
+    body: "Every deduction across KeHE, UNFI, Target, Walmart and more, by channel, type and promo, with its GL code.",
   },
   {
     key: "stream",
-    title: "Your hours back",
-    body: "No portal downloads, no spreadsheets. Every backup pulled, read line by line and matched to its deduction.",
+    title: "90% of your hours back",
+    body: "No portal downloads, no spreadsheets. Every backup pulled and read line by line.",
   },
   {
     key: "recovery",
     title: "Recovery you can track",
-    body: "See what's disputed, what's recovered and what each promo and channel really costs.",
-    note: "Illustrative data.",
+    body: "Every dispute followed to payment, and every credit ready for your books. $50M+ recovered for Roma brands.",
+    note: "Results vary by brand.",
   },
 ];
 
 export const stepsCopy = {
   heading: "Built for lean finance teams.",
   // Second line is muted (Fruitful .o--40); the accent sits on the outcome.
-  muted: { before: "Connect it once,", after: "and watch it ", accent: "recover", end: "." },
-  cta: { label: "Book a demo to see your numbers", href: "#demo" },
+  muted: { before: "Connect it once,", after: "and your books stay ", accent: "current", end: "." },
+  cta: { label: "Try now", href: "https://app.runroma.com/signup" },
 };
 
 export type Step = { n: string; title: string; body: string };
@@ -88,8 +90,8 @@ export const STEPS: Step[] = [
   },
   {
     n: "02",
-    title: "Match",
-    body: "Every backup is read and matched to your invoices and promo agreements, so you know what's valid.",
+    title: "Check",
+    body: "Every deduction is read with its backup and checked against your invoices and promo agreements.",
   },
   {
     n: "03",
@@ -98,8 +100,8 @@ export const STEPS: Step[] = [
   },
   {
     n: "04",
-    title: "Recover",
-    body: "Track every dispute through to cash in the bank, with nothing written off by default.",
+    title: "Recover & book",
+    body: "Track every dispute to payment. Credits and remittances land GL-coded, ready for month-end.",
   },
 ];
 
@@ -126,8 +128,8 @@ export const STEP_SCENES = {
         { k: "Promo allowance", v: "−$1,454.45" },
         { k: "Promo ID", v: "PA-3021" },
       ],
-      before: "Unmatched",
-      after: "Matched",
+      before: "No backup",
+      after: "Backup attached",
     },
     backup: {
       label: "Promo agreement · Q3",
@@ -222,8 +224,9 @@ export const STREAM_SCREENS: { channel: string; check: string; total: string; li
 ];
 
 export const STATUS_LABEL: Record<StreamLine["status"], string> = {
-  matched: "Matched",
-  recoverable: "Recoverable",
+  // No "Matched"/"Recoverable" states (client): a line is coded to GL, or disputed.
+  matched: "Coded",
+  recoverable: "Disputed",
   review: "In review",
 };
 

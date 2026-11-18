@@ -8,6 +8,7 @@ import { hero } from "@/lib/content/site";
 import Button from "@/components/ui/Button";
 import ArrowLink from "@/components/ui/ArrowLink";
 import HeroHeadline from "./HeroHeadline";
+import HeroStage from "./HeroStage";
 import s from "./hero.module.css";
 
 /**
@@ -34,7 +35,8 @@ export default function Hero() {
           el.dispatchEvent(new CustomEvent("hero:headline-in"));
         }, 0.25)
         .fromTo(q("[data-anim='lead']"), { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.8 }, 0.65)
-        .fromTo(q("[data-anim='actions']"), { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.8 }, 0.8);
+        .fromTo(q("[data-anim='actions']"), { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.08 }, 0.8)
+        .fromTo(q("[data-anim='stage']"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 1, clearProps: "transform" }, 0.95);
     }, el);
     return () => ctx.revert();
   }, []);
@@ -78,11 +80,16 @@ export default function Hero() {
               <Button href={hero.primary.href} variant="inverse">
                 {hero.primary.label} →
               </Button>
-              <ArrowLink href={hero.secondary.href} onDark arrow="down" className={s.secondary}>
+              <ArrowLink href={hero.secondary.href} onDark arrow="none" className={s.secondary}>
                 {hero.secondary.label}
               </ArrowLink>
             </div>
+            <p className={s.micro} data-anim="actions">
+              {hero.micro}
+            </p>
           </div>
+
+          <HeroStage />
         </div>
       </section>
     </>

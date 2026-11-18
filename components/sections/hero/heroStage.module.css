@@ -1,0 +1,1068 @@
+/* Hero stage — Concept A "The Remittance" (see HeroStage.tsx).
+   Both states share one grid cell, so the stage is always as tall as the taller state.
+   CSS = each state's FINAL look; JS only sets start states for the reveal.
+   Tilts use the individual `rotate` property so they never fight GSAP's `transform`. */
+
+.wrap {
+  position: relative;
+  width: 100%;
+  max-width: var(--container-lg);
+  margin: 3.5rem auto 0;
+}
+@media (min-width: 768px) {
+  .wrap {
+    margin-top: 4.5rem;
+  }
+}
+
+.frame {
+  position: relative;
+  padding: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: calc(var(--radius-lg) + 6px);
+  background: rgba(255, 255, 255, 0.1);
+}
+@media (min-width: 768px) {
+  .frame {
+    padding: 10px;
+    border-radius: calc(var(--radius-xl) + 2px);
+  }
+}
+
+/* ── Control (sits on the frame's top edge) ───────────────────────────── */
+
+.control {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 50%;
+  translate: -50% -50%;
+}
+.cta,
+.toggle {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-pill);
+  background: var(--color-ink-900);
+  box-shadow: var(--shadow-raise);
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 2.875rem;
+  padding: 0 1.125rem 0 1.375rem;
+  color: #fff;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--dur-micro) ease;
+}
+.cta svg {
+  width: 16px;
+  height: 16px;
+  transition: translate 350ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .cta:hover {
+    background: #000;
+  }
+  .cta:hover svg {
+    translate: 3px 0;
+  }
+}
+.cta:focus-visible,
+.opt:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+  border-radius: var(--radius-pill);
+}
+
+.toggle {
+  display: inline-flex;
+  gap: 2px;
+  padding: 4px;
+}
+.opt {
+  height: 2.25rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.72);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-state) var(--ease-state),
+    color var(--dur-state) var(--ease-state);
+}
+.opt[aria-pressed="true"] {
+  background: var(--color-cream-50);
+  color: var(--color-ink-900);
+  cursor: default;
+}
+@media (hover: hover) and (pointer: fine) {
+  .opt[aria-pressed="false"]:hover {
+    color: #fff;
+  }
+}
+
+/* ── Surface + states ──────────────────────────────────────────────────── */
+
+.surface {
+  display: grid;
+  overflow: hidden;
+  padding: 2.75rem 1rem 1rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-cream-50);
+  color: var(--color-ink-900);
+}
+@media (min-width: 768px) {
+  .surface {
+    padding: 3.25rem 1.75rem 1.75rem;
+  }
+}
+@media (min-width: 992px) {
+  .surface {
+    padding: 3.5rem 2.25rem 2.25rem;
+    border-radius: var(--radius-xl);
+  }
+}
+
+.before,
+.after {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+.before {
+  align-self: center;
+}
+.after {
+  position: relative;
+  z-index: 1; /* slips fly above the paper */
+  align-self: center;
+}
+.wrap[data-mode="before"] .after,
+.wrap[data-mode="after"] .before {
+  visibility: hidden;
+  opacity: 0;
+}
+/* Phones: the states differ a lot in height, so the hidden one stops taking space and
+   the stage is sized by what's showing (it grows when the reveal plays). */
+@media (max-width: 767.98px) {
+  .surface {
+    position: relative;
+  }
+  .before {
+    align-self: start;
+  }
+  .wrap[data-mode="before"] .after,
+  .wrap[data-mode="after"] .before {
+    position: absolute;
+    top: 2.75rem;
+    left: 1rem;
+    right: 1rem;
+  }
+}
+
+/* ── Before Roma: the desk ─────────────────────────────────────────────── */
+
+.scene {
+  display: grid;
+  grid-template-areas: "email" "paper" "pod";
+  justify-items: center;
+  gap: 0.75rem;
+}
+.email {
+  grid-area: email;
+}
+.paper {
+  grid-area: paper;
+  align-self: center;
+}
+/* Anything that travels paints above the zones it crosses. */
+.after [data-flip] {
+  position: relative;
+  z-index: 2;
+}
+.pod {
+  grid-area: pod;
+}
+.sheet,
+.note,
+.window,
+.sticky,
+.promoDoc {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .scene {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "email paper"
+      "pod paper";
+    column-gap: 1.75rem;
+    row-gap: 1.25rem;
+  }
+  .email {
+    align-self: end;
+    justify-self: end;
+  }
+  .pod {
+    align-self: start;
+    justify-self: end;
+  }
+}
+
+@media (min-width: 992px) {
+  /* the desk: three items either side of the paper, staggered so it reads as clutter */
+  .scene {
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: repeat(3, auto);
+    grid-template-areas:
+      "email paper window"
+      "sheet paper note"
+      "sticky paper pod";
+    align-content: center;
+    column-gap: 2.5rem;
+    row-gap: 1.25rem;
+    min-height: 25rem;
+  }
+  .sheet,
+  .note,
+  .sticky {
+    display: block;
+  }
+  .window,
+  .promoDoc {
+    display: flex;
+  }
+  .email {
+    align-self: end;
+    justify-self: end;
+    translate: -1.5rem 0;
+  }
+  .sheet {
+    grid-area: sheet;
+    align-self: center;
+    justify-self: end;
+  }
+  .sticky {
+    grid-area: sticky;
+    align-self: start;
+    justify-self: end;
+    translate: -2.5rem 0;
+  }
+  .window {
+    grid-area: window;
+    align-self: end;
+    justify-self: start;
+    translate: 1.5rem 0;
+  }
+  .note {
+    grid-area: note;
+    align-self: center;
+    justify-self: start;
+    margin: 0;
+  }
+  .pod {
+    align-self: start;
+    justify-self: start;
+    translate: 0.75rem 0;
+  }
+  /* the promo agreement sits half under the paper's right edge, never opened */
+  .promoDoc {
+    grid-area: pod;
+    align-self: end;
+    justify-self: start;
+    translate: -1.25rem 1.75rem;
+    z-index: 0;
+  }
+}
+/* very wide stages only: room for the unread promo agreement */
+@media (max-width: 1279.98px) {
+  .promoDoc {
+    display: none !important;
+  }
+}
+
+/* Remittance paper */
+.paper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 24rem;
+  padding: 1.125rem 1.125rem 1rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: var(--shadow-raise);
+  color: var(--color-ink-800);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.35;
+  font-variant-numeric: tabular-nums;
+  rotate: -1deg;
+}
+@media (min-width: 992px) {
+  .paper {
+    width: 25rem;
+    max-width: none;
+  }
+}
+.paperHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.paperChannel {
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: var(--color-ink-900);
+  color: #fff;
+}
+.paperMeta {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0 12px;
+  color: var(--color-ink-500);
+}
+.paperCols,
+.paperRow {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+}
+.paperCols {
+  grid-template-columns: 5.5rem 1fr auto;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--color-sand-400);
+  color: var(--color-ink-500);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.paperRow {
+  position: relative;
+  padding: 5px 0;
+  border-bottom: 1px dotted var(--color-sand-300);
+}
+.paperRef {
+  color: var(--color-ink-500);
+}
+.paperLine {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+/* the founder's red-pen circle around the line they doubt */
+.paperFlag::after {
+  content: "";
+  position: absolute;
+  inset: 0 -7px 0 calc(5.5rem - 7px);
+  border: 1.5px solid var(--color-red-600);
+  border-radius: 50%;
+  opacity: 0.75;
+  rotate: -1.5deg;
+  pointer-events: none;
+}
+.paperNet {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1.5px solid var(--color-ink-800);
+  font-weight: 600;
+}
+
+/* Clutter */
+.email,
+.sheet,
+.pod {
+  border: 1px solid var(--color-sand-300);
+  background: #fff;
+}
+.email {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  column-gap: 8px;
+  row-gap: 2px;
+  align-items: center;
+  width: min(16rem, 100%);
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  rotate: -2deg;
+}
+.emailDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-red-600);
+}
+.emailFrom {
+  font-weight: 600;
+  color: var(--color-ink-900);
+}
+.emailWhen {
+  grid-row: 1;
+  grid-column: 3;
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+.emailSubject {
+  grid-column: 2 / 4;
+  color: var(--color-ink-600);
+}
+
+.sheet {
+  width: min(15rem, 100%);
+  overflow: hidden;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  rotate: 2.5deg;
+}
+.sheetTab {
+  padding: 5px 9px;
+  background: var(--data-ok-fg);
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sheetRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.3fr;
+}
+.sheetRow span {
+  padding: 4px 7px;
+  border-right: 1px solid var(--color-sand-300);
+  border-bottom: 1px solid var(--color-sand-300);
+  color: var(--color-ink-600);
+}
+.sheetRow span:last-child {
+  border-right: 0;
+}
+.sheetRow:last-child span {
+  border-bottom: 0;
+}
+.sheetErr {
+  color: var(--color-red-600) !important;
+  font-weight: 600;
+}
+
+.note {
+  max-width: 12rem;
+  margin: 0 0 1.25rem;
+  color: var(--color-red-700);
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  font-style: italic;
+  line-height: 1.25;
+  rotate: -3deg;
+}
+.note::before {
+  content: "← ";
+  font-style: normal;
+}
+
+.window,
+.sticky,
+.promoDoc {
+  border: 1px solid var(--color-sand-300);
+}
+.window,
+.promoDoc {
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px 9px 12px;
+  border-radius: 10px;
+  background: #fff;
+}
+.window {
+  rotate: 2deg;
+}
+.clock {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: var(--color-red-600);
+}
+.windowLabel {
+  color: var(--color-ink-900);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.promoDoc {
+  rotate: -4deg;
+  opacity: 0.92;
+}
+.sticky {
+  width: 9.5rem;
+  margin: 0;
+  padding: 0.875rem 0.875rem 1.125rem;
+  border-color: #e3cf96;
+  border-radius: 2px;
+  background: #f6e7b4;
+  color: var(--color-ink-800);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.25;
+  rotate: -5deg;
+}
+.pod {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  padding: 10px 14px 10px 12px;
+  border-radius: 10px;
+  rotate: 3deg;
+}
+.pdf {
+  flex: none;
+  width: 1.25em;
+  height: 1.25em;
+  color: var(--color-red-600);
+}
+.pod .pdf {
+  width: 22px;
+  height: 22px;
+}
+.podText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.podName {
+  color: var(--color-ink-900);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+.podMeta {
+  color: var(--color-ink-500);
+  font-size: 0.6875rem;
+}
+
+/* ── With Roma: one surface, three answers ─────────────────────────────── */
+
+.panel {
+  position: relative;
+  padding: 0.875rem 1rem 1.125rem;
+}
+@media (min-width: 768px) {
+  .panel {
+    padding: 1rem 1.375rem 1.375rem;
+  }
+}
+.panelBg {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-sm);
+  background: #fff;
+}
+.panelHead {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding-bottom: 0.875rem;
+}
+.headRule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--ui-line);
+}
+.mark {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+.headTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.headMeta {
+  margin-left: auto;
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.zones {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.zone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  min-width: 0;
+  padding: 1.125rem 0 0;
+}
+.zB,
+.zC {
+  margin-top: 1.125rem;
+}
+.divider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--ui-line);
+}
+
+@media (min-width: 768px) {
+  .zones {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.5rem;
+  }
+  .zA {
+    grid-column: 1 / -1;
+  }
+  .zA .groups {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 1.25rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .zones {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.1fr);
+    column-gap: 0;
+  }
+  .zA {
+    grid-column: auto;
+  }
+  .zA .groups {
+    display: flex;
+  }
+  .zone {
+    padding: 1.125rem 1.375rem 0;
+  }
+  .zA {
+    padding-left: 0;
+  }
+  .zC {
+    padding-right: 0;
+  }
+  .zB,
+  .zC {
+    margin-top: 0;
+  }
+  .divider {
+    top: 1.125rem;
+    bottom: 0;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+}
+
+.zoneLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.eyebrow {
+  display: flex;
+  gap: 6px;
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.eyebrowN {
+  color: var(--color-red-600);
+}
+.zoneTitle {
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* Analytics */
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+.groupHead {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+}
+.catDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.groupLabel {
+  overflow: hidden;
+  color: var(--color-ink-800);
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.groupTotal {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.groupShare {
+  min-width: 2.25em;
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-align: right;
+}
+.barTrack {
+  display: block;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--ui-line);
+}
+.bar {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  transform-origin: 0 50%;
+}
+/* bars + dots use the strong ink of each data colour; slips use the soft fill */
+.bar.promo,
+.catDot.promo {
+  background: var(--data-promo-fg);
+}
+.bar.shortage,
+.catDot.shortage {
+  background: var(--data-shortage-fg);
+}
+.bar.fees,
+.catDot.fees {
+  background: var(--data-fees-fg);
+}
+.slips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* A remittance line in Roma */
+.slip,
+.ghost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 5px 9px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.slip {
+  isolation: isolate;
+  border: 1px solid var(--color-sand-300);
+  background: #fff;
+}
+.tint {
+  position: absolute;
+  z-index: -1;
+  inset: -1px;
+  border-radius: inherit;
+}
+.tint.promo {
+  background: var(--data-promo-bg);
+}
+.tint.shortage {
+  background: var(--data-shortage-bg);
+}
+.tint.fees {
+  background: var(--data-fees-bg);
+}
+.slipCode {
+  color: var(--color-ink-800);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+}
+.slipAmt {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.ghost {
+  border: 1px dashed var(--color-sand-400);
+}
+.ghost .slipCode {
+  color: var(--color-ink-500);
+}
+.ghostTag {
+  color: var(--color-red-700);
+  font-size: 0.6875rem;
+  font-weight: 500;
+}
+
+/* Recovery */
+.dispute {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 0.875rem;
+}
+.cardBg {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--ui-line);
+  border-radius: 0.75rem;
+  background: var(--ui-well);
+}
+.disputeTitle {
+  position: relative;
+  margin: 0;
+  color: var(--color-ink-800);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.attach {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  border: 1px solid var(--color-sand-300);
+  border-radius: 6px;
+  background: #fff;
+}
+.track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  margin: 0.375rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-top: 18px;
+}
+.stepDot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--color-sand-400);
+  border-radius: 50%;
+  background: #fff;
+}
+.stepDone .stepDot {
+  border-color: var(--color-red-600);
+  background: var(--color-red-600);
+}
+.stepLine {
+  position: absolute;
+  top: 4.25px;
+  left: calc(-100% + 15px);
+  width: calc(100% - 20px);
+  height: 1.5px;
+  background: var(--color-sand-300);
+}
+.stepFill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-red-600);
+  transform-origin: 0 50%;
+}
+.stepLabel {
+  color: var(--color-ink-500);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.stepDone .stepLabel {
+  color: var(--color-ink-900);
+}
+.stepWhen {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+.confirm {
+  position: relative;
+  margin: 0;
+  color: var(--color-ink-600);
+  font-size: 0.75rem;
+}
+
+/* Accounting */
+.journal {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8125rem;
+}
+.jRow {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+}
+.jRuled {
+  border-top: 1px solid var(--ui-line-soft);
+}
+.gl {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+.jName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--color-ink-800);
+}
+.jRef {
+  padding: 2px 6px;
+  border: 1px solid var(--ui-line);
+  border-radius: 4px;
+  background: var(--ui-well);
+  color: var(--color-ink-600);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  white-space: nowrap;
+}
+.jAmt {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+.jNet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 2px;
+  padding-top: 10px;
+}
+.netRule {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: var(--color-ink-900);
+}
+.jNetInner {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-weight: 600;
+}
+.tie {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--data-ok-fg);
+  font-size: 0.75rem;
+}
+.tick {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--data-ok-bg);
+}
+.tick svg {
+  width: 10px;
+  height: 10px;
+}
+.export {
+  align-self: flex-start;
+  margin-top: 0.875rem;
+  padding: 6px 12px;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--color-ink-800);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* ── Caption under the stage ───────────────────────────────────────────── */
+
+.caption {
+  display: grid;
+  margin-top: 1.125rem;
+  color: var(--color-on-dark-muted);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  text-align: center;
+  text-wrap: balance;
+}
+.captionText {
+  grid-area: 1 / 1;
+  transition:
+    opacity var(--dur-state) var(--ease-state),
+    visibility var(--dur-state) var(--ease-state);
+}
+.wrap[data-mode="before"] .captionText[data-show="after"],
+.wrap[data-mode="after"] .captionText[data-show="before"] {
+  opacity: 0;
+  visibility: hidden;
+}
+.captionNote {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.8125rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .captionText,
+  .opt,
+  .cta,
+  .cta svg {
+    transition: none;
+  }
+}

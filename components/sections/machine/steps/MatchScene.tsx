@@ -5,7 +5,7 @@ import s from "./scenes.module.css";
 /**
  * 02 Match — a deduction meets the promo agreement behind it. The two cards slide
  * together, matching rows light up left then right, links draw between them, a seal
- * stamps the match and the deduction flips from Unmatched to Matched.
+ * stamps the check and the deduction flips from No backup to Backup attached.
  */
 
 const L = { x: 26, w: 212 };

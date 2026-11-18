@@ -96,8 +96,10 @@ export const CATEGORY_STYLE: Record<CategoryKey, { fill: string; ink: string }> 
   fees: { fill: "#D7DCE3", ink: "#27313F" },
 };
 
-export type Status = "matched" | "recoverable";
-export type Tile = { title: string; amount: string; status: Status; icon: IconKey };
+// No "Matched"/"Recoverable" states (client, Nov 2026): a tile shows the backup it was
+// checked against, or that the brand disputed it.
+export type Status = "backup" | "disputed";
+export type Tile = { title: string; amount: string; status: Status; icon: IconKey; doc?: string };
 export type DisputeState = "Credited" | "In review" | "Filed";
 
 export type Scenario = {
@@ -107,17 +109,27 @@ export type Scenario = {
   headline: string;
   total: string;
   bars: { key: CategoryKey; label: string; band: string; amount: string; value: number }[];
-  split: { valid: string; validPct: number; recoverable: string };
+  /** Deductions as % of sales, this quarter vs the same quarter last year (same figures as /platform analytics). */
+  rate: { now: number; prev: number };
   tiles: Record<CategoryKey, [Tile, Tile]>;
   recovered: number;
   inDispute: string;
-  curve: number[]; // cumulative recovered, 0..1, evenly spaced Jul → Oct
   rows: { title: string; state: DisputeState; amount: string; date: string; icon: IconKey }[];
 };
 
 export type IconKey = "receipt" | "tag" | "truck" | "box" | "file" | "alert";
 
-export const SUBS = ["Every deduction this quarter", "Matched to invoices & promos", "Disputed & recovered"] as const;
+// One question per screen: Analytics → Recovery → Accounting (client's three questions).
+export const SUBS = ["Where is my money going?", "Is this deduction right?", "How do I book it?"] as const;
+
+/** Screen 3 GL lines, one per band (codes illustrative, same as /platform accounting). */
+export const GL: Record<CategoryKey, { code: string; name: string }> = {
+  promo: { code: "4410", name: "Promo allowance" },
+  shortage: { code: "4420", name: "Shortages & damages" },
+  fees: { code: "6150", name: "Fees & fines" },
+};
+/** Scale of the rate track on screen 1 (% of sales). */
+export const RATE_MAX = 6;
 
 export const SCENARIOS: Scenario[] = [
   {
@@ -131,26 +143,25 @@ export const SCENARIOS: Scenario[] = [
       { key: "shortage", label: "Shortages", band: "Shortage", amount: "$14,120", value: 14120 },
       { key: "fees", label: "Fees", band: "Fees", amount: "$9,230", value: 9230 },
     ],
-    split: { valid: "$31,400", validPct: 65, recoverable: "$16,810" },
+    rate: { now: 4.2, prev: 5.1 },
     tiles: {
       promo: [
-        { title: "MCB · Mothers Market", amount: "$3,420", status: "matched", icon: "tag" },
-        { title: "Scan · Sprouts Q3", amount: "$1,847", status: "recoverable", icon: "tag" },
+        { title: "MCB · Mothers Market", amount: "$3,420", status: "backup", icon: "tag", doc: "PA-0412" },
+        { title: "Scan · Whole Foods Q3", amount: "$1,847", status: "disputed", icon: "tag" },
       ],
       shortage: [
-        { title: "Shortship · PO 10482", amount: "$924", status: "recoverable", icon: "truck" },
-        { title: "Fill-rate fine · Wk 29", amount: "$2,108", status: "recoverable", icon: "alert" },
+        { title: "Shortship · PO 10482", amount: "$924", status: "disputed", icon: "truck" },
+        { title: "Fill-rate fine · Wk 29", amount: "$2,108", status: "disputed", icon: "alert" },
       ],
       fees: [
-        { title: "New-item fee · 4 SKUs", amount: "$2,000", status: "matched", icon: "file" },
-        { title: "SSA · 2.5% purchases", amount: "$1,205", status: "matched", icon: "receipt" },
+        { title: "New-item fee · 4 SKUs", amount: "$2,000", status: "backup", icon: "file", doc: "Agreement" },
+        { title: "SSA · 2.5% purchases", amount: "$1,205", status: "backup", icon: "receipt", doc: "Terms" },
       ],
     },
     recovered: 12940,
     inDispute: "$3,870",
-    curve: [0, 0.06, 0.18, 0.37, 0.52, 0.78, 1],
     rows: [
-      { title: "Scan · Sprouts Q3", state: "Credited", amount: "$1,847", date: "Oct 14", icon: "tag" },
+      { title: "Scan · Whole Foods Q3", state: "Credited", amount: "$1,847", date: "Oct 14", icon: "tag" },
       { title: "Shortship · PO 10482", state: "In review", amount: "$924", date: "Oct 21", icon: "truck" },
       { title: "Fill-rate fine · Wk 29", state: "Filed", amount: "$2,108", date: "Oct 28", icon: "alert" },
     ],
@@ -166,24 +177,23 @@ export const SCENARIOS: Scenario[] = [
       { key: "shortage", label: "Shortages", band: "Shortage", amount: "$8,240", value: 8240 },
       { key: "fees", label: "Fees", band: "Fees", amount: "$5,400", value: 5400 },
     ],
-    split: { valid: "$21,050", validPct: 67, recoverable: "$10,510" },
+    rate: { now: 3.6, prev: 3.9 },
     tiles: {
       promo: [
-        { title: "MCB · Whole Foods", amount: "$2,640", status: "matched", icon: "tag" },
-        { title: "EP · 8% admin fee", amount: "$412", status: "recoverable", icon: "receipt" },
+        { title: "MCB · Sprouts", amount: "$2,640", status: "backup", icon: "tag", doc: "PA-3021" },
+        { title: "EP · 8% admin fee", amount: "$412", status: "disputed", icon: "receipt" },
       ],
       shortage: [
-        { title: "UDR · Damages DC 4", amount: "$1,180", status: "recoverable", icon: "box" },
-        { title: "Shortage · PO 88213", amount: "$736", status: "matched", icon: "truck" },
+        { title: "UDR · Damages DC 4", amount: "$1,180", status: "disputed", icon: "box" },
+        { title: "Shortage · PO 88213", amount: "$736", status: "backup", icon: "truck", doc: "POD" },
       ],
       fees: [
-        { title: "Intro allowance · 3 SKUs", amount: "$2,250", status: "matched", icon: "file" },
-        { title: "Slotting · DC 2", amount: "$1,500", status: "recoverable", icon: "alert" },
+        { title: "Intro allowance · 3 SKUs", amount: "$2,250", status: "backup", icon: "file", doc: "Agreement" },
+        { title: "Slotting · DC 2", amount: "$1,500", status: "disputed", icon: "alert" },
       ],
     },
     recovered: 7820,
     inDispute: "$2,690",
-    curve: [0, 0.1, 0.21, 0.33, 0.58, 0.81, 1],
     rows: [
       { title: "EP · 8% admin fee", state: "Credited", amount: "$412", date: "Oct 9", icon: "receipt" },
       { title: "UDR · Damages DC 4", state: "In review", amount: "$1,180", date: "Oct 18", icon: "box" },
@@ -201,24 +211,23 @@ export const SCENARIOS: Scenario[] = [
       { key: "shortage", label: "Shortages", band: "Shortage", amount: "$7,310", value: 7310 },
       { key: "fees", label: "Compliance", band: "Compliance", amount: "$5,810", value: 5810 },
     ],
-    split: { valid: "$14,300", validPct: 62, recoverable: "$8,580" },
+    rate: { now: 2.4, prev: 3.2 },
     tiles: {
       promo: [
-        { title: "Promo allowance · Wk 31", amount: "$2,980", status: "matched", icon: "tag" },
-        { title: "Markdown · Q3", amount: "$1,640", status: "recoverable", icon: "tag" },
+        { title: "Promo allowance · Wk 31", amount: "$2,980", status: "backup", icon: "tag", doc: "PA-0398" },
+        { title: "Markdown · Q3", amount: "$1,640", status: "disputed", icon: "tag" },
       ],
       shortage: [
-        { title: "Shortage · ASN 7731", amount: "$1,215", status: "recoverable", icon: "truck" },
-        { title: "Concealed damage", amount: "$640", status: "matched", icon: "box" },
+        { title: "Shortage · ASN 7731", amount: "$1,215", status: "disputed", icon: "truck" },
+        { title: "Concealed damage", amount: "$640", status: "backup", icon: "box", doc: "Photos" },
       ],
       fees: [
-        { title: "Late delivery fine", amount: "$1,250", status: "recoverable", icon: "alert" },
-        { title: "Labeling fine · DC 3", amount: "$500", status: "matched", icon: "file" },
+        { title: "Late delivery fine", amount: "$1,250", status: "disputed", icon: "alert" },
+        { title: "Labeling fine · DC 3", amount: "$500", status: "backup", icon: "file", doc: "Routing guide" },
       ],
     },
     recovered: 6140,
     inDispute: "$2,465",
-    curve: [0, 0.04, 0.15, 0.31, 0.49, 0.72, 1],
     rows: [
       { title: "Markdown · Q3", state: "Credited", amount: "$1,640", date: "Oct 7", icon: "tag" },
       { title: "Shortage · ASN 7731", state: "In review", amount: "$1,215", date: "Oct 19", icon: "truck" },
@@ -236,24 +245,23 @@ export const SCENARIOS: Scenario[] = [
       { key: "shortage", label: "Shortages", band: "Shortage", amount: "$8,610", value: 8610 },
       { key: "fees", label: "OTIF & fees", band: "Fees", amount: "$6,810", value: 6810 },
     ],
-    split: { valid: "$17,500", validPct: 64, recoverable: "$9,840" },
+    rate: { now: 2.9, prev: 2.7 },
     tiles: {
       promo: [
-        { title: "Rollback · Wk 30", amount: "$3,110", status: "matched", icon: "tag" },
-        { title: "Promo claim · Q3", amount: "$1,920", status: "recoverable", icon: "tag" },
+        { title: "Rollback · Wk 30", amount: "$3,110", status: "backup", icon: "tag", doc: "PA-0377" },
+        { title: "Promo claim · Q3", amount: "$1,920", status: "disputed", icon: "tag" },
       ],
       shortage: [
-        { title: "Shortage · PO 4471", amount: "$1,385", status: "recoverable", icon: "truck" },
-        { title: "Damaged pallet", amount: "$760", status: "matched", icon: "box" },
+        { title: "Shortage · PO 4471", amount: "$1,385", status: "disputed", icon: "truck" },
+        { title: "Damaged pallet", amount: "$760", status: "backup", icon: "box", doc: "Photos" },
       ],
       fees: [
-        { title: "OTIF fine · Sep", amount: "$1,480", status: "recoverable", icon: "alert" },
-        { title: "Defective allowance", amount: "$1,020", status: "matched", icon: "file" },
+        { title: "OTIF fine · Sep", amount: "$1,480", status: "disputed", icon: "alert" },
+        { title: "Defective allowance", amount: "$1,020", status: "backup", icon: "file", doc: "Terms" },
       ],
     },
     recovered: 7210,
     inDispute: "$2,860",
-    curve: [0, 0.08, 0.2, 0.34, 0.55, 0.76, 1],
     rows: [
       { title: "Promo claim · Q3", state: "Credited", amount: "$1,920", date: "Oct 8", icon: "tag" },
       { title: "Shortage · PO 4471", state: "In review", amount: "$1,385", date: "Oct 17", icon: "truck" },
@@ -298,52 +306,34 @@ export function tileIconAt(L: Layout, bandIndex: number, tileIndex: number) {
   return { x: L.bandX + t.x + 12 + 8, y: top + 12 + 9 };
 }
 
-export function chartPoints(L: Layout, curve: number[]) {
-  const { chart } = L;
-  return curve.map((v, i) => ({
-    x: (i / (curve.length - 1)) * chart.w,
-    y: chart.h - 6 - v * (chart.h - 18),
-  }));
-}
-
-/** Smooth monotone-ish path through points (Catmull-Rom → Bézier). */
-export function smoothPath(pts: { x: number; y: number }[]) {
-  let d = `M${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
-  for (let i = 0; i < pts.length - 1; i++) {
-    const p0 = pts[i - 1] || pts[i];
-    const p1 = pts[i];
-    const p2 = pts[i + 1];
-    const p3 = pts[i + 2] || p2;
-    const c1x = p1.x + (p2.x - p0.x) / 6;
-    const c1y = p1.y + (p2.y - p0.y) / 6;
-    const c2x = p2.x - (p3.x - p1.x) / 6;
-    const c2y = p2.y - (p3.y - p1.y) / 6;
-    d += `C${c1x.toFixed(1)} ${c1y.toFixed(1)} ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
-  }
-  return d;
-}
-
-/** Which chart points the three recovered markers land on, and which tiles they leave from. */
+/** Dispute markers: leave the disputed tiles (screen 2) and land on their dispute rows (screen 3). */
 export function markerPlan(L: Layout, s: Scenario) {
   const from: { x: number; y: number }[] = [];
   BAND_ORDER.forEach((k, bi) => {
     s.tiles[k].forEach((t, ti) => {
-      if (t.status === "recoverable") from.push(tileIconAt(L, bi, ti));
+      if (t.status === "disputed") from.push(tileIconAt(L, bi, ti));
     });
   });
-  const pts = chartPoints(L, s.curve);
-  const at = [2, 4, 6].map((i) => ({
-    x: L.card.x + L.chart.x + pts[i].x,
-    y: L.card.y + L.chart.y + pts[i].y,
+  // row icon centre: row padding 18 + half the 30-unit dot
+  return s.rows.map((_, i) => ({
+    to: { x: L.card.x + L.rows.x + 18 + 15, y: L.card.y + L.rows.y + i * L.rowH + L.rowH / 2 },
+    from: from[i] || from[from.length - 1],
   }));
-  return at.map((to, i) => ({ to, from: from[i] || from[from.length - 1] }));
 }
 
 export const featureCopy = {
-  statementDesktop: ["Invalid deductions are money that’s ", "yours", ".", "Let’s get it back."],
-  heading: { before: "Nothing gets written off ", accent: "by default", after: "." },
-  body: "Roma connects to your distributor and retailer portals, pulls every deduction and matches it to your invoices and promo agreements. You see what was deducted, why, and what’s recoverable, then dispute the invalid ones from one place.",
+  // [before, accent, after-accent, line 2] — the pinned statement.
+  statementDesktop: ["Every deduction raises ", "three", " questions.", "Roma answers all of them."],
+  heading: { before: "Three questions. ", accent: "One", after: " place to answer them." },
+  // The three questions, spelled out in the order the screens answer them.
+  questions: [
+    { q: "Where is my money going?", pillar: "Analytics" },
+    { q: "Is this deduction right?", pillar: "Recovery" },
+    { q: "How do I book it?", pillar: "Accounting" },
+  ],
   cardTitle: "Built for how you sell.",
-  cardSub: "Pick a channel to see its deductions.",
+  cardSub: "Pick a channel.",
   caption: "Illustrative data. Not a guarantee of recovery.",
+  screen1: { label: "Deductions as % of sales", prevLabel: "Last year", nowSub: "this quarter", prevSub: "same quarter last year" },
+  screen3: { label: "Booked this quarter", rowsLabel: "Disputes", tie: "Ties to your remittances", export: "Export" },
 };

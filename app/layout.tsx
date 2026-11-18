@@ -17,9 +17,9 @@ const sourceSerif = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Roma | Stop writing off deductions",
+  title: "Roma | Every deduction, accounted for",
   description:
-    "Roma recovers invalid deductions across UNFI, KeHE and retailers. Every deduction pulled, matched to your invoices and promos, and invalid ones disputed. Live in 5 minutes.",
+    "Every deduction from UNFI, KeHE and your retailers, accounted for. See where the money went, dispute the invalid ones, and book the rest. Live in under 5 minutes.",
 };
 
 export const viewport: Viewport = {

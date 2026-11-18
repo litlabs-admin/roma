@@ -1,15 +1,17 @@
 // Customer stories — layout from Hyperline's Testimonials, content for Roma.
 //
 // MOCK — replace before launch. Proof numbers ($53K Good Day Chocolate in 6 months,
-// $23K Smash Kitchen, "25 brands", Jasen Arias / VP Ops & Growth) come from the
+// $23K Smash Kitchen, Jasen Arias / VP Ops & Growth) come from the
 // positioning PDF; every QUOTE below is placeholder copy (the PDF has no written
 // quotes) and the photos are Unsplash-licensed stand-ins, not the customers.
 
+import { SIGNUP_HREF } from "@/components/chat/data";
+
 export const storiesCopy = {
-  heading: { before: "Trusted by 25 brands that stopped writing off ", accent: "deductions", after: "." },
-  lead: "From emerging natural brands to established CPG teams, finance leads use Roma to recover invalid deductions across UNFI, KeHE and their retailers.",
+  heading: { before: "Trusted by 170+ brands that stopped writing off ", accent: "deductions", after: "." },
+  lead: "From emerging natural brands to established CPG teams, finance leads use Roma across UNFI, KeHE and their retailers.",
   primary: { label: "Customer stories", href: "#" },
-  secondary: { label: "Book a demo", href: "#demo" },
+  secondary: { label: "Try now", href: SIGNUP_HREF },
 };
 
 export type Story = {
@@ -42,7 +44,7 @@ export const STORIES: Story[] = [
     logo: { src: "/logos/customers/smash-kitchen.png", w: 176, h: 107 },
     metric: "$23K recovered",
     quote:
-      "Roma matched every deduction to our invoices and promos. For the first time we could see exactly which ones were wrong, and we got $23K back.",
+      "For the first time we could see every deduction next to its invoice and promo, and exactly which ones were wrong. We got $23K back.",
     author: "Finance lead @ Smash Kitchen",
     href: "#",
     photo: {

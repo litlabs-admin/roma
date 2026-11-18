@@ -1,5 +1,5 @@
 import { inbox } from "@/lib/content/platform";
-import { Glyph, RomaGlyph, SourcePill, StatusChip, TypeChip, money } from "@/components/platform/mock/kit";
+import { Glyph, RomaGlyph, SourcePill, TypeChip, money } from "@/components/platform/mock/kit";
 import s from "./inbox.module.css";
 
 /**
@@ -50,7 +50,6 @@ export default function InboxWindow() {
           <span className={s.cChannel}>{c.channel}</span>
           <span className={s.cType}>{c.type}</span>
           <span className={s.cRef}>{c.ref}</span>
-          <span className={s.cStatus}>{c.status}</span>
           <span className={s.cAmount}>{c.amount}</span>
         </div>
         {inbox.rows.map((r) => (
@@ -67,15 +66,7 @@ export default function InboxWindow() {
               <Glyph k="link" className={s.refIcon} />
               {r.ref}
             </span>
-            <span className={`${s.cStatus} ${s.swap}`}>
-              <span data-status="final">
-                <StatusChip kind={r.status}>{inbox.statusLabel[r.status]}</StatusChip>
-              </span>
-              <span className={s.pending} data-status="pending">
-                <StatusChip kind="pending">{inbox.statusLabel.pending}</StatusChip>
-              </span>
-            </span>
-            <span className={`${s.cAmount} ${s.amount} ${r.status === "recoverable" ? s.amountRec : ""}`} data-amount={r.status}>
+            <span className={`${s.cAmount} ${s.amount}`}>
               {money(r.amount)}
             </span>
           </div>

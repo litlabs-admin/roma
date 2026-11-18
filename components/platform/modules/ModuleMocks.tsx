@@ -19,7 +19,7 @@ const REASONS = [
   { code: "R-32", label: "Spoils allowance" },
 ];
 
-const ACTIVITY = ["Pulled from the UNFI portal", "Backup read, 3 lines extracted", "Matched to Promo PA-0412"];
+const ACTIVITY = ["Pulled from the UNFI portal", "Backup read, 3 lines extracted", "Checked against Promo PA-0412"];
 
 const KPIS = [
   { label: "Deducted this quarter", value: "$82,410" },

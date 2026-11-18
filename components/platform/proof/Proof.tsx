@@ -13,7 +13,7 @@ import s from "./proof.module.css";
 /**
  * Proof — on the red stretch of the page backdrop (`data-backdrop="red"`), like the
  * home stories. Three white stat cards, each a figure from the positioning PDF ($53K
- * Good Day Chocolate in 6 months, $23K Smash Kitchen, 25 brands) with a small product
+ * Good Day Chocolate in 6 months, $23K Smash Kitchen, 170+ brands) with a small product
  * visual: a recovery curve, a dispute moving to credited, the customer logo wall.
  * Visuals show shape only (no invented intermediate amounts).
  *
@@ -166,7 +166,7 @@ export default function Proof() {
             </div>
           </li>
 
-          {/* 3 · 25 brands */}
+          {/* 3 · 170+ brands */}
           <li className={s.card} data-pf-card>
             <span className={s.brand}>Roma customers</span>
             <Figure st={brands} />

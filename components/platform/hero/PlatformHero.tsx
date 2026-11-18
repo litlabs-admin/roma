@@ -7,7 +7,6 @@ import { prefersReducedMotion } from "@/lib/motion";
 import { ILLUSTRATIVE, inbox, platformHero } from "@/lib/content/platform";
 import Button from "@/components/ui/Button";
 import { Glyph } from "@/components/platform/mock/kit";
-import { token } from "@/components/platform/motion";
 import InboxWindow from "./InboxWindow";
 import s from "./hero.module.css";
 
@@ -19,8 +18,8 @@ import s from "./hero.module.css";
  * DESIGN.md §A.8), and a real-looking deductions inbox built in HTML.
  *
  * Load sequence (plays once): pill → title words → lead → actions → card rises →
- * rows land → each row's status settles from "Reviewing" to its result. The status
- * change is the point of the motion (§A.6.4).
+ * rows land, each with its type and backup. (No status column: the product shows no
+ * "Matched"/"Recoverable" states, client feedback Nov 2026.)
  */
 
 const T = {
@@ -33,8 +32,6 @@ const T = {
   cardDur: 1.1,
   rows: 1.05,
   rowStagger: 0.08,
-  settle: 1.75,
-  settleStagger: 0.16,
 };
 
 export default function PlatformHero() {
@@ -49,7 +46,6 @@ export default function PlatformHero() {
 
     const ctx = gsap.context(() => {
       const q = gsap.utils.selector(el);
-      const ink = token("--color-ink-900");
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
       tl.fromTo(q("[data-anim='pill']"), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.8 }, T.pill)
@@ -64,22 +60,6 @@ export default function PlatformHero() {
         .fromTo(q("[data-anim='card']"), { autoAlpha: 0, y: 36 }, { autoAlpha: 1, y: 0, duration: T.cardDur }, T.card)
         .fromTo(q("[data-row]"), { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: T.rowStagger }, T.rows);
 
-      // Each status starts as "Reviewing", then settles into Matched / Recoverable.
-      q("[data-row]").forEach((row, i) => {
-        const at = T.settle + i * T.settleStagger;
-        const pending = row.querySelector("[data-status='pending']");
-        const final = row.querySelector("[data-status='final']");
-        const amount = row.querySelector<HTMLElement>("[data-amount='recoverable']");
-        gsap.set(final, { autoAlpha: 0 });
-        gsap.set(pending, { autoAlpha: 1 });
-        tl.to(pending, { autoAlpha: 0, scale: 0.9, duration: 0.25, ease: "power2.in" }, at).fromTo(
-          final,
-          { autoAlpha: 0, scale: 0.85 },
-          { autoAlpha: 1, scale: 1, duration: 0.45, ease: "back.out(2)" },
-          at + 0.2,
-        );
-        if (amount) tl.from(amount, { color: ink, duration: 0.4, ease: "power2.out" }, at + 0.25);
-      });
     }, el);
     return () => ctx.revert();
   }, []);

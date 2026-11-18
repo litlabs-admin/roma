@@ -5,11 +5,11 @@
 //
 // Tone rule for this page (client decision, Nov 2026): retailers and distributors are
 // named only as channels/portals. Never imply wrongdoing ("took", "keeping", "owe you").
-// Deductions are "invalid" or "recoverable", nothing more.
+// Deductions are "invalid", nothing more. No "Matched"/"Recoverable" states (client feedback).
 
-import { DEMO_HREF } from "@/components/chat/data";
+import { DEMO_HREF, SIGNUP_HREF } from "@/components/chat/data";
 
-export const SIGNUP_HREF = "https://app.runroma.com/signup";
+export { SIGNUP_HREF };
 
 export type Heading = { before: string; accent: string; after: string };
 
@@ -21,13 +21,11 @@ export const platformHero = {
   eyebrow: "How Roma works",
   heading: { before: "Every deduction, accounted ", accent: "for", after: "." } as Heading,
   lead: "Roma pulls every deduction from your distributor and retailer portals, matches it to your invoices and promo agreements, and tracks every dispute through to payment. Live in 5 minutes. No ERP or IT project.",
-  primary: { label: "Book a demo", href: DEMO_HREF },
-  secondary: { label: "Try now", href: SIGNUP_HREF },
+  primary: { label: "Try now", href: SIGNUP_HREF },
+  secondary: { label: "Book a demo", href: DEMO_HREF },
 };
 
 export type Category = "promo" | "shortage" | "fees";
-export type RowStatus = "matched" | "recoverable";
-
 export type InboxRow = {
   id: string;
   date: string;
@@ -35,7 +33,6 @@ export type InboxRow = {
   category: Category;
   type: string;
   ref: string;
-  status: RowStatus;
   amount: number;
 };
 
@@ -44,18 +41,17 @@ export const inbox = {
   tabs: ["Inbox", "Disputes", "Analytics", "Accounting"],
   scope: "All channels",
   search: "Search deduction, invoice, amount…",
-  columns: { id: "Deduction", date: "Date", channel: "Channel", type: "Type", ref: "Matched to", status: "Status", amount: "Amount" },
+  columns: { id: "Deduction", date: "Date", channel: "Channel", type: "Type", ref: "Backup", amount: "Amount" },
   rows: [
-    { id: "DED-24817", date: "Jul 28, 2026", channel: "UNFI", category: "promo", type: "MCB", ref: "Promo PA-0412", status: "matched", amount: 4116 },
-    { id: "DED-24818", date: "Jul 28, 2026", channel: "KeHE", category: "shortage", type: "Shortage", ref: "INV-30927", status: "recoverable", amount: 1284.5 },
-    { id: "DED-24821", date: "Jul 27, 2026", channel: "Target", category: "fees", type: "Compliance fee", ref: "PO 4471-02", status: "recoverable", amount: 650 },
-    { id: "DED-24826", date: "Jul 26, 2026", channel: "Walmart", category: "promo", type: "Promo", ref: "Promo PA-0398", status: "matched", amount: 2750 },
-    { id: "DED-24830", date: "Jul 25, 2026", channel: "UNFI", category: "shortage", type: "Spoils", ref: "INV-30881", status: "matched", amount: 823.2 },
-    { id: "DED-24833", date: "Jul 24, 2026", channel: "Costco", category: "fees", type: "Slotting", ref: "Agreement SA-118", status: "matched", amount: 3400 },
+    { id: "DED-24817", date: "Jul 28, 2026", channel: "UNFI", category: "promo", type: "MCB", ref: "Promo PA-0412", amount: 4116 },
+    { id: "DED-24818", date: "Jul 28, 2026", channel: "KeHE", category: "shortage", type: "Shortage", ref: "INV-30927", amount: 1284.5 },
+    { id: "DED-24821", date: "Jul 27, 2026", channel: "Target", category: "fees", type: "Compliance fee", ref: "PO 4471-02", amount: 650 },
+    { id: "DED-24826", date: "Jul 26, 2026", channel: "Walmart", category: "promo", type: "Promo", ref: "Promo PA-0398", amount: 2750 },
+    { id: "DED-24830", date: "Jul 25, 2026", channel: "UNFI", category: "shortage", type: "Spoils", ref: "INV-30881", amount: 823.2 },
+    { id: "DED-24833", date: "Jul 24, 2026", channel: "Costco", category: "fees", type: "Slotting", ref: "Agreement SA-118", amount: 3400 },
   ] as InboxRow[],
-  statusLabel: { matched: "Matched", recoverable: "Recoverable", pending: "Reviewing" },
   summary:
-    "Example deductions inbox: six deductions from UNFI, KeHE, Target, Walmart and Costco, each matched to an invoice, promo agreement or purchase order. Two are marked recoverable.",
+    "Example deductions inbox: six deductions from UNFI, KeHE, Target, Walmart and Costco, each with its type and the backup it was pulled with: an invoice, promo agreement or purchase order.",
 };
 
 /* ── Capabilities (2×2) ───────────────────────────────────────────────── */
@@ -77,8 +73,8 @@ export const CAPABILITIES: { key: CapabilityKey; title: string; body: string; su
   {
     key: "backup",
     title: "Backup, read line by line",
-    body: "Every backup is pulled, read and matched to your invoices and promo agreements, so you know what’s valid before you act.",
-    summary: "An MCB backup document whose lines are matched one by one to a promo agreement.",
+    body: "Every backup is pulled and read line by line, next to your invoices and promo agreements, so you know what’s valid before you act.",
+    summary: "An MCB backup document whose lines are checked one by one against a promo agreement.",
   },
   {
     key: "dispute",
@@ -182,13 +178,13 @@ export const MODULES: { key: ModuleKey; tab: string; lead: string; points: strin
     tab: "Accounting",
     lead: "Close books with confidence.",
     points: [
-      "Every remittance matched to invoices and deductions",
+      "Every remittance line tied to its invoice or deduction",
       "Custom GL code mapping",
       "Standardized deduction classification",
       "A full audit trail",
       "Export to CSV, NetSuite or QuickBooks",
     ],
-    summary: "Example remittance: each line matched to an invoice or deduction and assigned a GL code, ready to export.",
+    summary: "Example remittance: each line tied to an invoice or deduction and assigned a GL code, ready to export.",
   },
 ];
 
@@ -205,7 +201,7 @@ export const moduleMocks = {
       { item: "Granola 10oz", qty: 480, amount: 1440 },
     ],
     assignee: "JA",
-    status: "Matched",
+    status: "Backup attached",
   },
   analytics: {
     title: "Deductions as % of sales",
@@ -253,13 +249,7 @@ export const proofCopy = {
   stats: [
     { value: 53, prefix: "$", suffix: "K", label: "in deductions recovered within 6 months" },
     { value: 23, prefix: "$", suffix: "K", label: "in deductions recovered" },
-    { value: 25, prefix: "", suffix: "", label: "brands pay for Roma to recover their deductions" },
+    { value: 170, prefix: "", suffix: "+", label: "CPG brands trust Roma with their deductions" },
   ],
   note: "Results vary by brand. Not a guarantee of recovery.",
-};
-
-/* ── Closing ──────────────────────────────────────────────────────────── */
-
-export const platformClosing = {
-  secondary: { label: "Try now", href: SIGNUP_HREF },
 };

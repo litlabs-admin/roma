@@ -2,13 +2,14 @@ import type { CSSProperties } from "react";
 import {
   BAND_ORDER,
   CATEGORY_STYLE,
+  GL,
+  RATE_MAX,
   SUBS,
   barGeometry,
   bandGeometry,
-  chartPoints,
+  featureCopy,
   markerPlan,
   route,
-  smoothPath,
   tileAt,
   type IconKey,
   type Layout,
@@ -58,15 +59,16 @@ export default function AppPanel({ s, layout: L }: { s: Scenario; layout: Layout
   const bars = barGeometry(L, s);
   const bands = bandGeometry(L);
   const cx = BADGE.x + BADGE.size / 2;
-  const pts = chartPoints(L, s.curve);
-  const line = smoothPath(pts);
-  const area = `${line}L${CHART.w} ${CHART.h}L0 ${CHART.h}Z`;
   const markers = markerPlan(L, s);
-  const knobPct = s.split.validPct;
-  const disputeN = Number(s.inDispute.replace(/[^0-9.]/g, ""));
-  const recPct = Math.round((s.recovered / (s.recovered + disputeN)) * 100);
+  // screen 1: this quarter's rate as a fill, last year's as the knob, the gap between in sand
+  const pct = (r: number) => (r / RATE_MAX) * 100;
+  const nowPct = pct(s.rate.now);
+  const prevPct = pct(s.rate.prev);
+  const gapFrom = Math.min(nowPct, prevPct);
+  const booked = s.bars.reduce((n, b) => n + b.value, 0);
+  const c1 = featureCopy.screen1;
+  const c3 = featureCopy.screen3;
   const canvas = { width: u(PANEL.w), height: u(PANEL.h) };
-  const gradId = `rg-${L.variant}-${s.key}`;
 
   return (
     <div
@@ -125,27 +127,27 @@ export default function AppPanel({ s, layout: L }: { s: Scenario; layout: Layout
         <div className={p.split} data-gf="split" style={{ left: u(SPLIT.x), top: u(SPLIT.y), width: u(SPLIT.w) }}>
           <div className={p.legend}>
             <span>
-              <i style={{ background: "#CFC6B4" }} />
-              Valid
+              <i style={{ background: "#2A2A2A" }} />
+              {c1.label}
             </span>
             <span>
-              Recoverable
-              <i style={{ background: "#B21515" }} />
+              {c1.prevLabel}
+              <i className={p.legendRing} />
             </span>
           </div>
           <div className={p.track}>
-            <i data-gf="fillValid" style={{ left: 0, width: `${knobPct}%`, background: "#CFC6B4" }} />
-            <i data-gf="fillRec" style={{ left: `${knobPct}%`, width: `${100 - knobPct}%`, background: "#B21515" }} />
-            <span className={p.knob} data-gf="knob" style={{ left: `calc(${knobPct}% - ${u(11)})` }} />
+            <i data-gf="fillValid" style={{ left: 0, width: `${nowPct}%`, background: "#2A2A2A" }} />
+            <i data-gf="fillRec" style={{ left: `${gapFrom}%`, width: `${Math.abs(prevPct - nowPct)}%`, background: "#CFC6B4" }} />
+            <span className={p.knob} data-gf="knob" style={{ left: `calc(${prevPct}% - ${u(11)})` }} />
           </div>
           <div className={p.values}>
             <div>
-              <b>{s.split.valid}</b>
-              <small>{knobPct}% of deductions</small>
+              <b>{s.rate.now.toFixed(1)}%</b>
+              <small>{c1.nowSub}</small>
             </div>
             <div>
-              <b className={p.red}>{s.split.recoverable}</b>
-              <small>{100 - knobPct}% to dispute</small>
+              <b className={p.muted}>{s.rate.prev.toFixed(1)}%</b>
+              <small>{c1.prevSub}</small>
             </div>
           </div>
         </div>
@@ -199,9 +201,9 @@ export default function AppPanel({ s, layout: L }: { s: Scenario; layout: Layout
                       <Icon k={t.icon} className={p.ic} />
                       {t.title}
                     </span>
-                    <span className={`${p.chip} ${t.status === "recoverable" ? p.chipRec : p.chipOk}`} data-gf="chip" data-row={bi}>
+                    <span className={`${p.chip} ${t.status === "disputed" ? p.chipRec : p.chipDoc}`} data-gf="chip" data-row={bi}>
                       <b>{t.amount}</b>
-                      <em>{t.status === "recoverable" ? "Recoverable" : "Matched"}</em>
+                      <em>{t.status === "disputed" ? "Disputed" : t.doc}</em>
                     </span>
                   </div>
                 );
@@ -211,53 +213,39 @@ export default function AppPanel({ s, layout: L }: { s: Scenario; layout: Layout
         })}
       </div>
 
-      {/* ── screen 3: dispute & recover ── */}
+      {/* ── screen 3: book it (GL lines from the same bands) + disputes tracked ── */}
       <div className={p.system3} data-gf="screen3" style={canvas}>
         <div className={p.card} data-gf="card3" style={{ left: u(CARD.x), top: u(CARD.y), width: u(CARD.w), height: u(CARD.h) }}>
           <div className={p.cardHead} style={{ left: u(L.cardHead.x), top: u(L.cardHead.y) }}>
-            <span className={p.cardLabel}>Recovered so far</span>
-            <b className={p.figure} data-gf="figure" data-value={s.recovered}>
-              {formatMoney(s.recovered)}
+            <span className={p.cardLabel}>{c3.label}</span>
+            <b className={p.figure} data-gf="figure" data-value={booked}>
+              {formatMoney(booked)}
             </b>
           </div>
-          <div className={p.chart} style={{ left: u(CHART.x), top: u(CHART.y), width: u(CHART.w), height: u(CHART.h) }}>
-            <svg viewBox={`0 0 ${CHART.w} ${CHART.h}`} preserveAspectRatio="none" fill="none">
-              <defs>
-                <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stopColor="#B21515" stopOpacity="0.22" />
-                  <stop offset="1" stopColor="#B21515" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              {[0.25, 0.5, 0.75].map((g) => (
-                <path key={g} d={`M0 ${CHART.h * g}H${CHART.w}`} stroke="#EFE9DD" strokeWidth="1" data-gf="grid" />
-              ))}
-              <path data-gf="area" d={area} fill={`url(#${gradId})`} />
-              <path data-gf="curve" d={line} stroke="#B21515" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          </div>
-          <div className={p.axis} data-gf="axis" style={{ left: u(CHART.x), width: u(CHART.w), top: u(CHART.y + CHART.h + 6) }}>
-            {["Jul", "Aug", "Sep", "Oct"].map((m, i) => (
-              <span key={m} style={{ left: `${(i / 3) * 100}%` }}>
-                {m}
-              </span>
+          <div className={p.gl} style={{ left: u(CHART.x), top: u(CHART.y), width: u(CHART.w), height: u(CHART.h) }}>
+            {s.bars.map((b) => (
+              <div key={b.key} className={p.glRow} data-gf="gl">
+                <span className={p.glCode}>{GL[b.key].code}</span>
+                <span className={p.glName}>
+                  <i style={{ background: CATEGORY_STYLE[b.key].ink }} />
+                  {GL[b.key].name}
+                </span>
+                <span className={p.glAmt}>−{b.amount}</span>
+              </div>
             ))}
           </div>
           <div className={p.split3} data-gf="split3" style={{ left: u(L.split3.x), top: u(L.split3.y), width: u(L.split3.w) }}>
-            <div className={p.legend}>
-              <span>
-                <i style={{ background: "#B21515" }} />
-                Recovered
-              </span>
-              <span>
-                In dispute · {s.inDispute}
-                <i style={{ background: "#EED9A8" }} />
-              </span>
-            </div>
-            <div className={p.track}>
-              <i data-gf="fill3" style={{ left: 0, width: `${recPct}%`, background: "#B21515" }} />
-              <i data-gf="fill3b" style={{ left: `${recPct}%`, width: `${100 - recPct}%`, background: "#EED9A8" }} />
-            </div>
+            <span className={p.tie}>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M3.5 8.5 6.5 11.5 12.5 5" />
+              </svg>
+              {c3.tie}
+            </span>
+            <span className={p.exportPill}>{c3.export}</span>
           </div>
+          <span className={p.rowsLabel} data-gf="rowsLabel" style={{ left: u(L.rows.x + 18), top: u(L.rows.y - 26) }}>
+            {c3.rowsLabel}
+          </span>
           <div className={p.rows} style={{ left: u(L.rows.x), top: u(L.rows.y), width: u(L.rows.w), height: u(s.rows.length * L.rowH) }}>
             {s.rows.map((r, i) => (
               <div key={r.title} className={p.row} data-gf="row" style={{ top: u(i * L.rowH), height: u(L.rowH) }}>

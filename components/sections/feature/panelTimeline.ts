@@ -14,7 +14,7 @@ import { formatMoney } from "./AppPanel";
  *   stretch 3.07 bands widen to full width             (y, height frozen)
  *          3.24+ rows assemble inside the bands, one band at a time
  *   settled      screen 2 complete — where a tab click parks the panel
- *   screen3      bands dissolve, recovered markers fly to the chart, card builds
+ *   screen3      bands dissolve, dispute markers fly to their rows, the GL card builds
  */
 export function buildPanelTimeline(host: HTMLElement, s: Scenario, L: Layout) {
   const q = gsap.utils.selector(host);
@@ -43,8 +43,8 @@ export function buildPanelTimeline(host: HTMLElement, s: Scenario, L: Layout) {
   gsap.set(q('[data-gf="rail"], [data-gf="conn"]'), { drawSVG: "0% 0%" });
   gsap.set(q('[data-gf="bandLabel"], [data-gf="tile"]'), { opacity: 0 });
   gsap.set(q('[data-gf="card3"]'), { opacity: 0 });
-  gsap.set(q('[data-gf="curve"]'), { drawSVG: "0% 0%" });
-  gsap.set(q('[data-gf="area"], [data-gf="axis"], [data-gf="split3"], [data-gf="grid"]'), { opacity: 0 });
+  gsap.set(q('[data-gf="gl"]'), { opacity: 0 });
+  gsap.set(q('[data-gf="split3"], [data-gf="rowsLabel"]'), { opacity: 0 });
   gsap.set(q('[data-gf="row"]'), { opacity: 0 });
   gsap.set(q('[data-gf="marker"]'), { opacity: 0 });
 
@@ -109,8 +109,8 @@ export function buildPanelTimeline(host: HTMLElement, s: Scenario, L: Layout) {
   });
   tl.addLabel("settled", built);
 
-  // ── screen 2 → 3: a short beat, then the bands dissolve while the recoverable
-  // lines detach as markers and fly to the recovery chart. The card arrives as they land.
+  // ── screen 2 → 3: a short beat, then the bands dissolve while the disputed lines
+  // detach as markers and fly to their dispute rows. The booking card arrives as they land.
   const S3 = built + 0.3;
   tl.addLabel("screen3", S3);
   const FLY = S3 + 0.1;
@@ -132,12 +132,10 @@ export function buildPanelTimeline(host: HTMLElement, s: Scenario, L: Layout) {
   });
 
   const figure = q('[data-gf="figure"]')[0];
-  const target = s.recovered;
+  const target = Number(figure?.getAttribute("data-value") ?? 0);
   const counter = { v: 0 };
+  const ROWS_AT = PANEL_AT + 0.75;
   tl.to(q('[data-gf="card3"]'), { opacity: 1, duration: 0.16 }, PANEL_AT)
-    .to(q('[data-gf="grid"]'), { opacity: 1, duration: 0.2 }, PANEL_AT + 0.1)
-    .to(q('[data-gf="curve"]'), { drawSVG: "0% 100%", duration: 0.32, ease: "power1.in" }, PANEL_AT + 0.2)
-    .to(q('[data-gf="area"]'), { opacity: 1, duration: 0.27 }, PANEL_AT + 0.3)
     .fromTo(
       counter,
       { v: 0 },
@@ -151,9 +149,13 @@ export function buildPanelTimeline(host: HTMLElement, s: Scenario, L: Layout) {
       },
       PANEL_AT + 0.15,
     )
-    .to(q('[data-gf="axis"]'), { opacity: 1, duration: 0.1 }, PANEL_AT + 0.61)
-    .to(q('[data-gf="split3"]'), { opacity: 1, duration: 0.14 }, PANEL_AT + 0.75)
-    .fromTo(q('[data-gf="row"]'), { x: -14 }, { opacity: 1, x: 0, duration: 0.14, stagger: 0.082 }, PANEL_AT + 0.9);
+    // GL lines book in the same band order as screen 1
+    .fromTo(q('[data-gf="gl"]'), { x: -14 }, { opacity: 1, x: 0, duration: 0.18, stagger: 0.09 }, PANEL_AT + 0.2)
+    .to(q('[data-gf="split3"]'), { opacity: 1, duration: 0.14 }, PANEL_AT + 0.55)
+    .to(q('[data-gf="rowsLabel"]'), { opacity: 1, duration: 0.14 }, PANEL_AT + 0.1)
+    // the coins hand over to their rows' icons as the rows arrive
+    .fromTo(q('[data-gf="row"]'), { x: -14 }, { opacity: 1, x: 0, duration: 0.14, stagger: 0.082 }, ROWS_AT)
+    .to(markers, { opacity: 0, scale: 0.6, duration: 0.14, stagger: 0.082 }, ROWS_AT + 0.06);
 
   return tl;
 }

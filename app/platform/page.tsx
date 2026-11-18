@@ -11,7 +11,6 @@ import Proof from "@/components/platform/proof/Proof";
 import Compliance from "@/components/sections/compliance/Compliance";
 import Faq from "@/components/sections/faq/Faq";
 import ClosingCta from "@/components/sections/closing/ClosingCta";
-import { platformClosing } from "@/lib/content/platform";
 
 export const metadata: Metadata = {
   title: "How Roma works | Roma",
@@ -34,7 +33,7 @@ export default function PlatformPage() {
         <Compliance />
         <Proof />
         <Faq />
-        <ClosingCta secondary={platformClosing.secondary} />
+        <ClosingCta />
       </main>
       <Footer />
       {/* After the sections so it measures them last. */}
