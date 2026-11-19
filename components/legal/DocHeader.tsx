@@ -1,9 +1,27 @@
 import d from "./doc.module.css";
 
-/** Static header band for the reference pages (legal + deduction codes). */
-export default function DocHeader({ kicker, title, lead, meta }: { kicker: string; title: string; lead: string; meta?: string }) {
+/**
+ * Header for the reference pages.
+ * - `dark` (default, /deduction-codes): the red-950 band, left-aligned, [data-hero].
+ * - `light` (legal pages, client 20 Nov 2026): on the cream page, centred, ink text, a
+ *   hairline closing it off; [data-nav-light] keeps the nav solid cream from the top.
+ */
+export default function DocHeader({
+  kicker,
+  title,
+  lead,
+  meta,
+  tone = "dark",
+}: {
+  kicker: string;
+  title: string;
+  lead: string;
+  meta?: string;
+  tone?: "dark" | "light";
+}) {
+  const light = tone === "light";
   return (
-    <header className={d.header} data-hero>
+    <header className={`${d.header} ${light ? d.headerLight : ""}`} {...(light ? { "data-nav-light": "" } : { "data-hero": "" })}>
       <div className={d.inner}>
         <p className={`${d.kicker} type-label`}>{kicker}</p>
         <h1 id="doc-title" className={`${d.title} type-h1`}>

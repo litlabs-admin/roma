@@ -8,14 +8,14 @@ import DocHeader from "./DocHeader";
 import a from "@/components/blog/article.module.css";
 import d from "./doc.module.css";
 
-/** /terms-and-conditions and /privacy-policy: header band, then the blog article layout. */
+/** /terms-and-conditions and /privacy-policy: centred cream header, then the blog article layout. */
 export default function LegalPage({ doc }: { doc: LegalDoc }) {
   const toc = doc.body.flatMap((b) => (b.type === "h2" ? [{ id: b.id, text: b.text }] : []));
   return (
     <>
       <Nav />
       <main>
-        <DocHeader kicker="Legal" title={doc.title} lead={doc.lead} meta={`Effective ${doc.effective}`} />
+        <DocHeader kicker="Legal" title={doc.title} lead={doc.lead} meta={`Effective ${doc.effective}`} tone="light" />
         <div className={a.main}>
           <div className={a.layout}>
             <div className={a.tocCol}>

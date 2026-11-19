@@ -72,6 +72,29 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Light, centred variant (legal pages): the cream page, ink text, a hairline below. */
+.headerLight {
+  background: transparent;
+  color: var(--color-ink-900);
+}
+.headerLight .inner {
+  align-items: center;
+  text-align: center;
+  border-bottom: 1px solid var(--color-sand-300);
+}
+.headerLight .kicker {
+  color: var(--color-ink-500);
+}
+.headerLight .title {
+  margin-inline: auto;
+}
+.headerLight .lead {
+  color: var(--color-ink-600);
+}
+.headerLight .meta {
+  color: var(--color-ink-500);
+}
+
 /* Legal text keeps the source's line breaks (addresses, contact blocks); long bare URLs
    wrap instead of widening the page on phones. */
 .legal {

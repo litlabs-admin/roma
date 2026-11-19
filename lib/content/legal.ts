@@ -334,13 +334,17 @@ export const terms: LegalDoc = {
 
 export const privacy: LegalDoc = {
   "title": "Privacy policy",
-  "lead": "Roma processes account, business, financial-operations and integration data only as needed to provide, secure and support the Services. We do not sell customer, Google or Microsoft user data. The Google-specific disclosures in this Policy apply when a user chooses Google Login or separately enables the optional read-only Gmail integration. Microsoft-specific disclosures apply when a user chooses Microsoft Login or separately enables the optional Microsoft email integration, which may read and send mail only for enabled Roma features authorized by the user or the user's organization.",
+  "lead": "How Roma collects, uses and protects your information.",
   "effective": "July 20, 2026",
   "body": [
     {
       "type": "h2",
       "id": "about-this-privacy-policy",
       "text": "1. About this Privacy Policy"
+    },
+    {
+      "type": "p",
+      "text": "Roma processes account, business, financial-operations and integration data only as needed to provide, secure and support the Services. We do not sell customer, Google or Microsoft user data. The Google-specific disclosures in this Policy apply when a user chooses Google Login or separately enables the optional read-only Gmail integration. Microsoft-specific disclosures apply when a user chooses Microsoft Login or separately enables the optional Microsoft email integration, which may read and send mail only for enabled Roma features authorized by the user or the user's organization."
     },
     {
       "type": "p",

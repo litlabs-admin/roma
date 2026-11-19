@@ -14,11 +14,18 @@ import s from "./nav.module.css";
  * Different AI navbar pattern: transparent + white over the hero, solid cream
  * with a hairline once the hero has scrolled away (DESIGN.md §G.1 Interaction).
  */
+/**
+ * Routes whose first section sits on cream ([data-nav-light]). Known from the URL so the
+ * server renders the light nav: no white-on-cream flash before hydration.
+ */
+const LIGHT_ROUTES = ["/contact", "/book-a-demo", "/terms-and-conditions", "/privacy-policy"];
+
 export default function Nav() {
-  const [solid, setSolid] = useState(false);
+  const pathname = usePathname();
+  const lightRoute = LIGHT_ROUTES.includes(pathname);
+  const [solid, setSolid] = useState(lightRoute);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
   // Active route (DESIGN.md §G.11): red on cream, a soft pill on the dark hero.
   const isActive = (href: string) => !href.includes("#") && href !== "/" && (pathname === href || pathname.startsWith(`${href}/`));
 
@@ -49,10 +56,10 @@ export default function Nav() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const dark = !solid && !open;
+  const dark = !(solid || lightRoute) && !open;
 
   return (
-    <header className={`${s.nav} ${solid ? s.solid : ""} ${scrolled && !solid ? s.overHero : ""} ${open ? s.isOpen : ""}`} data-theme={dark ? "dark" : "light"}>
+    <header className={`${s.nav} ${solid || lightRoute ? s.solid : ""} ${scrolled && !(solid || lightRoute) ? s.overHero : ""} ${open ? s.isOpen : ""}`} data-theme={dark ? "dark" : "light"}>
       <div className={s.inner}>
         <Link href="/" className={s.logo} aria-label="Roma home">
           <Image

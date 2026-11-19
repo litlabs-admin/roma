@@ -70,34 +70,49 @@ export const closingCta = {
 export type FooterLink = { label: string; href: string; external?: boolean };
 
 export const footer = {
+  // Brand block (left): the home hero's first line + the existing tagline.
+  brand: {
+    line: { before: "Every deduction, ", accent: "accounted for", after: "." },
+    tagline: "The OS for CPG finance",
+  },
+  // Grouped by intent (client, 20 Nov 2026): what Roma does, what to read, how it
+  // compares, how to reach us. Legal + social live in the bottom row.
   columns: [
     {
-      title: "Resources",
+      title: "Product",
       links: [
         { label: "How Roma works", href: "/platform" },
         { label: "Deduction management", href: "/deduction-management" },
         { label: "Analytics", href: "/analytics" },
         { label: "Accounting", href: "/accounting" },
-        { label: "Book a demo", href: "/book-a-demo" },
-        { label: "Contact us", href: "/contact" },
-        { label: "Deduction Codes", href: "/deduction-codes" },
+      ],
+    },
+    {
+      title: "Resources",
+      links: [
         { label: "Blog", href: "/blogs" },
-        { label: "Roma vs. Glimpse", href: "/compare/glimpse" },
+        { label: "Deduction codes", href: "/deduction-codes" },
         { label: "FAQs", href: "/#faq" },
       ],
     },
     {
-      title: "Legal",
-      links: [
-        { label: "Terms & conditions", href: "/terms-and-conditions" },
-        { label: "Privacy policy", href: "/privacy-policy" },
-      ],
+      title: "Compare",
+      links: [{ label: "Roma vs. Glimpse", href: "/compare/glimpse" }],
     },
     {
-      title: "Social",
-      links: [{ label: "LinkedIn", href: "https://www.linkedin.com/company/runroma/", external: true }],
+      title: "Company",
+      links: [
+        { label: "Book a demo", href: "/book-a-demo" },
+        { label: "Contact us", href: "/contact" },
+        { label: "Log in", href: "https://app.runroma.com/", external: true },
+      ],
     },
   ] as { title: string; links: FooterLink[] }[],
+  legal: [
+    { label: "Terms & conditions", href: "/terms-and-conditions" },
+    { label: "Privacy policy", href: "/privacy-policy" },
+  ] as FooterLink[],
+  social: [{ label: "LinkedIn", href: "https://www.linkedin.com/company/runroma/", external: true }] as FooterLink[],
   tagline: "The OS for CPG finance",
   copyright: "©2026 Roma Technologies Inc. All rights reserved.",
 };

@@ -520,7 +520,7 @@ section.feature                  z-index 1
 
 ### G.8 Footer + wordmark (reference: Hyperline footer)
 
-- `components/layout/Footer.tsx`: black (ink-900) continues from the CTA. Link grid 2 → 3 (640px) → 6-column track (1024px); headings 0.875rem/500 white, links 0.875rem on-dark-muted → white on hover (150ms). Bottom row: tagline + copyright at 50% white. Links and copy from runroma.com (`lib/content/site.ts → footer`).
+- `components/layout/Footer.tsx`: black (ink-900) continues from the CTA. Top row (client, 20 Nov 2026): a brand block (red rosette tile, "Every deduction, *accounted for*." 1.75/2rem with the serif accent, mono tagline) beside four columns grouped by intent: **Product** (How Roma works, the three product pages) · **Resources** (Blog, Deduction codes, FAQs) · **Compare** (Roma vs. Glimpse) · **Company** (Book a demo, Contact us, Log in ↗). Grid: brand then 2 cols on phones, 4 cols ≥768px, brand 0.8fr | links 2.2fr ≥1024px. Column titles are mono labels at 50% white; links 0.9375rem on-dark-muted → white (150ms), external links carry a small ↗ that nudges on hover. A 12% white hairline, then the bottom row: copyright left, Terms · Privacy · LinkedIn right (stacked, links first, on phones). Links and copy in `lib/content/site.ts → footer`.
 - `components/layout/Wordmark.tsx`: oversized "roma" in Fraunces 800 (cream-50 on black, −0.035em), the "o" is the rosette as an inline SVG in red-600. JS fits the word to the container width and clips it to **65% of the x-height** (measured from the rosette, which is exactly 1ex); the rest runs off the bottom of the page. One-shot rise on entry.
 
 ### G.9 "How Roma works" page (`/platform`, references: Hyperline capability hero + billing grid)
@@ -586,6 +586,10 @@ Route `app/compare/glimpse/page.tsx`; components in `components/compare/*`; all 
 - **PriceSlip:** head left; `--well-warm` well right: a receipt slides out of a dark printer slot (zig-zag torn edge via mask), total in serif red; a neutral quote card turned 2.5° with a "Custom quote" stamp and Glimpse's pricing FAQ, cited.
 - **WorkingPaper:** a real `<table>` on a white sheet: mono strip (ref, checked date, "Reviewed by *you*"), ink rule under the head, 9 rows, a cite on every cell, red pencil ticks (DrawSVG, 180ms stagger) on parity rows only, in both columns. Legend + "tell us" link; sources in a `<details>`. Below 768px each row is a block with "Roma"/"Glimpse" mini labels.
 - Reduced motion: every section renders finished; the toggle switches instantly.
+
+### G.14 Legal pages (`/terms-and-conditions`, `/privacy-policy`)
+
+Client, 20 Nov 2026: no dark band. `DocHeader tone="light"` sits on the cream page, centred (label → `type-h1` → lead → effective date, all on the axis, ink colours), closed by a sand-300 hairline, then the blog article layout (sticky table of contents + prose). The header carries `[data-nav-light]`, and `Nav.tsx` lists these routes (with /contact and /book-a-demo) in `LIGHT_ROUTES` so the server already renders the solid cream nav: no white-on-cream flash before hydration. /deduction-codes keeps the default dark, left-aligned `DocHeader`.
 
 ### G.10 Blog (`/blogs`, `/blogs/[slug]`, reference: Vodex `/resources/blog`, adapted)
 
