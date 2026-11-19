@@ -4,7 +4,8 @@
 //
 // Sources: "Messaging and Positioning – Roma.pdf" (transcribed below) and the homepage data
 // files. Story QUOTES in components/sections/stories/data.ts are placeholder copy and are
-// deliberately NOT included — only the PDF's proof points are.
+// deliberately NOT included — only the PDF's proof points are. The same goes for
+// lib/content/customers.ts (/customers): its quotes and most of its brands are fictional.
 
 import { hero, statement } from "@/lib/content/site";
 import { FAQS } from "@/components/sections/faq/data";

@@ -11,6 +11,7 @@ export const storiesCopy = {
   heading: { before: "Brands that stopped writing off ", accent: "deductions", after: "." },
   lead: "From emerging natural brands to established CPG teams, finance leads use Roma across UNFI, KeHE and their other retailers.",
   cta: { label: "Try now", href: SIGNUP_HREF },
+  more: { label: "Read their stories", href: "/customers" },
 };
 
 export type Story = {

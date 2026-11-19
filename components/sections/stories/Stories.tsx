@@ -5,6 +5,7 @@ import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { gsap } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
 import Button from "@/components/ui/Button";
+import ArrowLink from "@/components/ui/ArrowLink";
 import { splitChars } from "@/components/ui/splitChars";
 import { BACKDROP_RANGES } from "@/components/motion/PageBackdrop";
 import { STORIES, storiesCopy, type Story } from "./data";
@@ -89,6 +90,9 @@ export default function Stories() {
               <Button href={storiesCopy.cta.href} variant="inverse" size="small">
                 {storiesCopy.cta.label}
               </Button>
+              <ArrowLink href={storiesCopy.more.href} onDark>
+                {storiesCopy.more.label}
+              </ArrowLink>
             </div>
           </div>
         </div>

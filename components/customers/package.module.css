@@ -1,0 +1,25 @@
+/* Packaging art (DESIGN.md §G.15). Sized by the parent; type uses the site fonts. */
+.pack {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.shadow {
+  fill: rgba(var(--mock-shadow-rgb), 0.16);
+}
+.brand {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.serif {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+.mono {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
