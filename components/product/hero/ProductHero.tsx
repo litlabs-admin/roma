@@ -28,10 +28,12 @@ type Props = {
   layout?: "split" | "centered";
   /** Extra class on the card's inner sheet (per-page padding/perspective). */
   sheetClass?: string;
+  /** Caption above the art; defaults to the "Illustrative data" line. */
+  caption?: string;
   children: ReactNode;
 };
 
-export default function ProductHero({ copy, layout = "split", sheetClass = "", children }: Props) {
+export default function ProductHero({ copy, layout = "split", sheetClass = "", caption = ILLUSTRATIVE, children }: Props) {
   const root = useRef<HTMLElement>(null);
   const { before, accent, after } = copy.heading;
   const words = before.trim().split(/\s+/);
@@ -112,7 +114,7 @@ export default function ProductHero({ copy, layout = "split", sheetClass = "", c
               className={s.ground}
               style={{ objectPosition: copy.ground.position }}
             />
-            <figcaption className={s.caption}>{ILLUSTRATIVE}</figcaption>
+            <figcaption className={s.caption}>{caption}</figcaption>
             <div className={`${s.sheet} ${sheetClass}`}>{children}</div>
           </div>
           <p className="sr-only">{copy.summary}</p>

@@ -82,6 +82,7 @@ export const footer = {
         { label: "Contact us", href: "/contact" },
         { label: "Deduction Codes", href: "/deduction-codes" },
         { label: "Blog", href: "/blogs" },
+        { label: "Roma vs. Glimpse", href: "/compare/glimpse" },
         { label: "FAQs", href: "/#faq" },
       ],
     },

@@ -3,7 +3,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
-import { FAQS, faqCopy } from "./data";
+import { FAQS, faqCopy, type Faq as FaqItem } from "./data";
 import s from "./faq.module.css";
 
 /**
@@ -24,9 +24,14 @@ function replayOnEnter(trigger: Element, tl: gsap.core.Timeline) {
   ScrollTrigger.create({ trigger, start: "top 80%", onEnter: () => void tl.play() });
 }
 
-/** `order`: optional indexes into FAQS, so a product page can lead with its own question. */
-export default function Faq({ order }: { order?: number[] } = {}) {
-  const items = order ? order.map((i) => FAQS[i]).filter(Boolean) : FAQS;
+type HeadCopy = { label: string; lines: readonly { text: string; accent?: string }[] };
+
+/**
+ * `order`: optional indexes into FAQS, so a product page can lead with its own question.
+ * `items` / `copy`: a page-specific list and heading (the comparison page, §G.13).
+ */
+export default function Faq({ order, items: own, copy = faqCopy }: { order?: number[]; items?: FaqItem[]; copy?: HeadCopy } = {}) {
+  const items = own ?? (order ? order.map((i) => FAQS[i]).filter(Boolean) : FAQS);
   const root = useRef<HTMLElement>(null);
   const answers = useRef<(HTMLDivElement | null)[]>([]);
   const icons = useRef<(SVGSVGElement | null)[]>([]);
@@ -73,9 +78,9 @@ export default function Faq({ order }: { order?: number[] } = {}) {
   return (
     <section ref={root} id="faq" className={s.section} aria-labelledby="faq-heading">
       <div className={s.head}>
-        <p className={`${s.label} type-label`}>{faqCopy.label}</p>
+        <p className={`${s.label} type-label`}>{copy.label}</p>
         <h2 id="faq-heading" className={`${s.heading} type-h2`} data-faq-heading>
-          {faqCopy.lines.map((line) => (
+          {copy.lines.map((line) => (
             <span key={line.text} className={s.line} data-faq-line>
               {line.text}
               {line.accent && <span className="accent">{line.accent}</span>}

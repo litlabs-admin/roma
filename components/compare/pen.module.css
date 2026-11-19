@@ -1,0 +1,405 @@
+/* "Who holds the pen" (DESIGN.md §G.13): one white card, toggle bar, four steps × two
+   lanes on a subgrid ≥992px; stacked steps below. */
+
+.card {
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-xl);
+  background: #fff;
+}
+
+/* ── toggle bar ── */
+.bar {
+  position: sticky;
+  top: calc(var(--nav-h) + 0.5rem);
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: #fff;
+}
+@media (min-width: 992px) {
+  .bar {
+    position: static;
+    padding: 1.25rem 2rem;
+  }
+}
+.barLabel {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@media (max-width: 479px) {
+  .barLabel {
+    display: none;
+  }
+  .toggle {
+    width: 100%;
+  }
+}
+
+.toggle {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0.25rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-200);
+}
+.thumb {
+  position: absolute;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  left: 0.25rem;
+  width: calc(50% - 0.25rem);
+  border-radius: var(--radius-pill);
+  background: var(--color-red-600);
+  transition:
+    transform 400ms var(--ease-state),
+    background-color 400ms var(--ease-state);
+}
+.thumb[data-mode="1"] {
+  background: var(--color-ink-900);
+}
+.opt {
+  position: relative;
+  z-index: 1;
+  padding: 0.6rem 1.25rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--color-ink-600);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 300ms var(--ease-state);
+}
+.opt[aria-pressed="true"] {
+  color: #fff;
+}
+@media (hover: hover) and (pointer: fine) {
+  .opt[aria-pressed="false"]:hover {
+    color: var(--color-ink-900);
+  }
+}
+.opt:focus-visible {
+  outline: 2px solid var(--color-red-600);
+  outline-offset: 2px;
+}
+
+/* ── grid ── */
+.grid {
+  padding: 1.25rem;
+}
+@media (min-width: 992px) {
+  .grid {
+    display: grid;
+    grid-template-columns: 9.5rem repeat(4, minmax(0, 1fr));
+    grid-template-rows: auto minmax(5.5rem, auto) auto;
+    column-gap: 1rem;
+    padding: 1.75rem 2rem 2rem;
+  }
+}
+
+.lanes {
+  display: none;
+}
+@media (min-width: 992px) {
+  .lanes {
+    grid-column: 1;
+    grid-row: 1 / 4;
+    display: grid;
+    grid-template-rows: subgrid;
+  }
+}
+.laneLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-right: 1rem;
+  border-right: 1px solid var(--color-sand-300);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+}
+.youAvatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: var(--color-ink-900);
+  color: #fff;
+}
+.youAvatar svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+.vBadge {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 0.55rem;
+  background: var(--color-red-600);
+  color: #fff;
+}
+.rosette {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+.vBadgeG {
+  border: 1px solid var(--color-sand-400);
+  background: var(--color-cream-50);
+  color: var(--color-ink-800);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.8125rem;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 992px) {
+  .steps {
+    grid-column: 2 / 6;
+    grid-row: 1 / 4;
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-template-rows: subgrid;
+    gap: 0 1rem;
+  }
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+@media (min-width: 992px) {
+  .col {
+    grid-row: 1 / 4;
+    display: grid;
+    grid-template-rows: subgrid;
+    gap: 0;
+  }
+}
+
+/* step header with a rail running through the numbers */
+.step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+@media (min-width: 992px) {
+  .step {
+    padding-bottom: 1rem;
+  }
+  .step::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-sand-300);
+  }
+  .col:last-child .step::after {
+    display: none;
+  }
+}
+.num {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--color-sand-400);
+  border-radius: 50%;
+  color: var(--color-ink-600);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+}
+
+/* your lane */
+.you {
+  display: flex;
+  align-items: center;
+  order: 3;
+}
+.you:empty {
+  display: none;
+}
+@media (min-width: 992px) {
+  .you {
+    order: 0;
+    position: relative;
+    padding-block: 0.75rem;
+  }
+  .you:empty {
+    display: flex;
+  }
+}
+.token {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem 0.45rem 0.55rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink-900);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.token svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+.tokenWho {
+  padding-right: 0.45rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.72);
+}
+/* the hand-off line from your token down to the step card */
+@media (min-width: 992px) {
+  .token::after {
+    content: "";
+    position: absolute;
+    left: 1.05rem;
+    top: 100%;
+    height: 0.75rem;
+    border-left: 1.5px dashed var(--color-sand-400);
+  }
+}
+.slot {
+  display: none;
+}
+@media (min-width: 992px) {
+  .slot {
+    display: block;
+    width: 100%;
+    height: 2.2rem;
+    border: 1px dashed var(--color-sand-300);
+    border-radius: var(--radius-pill);
+  }
+}
+
+/* vendor lane: raised paper card */
+.paper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem 1.1rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-md);
+  background: var(--color-cream-50);
+  box-shadow:
+    0 10px 22px -12px rgba(var(--mock-shadow-rgb), 0.18),
+    0 1px 2px rgba(var(--mock-shadow-rgb), 0.04);
+}
+@media (min-width: 992px) {
+  .paper {
+    padding: 1.1rem 1.15rem 1.25rem;
+  }
+}
+.paperG {
+  background: #fff;
+  box-shadow: none;
+}
+.paperWho {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.paperTitle {
+  font-weight: 500;
+  font-size: 1.0625rem;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+.paperText {
+  color: var(--color-ink-600);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+
+/* Glimpse: your lane carries one line, in their words */
+.note {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0 0;
+  padding: 0.85rem 1rem;
+  border: 1px dashed var(--color-sand-400);
+  border-radius: var(--radius-md);
+  color: var(--color-ink-800);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+@media (min-width: 992px) {
+  .note {
+    grid-column: 2 / 6;
+    grid-row: 2;
+    align-self: center;
+    margin: 0;
+  }
+}
+.noteWho {
+  margin-right: 0.5rem;
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.close {
+  max-width: 44rem;
+  margin: 2.5rem auto 0;
+  color: var(--color-ink-800);
+  font-size: 1.25rem;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  text-align: center;
+  text-wrap: balance;
+}
+@media (min-width: 992px) {
+  .close {
+    margin-top: 3rem;
+    font-size: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumb,
+  .opt {
+    transition: none;
+  }
+}

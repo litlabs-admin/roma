@@ -1,0 +1,317 @@
+/* "The working paper" (DESIGN.md §G.13): an auditor's sheet. White, sand hairlines,
+   mono heads, red pencil ticks in a left gutter of each cell. */
+
+.sheet {
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-lg);
+  background: #fff;
+}
+
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.5rem;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--color-cream-50);
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@media (min-width: 768px) {
+  .strip {
+    padding: 1rem 2rem;
+  }
+}
+.reviewer {
+  margin-left: auto;
+}
+.reviewer b {
+  color: var(--color-red-700);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-transform: none;
+}
+
+/* ── table ── */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+.table th,
+.table td {
+  text-align: left;
+  vertical-align: top;
+}
+.table thead th {
+  padding: 1.25rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--color-ink-900);
+}
+.corner {
+  width: 22%;
+}
+.colHead {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+.badge {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.5rem;
+  background: var(--color-red-600);
+  color: #fff;
+}
+.rosette {
+  width: 1rem;
+  height: 1rem;
+}
+.badgeG {
+  border: 1px solid var(--color-sand-400);
+  background: var(--color-cream-50);
+  color: var(--color-ink-800);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.75rem;
+}
+
+.row {
+  border-bottom: 1px solid var(--color-sand-300);
+}
+.row:last-child {
+  border-bottom: 0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .row:hover {
+    background: var(--color-cream-50);
+    transition: background-color 150ms ease;
+  }
+}
+.rowLabel {
+  padding: 1.15rem 1.25rem;
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+.cell {
+  position: relative;
+  padding: 1rem 1.25rem 1.1rem 2.75rem;
+}
+.cellRoma {
+  color: var(--color-ink-900);
+}
+.cellG {
+  color: var(--color-ink-600);
+}
+.cellText {
+  text-wrap: pretty;
+}
+.tick {
+  position: absolute;
+  left: 0.95rem;
+  top: 1.05rem;
+  width: 1.3rem;
+  height: 1.1rem;
+  overflow: visible;
+}
+.tick path {
+  stroke: var(--color-red-600);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (min-width: 992px) {
+  .table thead th {
+    padding-inline: 2rem 1.25rem;
+  }
+  .table thead th + th {
+    padding-left: 2.75rem;
+  }
+  .rowLabel {
+    padding-left: 2rem;
+  }
+  .cell {
+    padding-right: 2rem;
+  }
+}
+
+/* Phones: each row becomes a block (label, then a Roma line and a Glimpse line). */
+@media (max-width: 767px) {
+  .table,
+  .table tbody,
+  .table tr,
+  .table th,
+  .table td {
+    display: block;
+  }
+  .table thead {
+    display: none;
+  }
+  .row {
+    padding: 1.1rem 1.25rem 1.2rem;
+  }
+  .rowLabel {
+    padding: 0 0 0.6rem;
+  }
+  .cell {
+    padding: 0.35rem 0 0.35rem 2rem;
+  }
+  .cell::before {
+    content: attr(data-col);
+    display: block;
+    margin-bottom: 0.1rem;
+    color: var(--color-ink-500);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .cellRoma::before {
+    color: var(--color-red-700);
+  }
+  .tick {
+    left: 0;
+    top: 0.5rem;
+  }
+}
+
+/* ── legend + sources ── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.75rem 2rem;
+  padding: 1.1rem 1.25rem;
+  border-top: 1px solid var(--color-ink-900);
+  color: var(--color-ink-600);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+@media (min-width: 768px) {
+  .legend {
+    padding: 1.25rem 2rem;
+  }
+}
+.legendKey {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-ink-900);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.legendKey .tick {
+  position: static;
+}
+.noteLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--color-sand-400);
+  text-underline-offset: 0.2em;
+}
+.noteLink:hover {
+  color: var(--color-red-700);
+  text-decoration-color: currentColor;
+}
+
+.sources {
+  border-top: 1px solid var(--color-sand-300);
+}
+.summary {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1rem 1.25rem;
+  color: var(--color-ink-900);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  list-style: none;
+}
+.summary::-webkit-details-marker {
+  display: none;
+}
+.summary::after {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-left: 0.35rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-0.12rem) rotate(45deg);
+  transition: transform 300ms var(--ease-state);
+}
+.sources[open] .summary::after {
+  transform: translateY(0.1rem) rotate(-135deg);
+}
+.summary span {
+  color: var(--color-ink-500);
+  font-weight: 400;
+}
+.summary:focus-visible {
+  outline: 2px solid var(--color-red-600);
+  outline-offset: -2px;
+  border-radius: var(--radius-sm);
+}
+@media (min-width: 768px) {
+  .summary {
+    padding-inline: 2rem;
+  }
+}
+.srcList {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0 1.25rem 1.5rem;
+  list-style: none;
+  color: var(--color-ink-600);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+@media (min-width: 768px) {
+  .srcList {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2.5rem;
+    padding-inline: 2rem;
+  }
+}
+.srcList li {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: 0.4rem;
+}
+.srcN {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  padding-top: 0.1rem;
+}
+.srcWho {
+  color: var(--color-ink-900);
+  font-weight: 500;
+}
+@media (prefers-reduced-motion: reduce) {
+  .summary::after {
+    transition: none;
+  }
+}
