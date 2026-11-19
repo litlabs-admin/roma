@@ -91,7 +91,7 @@
   font-size: 1.25rem;
   font-weight: 500;
   line-height: 1.25;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
 }
 .icon {
   flex: none;
@@ -116,7 +116,7 @@
   padding-bottom: 2rem;
   font-size: 1.125rem;
   line-height: 1.45;
-  letter-spacing: -0.004em;
+  letter-spacing: 0;
   color: var(--color-ink-600);
   text-wrap: pretty;
 }

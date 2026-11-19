@@ -121,6 +121,7 @@
 
 /* ── well + canvas ── */
 .well {
+  font-family: var(--font-ui); /* product-UI mock (DESIGN.md §C.1) */
   container-type: inline-size;
   display: flex;
   flex-direction: column;

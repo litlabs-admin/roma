@@ -76,7 +76,7 @@ export default function AppPanel({ s, layout: L }: { s: Scenario; layout: Layout
       data-panel-screen
       style={{ "--canvas-w": PANEL.w, ...canvas } as CSSProperties}
     >
-      {/* ── head: mark, serif headline, crossfading sub-line ── */}
+      {/* ── head: mark, headline, crossfading sub-line ── */}
       <div className={p.head} style={{ left: u(L.head.x), top: u(L.head.y), width: u(L.head.w) }}>
         <span className={p.mark}>
           <Rosette color="#B21515" />

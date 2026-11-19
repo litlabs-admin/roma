@@ -66,6 +66,7 @@
   padding-top: var(--nav-h);
 }
 .frame {
+  font-family: var(--font-ui); /* product-UI mock (DESIGN.md §C.1) */
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -154,7 +155,7 @@
   font-weight: 500;
   font-size: 2.5rem;
   line-height: 1;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.025em;
 }
 @media (min-width: 992px) {
   .total {
@@ -245,7 +246,7 @@
   grid-column: 2;
   font-weight: 600;
   font-size: 1.05rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 .pct {
   grid-column: 2;
@@ -386,7 +387,7 @@
   color: var(--color-red-700);
   font-weight: 600;
   font-size: 1.5rem;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
 }
 .fields {
   display: grid;

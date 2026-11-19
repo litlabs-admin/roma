@@ -88,6 +88,7 @@
   }
 }
 .well {
+  font-family: var(--font-ui); /* product-UI mock (DESIGN.md §C.1) */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -359,7 +360,7 @@
 .mixTotal {
   font-weight: 600;
   font-size: 1.15rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 .mixList {
   display: flex;
@@ -423,7 +424,7 @@
 .readout b {
   font-weight: 600;
   font-size: 1.35rem;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
 }
 .plot {
   position: relative;

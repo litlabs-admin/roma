@@ -1,12 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Instrument_Sans, Inter, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import AskRomaLoader from "@/components/chat/AskRomaLoader";
 import "./globals.css";
 
 // DESIGN.md §C.1 — swap a family here and every token follows.
-const geist = Geist({ variable: "--font-geist", subsets: ["latin"], display: "swap" });
+// Instrument Sans (wdth 94 via `font-stretch` in globals.css) is the free stand-in for Hyperline's Season Sans.
+const instrument = Instrument_Sans({
+  variable: "--font-instrument",
+  subsets: ["latin"],
+  axes: ["wdth"],
+  display: "swap",
+});
+// Inter: product-UI mock-ups only (`--font-ui`), as Hyperline does.
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
 const sourceSerif = localFont({
   src: "./fonts/SourceSerif4-Medium.woff2",
@@ -28,7 +36,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geist.variable} ${geistMono.variable} ${sourceSerif.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${instrument.variable} ${inter.variable} ${geistMono.variable} ${sourceSerif.variable}`} suppressHydrationWarning>
       <head>
         {/* Pre-paint guard: entrance elements start hidden only when JS + motion are available (DESIGN.md §F.10). */}
         <script

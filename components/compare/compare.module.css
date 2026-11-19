@@ -56,7 +56,7 @@
   color: var(--color-ink-600);
   font-size: 1.0625rem;
   line-height: 1.45;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
   text-wrap: pretty;
 }
 @media (min-width: 992px) {

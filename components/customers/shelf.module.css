@@ -239,7 +239,7 @@
   font-weight: 500;
   font-size: calc(var(--u) * 32);
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
 }
 .outcome .figure {
   color: var(--color-red-600);

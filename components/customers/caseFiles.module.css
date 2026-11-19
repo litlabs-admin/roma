@@ -58,7 +58,7 @@
   color: var(--color-ink-600);
   font-size: 1.0625rem;
   line-height: 1.45;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
   text-wrap: pretty;
 }
 @media (min-width: 992px) {
@@ -116,7 +116,7 @@
 .idxText b {
   font-weight: 500;
   font-size: 0.9375rem;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
 }
 .idxText small {
   font-size: 0.8125rem;
@@ -540,7 +540,7 @@
   font-weight: 400;
   font-size: 1.375rem;
   line-height: 1.35;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   text-wrap: pretty;
 }
 @media (min-width: 992px) {
@@ -606,7 +606,7 @@
   font-weight: 500;
   font-size: 2rem;
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -643,7 +643,7 @@
   color: var(--color-ink-900);
   font-weight: 500;
   font-size: 1.0625rem;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
 }
 
 .note {

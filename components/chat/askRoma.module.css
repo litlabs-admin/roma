@@ -59,7 +59,7 @@
   box-shadow: var(--panel-shadow);
   color: var(--color-ink-900);
   font: 500 0.9375rem/1 var(--font-sans);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
   white-space: nowrap;
   cursor: pointer;
   -webkit-user-select: none;

@@ -159,7 +159,7 @@
   color: var(--color-ink-900);
   font-size: 1rem;
   font-weight: 500;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
 }
 .qPillar {
   color: var(--color-ink-500);
@@ -200,7 +200,7 @@
   font-size: 1.25rem;
   font-weight: 500;
   line-height: 1.25;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
 }
 .cardSub {
   margin: 0.25rem 0 1.25rem;

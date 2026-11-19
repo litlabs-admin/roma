@@ -66,7 +66,7 @@
   color: #fff;
   font-size: 0.875rem;
   line-height: 1.2;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
   white-space: nowrap;
   text-decoration: none;
   transition: background-color 150ms ease;
@@ -138,7 +138,7 @@
   text-wrap: balance;
   font-size: 1.0625rem;
   line-height: 1.4;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
 }
 @media (min-width: 768px) {
   .lead {

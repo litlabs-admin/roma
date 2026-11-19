@@ -39,7 +39,7 @@
   padding-bottom: calc(var(--u) * 10);
   border-bottom: calc(var(--u) * 1.5) solid var(--color-ink-900);
   font-size: calc(var(--u) * 13.5);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
 }
 .paperHead b {
   font-weight: 600;

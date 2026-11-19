@@ -372,7 +372,7 @@
 .dedAmt {
   font-weight: 600;
   font-size: calc(var(--u) * 15);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 .xlines {
   display: flex;
@@ -473,7 +473,7 @@
 }
 .formHead b {
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 .close {
   color: var(--color-ink-500);

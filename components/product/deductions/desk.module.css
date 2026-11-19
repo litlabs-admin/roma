@@ -3,6 +3,7 @@
 
 
 .window {
+  font-family: var(--font-ui); /* product-UI mock (DESIGN.md §C.1) */
   position: relative;
   container-type: inline-size;
   overflow: hidden;
@@ -46,7 +47,7 @@
 .title {
   font-weight: 600;
   font-size: 1.25rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 .sub {
   color: var(--color-ink-500);
@@ -115,7 +116,7 @@
   font-weight: 600;
   font-size: 1.5rem;
   line-height: 1.1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
 }
 .k_invalid .kpiValue {
   color: var(--color-red-700);

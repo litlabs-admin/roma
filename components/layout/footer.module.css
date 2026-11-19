@@ -59,7 +59,7 @@
   font-size: 1.75rem;
   font-weight: 500;
   line-height: 1.15;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
   text-wrap: balance;
   color: var(--color-on-dark);
 }
@@ -218,7 +218,7 @@
   font-size: 18vw;
   font-weight: 800;
   line-height: 1;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.02em;
   white-space: nowrap;
   color: var(--color-cream-50);
 }

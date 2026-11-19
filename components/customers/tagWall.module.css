@@ -138,7 +138,7 @@
   font-weight: 500;
   font-size: 2.5rem;
   line-height: 1;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.025em;
   font-variant-numeric: tabular-nums;
 }
 .label {
@@ -159,7 +159,7 @@
   color: var(--color-ink-800);
   font-size: 1.0625rem;
   line-height: 1.45;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
   text-wrap: pretty;
 }
 .quote figcaption {

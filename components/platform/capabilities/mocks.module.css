@@ -4,6 +4,7 @@
    labels, initial avatars, bottom scrim. */
 
 .scene {
+  font-family: var(--font-ui); /* product-UI mock (DESIGN.md §C.1) */
   --u: calc(100cqw / 560);
   position: absolute;
   inset: 0;
@@ -383,7 +384,7 @@
   margin-bottom: calc(var(--u) * 4);
   font-weight: 600;
   font-size: calc(var(--u) * 20);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   white-space: nowrap;
 }
 .kv {
@@ -476,7 +477,7 @@
 .qAmount {
   font-weight: 600;
   font-size: calc(var(--u) * 20);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 .slot {
   position: relative;
@@ -615,7 +616,7 @@
   font-weight: 600;
   font-size: calc(var(--u) * 38);
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
 }
 .chartWrap {
   position: relative;

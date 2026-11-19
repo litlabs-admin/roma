@@ -1,6 +1,7 @@
 /* Analytics hero board. Rem-based inline-size container, like the other hero windows. */
 
 .window {
+  font-family: var(--font-ui); /* product-UI mock (DESIGN.md §C.1) */
   position: relative;
   container-type: inline-size;
   overflow: hidden;
@@ -41,7 +42,7 @@
   margin-right: 0.4rem;
   font-weight: 600;
   font-size: 1.125rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 .chip {
   display: inline-flex;
@@ -120,7 +121,7 @@
   font-weight: 600;
   font-size: 1.6rem;
   line-height: 1.1;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.02em;
 }
 .tMeta {
   color: var(--color-ink-500);
@@ -176,7 +177,7 @@
 .cardTitle b {
   font-weight: 600;
   font-size: 1rem;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
 }
 .cardTitle span {
   color: var(--color-ink-500);
