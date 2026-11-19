@@ -8,10 +8,9 @@
 import { SIGNUP_HREF } from "@/components/chat/data";
 
 export const storiesCopy = {
-  heading: { before: "Trusted by 170+ brands that stopped writing off ", accent: "deductions", after: "." },
-  lead: "From emerging natural brands to established CPG teams, finance leads use Roma across UNFI, KeHE and their retailers.",
-  primary: { label: "Customer stories", href: "#" },
-  secondary: { label: "Try now", href: SIGNUP_HREF },
+  heading: { before: "Brands that stopped writing off ", accent: "deductions", after: "." },
+  lead: "From emerging natural brands to established CPG teams, finance leads use Roma across UNFI, KeHE and their other retailers.",
+  cta: { label: "Try now", href: SIGNUP_HREF },
 };
 
 export type Story = {
@@ -21,7 +20,6 @@ export type Story = {
   metric: string;
   quote: string;
   author: string;
-  href: string;
   photo: { src: string; position: string; credit: string };
 };
 
@@ -32,7 +30,6 @@ export const STORIES: Story[] = [
     quote:
       "We were writing off UNFI and KeHE deductions because nobody had time to check them. Within six months on Roma we'd recovered $53K we would have written off.",
     author: "Jasen Arias, VP Ops & Growth @ Good Day Chocolate",
-    href: "#",
     photo: {
       src: "/images/stories/mock-good-day-chocolate.webp",
       position: "50% 30%",
@@ -46,7 +43,6 @@ export const STORIES: Story[] = [
     quote:
       "For the first time we could see every deduction next to its invoice and promo, and exactly which ones were wrong. We got $23K back.",
     author: "Finance lead @ Smash Kitchen",
-    href: "#",
     photo: {
       src: "/images/stories/mock-smash-kitchen.webp",
       position: "40% 50%",
@@ -58,9 +54,8 @@ export const STORIES: Story[] = [
     logo: { src: "/logos/customers/mochidoki.png", w: 161, h: 38 },
     metric: "Live in 5 minutes",
     quote:
-      "Setup took minutes, not weeks. Now one person handles deductions across every channel, and not a single spreadsheet.",
+      "Setup took minutes, not weeks. Now one person handles deductions across every retailer, and not a single spreadsheet.",
     author: "Operations @ Mochidoki",
-    href: "#",
     photo: {
       src: "/images/stories/mock-mochidoki.webp",
       position: "48% 35%",

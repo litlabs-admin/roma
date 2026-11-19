@@ -84,7 +84,7 @@ export const JOURNAL = {
   rows: [
     { gl: "4410", name: "Promo allowance", amount: -612.4 },
     { gl: "4420", name: "Shortages & spoils", amount: -1191.6 },
-    { gl: "6150", name: "Distributor fees", amount: -241 },
+    { gl: "6150", name: "Retailer fees", amount: -241 },
   ],
   sales: { gl: "4000", name: "Sales" },
   net: { name: "Net to bank", tie: "Ties to check #40418" },

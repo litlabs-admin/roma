@@ -15,7 +15,7 @@ import ClosingCta from "@/components/sections/closing/ClosingCta";
 export const metadata: Metadata = {
   title: "How Roma works | Roma",
   description:
-    "Roma pulls every deduction from your distributor and retailer portals, matches it to your invoices and promo agreements, and tracks every dispute through to payment. Live in 5 minutes. No ERP or IT project.",
+    "Roma pulls every deduction from your retailer portals, matches it to your invoices and promo agreements, and tracks every dispute to payment. Live in under 5 minutes.",
 };
 
 /** /platform — "How Roma works" (DESIGN.md §G.9). */

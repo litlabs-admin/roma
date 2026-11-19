@@ -8,8 +8,6 @@ import Journey from "@/components/product/deductions/Journey";
 import Numbers from "@/components/product/numbers/Numbers";
 import Story from "@/components/product/story/Story";
 import TrustStrip from "@/components/sections/trust/TrustStrip";
-import Coverage from "@/components/platform/coverage/Coverage";
-import Compliance from "@/components/sections/compliance/Compliance";
 import Faq from "@/components/sections/faq/Faq";
 import ClosingCta from "@/components/sections/closing/ClosingCta";
 import { dmHero, faqOrder } from "@/lib/content/products";
@@ -17,7 +15,7 @@ import { dmHero, faqOrder } from "@/lib/content/products";
 export const metadata: Metadata = {
   title: "Deduction management | Roma",
   description:
-    "Every UNFI, KeHE and retailer deduction in one inbox, with its backup attached. Check it, dispute the invalid ones in two clicks and track every dispute to payment.",
+    "Every deduction from UNFI, KeHE and your other retailers in one inbox, with its backup attached. Check it, dispute the invalid ones in two clicks and track every dispute to payment.",
 };
 
 /** /deduction-management (DESIGN.md §G.11). */
@@ -32,8 +30,6 @@ export default function DeductionManagementPage() {
         <TrustStrip />
         <Journey />
         <Numbers />
-        <Coverage />
-        <Compliance />
         <Story />
         <Faq order={faqOrder.deductions} />
         <ClosingCta />

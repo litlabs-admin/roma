@@ -3,6 +3,7 @@
 // embeds a HubSpot scheduler, ours is a form (client decision, Nov 2026).
 
 import type { Heading } from "./platform";
+import { LOGIN_HREF } from "@/components/chat/data";
 
 export type Option = { value: string; label: string };
 
@@ -45,8 +46,8 @@ export const fieldCopy = {
   jobTitle: { label: "Job title", placeholder: "Founder, Head of Finance…" },
   phone: { label: "Phone", placeholder: "555 123 4567", country: "Country code", search: "Search country or code" },
   revenue: { label: "Annual revenue", placeholder: "Choose a range" },
-  channels: { label: "Channels you sell through", hint: "Choose all that apply." },
-  otherChannels: { label: "Other channels", placeholder: "e.g. Sprouts, H-E-B" },
+  channels: { label: "Retailers you sell through", hint: "Choose all that apply." },
+  otherChannels: { label: "Other retailers", placeholder: "e.g. Sprouts, H-E-B" },
   topic: { label: "How can we help?", placeholder: "Choose a topic" },
   volume: { label: "Deductions per month", hint: "A rough number is fine.", placeholder: "Choose a range" },
   message: { label: "Message", placeholder: "Tell us a little about what you need." },
@@ -61,7 +62,7 @@ export const contactPage = {
   lead: "Questions about Roma, pricing, support or partnerships? Send us a note and the right person will get back to you.",
   aside: [
     { title: "Prefer a walkthrough?", link: { label: "Book a demo", href: "/book-a-demo" } },
-    { title: "Already a customer?", link: { label: "Log in", href: "#" } },
+    { title: "Already a customer?", link: { label: "Log in", href: LOGIN_HREF } },
   ],
   formTitle: "Send us a message",
   formSub: "We reply within one business day.",
@@ -76,7 +77,7 @@ export const contactPage = {
 export const demoPage = {
   eyebrow: "Book a demo",
   heading: { before: "See what Roma can ", accent: "do", after: " for you." } as Heading,
-  lead: "Schedule time with our team to see the platform in action. We’ll show you how it works on your own deductions and answer all your questions.",
+  lead: "Book 30 minutes. We’ll show you your own numbers and answer your questions.",
   formTitle: "Book your demo",
   formSub: "Tell us a little about your brand and we’ll set up a time that works.",
   submit: "Book my demo",

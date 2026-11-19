@@ -123,7 +123,7 @@ function WhatMix() {
   return (
     <div className={s.mix}>
       <div className={s.mixHead}>
-        <div className={s.chips} role="group" aria-label="Filter by distributor">
+        <div className={s.chips} role="group" aria-label="Filter by retailer">
           {views.what.filters.map((x) => (
             <button key={x} type="button" className={`${s.fchip} ${x === f ? s.fchipOn : ""}`} aria-pressed={x === f} onClick={() => setF(x)}>
               {x}

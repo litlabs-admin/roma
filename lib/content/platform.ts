@@ -3,8 +3,8 @@
 // pages on runroma.com (/deduction-management, /analytics, /accounting), reworded to the
 // PDF guardrails (DESIGN.md §A.8). Keep copy here, not inside animation code (§I.2).
 //
-// Tone rule for this page (client decision, Nov 2026): retailers and distributors are
-// named only as channels/portals. Never imply wrongdoing ("took", "keeping", "owe you").
+// Tone rule for this page (client decision, Nov 2026): everyone who takes a deduction,
+// UNFI and KeHE included, is a "retailer" (or their portal). Never imply wrongdoing ("took", "keeping", "owe you").
 // Deductions are "invalid", nothing more. No "Matched"/"Recoverable" states (client feedback).
 
 import { DEMO_HREF, SIGNUP_HREF } from "@/components/chat/data";
@@ -20,7 +20,7 @@ export const ILLUSTRATIVE = "Illustrative data. Not a guarantee of recovery.";
 export const platformHero = {
   eyebrow: "How Roma works",
   heading: { before: "Every deduction, accounted ", accent: "for", after: "." } as Heading,
-  lead: "Roma pulls every deduction from your distributor and retailer portals, matches it to your invoices and promo agreements, and tracks every dispute through to payment. Live in 5 minutes. No ERP or IT project.",
+  lead: "Roma pulls every deduction from your retailer portals, matches it to your invoices and promo agreements, and tracks every dispute to payment.",
   primary: { label: "Try now", href: SIGNUP_HREF },
   secondary: { label: "Book a demo", href: DEMO_HREF },
 };
@@ -39,9 +39,9 @@ export type InboxRow = {
 /** Hero app window: the deductions inbox. Illustrative only. */
 export const inbox = {
   tabs: ["Inbox", "Disputes", "Analytics", "Accounting"],
-  scope: "All channels",
+  scope: "All retailers",
   search: "Search deduction, invoice, amount…",
-  columns: { id: "Deduction", date: "Date", channel: "Channel", type: "Type", ref: "Backup", amount: "Amount" },
+  columns: { id: "Deduction", date: "Date", channel: "Retailer", type: "Type", ref: "Backup", amount: "Amount" },
   rows: [
     { id: "DED-24817", date: "Jul 28, 2026", channel: "UNFI", category: "promo", type: "MCB", ref: "Promo PA-0412", amount: 4116 },
     { id: "DED-24818", date: "Jul 28, 2026", channel: "KeHE", category: "shortage", type: "Shortage", ref: "INV-30927", amount: 1284.5 },
@@ -73,7 +73,7 @@ export const CAPABILITIES: { key: CapabilityKey; title: string; body: string; su
   {
     key: "backup",
     title: "Backup, read line by line",
-    body: "Every backup is pulled and read line by line, next to your invoices and promo agreements, so you know what’s valid before you act.",
+    body: "Every backup is pulled and checked against your invoices and promo agreements, so you know what’s valid before you act.",
     summary: "An MCB backup document whose lines are checked one by one against a promo agreement.",
   },
   {
@@ -131,7 +131,7 @@ export const capabilityMocks = {
 export const coverage = {
   heading: { before: "Connected to the portals you already ", accent: "sell", after: " through." } as Heading,
   channels: ["UNFI", "KeHE", "Target", "Walmart", "Costco", "Kroger", "Whole Foods", "Amazon"],
-  meta: "Live in 5 minutes. No ERP or IT project.*",
+  meta: "Live in under 5 minutes.*",
   note: "*Setup time varies by portal.",
 };
 
@@ -155,28 +155,28 @@ export const MODULES: { key: ModuleKey; tab: string; lead: string; points: strin
       "Backup pulled, with line-level extraction",
       "23 pre-built reason codes, fully customizable",
       "Dispute in two clicks and track every status",
-      "Assign to teammates, save views, filter by distributor, retailer, type, date or amount",
+      "Assign to teammates, save views, filter by retailer, type, date or amount",
     ],
     summary: "Example deduction detail: a UNFI MCB with its backup lines extracted, a reason code assigned and a dispute status.",
   },
   {
     key: "analytics",
     tab: "Analytics",
-    lead: "See what each channel and promo really costs.",
+    lead: "See what each retailer and promo really costs.",
     points: [
-      "Trade rate per retailer, distributor and chain",
+      "Trade rate per retailer",
       "Deductions as a percent of sales, and the margin impact",
       "Compare any two periods, year over year",
       "Classify by MCB, shortage, OI, damage and spoils",
       "Forecasting based on 12-month trends",
       "Export as a chart or raw data",
     ],
-    summary: "Example analytics view: deductions as a percent of sales per channel, this quarter against the same quarter last year.",
+    summary: "Example analytics view: deductions as a percent of sales per retailer, this quarter against the same quarter last year.",
   },
   {
     key: "accounting",
     tab: "Accounting",
-    lead: "Close books with confidence.",
+    lead: "Remittances tied out and coded, ready for your ERP.",
     points: [
       "Every remittance line tied to its invoice or deduction",
       "Custom GL code mapping",
@@ -222,7 +222,7 @@ export const moduleMocks = {
       { ref: "INV-30881", kind: "Invoice", gl: "4000 · Sales", amount: 52480 },
       { ref: "DED-24817", kind: "MCB", gl: "4410 · Promo allowance", amount: -4116 },
       { ref: "DED-24830", kind: "Spoils", gl: "4420 · Spoils", amount: -823.2 },
-      { ref: "DED-24835", kind: "Admin fee", gl: "6150 · Distributor fees", amount: -669.6 },
+      { ref: "DED-24835", kind: "Admin fee", gl: "6150 · Retailer fees", amount: -669.6 },
     ],
     exports: ["CSV", "NetSuite", "QuickBooks"],
   },
@@ -232,14 +232,13 @@ export const moduleMocks = {
 
 export const leanCopy = {
   heading: { before: "Made for the team that wears five ", accent: "hats", after: "." } as Heading,
-  lead: "Roma is built for founders and lean finance teams, not AR departments. Proof in dollars, without a software project.",
+  lead: "Roma is built for founders and lean finance teams, not AR departments.",
   rows: [
-    { title: "Live in 5 minutes", body: "Connect your portals. No ERP, no IT project, no CSV exports.*" },
-    { title: "Built for founders, not AR departments", body: "A clean, simple UI that a team of one can run alongside everything else." },
-    { title: "Numbers you can act on", body: "High-accuracy matching and categorization, so you trust the numbers and dispute with confidence." },
-    { title: "You stay in control", body: "You confirm every dispute, with a full audit trail. Your data never trains our models." },
+    { title: "No software project", body: "Connect your portals. No ERP, no IT project, no CSV exports." },
+    { title: "Simple enough for a team of one", body: "A clean UI you can run alongside everything else." },
+    { title: "Numbers you can act on", body: "99% matching accuracy, so you trust the numbers and dispute with confidence." },
+    { title: "You stay in control", body: "You confirm every dispute, with a full audit trail." },
   ],
-  note: "*Setup time varies by portal.",
 };
 
 /* ── Proof ────────────────────────────────────────────────────────────── */

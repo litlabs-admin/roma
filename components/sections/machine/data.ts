@@ -51,14 +51,13 @@ export type MachineCard = {
 export const MACHINE_CARDS: MachineCard[] = [
   {
     key: "connect",
-    title: "Live in under 5 minutes",
-    body: "Connect your distributor and retailer portals. No ERP, no IT project, no CSV exports.*",
-    note: "*Setup time varies by portal.",
+    title: "Your portals, connected",
+    body: "Connect your retailer portals. No ERP, no IT project, no CSV exports.",
   },
   {
     key: "routing",
     title: "The full picture",
-    body: "Every deduction across KeHE, UNFI, Target, Walmart and more, by channel, type and promo, with its GL code.",
+    body: "Every deduction across KeHE, UNFI, Target, Walmart and more, by retailer, type and promo, with its GL code.",
   },
   {
     key: "stream",
@@ -86,7 +85,7 @@ export const STEPS: Step[] = [
   {
     n: "01",
     title: "Connect",
-    body: "Link your UNFI, KeHE and retailer portals in minutes. Roma pulls every deduction and remittance from there.",
+    body: "Link your UNFI, KeHE and other retailer portals. Roma pulls every deduction and remittance from there.",
   },
   {
     n: "02",

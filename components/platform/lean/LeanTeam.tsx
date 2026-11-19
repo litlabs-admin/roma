@@ -74,7 +74,6 @@ export default function LeanTeam() {
               </li>
             ))}
           </ol>
-          <p className={s.note}>{leanCopy.note}</p>
         </div>
       </div>
     </section>

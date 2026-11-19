@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { DEMO_HREF, SIGNUP_HREF } from "@/components/chat/data";
+import { DEMO_HREF, LOGIN_HREF, SIGNUP_HREF } from "@/components/chat/data";
 import Button from "@/components/ui/Button";
 import { navLinks } from "@/lib/content/site";
 import { queryVisible } from "@/lib/motion";
@@ -74,7 +74,7 @@ export default function Nav() {
         </nav>
 
         <div className={s.actions}>
-          <a href="#" className={`${s.link} ${s.login}`}>
+          <a href={LOGIN_HREF} className={`${s.link} ${s.login}`}>
             Log in
           </a>
           <Button href={SIGNUP_HREF} variant={dark ? "inverse" : "primary"} size="small">
@@ -107,7 +107,7 @@ export default function Nav() {
               {l.label}
             </Link>
           ))}
-          <a href="#" onClick={() => setOpen(false)}>
+          <a href={LOGIN_HREF} onClick={() => setOpen(false)}>
             Log in
           </a>
           <a href={DEMO_HREF} onClick={() => setOpen(false)}>

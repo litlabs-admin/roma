@@ -9,8 +9,6 @@ import GlMap from "@/components/product/accounting/GlMap";
 import Numbers from "@/components/product/numbers/Numbers";
 import Story from "@/components/product/story/Story";
 import TrustStrip from "@/components/sections/trust/TrustStrip";
-import Coverage from "@/components/platform/coverage/Coverage";
-import Compliance from "@/components/sections/compliance/Compliance";
 import Faq from "@/components/sections/faq/Faq";
 import ClosingCta from "@/components/sections/closing/ClosingCta";
 import { acHero, faqOrder } from "@/lib/content/products";
@@ -34,8 +32,6 @@ export default function AccountingPage() {
         <TieOut />
         <GlMap />
         <Numbers />
-        <Coverage />
-        <Compliance />
         <Story />
         <Faq order={faqOrder.accounting} />
         <ClosingCta />

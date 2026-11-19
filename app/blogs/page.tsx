@@ -10,7 +10,7 @@ import { blogIndex, getPosts } from "@/lib/content/blog";
 export const metadata: Metadata = {
   title: "Blog | Roma",
   description:
-    "Plain-spoken guides for CPG founders and finance leads on deductions, distributors, trade rate and the margin in between.",
+    "Plain-spoken guides for CPG founders and finance leads on deductions, retailers, trade rate and the margin in between.",
 };
 
 /** /blogs: hero → featured → latest grid → closing CTA (DESIGN.md §G.10). */

@@ -115,9 +115,9 @@ export function validateField(field: FieldName, v: FormValues, kind: FormKind): 
     case "revenue":
       return v.revenue ? "" : "Please choose your annual revenue.";
     case "channels":
-      return kind === "demo" && v.channels.length === 0 ? "Choose at least one channel you sell through." : "";
+      return kind === "demo" && v.channels.length === 0 ? "Choose at least one retailer you sell through." : "";
     case "otherChannels":
-      return v.channels.includes("Other") ? text(v.otherChannels, "Tell us which other channels you sell through.", 2, 100, "Other channels") : "";
+      return v.channels.includes("Other") ? text(v.otherChannels, "Tell us which other retailers you sell through.", 2, 100, "Other retailers") : "";
     case "topic":
       return kind === "contact" && !v.topic ? "Please choose a topic." : "";
     case "volume":

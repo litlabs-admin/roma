@@ -100,7 +100,7 @@ export function BackupScene() {
               </div>
             ))}
             <div className={c.pdfTotal}>
-              <span>Customer total</span>
+              <span>Retailer total</span>
               <b>{total.toFixed(2)}</b>
             </div>
           </div>

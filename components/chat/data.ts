@@ -3,6 +3,8 @@
 export const DEMO_HREF = "/book-a-demo";
 /** Self-serve signup — the primary CTA site-wide (client: PLG first, Nov 2026). */
 export const SIGNUP_HREF = "https://app.runroma.com/signup";
+/** The Roma app; signed-out visitors land on its sign-in screen. */
+export const LOGIN_HREF = "https://app.runroma.com/";
 
 export const chatCopy = {
   launcher: "Ask Roma",
@@ -26,7 +28,7 @@ export const chatCopy = {
 /** Starters for an empty conversation (max 3 shown) — Hyperline's api/config shape. */
 export const STARTERS = [
   "What does Roma do?",
-  "Which distributors and retailers does Roma support?",
+  "Which retailers does Roma support?",
   "How much does Roma cost?",
   "How long does it take to get started?",
 ];

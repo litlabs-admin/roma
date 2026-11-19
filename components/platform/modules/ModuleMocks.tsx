@@ -144,7 +144,7 @@ export function AnalyticsMock() {
             <i className={c.swPrev} />
             {a.periods[1]}
           </span>
-          <span className={c.hint}>Hover a channel</span>
+          <span className={c.hint}>Hover a retailer</span>
         </div>
         <div className={c.bars}>
           {a.bars.map((b) => {

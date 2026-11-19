@@ -12,14 +12,14 @@ export type Faq = { q: string; a: string };
 export const FAQS: Faq[] = [
   {
     q: "What does Roma do beyond disputes?",
-    a: "It shows where every deduction goes by channel, type and promo, as a share of sales, and codes each remittance line to your GL so it’s ready for month-end.",
+    a: "It shows where every deduction goes by retailer, type and promo, as a share of sales, and codes each remittance line to your GL so it’s ready for month-end.",
   },
   {
     q: "Does Roma replace my current accounting or ERP system?",
     a: "No. Roma works alongside your accounting stack and hands it coded, export-ready lines. You don’t change how you book or reconcile.",
   },
   {
-    q: "Which distributors and retailers does Roma support?",
+    q: "Which retailers does Roma support?",
     a: "UNFI, KeHE, Target and Walmart today, with every deduction line standardized into one view.",
   },
   {

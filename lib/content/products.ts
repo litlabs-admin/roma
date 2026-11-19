@@ -47,8 +47,8 @@ export const numbersCopy = {
 export const storyCopy = {
   label: "Customer story",
   brand: "Good Day Chocolate",
-  heading: { before: "Good Day Chocolate recovered ", accent: "$53K", after: " in invalid deductions." } as Heading,
-  body: "Within six months of connecting their portals, Good Day Chocolate found the invalid deductions, disputed them with the right backup and tracked each one to payment, without adding headcount.",
+  heading: { before: "Good Day Chocolate stopped writing off ", accent: "deductions", after: "." } as Heading,
+  body: "They connected their portals, disputed the invalid deductions with the right backup and tracked each one to payment.",
   stats: [
     { value: "$53K", label: "recovered" },
     { value: "6", label: "months" },
@@ -71,7 +71,7 @@ export const dmHero: ProductHeroCopy = {
   eyebrow: "Deduction management",
   icon: "stack",
   heading: { before: "Catch invalid deductions before they ", accent: "cost you", after: "." },
-  lead: "Every UNFI, KeHE and retailer deduction in one inbox, with its backup attached, ready for your team to act on.",
+  lead: "Every deduction from UNFI, KeHE and your other retailers in one inbox, ready for your team to act on.",
   ground: { src: "/images/product/hero-deductions.webp", position: "50% 40%" },
   summary:
     "Example deductions desk: $82,410 deducted this quarter, split into invalid, needs a check and valid, above a list of six deductions from UNFI, KeHE, Target and Walmart, each with its backup, assignee and a valid or invalid status.",
@@ -83,7 +83,7 @@ export type DeskStatus = "valid" | "invalid" | "check";
 // rises by the two rows marked invalid in the load animation (1,284.50 + 823.20).
 export const desk = {
   title: "Deductions",
-  sub: "Every channel · Q3 2026",
+  sub: "Every retailer · Q3 2026",
   report: "Download report",
   kpis: [
     { key: "total", label: "Total deducted", value: 82410, from: 0, meta: "214 deductions", tone: "total" },
@@ -91,9 +91,9 @@ export const desk = {
     { key: "check", label: "Needs a check", value: 14236, from: 0, meta: "42 deductions", tone: "check" },
     { key: "valid", label: "Valid", value: 58312, from: 0, meta: "141 deductions", tone: "valid" },
   ],
-  filters: ["Check date", "Channel", "Type", "Assignee", "Backup"],
+  filters: ["Check date", "Retailer", "Type", "Assignee", "Backup"],
   search: "Search deductions…",
-  columns: { id: "Deduction", channel: "Channel", type: "Type", amount: "Amount", backup: "Backup", assignee: "Assignee", status: "Status" },
+  columns: { id: "Deduction", channel: "Retailer", type: "Type", amount: "Amount", backup: "Backup", assignee: "Assignee", status: "Status" },
   rows: [
     { id: "DED-24817", channel: "UNFI", type: "MCB", category: "promo" as Category, amount: 4116, assignee: "JA", status: "valid" as DeskStatus },
     { id: "DED-24818", channel: "KeHE", type: "Shortage", category: "shortage" as Category, amount: 1284.5, assignee: "", status: "invalid" as DeskStatus, animate: true },
@@ -105,7 +105,7 @@ export const desk = {
 };
 
 export const dmIntro = {
-  label: "One inbox",
+  label: "Workflow",
   heading: { before: "Every deduction, start to ", accent: "finish", after: "." } as Heading,
   lead: "Portal downloads, spreadsheets and email threads, replaced by one workflow a lean team can actually run.",
 };
@@ -113,9 +113,9 @@ export const dmIntro = {
 export const dmChapters: { title: string; body: string; points: Point[]; summary: string }[] = [
   {
     title: "Single source of truth",
-    body: "Every deduction lands the moment it posts, sorted by channel, type and amount. No CSVs, no manual exports.",
+    body: "Every deduction lands the moment it posts, sorted by retailer, type and amount.",
     points: [
-      { icon: "filter", text: "Filter by distributor, retailer, type, date or amount" },
+      { icon: "filter", text: "Filter by retailer, type, date or amount" },
       { icon: "bookmark", text: "Saved views for the checks you run every month" },
       { icon: "export", text: "Export to CSV, NetSuite or QuickBooks" },
     ],
@@ -186,7 +186,7 @@ export const anHero: ProductHeroCopy = {
   eyebrow: "Analytics",
   icon: "chart",
   heading: { before: "Every deduction tells a ", accent: "story", after: "." },
-  lead: "See where your deductions go across retailers, types and time periods, and what each channel and promo really costs.",
+  lead: "See where your deductions go by retailer, type and month, so you know what each promo really costs.",
   ground: { src: "/images/product/hero-analytics.webp", position: "50% 55%" },
   summary:
     "Example analytics dashboard: $2,184,300 invoiced minus $82,410 deducted equals $2,101,890 paid this quarter, above a breakdown of deductions by retailer and by type, each with its trade rate.",
@@ -237,15 +237,16 @@ export const drillCopy = {
 };
 
 // Totals reconcile at every level: 82,410 → UNFI 33,790 → MCB 14,980 → Whole Foods
-// #10234 3,412.00 → line 0417 34.20.
+// #10234 3,412.00 → line 0417 34.20. UNFI's store level lists UNFI-served stores only
+// (Sprouts is a KeHE account): 3,412 + 2,104 + 1,880 + 7,584 = 14,980 across 27 stores.
 export const drill = {
-  crumbs: ["All channels", "UNFI", "MCB", "Whole Foods #10234", "Line 0417"],
+  crumbs: ["All retailers", "UNFI", "MCB", "Whole Foods #10234", "Line 0417"],
   levels: [
     {
       key: "quarter",
       eyebrow: "Deducted · Q3 2026",
       total: 82410,
-      caption: "214 deductions across 5 channels",
+      caption: "214 deductions across 5 retailers",
       parts: [
         { name: "UNFI", amount: 33790 },
         { name: "KeHE", amount: 22250 },
@@ -274,10 +275,9 @@ export const drill = {
       caption: "27 stores",
       parts: [
         { name: "Whole Foods #10234", amount: 3412 },
-        { name: "Sprouts #417", amount: 2960 },
         { name: "Wegmans #82", amount: 2104 },
         { name: "Mother’s Market #11", amount: 1880 },
-        { name: "23 more stores", amount: 4624 },
+        { name: "24 more stores", amount: 7584 },
       ],
     },
     {
@@ -312,15 +312,15 @@ export const drill = {
 export const viewsCopy = {
   label: "Three views",
   heading: { before: "Every angle on your ", accent: "deductions", after: "." } as Heading,
-  lead: "Who, what and when, at the level of detail your sales team actually needs.",
+  lead: "Who, what and when, built on 99% matching accuracy.",
 };
 
 export const views = {
   who: {
     title: "Every retailer. Every deduction.",
-    body: "Trade rate for every retailer, distributor and chain. Sort by what matters this week.",
+    body: "Sort by what matters this week.",
     points: [
-      { icon: "chart", text: "Trade rate per retailer, distributor and chain" },
+      { icon: "chart", text: "Deducted, count and trade rate per retailer" },
       { icon: "sort", text: "Sort any column: amount, count, rate, change" },
       { icon: "calendar", text: "Compare any two periods side by side" },
     ] as Point[],
@@ -342,10 +342,10 @@ export const views = {
   },
   what: {
     title: "Your deduction mix at a glance.",
-    body: "MCB, promo, shortage, spoils and fees, broken down by distributor, retailer and period.",
+    body: "Every deduction classified by type, so you see what drives the total.",
     points: [
       { icon: "stack", text: "Classify by MCB, shortage, OI, damage and spoils" },
-      { icon: "filter", text: "Filter by distributor or retailer in one click" },
+      { icon: "filter", text: "Filter by retailer in one click" },
       { icon: "export", text: "Export as a chart or raw data" },
     ] as Point[],
     filters: ["All", "UNFI", "KeHE"],
@@ -364,7 +364,7 @@ export const views = {
     points: [
       { icon: "chart", text: "Trade spend as a percent of revenue" },
       { icon: "history", text: "Forecasts based on 12-month trends" },
-      { icon: "calendar", text: "Year over year, side by side" },
+      { icon: "calendar", text: "This year against last year" },
     ] as Point[],
     months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"],
     forecastMonths: ["Oct", "Nov", "Dec"],
@@ -408,7 +408,7 @@ export const creditMemos = {
     { ref: "SHRT-0527", type: "Shortage", category: "shortage" as Category, amount: -2641.08, gl: "4420 · Shortages" },
     { ref: "PRM-1184", type: "Promotions", category: "promo" as Category, amount: -228.32, gl: "4410 · Promo allowance" },
     { ref: "SPL-0219", type: "Spoils", category: "shortage" as Category, amount: -114.16, gl: "4430 · Spoils" },
-    { ref: "FSH-0527", type: "Fairshare", category: "fees" as Category, amount: -53.7, gl: "6150 · Distributor fees" },
+    { ref: "FSH-0527", type: "Fairshare", category: "fees" as Category, amount: -53.7, gl: "6150 · Retailer fees" },
   ],
   pending: 3037.26,
   summary: ["To book", "Booked"],
@@ -417,7 +417,7 @@ export const creditMemos = {
 export const acIntro = {
   label: "Cash application",
   heading: { before: "Zero manual ", accent: "matching", after: "." } as Heading,
-  lead: "Roma reads every remittance line by line and ties each dollar to its invoice, deduction and GL code.",
+  lead: "Every check, explained to the cent.",
   points: [
     "Match payments to invoices with minimal effort",
     "Sync with the financial systems you already use",
@@ -440,7 +440,7 @@ export const tieOut = {
     { ref: "SHRT-0527", kind: "Shortage", amount: -2641.08, gl: "4420 · Shortages" },
     { ref: "PRM-1184", kind: "Promotions", amount: -228.32, gl: "4410 · Promo allowance" },
     { ref: "SPL-0219", kind: "Spoils", amount: -114.16, gl: "4430 · Spoils" },
-    { ref: "FSH-0527", kind: "Fairshare", amount: -53.7, gl: "6150 · Distributor fees" },
+    { ref: "FSH-0527", kind: "Fairshare", amount: -53.7, gl: "6150 · Retailer fees" },
   ],
   totals: { invoices: 12531.26, deductions: -3037.26, check: 9494 },
   exports: ["NetSuite", "QuickBooks", "CSV"],
@@ -470,8 +470,8 @@ export const glMap = {
     { code: "4410", name: "Promo allowance", count: 96 },
     { code: "4420", name: "Shortages", count: 41 },
     { code: "4430", name: "Spoils", count: 23 },
-    { code: "6150", name: "Distributor fees", count: 54 },
+    { code: "6150", name: "Retailer fees", count: 54 },
   ],
   audit: ["Rule MCB → 4410 added, Jul 2", "214 deductions coded, Jul 30", "Reviewed by Finance, Jul 31"],
-  summary: "A mapping diagram: MCB and promo deductions route to GL 4410 promo allowance, shortages to 4420, spoils to 4430, fairshare and slotting to 6150 distributor fees, with an audit trail.",
+  summary: "A mapping diagram: MCB and promo deductions route to GL 4410 promo allowance, shortages to 4420, spoils to 4430, fairshare and slotting to 6150 retailer fees, with an audit trail.",
 };

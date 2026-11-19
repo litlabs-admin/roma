@@ -114,9 +114,3 @@
     transform: translateX(1rem);
   }
 }
-
-.note {
-  margin: 1rem 0 0;
-  color: var(--color-ink-500);
-  font-size: 0.75rem;
-}

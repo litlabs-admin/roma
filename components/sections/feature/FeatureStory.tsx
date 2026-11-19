@@ -340,7 +340,7 @@ export default function FeatureStory() {
                 <div className={s.card} data-gf-card>
                   <p className={s.cardTitle}>{featureCopy.cardTitle}</p>
                   <p className={s.cardSub}>{featureCopy.cardSub}</p>
-                  <div className={s.tabs} role="tablist" aria-label="Channel" onKeyDown={onTabKey}>
+                  <div className={s.tabs} role="tablist" aria-label="Retailer" onKeyDown={onTabKey}>
                     {SCENARIOS.map((sc, i) => (
                       <button
                         key={sc.key}

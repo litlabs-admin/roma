@@ -12,7 +12,6 @@ export const navLinks = [
   { label: "Deduction management", href: "/deduction-management" },
   { label: "Analytics", href: "/analytics" },
   { label: "Accounting", href: "/accounting" },
-  { label: "Pricing", href: "#" },
   { label: "Blog", href: "/blogs" },
 ];
 
@@ -20,7 +19,7 @@ export const hero = {
   announce: {
     long: "Good Day Chocolate recovered $53K in 6 months",
     short: "Good Day Chocolate recovered $53K",
-    href: "#",
+    href: "#stories",
   },
   // Rotating H1 (Different AI). First line is the SSR / SEO line.
   // `accent` marks the serif phrase (one per line). The rotation walks the three
@@ -31,11 +30,11 @@ export const hero = {
     { before: "Every deduction, ", accent: "disputed", after: "." },
     { before: "Every deduction, ", accent: "booked", after: "." },
   ],
-  lead: "Roma pulls every deduction from your distributor and retailer portals. See where the money went, dispute the invalid ones, and book the rest.",
+  lead: "Roma pulls every deduction from your retailer portals. See where the money went, dispute the invalid ones, and book the rest.",
   // PLG first (client, Nov 2026): Try now leads, demo is the secondary path.
   primary: { label: "Try now", href: SIGNUP_HREF },
   secondary: { label: "Book a demo", href: DEMO_HREF },
-  micro: "Live in under 5 minutes. No ERP or IT project.",
+  micro: "Live in under 5 minutes.",
 };
 
 // Brand statement — no longer on the page (client: "a lot of words"); kept as the
@@ -63,7 +62,7 @@ export const trust = {
 // Closing CTA + footer — copy and links from runroma.com.
 export const closingCta = {
   heading: { before: "See where every deduction ", accent: "went", after: "." },
-  sub: "Connect a portal and see your own numbers in under 5 minutes. Or book 30 minutes and we’ll walk you through them.",
+  sub: "Connect a portal and see your own numbers. Or book 30 minutes and we’ll walk you through them.",
   cta: { label: "Try now", href: SIGNUP_HREF },
   secondary: { label: "Book a demo", href: DEMO_HREF },
 };
@@ -79,7 +78,6 @@ export const footer = {
         { label: "Deduction management", href: "/deduction-management" },
         { label: "Analytics", href: "/analytics" },
         { label: "Accounting", href: "/accounting" },
-        { label: "Pricing", href: "/pricing" },
         { label: "Book a demo", href: "/book-a-demo" },
         { label: "Contact us", href: "/contact" },
         { label: "Deduction Codes", href: "/deduction-codes" },

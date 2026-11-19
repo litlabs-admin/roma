@@ -92,7 +92,7 @@ export default function Coverage() {
 
       <div className={s.strip} data-cv-strip>
         <div className={s.marquee}>
-          <ul ref={track} className={s.track} aria-label="Distributors and retailers">
+          <ul ref={track} className={s.track} aria-label="Retailers">
             {channelLogos.map((l) => (
               <LogoMark key={l.name} logo={l} />
             ))}

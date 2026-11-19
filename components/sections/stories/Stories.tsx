@@ -73,7 +73,7 @@ export default function Stories() {
   const { before, accent, after } = heading;
 
   return (
-    <section ref={root} className={s.section} data-backdrop="red" aria-labelledby="stories-heading">
+    <section ref={root} id="stories" className={s.section} data-backdrop="red" aria-labelledby="stories-heading">
       <div className={s.inner}>
         <div className={s.header} data-reveal>
           <h2 id="stories-heading" className={`${s.heading} type-h3`} aria-label={`${before}${accent}${after}`}>
@@ -86,11 +86,8 @@ export default function Stories() {
           <div className={s.side}>
             <p className={s.lead}>{storiesCopy.lead}</p>
             <div className={s.actions}>
-              <Button href={storiesCopy.primary.href} variant="inverse" size="small">
-                {storiesCopy.primary.label}
-              </Button>
-              <Button href={storiesCopy.secondary.href} variant="ghostOnDark" size="small">
-                {storiesCopy.secondary.label}
+              <Button href={storiesCopy.cta.href} variant="inverse" size="small">
+                {storiesCopy.cta.label}
               </Button>
             </div>
           </div>
@@ -119,12 +116,6 @@ export default function Stories() {
                     <LogoMark story={st} />
                     <div className={s.extras} aria-hidden={!on}>
                       <span className={s.metric}>{st.metric}</span>
-                      <a href={st.href} className={s.pill} tabIndex={on ? 0 : -1}>
-                        Customer story
-                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                          <path d="M3 8h10M9 4l4 4-4 4" />
-                        </svg>
-                      </a>
                     </div>
                   </div>
                 </li>

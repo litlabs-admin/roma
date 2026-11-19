@@ -332,7 +332,7 @@ export const featureCopy = {
     { q: "How do I book it?", pillar: "Accounting" },
   ],
   cardTitle: "Built for how you sell.",
-  cardSub: "Pick a channel.",
+  cardSub: "Pick a retailer.",
   caption: "Illustrative data. Not a guarantee of recovery.",
   screen1: { label: "Deductions as % of sales", prevLabel: "Last year", nowSub: "this quarter", prevSub: "same quarter last year" },
   screen3: { label: "Booked this quarter", rowsLabel: "Disputes", tie: "Ties to your remittances", export: "Export" },
