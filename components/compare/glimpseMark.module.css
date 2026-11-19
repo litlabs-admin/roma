@@ -1,8 +1,0 @@
-.mark {
-  display: block;
-  width: 62%;
-  aspect-ratio: 25.22 / 16.47;
-  background: var(--color-ink-800);
-  -webkit-mask: url("/logos/competitors/glimpse-mark.svg") center / contain no-repeat;
-  mask: url("/logos/competitors/glimpse-mark.svg") center / contain no-repeat;
-}

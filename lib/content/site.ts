@@ -5,6 +5,7 @@
 // Keep copy here, not inside animation code (DESIGN.md §I.2).
 
 import { DEMO_HREF, SIGNUP_HREF } from "@/components/chat/data";
+import { competitors } from "./compare";
 
 // Hash targets are absolute ("/#…") so they also work from other routes (/platform).
 export const navLinks = [
@@ -97,7 +98,8 @@ export const footer = {
     },
     {
       title: "Compare",
-      links: [{ label: "Roma vs. Glimpse", href: "/compare/glimpse" }],
+      // Every /compare page, from the registry (lib/content/compare).
+      links: competitors.map((c) => ({ label: `Roma vs. ${c.name}`, href: `/compare/${c.slug}` })),
     },
     {
       title: "Company",

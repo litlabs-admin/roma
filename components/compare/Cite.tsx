@@ -1,24 +1,21 @@
 "use client";
 
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
-import { SOURCES, SOURCE_ORDER, type SourceId } from "@/lib/content/compare/glimpse";
+import { useCompare } from "./context";
 import s from "./cite.module.css";
 
 /**
- * Footnote marker for /compare/glimpse (DESIGN.md §G.13). A small numbered button; it
+ * Footnote marker for the comparison pages (DESIGN.md §G.13). Competitor claims only. A small numbered button; it
  * shows its source (verbatim quote, where, link) on hover (pointer devices) or on
  * click/Enter (everyone). Esc or an outside click closes it and focus stays on the
  * marker. The numbered source list at the foot of the working paper is the static,
  * always-available version of the same information.
  */
 
-export function sourceNumber(id: SourceId) {
-  return SOURCE_ORDER.indexOf(id) + 1;
-}
-
-export default function Cite({ id, tone = "light" }: { id: SourceId; tone?: "light" | "dark" }) {
-  const src = SOURCES[id];
-  const n = sourceNumber(id);
+export default function Cite({ id, tone = "light" }: { id: string; tone?: "light" | "dark" }) {
+  const { c, order } = useCompare();
+  const src = c.sources[id];
+  const n = order.indexOf(id) + 1;
   const pid = useId();
   const [open, setOpen] = useState(false);
   const [shift, setShift] = useState(0);
@@ -64,7 +61,7 @@ export default function Cite({ id, tone = "light" }: { id: SourceId; tone?: "lig
         {n}
       </button>
       <span ref={pop} id={pid} role="note" className={s.pop} style={{ ["--shift" as string]: `${shift}px` }}>
-        <span className={s.who}>{src.who === "glimpse" ? "Glimpse, in its words" : "Roma"}</span>
+        <span className={s.who}>{c.name}, in its words</span>
         <q className={s.quote}>{src.quote}</q>
         <a className={s.link} href={src.url} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
           {src.where}

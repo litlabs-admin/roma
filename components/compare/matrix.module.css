@@ -1,5 +1,10 @@
-/* "The working paper" (DESIGN.md §G.13): an auditor's sheet. White, sand hairlines,
-   mono heads, red pencil ticks in a left gutter of each cell. */
+/* The decision matrix (DESIGN.md §G.13): a white sheet, hairline rows, the Roma column
+   raised (tinted, red top rule), red pencil ticks only on parity rows, a "What it means
+   for you" column. Rows become blocks below 768px. */
+
+.section {
+  scroll-margin-top: calc(var(--nav-h) + 1rem);
+}
 
 .sheet {
   border: 1px solid var(--color-sand-300);
@@ -7,39 +12,6 @@
   background: #fff;
 }
 
-.strip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 1.5rem;
-  padding: 0.9rem 1.25rem;
-  border-bottom: 1px solid var(--color-sand-300);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  background: var(--color-cream-50);
-  color: var(--color-ink-500);
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-@media (min-width: 768px) {
-  .strip {
-    padding: 1rem 2rem;
-  }
-}
-.reviewer {
-  margin-left: auto;
-}
-.reviewer b {
-  color: var(--color-red-700);
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  text-transform: none;
-}
-
-/* ── table ── */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -51,19 +23,34 @@
   text-align: left;
   vertical-align: top;
 }
+
+/* ── head ── */
 .table thead th {
   padding: 1.25rem 1.25rem 1rem;
   border-bottom: 1px solid var(--color-ink-900);
+  font-weight: 500;
 }
-.corner {
-  width: 22%;
+.cornerHead {
+  width: 16%;
+}
+.romaHead {
+  width: 28%;
+  box-shadow: inset 0 3px 0 var(--color-red-600);
+}
+.meansHead {
+  width: 24%;
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: middle !important;
 }
 .colHead {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
   font-size: 1.125rem;
-  font-weight: 500;
   letter-spacing: -0.01em;
 }
 .badge {
@@ -79,26 +66,19 @@
   width: 1rem;
   height: 1rem;
 }
-.badgeG {
+.badgeThem {
   border: 1px solid var(--color-sand-400);
   background: var(--color-cream-50);
   color: var(--color-ink-800);
-  font-family: var(--font-mono);
-  font-weight: 500;
   font-size: 0.75rem;
 }
 
+/* ── rows ── */
 .row {
   border-bottom: 1px solid var(--color-sand-300);
 }
 .row:last-child {
   border-bottom: 0;
-}
-@media (hover: hover) and (pointer: fine) {
-  .row:hover {
-    background: var(--color-cream-50);
-    transition: background-color 150ms ease;
-  }
 }
 .rowLabel {
   padding: 1.15rem 1.25rem;
@@ -106,26 +86,45 @@
   font-family: var(--font-mono);
   font-weight: 500;
   font-size: 0.75rem;
+  line-height: 1.6;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  line-height: 1.6;
 }
 .cell {
   position: relative;
-  padding: 1rem 1.25rem 1.1rem 2.75rem;
+  padding: 1rem 1.25rem 1.1rem 2.6rem;
+  text-wrap: pretty;
+}
+/* The Roma column is the raised one: a faint red wash under every Roma cell. */
+.romaHead,
+.cellRoma {
+  background: color-mix(in srgb, var(--color-red-100) 28%, #fff);
 }
 .cellRoma {
   color: var(--color-ink-900);
+  font-weight: 500;
 }
-.cellG {
+.cellThem {
   color: var(--color-ink-600);
 }
-.cellText {
+.means {
+  padding: 1rem 1.25rem 1.1rem;
+  color: var(--color-ink-800);
+  font-size: 0.875rem;
   text-wrap: pretty;
 }
+@media (hover: hover) and (pointer: fine) {
+  .row:hover .rowLabel,
+  .row:hover .cellThem,
+  .row:hover .means {
+    background: var(--color-cream-50);
+    transition: background-color 150ms ease;
+  }
+}
+
 .tick {
   position: absolute;
-  left: 0.95rem;
+  left: 0.85rem;
   top: 1.05rem;
   width: 1.3rem;
   height: 1.1rem;
@@ -139,21 +138,21 @@
 }
 
 @media (min-width: 992px) {
-  .table thead th {
-    padding-inline: 2rem 1.25rem;
-  }
-  .table thead th + th {
-    padding-left: 2.75rem;
-  }
+  .table thead th:first-child,
   .rowLabel {
     padding-left: 2rem;
   }
-  .cell {
-    padding-right: 2rem;
+  .table thead th:nth-child(2),
+  .table thead th:nth-child(3) {
+    padding-left: 2.6rem;
+  }
+  .means,
+  .meansHead {
+    padding-right: 2rem !important;
   }
 }
 
-/* Phones: each row becomes a block (label, then a Roma line and a Glimpse line). */
+/* Phones: each row is a block — factor, then Roma, competitor and the takeaway. */
 @media (max-width: 767px) {
   .table,
   .table tbody,
@@ -172,9 +171,14 @@
     padding: 0 0 0.6rem;
   }
   .cell {
-    padding: 0.35rem 0 0.35rem 2rem;
+    padding: 0.5rem 0.75rem 0.5rem 2rem;
+    border-radius: 0.5rem;
   }
-  .cell::before {
+  .cellRoma {
+    margin-bottom: 0.35rem;
+  }
+  .cell::before,
+  .means::before {
     content: attr(data-col);
     display: block;
     margin-bottom: 0.1rem;
@@ -189,8 +193,13 @@
     color: var(--color-red-700);
   }
   .tick {
-    left: 0;
-    top: 0.5rem;
+    left: 0.5rem;
+    top: 0.95rem;
+  }
+  .means {
+    margin-top: 0.5rem;
+    padding: 0.6rem 0 0;
+    border-top: 1px dashed var(--color-sand-400);
   }
 }
 
@@ -212,7 +221,6 @@
   }
 }
 .legendKey {
-  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -301,14 +309,10 @@
   gap: 0.4rem;
 }
 .srcN {
+  padding-top: 0.1rem;
   color: var(--color-ink-500);
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  padding-top: 0.1rem;
-}
-.srcWho {
-  color: var(--color-ink-900);
-  font-weight: 500;
 }
 @media (prefers-reduced-motion: reduce) {
   .summary::after {

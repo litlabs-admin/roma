@@ -1,0 +1,113 @@
+/* "Compare Roma with others" (DESIGN.md §G.13): link cards, §E.6 card styling. */
+
+.section {
+  padding-top: var(--section-md);
+}
+.head {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+@media (min-width: 992px) {
+  .head {
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    gap: 4rem;
+  }
+}
+.title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+@media (min-width: 992px) {
+  .title {
+    font-size: 2.25rem;
+  }
+}
+.lead {
+  max-width: 34rem;
+  margin: 0;
+  color: var(--color-ink-600);
+  font-size: 1.0625rem;
+  line-height: 1.45;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+.card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 0.75rem;
+  row-gap: 0.6rem;
+  height: 100%;
+  padding: 1.5rem 3rem 1.5rem 1.5rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-md);
+  background: #fff;
+  color: var(--color-ink-900);
+  text-decoration: none;
+  transition: border-color 150ms ease;
+}
+.badge {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--color-sand-400);
+  border-radius: 0.55rem;
+  background: var(--color-cream-50);
+  color: var(--color-ink-800);
+  font-size: 0.875rem;
+}
+.name {
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+.blurb {
+  grid-column: 1 / -1;
+  color: var(--color-ink-600);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+.arrow {
+  position: absolute;
+  top: 1.6rem;
+  right: 1.5rem;
+  color: var(--color-ink-500);
+  transition:
+    transform 350ms var(--ease-out),
+    color 150ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    border-color: var(--color-sand-400);
+  }
+  .card:hover .arrow {
+    color: var(--color-red-600);
+    transform: translateX(3px);
+  }
+}
+.card:focus-visible {
+  outline: 2px solid var(--color-red-600);
+  outline-offset: 2px;
+}

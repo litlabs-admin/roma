@@ -1,0 +1,217 @@
+/* `backups` visual (DESIGN.md §G.13): one zip per check + the Auto Backup Request track.
+   Product UI, so Inter (`--font-ui`). Sits in a StandApart well. */
+
+.window {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-md);
+  background: #fff;
+  box-shadow:
+    0 14px 30px -18px rgba(var(--mock-shadow-rgb), 0.28),
+    0 1px 2px rgba(var(--mock-shadow-rgb), 0.05);
+  color: var(--color-ink-900);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+
+/* ── the check ── */
+.check {
+  padding: 1rem 1.1rem 1.1rem;
+}
+.checkHead {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--ui-line);
+}
+.checkHead b {
+  font-weight: 600;
+}
+.checkAmt {
+  margin-left: auto;
+  font-weight: 600;
+}
+.docs {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.75rem 0;
+  padding: 0;
+  list-style: none;
+}
+.doc {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.5rem;
+  background: var(--ui-well);
+  color: var(--color-ink-800);
+  font-size: 0.8125rem;
+}
+.docIcon {
+  width: 0.95rem;
+  height: 0.95rem;
+  color: var(--color-ink-500);
+}
+.tick {
+  display: grid;
+  place-items: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-left: auto;
+  border-radius: 50%;
+  background: var(--data-ok);
+  color: #fff;
+}
+.tick svg {
+  width: 0.7rem;
+  height: 0.7rem;
+  stroke-width: 2.2;
+}
+.zip {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--color-red-600);
+  border-radius: 0.65rem;
+  background: var(--color-red-100);
+  color: var(--color-red-800);
+}
+.zipIcon {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+.zip b {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.8125rem;
+}
+.zip em {
+  display: block;
+  font-style: normal;
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+
+/* ── the request track ── */
+.request {
+  padding: 1rem 1.1rem 1.1rem;
+  border-top: 1px dashed var(--color-sand-400);
+  background: var(--color-cream-50);
+}
+.reqHead {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.9rem;
+  font-weight: 600;
+}
+.newBadge {
+  padding: 0.12rem 0.45rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-red-600);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.trackWrap {
+  position: relative;
+}
+.track {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rail {
+  display: none;
+}
+.step {
+  display: grid;
+  grid-template-columns: 1.9rem 1fr;
+  column-gap: 0.65rem;
+  align-items: start;
+}
+.step b {
+  font-weight: 600;
+  font-size: 0.8125rem;
+}
+.step > span:last-child {
+  grid-column: 2;
+  color: var(--color-ink-600);
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+.node {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: var(--color-red-600);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+.node svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  stroke-width: 2.2;
+}
+.nodeDone {
+  background: var(--data-ok);
+}
+.foot {
+  margin: 0;
+  padding: 0.6rem 1.1rem 0.75rem;
+  border-top: 1px solid var(--ui-line);
+  color: var(--color-ink-500);
+  font-size: 0.6875rem;
+}
+
+/* Wide wells: steps run left to right on a rail. */
+@container (min-width: 34rem) {
+  .track {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .rail {
+    position: absolute;
+    top: 0.95rem;
+    left: 0.95rem;
+    right: calc(25% - 0.95rem);
+    display: block;
+    height: 2px;
+    background: var(--ui-line);
+  }
+  .railFill {
+    position: absolute;
+    inset: 0;
+    background: var(--color-red-600);
+    transform-origin: 0 50%;
+  }
+  .step {
+    position: relative;
+    grid-template-columns: 1fr;
+    row-gap: 0.35rem;
+  }
+  .node {
+    grid-row: auto;
+  }
+  .step > span:last-child {
+    grid-column: 1;
+  }
+}

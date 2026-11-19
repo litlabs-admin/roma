@@ -3,20 +3,21 @@
 import { useLayoutEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
-import { fit } from "@/lib/content/compare/glimpse";
 import { RomaGlyph } from "@/components/platform/mock/kit";
 import { refreshWhenReady, rise } from "@/components/platform/motion";
 import SectionHead from "./SectionHead";
 import c from "./compare.module.css";
-import GlimpseMark from "./GlimpseMark";
+import CompetitorMark from "./CompetitorMark";
+import { useCompare } from "./context";
 import s from "./fitLedger.module.css";
 
 /**
- * "The short version" (DESIGN.md §G.13): who each product fits, as two ruled ledger
+ * "Who each is for" (DESIGN.md §G.13): who each product fits, as two ruled ledger
  * columns split by a hairline with a serif "or" — a statement, not a card grid. Rows
  * rise in reading order; the "or" settles last.
  */
 export default function FitLedger() {
+  const { c: comp } = useCompare();
   const root = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
@@ -44,7 +45,7 @@ export default function FitLedger() {
   return (
     <section ref={root} className={`${c.section} ${c.sectionTight}`} aria-labelledby="fit-heading">
       <div className={c.inner}>
-        <SectionHead id="fit-heading" label={fit.label} heading={fit.heading} lead={fit.lead} split />
+        <SectionHead id="fit-heading" label="Who each is for" heading={{ before: "Pick the one that fits how you ", accent: "work", after: "." }} lead={`Both help CPG brands with deductions. Here’s when each is the better choice.`} split />
 
         <div className={s.sheet} data-fit="sheet">
           <div className={`${s.col} ${s.roma}`}>
@@ -52,10 +53,10 @@ export default function FitLedger() {
               <span className={s.badge}>
                 <RomaGlyph className={s.rosette} />
               </span>
-              {fit.roma.name}
+              Roma fits if
             </h3>
             <ol className={s.list}>
-              {fit.roma.items.map((t, i) => (
+              {comp.fit.roma.map((t, i) => (
                 <li key={t} data-fit="roma">
                   <span className={s.n}>{String(i + 1).padStart(2, "0")}</span>
                   {t}
@@ -73,12 +74,12 @@ export default function FitLedger() {
           <div className={`${s.col} ${s.glimpse}`}>
             <h3 className={s.name} data-fit="glimpse">
               <span className={`${s.badge} ${s.badgeG}`}>
-                <GlimpseMark />
+                <CompetitorMark />
               </span>
-              {fit.glimpse.name}
+              {comp.name} may fit if
             </h3>
             <ol className={s.list}>
-              {fit.glimpse.items.map((t, i) => (
+              {comp.fit.them.map((t, i) => (
                 <li key={t} data-fit="glimpse">
                   <span className={s.n}>{String(i + 1).padStart(2, "0")}</span>
                   {t}

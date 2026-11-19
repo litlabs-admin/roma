@@ -131,10 +131,9 @@
   border-radius: 50%;
   background: var(--color-cream-50);
   color: var(--color-ink-900);
-  font-family: var(--font-serif);
   font-weight: 500;
-  font-size: 1.25rem;
-  letter-spacing: -0.03em;
+  font-size: 1.125rem;
+  letter-spacing: 0;
   line-height: 1;
   padding-bottom: 0.15rem;
 }

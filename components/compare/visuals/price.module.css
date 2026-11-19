@@ -1,56 +1,35 @@
-/* "Price on the page" (DESIGN.md §G.13): head left, a warm well right with a receipt
-   printing out of a slot and a sealed quote card beside it. */
+/* `price` visual (DESIGN.md §G.13): Roma's receipt printing out of a slot beside the
+   competitor's pricing card. Sits in a StandApart well (the well is the container). */
 
-.section {
-  padding-top: var(--section-md);
-}
-.layout {
-  display: grid;
-  gap: 2.5rem;
-}
-@media (min-width: 992px) {
-  .layout {
-    grid-template-columns: 0.9fr 1.1fr;
-    align-items: center;
-    gap: 4rem;
-  }
-}
-.text > header {
-  margin-bottom: 2rem;
-}
-.foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.35rem 0.75rem;
-  margin: 0;
-  color: var(--color-ink-600);
-  font-size: 0.9375rem;
-}
-
-/* ── well ── */
-.well {
+.stage {
   position: relative;
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
-  gap: 2rem;
-  padding: 2.5rem 1.25rem 2.5rem;
-  border: 1px solid var(--color-sand-300);
-  border-radius: var(--radius-xl);
-  background: var(--well-warm);
+  gap: 1.5rem;
+  width: 100%;
 }
-@media (min-width: 640px) {
-  .well {
-    grid-template-columns: 1.05fr 1fr;
-    align-items: start;
-    gap: 1.5rem;
-    padding: 2.5rem 2rem 3rem;
+/* Wider wells: the papers overlap on one spot, like a desk; the quote card sits over the
+   receipt's lower-right corner, so the pair fits any well width without spilling. */
+@container (min-width: 26rem) {
+  .stage {
+    grid-template-areas: "desk";
+    justify-items: stretch;
+    padding-bottom: 1rem;
   }
-}
-@media (min-width: 992px) {
-  .well {
-    padding: 3rem 2.5rem 3.5rem;
+  .stage .printer,
+  .stage .quoteCard {
+    grid-area: desk;
+  }
+  .stage .printer {
+    justify-self: start;
+    width: min(56%, 20rem);
+  }
+  .stage .quoteCard {
+    z-index: 3;
+    justify-self: end;
+    align-self: end;
+    width: min(46%, 17rem);
   }
 }
 
@@ -209,12 +188,8 @@
     0 1px 2px rgba(var(--mock-shadow-rgb), 0.05);
   transform: rotate(2.5deg);
 }
-@media (min-width: 640px) {
-  .quoteCard {
-    margin-top: 3.5rem;
-  }
-}
 .qHead {
+  flex-wrap: wrap;
   display: flex;
   align-items: center;
   gap: 0.55rem;
@@ -226,6 +201,7 @@
   font-weight: 600;
 }
 .qBadge {
+  flex: none;
   display: grid;
   place-items: center;
   width: 1.6rem;
