@@ -21,8 +21,8 @@
 }
 
 /* ── top: brand block + link columns ──
-   Phones: brand, then a 2-col grid. ≥768px: 4 columns under the brand.
-   ≥1024px: brand (≈1/3) beside the 4 columns on one row. */
+   Phones: brand, then a 2-col grid. ≥768px: 3 columns under the brand.
+   ≥1024px: brand (≈1/3) beside the 3 columns on one row. */
 .top {
   display: grid;
   gap: 3rem;
@@ -85,7 +85,7 @@
 }
 @media (min-width: 768px) {
   .grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 @media (min-width: 1024px) {

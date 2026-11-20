@@ -69,13 +69,13 @@ export const footer = {
     line: { before: "Every deduction, ", accent: "accounted for", after: "." },
     tagline: "The OS for CPG finance",
   },
-  // Grouped by intent (client, 20 Nov 2026): what Roma does, what to read, how it
-  // compares, how to reach us. Legal + social live in the bottom row.
+  // Mirrors the primary nav (client, 20 Nov 2026): Solutions (with Platform first),
+  // Resources (compare pages folded in), Company. Legal + social live in the bottom row.
   columns: [
     {
-      title: "Product",
+      title: "Solutions",
       links: [
-        { label: "How Roma works", href: "/platform" },
+        { label: "Platform", href: "/platform" },
         { label: "Deduction management", href: "/deduction-management" },
         { label: "Analytics", href: "/analytics" },
         { label: "Accounting", href: "/accounting" },
@@ -84,20 +84,17 @@ export const footer = {
     {
       title: "Resources",
       links: [
+        { label: "Customer stories", href: "/customers" },
         { label: "Blog", href: "/blogs" },
         { label: "Deduction codes", href: "/deduction-codes" },
         { label: "FAQs", href: "/#faq" },
+        // Every /compare page, from the registry (lib/content/compare).
+        ...competitors.map((c) => ({ label: `Roma vs. ${c.name}`, href: `/compare/${c.slug}` })),
       ],
-    },
-    {
-      title: "Compare",
-      // Every /compare page, from the registry (lib/content/compare).
-      links: competitors.map((c) => ({ label: `Roma vs. ${c.name}`, href: `/compare/${c.slug}` })),
     },
     {
       title: "Company",
       links: [
-        { label: "Customer stories", href: "/customers" },
         { label: "Partners", href: "/partners" },
         { label: "Book a demo", href: "/book-a-demo" },
         { label: "Contact us", href: "/contact" },

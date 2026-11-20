@@ -6,7 +6,7 @@ import s from "./footer.module.css";
 /**
  * Footer — after Hyperline's: the closing band's dark colour carries straight on.
  * Top: a brand block (rosette, the home hero line with its serif accent, tagline) beside
- * four link columns grouped by intent (Product · Resources · Compare · Company).
+ * three link columns mirroring the nav (Solutions · Resources · Company).
  * A hairline, then one quiet bottom row: copyright left, legal + social right. Then the
  * oversized "roma" running off the bottom of the page.
  */

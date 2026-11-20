@@ -501,6 +501,7 @@
   font-weight: 500;
   letter-spacing: -0.01em;
   text-align: left;
+  text-decoration: none; /* also styles the plain Platform link in the sheet */
   color: inherit;
   cursor: pointer;
 }

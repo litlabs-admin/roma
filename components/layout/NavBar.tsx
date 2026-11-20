@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { DEMO_HREF, LOGIN_HREF, SIGNUP_HREF } from "@/components/chat/data";
 import Button from "@/components/ui/Button";
-import type { NavMenu } from "@/lib/content/nav";
+import type { NavLink, NavMenu } from "@/lib/content/nav";
 import { queryVisible } from "@/lib/motion";
 import { detailPrefetch } from "@/lib/prefetch";
 import NavIcon from "./NavIcon";
@@ -15,8 +15,8 @@ import s from "./nav.module.css";
 
 /**
  * Primary nav (DESIGN.md §G.1). Transparent + white over the hero, solid cream with a
- * hairline once the hero has scrolled away. Four dropdowns (Product · Compare · Resources ·
- * Company) open full-width cream panels; opening one turns the bar solid cream so the panel
+ * hairline once the hero has scrolled away. A plain Platform link, then three dropdowns
+ * (Solutions · Resources · Company) that open full-width cream panels; opening one turns the bar solid cream so the panel
  * never hangs off a transparent bar. Below 992px the groups become an accordion in the sheet.
  *
  * Disclosure pattern (button + aria-expanded + aria-controls), not ARIA `menu`: the panels
@@ -42,7 +42,7 @@ function Chevron({ className }: { className: string }) {
   );
 }
 
-export default function NavBar({ menus }: { menus: NavMenu[] }) {
+export default function NavBar({ links, menus }: { links: NavLink[]; menus: NavMenu[] }) {
   const pathname = usePathname();
   const lightRoute = LIGHT_ROUTES.includes(pathname);
   const [solid, setSolid] = useState(lightRoute);
@@ -207,6 +207,19 @@ export default function NavBar({ menus }: { menus: NavMenu[] }) {
           }}
         >
           <ul className={s.menuList}>
+            {links.map((l) => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  className={`${s.link} ${isActive(l.href) ? s.active : ""}`}
+                  aria-current={isActive(l.href) ? "page" : undefined}
+                  onPointerEnter={(e) => mouse(e) && menuRef.current && closeMenu()}
+                  onClick={closeMenu}
+                >
+                  {l.label}
+                </Link>
+              </li>
+            ))}
             {menus.map((m, i) => {
               const isOpen = menu === m.label;
               return (
@@ -292,6 +305,18 @@ export default function NavBar({ menus }: { menus: NavMenu[] }) {
 
       <div id="mobile-menu" className={s.sheet} hidden={!open}>
         <nav aria-label="Mobile" className={s.sheetLinks}>
+          {links.map((l) => (
+            <div key={l.href} className={s.group}>
+              <Link
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className={`${s.groupBtn} ${isActive(l.href) ? s.sheetActive : ""}`}
+                aria-current={isActive(l.href) ? "page" : undefined}
+              >
+                {l.label}
+              </Link>
+            </div>
+          ))}
           {menus.map((m, i) => {
             const expanded = sheetGroup === m.label;
             return (

@@ -1,9 +1,8 @@
-// Primary navigation (DESIGN.md §G.1): four dropdowns, Product · Compare · Resources ·
-// Company, each with one bento-style feature tile. Built on the server (components/layout/Nav.tsx)
+// Primary navigation (DESIGN.md §G.1): a standalone Platform link, then three dropdowns,
+// Solutions · Resources · Company, each with one bento-style feature tile. Built on the server (components/layout/Nav.tsx)
 // and passed to the client bar as plain data, so blog and story content never ships in the
 // client bundle. Every figure below comes from approved content, never typed in here.
 
-import { DEMO_HREF } from "@/components/chat/data";
 import { competitors, compareHref } from "./compare";
 import { getStory, storyHref } from "./customers";
 import { getPosts, headingText, readMinutes } from "./blog";
@@ -45,6 +44,11 @@ export type NavFeature = {
 };
 
 export type NavMenu = { label: string; items: NavItem[]; feature: NavFeature };
+
+/** Top-level link with no dropdown, shown before the menus. */
+export type NavLink = { label: string; href: string };
+
+export const navLinks: NavLink[] = [{ label: "Platform", href: "/platform" }];
 
 /*
  * Story tile photos. Not the bento's images (customers page), on purpose.
@@ -90,26 +94,13 @@ function latestPostFeature(): NavFeature {
 
 export const navMenus: NavMenu[] = [
   {
-    label: "Product",
+    label: "Solutions",
     items: [
-      { label: "How Roma works", href: "/platform", desc: "Pull every deduction, dispute the invalid ones, book the rest.", icon: "platform" },
       { label: "Deduction management", href: "/deduction-management", desc: "Every deduction from UNFI, KeHE and your retailers in one inbox.", icon: "deductions" },
       { label: "Analytics", href: "/analytics", desc: "See where deductions go by retailer, type and month.", icon: "analytics" },
       { label: "Accounting", href: "/accounting", desc: "Every remittance tied to its invoices, every line coded to your GL.", icon: "accounting" },
     ],
     feature: storyFeature("good-day-chocolate"),
-  },
-  {
-    label: "Compare",
-    items: competitors.map((c) => ({ label: `Roma vs. ${c.name}`, href: compareHref(c.slug), desc: c.blurb, icon: "compare" as const })),
-    feature: {
-      kind: "gradient",
-      mark: { type: "roma" },
-      figure: "5 min",
-      label: "to go live, no ERP or IT project",
-      href: DEMO_HREF,
-      sr: "Roma is live in under 5 minutes, no ERP or IT project. Book a demo.",
-    },
   },
   {
     label: "Resources",
@@ -118,6 +109,7 @@ export const navMenus: NavMenu[] = [
       { label: "Blog", href: "/blogs", desc: "Guides on deductions, retailers and trade spend.", icon: "blog" },
       { label: "Deduction codes", href: "/deduction-codes", desc: "Look up a retailer's deduction code and what it means.", icon: "codes" },
       { label: "FAQs", href: "/#faq", desc: "Quick answers on setup, retailers and security.", icon: "faq" },
+      ...competitors.map((c) => ({ label: `Roma vs. ${c.name}`, href: compareHref(c.slug), desc: c.blurb, icon: "compare" as const })),
     ],
     feature: latestPostFeature(),
   },

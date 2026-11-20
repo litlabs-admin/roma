@@ -13,7 +13,7 @@ import s from "./founder.module.css";
  * full-bleed ink band, the cut-out portrait standing on the band's bottom edge and
  * breaking out above its top, the quote beside it with a short red rule and the
  * attribution. Stacks below 992px (portrait first). One-shot rise.
- * MOCK: photo is a stand-in and the name is a placeholder (lib/content/partners.ts).
+ * MOCK: the quote is placeholder copy (lib/content/partners.ts).
  */
 
 export default function FounderNote() {

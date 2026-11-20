@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { prefersReducedMotion, queryVisible } from "@/lib/motion";
@@ -28,6 +29,34 @@ export default function SmoothScroll() {
       delete (window as unknown as { __lenis?: Lenis }).__lenis;
     };
   }, []);
+
+  // New route → start at the top. Next's own scroll-on-navigate targets the changed
+  // segment and fights Lenis's internal position (and with cacheComponents the old
+  // route stays mounted, hidden), so a card clicked mid-page used to land mid-page.
+  // Skipped when the URL carries a #hash so in-page anchors still work.
+  const pathname = usePathname();
+  const first = useRef(true);
+  const popped = useRef(false);
+  useEffect(() => {
+    const onPop = () => (popped.current = true);
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    // back/forward: let the browser restore the previous position
+    if (popped.current) {
+      popped.current = false;
+      return;
+    }
+    if (window.location.hash) return;
+    const lenis = (window as unknown as { __lenis?: Lenis }).__lenis;
+    if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return null;
 }

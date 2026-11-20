@@ -1,4 +1,4 @@
-import { navMenus } from "@/lib/content/nav";
+import { navLinks, navMenus } from "@/lib/content/nav";
 import NavBar from "./NavBar";
 
 /**
@@ -6,5 +6,5 @@ import NavBar from "./NavBar";
  * and hands the client bar plain props, so that content stays out of the client bundle.
  */
 export default function Nav() {
-  return <NavBar menus={navMenus} />;
+  return <NavBar links={navLinks} menus={navMenus} />;
 }

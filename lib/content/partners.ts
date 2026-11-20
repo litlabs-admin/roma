@@ -18,8 +18,7 @@
 // MOCK — replace before launch:
 // - Every program term and enablement item (referral revenue, partner pricing, partner
 //   manager, demo workspace, co-marketing, managed service). Roma has no partner program yet.
-// - The founder quote, "Founder name" and the photo (public/images/partners/
-//   mock-founder.webp is a stand-in, not a Roma person).
+// - The founder quote (name and photo are Roma's real founder, Ujwal Kalra).
 // - Every FAQ answer.
 // Hero photo: Van Tay Media, unsplash.com/photos/TFFn3BYLc5s (Unsplash License).
 // This file is NOT part of the Ask Roma knowledge base (lib/content/knowledge.ts).
@@ -173,9 +172,9 @@ export const enablement = [
 export const founder = {
   quote:
     "Founders don’t write off deductions because they want to. They do it because nobody has time to check. The people they already trust, their accountant, their investor, the tools they run on, are the best way to change that. We’d like to build that with you.",
-  name: "Founder name",
+  name: "Ujwal Kalra",
   role: "Co-founder & CEO, Roma",
-  photo: { src: "/images/partners/mock-founder.webp", width: 800, height: 802 },
+  photo: { src: "/images/partners/founder-ujwal-kalra.webp", width: 800, height: 800 },
 };
 
 /* ── Partnership journey ───────────────────────────────────────────────── */
