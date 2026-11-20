@@ -1,0 +1,61 @@
+import Image from "next/image";
+import Link from "next/link";
+import { storyPageCopy, type CustomerStory } from "@/lib/content/customers";
+import BrandMark from "../BrandMark";
+import s from "./story.module.css";
+
+/**
+ * Story page intro (DESIGN.md §G.15, Hyperline story page): breadcrumb → cover photo →
+ * title → lead → the person quoted. Brands without a named person or portrait (the real
+ * brands, on purpose) show their brand mark in place of a face.
+ * [data-nav-light]: the nav is solid cream from the top.
+ */
+export default function StoryIntro({ story }: { story: CustomerStory }) {
+  const { quote, brand } = story;
+  return (
+    <header className={s.intro} data-nav-light>
+      <nav aria-label="Breadcrumb" className={s.crumbs}>
+        <ol>
+          <li>
+            <Link href="/customers">{storyPageCopy.breadcrumb}</Link>
+          </li>
+          <li aria-current="page">{brand.name}</li>
+        </ol>
+      </nav>
+
+      <div className={s.cover}>
+        <Image
+          src={story.photo.src}
+          alt=""
+          fill
+          sizes="(max-width: 860px) 100vw, 48rem"
+          quality={85}
+          loading="eager"
+          fetchPriority="high"
+          style={{ objectPosition: story.photo.position }}
+        />
+      </div>
+
+      <h1 id="story-title" className={`${s.title} type-h3`}>
+        {story.cardTitle}
+      </h1>
+      <p className={`${s.lead} type-lead`}>{story.excerpt}</p>
+
+      <div className={s.person}>
+        {quote.portrait ? (
+          <Image src={quote.portrait.src} alt="" width={96} height={96} className={s.portrait} />
+        ) : (
+          <span className={s.markTile} aria-hidden="true">
+            <BrandMark brand={brand} className={s.tileMark} />
+          </span>
+        )}
+        <div className={s.personText}>
+          {quote.name && <p className={s.personName}>{quote.name}</p>}
+          <p className={quote.name ? s.personRole : s.personName}>
+            {quote.role} @ {brand.name}
+          </p>
+        </div>
+      </div>
+    </header>
+  );
+}

@@ -12,7 +12,7 @@ import s from "./lean.module.css";
 /**
  * Why Roma — the four differentiators from the positioning PDF as ledger rows, using
  * DESIGN.md §E.11's numbered step-block (mono "01" + h5 + small; inactive at .4, the
- * active row nudged in). Sticky heading on the left, like "Built for lean teams".
+ * active row nudged in). Sticky heading on the left, like "Built for finance teams of any size".
  * Not an icon-card grid (§A.8).
  */
 

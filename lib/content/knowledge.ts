@@ -17,9 +17,9 @@ export const OFFTOPIC_TOKEN = "<<OFFTOPIC>>";
 export const FOLLOWUPS_TOKEN = "<<FOLLOWUPS>>";
 
 const POSITIONING = `
-WHO ROMA IS FOR: Natural and specialty CPG food & beverage brands doing $1M–$50M in revenue (sweet spot $3–10M), 11–50 employees, selling through UNFI, KeHE and major retailers. Typical users: founders, VP Finance, Controllers, AR Managers. Not a fit for pre-distribution brands.
+WHO ROMA IS FOR: Natural and specialty CPG food & beverage brands selling through UNFI, KeHE and major retailers, from emerging brands to established companies with full finance and AR teams. Typical users: founders, VP Finance, Controllers, AR Managers. Not a fit for pre-distribution brands.
 
-THE PROBLEM: Retailers (UNFI and KeHE included) deduct amounts directly from payments: chargebacks, promo claims, shortages, fees. They add up to 2–3% of revenue. Many are invalid, but nobody on a lean team has time to check, so the money is written off by default.
+THE PROBLEM: Retailers (UNFI and KeHE included) deduct amounts directly from payments: chargebacks, promo claims, shortages, fees. They add up to 2–3% of revenue. Many are invalid, but checking them by hand takes more time than most teams have, so the money is written off by default.
 
 WHY CURRENT SOLUTIONS FAIL:
 - Doing nothing: most brands absorb deductions as a cost of doing business; margin leaks every month, invisibly.
@@ -30,21 +30,21 @@ WHAT ROMA OFFERS: Roma pulls every deduction from retailer portals, categorizes 
 
 WHY ROMA IS DIFFERENT:
 - Live in 5 minutes, with no ERP or IT project (setup time varies by portal).
-- A clean UI built for founders and lean teams, not AR departments.
+- A clean UI that works for a founder running it alone or a full AR team.
 - 99% matching accuracy, so brands trust the numbers and dispute with confidence.
-- Built for emerging brands, from $399/month, while competitors chase $100M+ brands.
+- Pricing from $399/month, so it fits emerging brands as well as established ones.
 
 END-STATE OUTCOME: Every deduction is accounted for. Invalid ones are disputed, not written off. The brand gets cash back, knows its true margin by retailer, and spends zero hours on spreadsheets.
 
 VALUE PROPOSITION: Stop writing off deductions. Roma recovers invalid deductions across UNFI, KeHE and other retailers.
 
-ELEVATOR PITCH: For emerging CPG brands, deductions from UNFI, KeHE and other retailers add up to 2–3% of revenue, and nobody has time to check them. Roma matches every one to your invoices and promos, so you stop writing off money that's yours, and you're live in 5 minutes.
+ELEVATOR PITCH: For CPG brands of any size, deductions from UNFI, KeHE and other retailers add up to 2–3% of revenue, and nobody has time to check them. Roma matches every one to your invoices and promos, so you stop writing off money that's yours, and you're live in 5 minutes.
 
 OUTCOMES: Cash back from invalid deductions that would otherwise be written off. 25+ hours a week freed from portal downloads and spreadsheets. A true view of margin by retailer and promo. Confidence that nothing slips through unchecked.
 
 THREE PILLARS:
 1. Recover lost revenue: recovery tracking; matching to invoices and promo agreements; disputes filed from the platform; invalid deductions disputed with the right backup.
-2. Get your team's time back: automatic pull and categorization from retailer portals; 5-minute setup; clean, simple UI; no portal downloads or spreadsheets; simple enough for a founder or one finance person.
+2. Get your team's time back: automatic pull and categorization from retailer portals; 5-minute setup; clean, simple UI; no portal downloads or spreadsheets; simple enough for a founder or one finance person, and ready for a full AR team.
 3. Visibility and control over cash flow: coverage across KeHE, UNFI, Target, Walmart, Costco, Kroger, Whole Foods and Amazon; 99% matching accuracy and clean categorization; dashboard by retailer, deduction type and promo; know what each promo and retailer really costs.
 
 THE THREE QUESTIONS ROMA ANSWERS (how the website frames the product, client Nov 2026): every deduction raises three questions, and Roma answers all three from the same record. "Where is my money going?" is Analytics (deductions by retailer, type and promo, as a share of sales). "Is this deduction right?" is Recovery (each deduction next to its backup; invalid ones disputed and tracked to payment). "How do I book it?" is Accounting (remittance lines coded to GL, ready to export).

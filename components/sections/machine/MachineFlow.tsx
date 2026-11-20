@@ -10,7 +10,7 @@ import { initCards, initStepScenes } from "./timelines";
 import s from "./machine.module.css";
 
 /**
- * Recovery machine → Built for lean teams. Roma's port of Fruitful's `.dm-flow` block:
+ * Recovery machine → Built for finance teams of any size. Roma's port of Fruitful's `.dm-flow` block:
  * two sections sharing one wrapper so a single scroll-drawn line can run from above the
  * card grid, around both columns and down through every step circle.
  *

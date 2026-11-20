@@ -1,5 +1,6 @@
-// Primary navigation (DESIGN.md §G.1): a standalone Platform link, then three dropdowns,
-// Solutions · Resources · Company, each with one bento-style feature tile. Built on the server (components/layout/Nav.tsx)
+// Primary navigation (DESIGN.md §G.1): Platform · Solutions · Customers · Resources · Company.
+// Platform and Customers are standalone links; the other three are dropdowns, each with one
+// bento-style feature tile (order: `navOrder`). Built on the server (components/layout/Nav.tsx)
 // and passed to the client bar as plain data, so blog and story content never ships in the
 // client bundle. Every figure below comes from approved content, never typed in here.
 
@@ -45,10 +46,16 @@ export type NavFeature = {
 
 export type NavMenu = { label: string; items: NavItem[]; feature: NavFeature };
 
-/** Top-level link with no dropdown, shown before the menus. */
+/** Top-level link with no dropdown. */
 export type NavLink = { label: string; href: string };
 
-export const navLinks: NavLink[] = [{ label: "Platform", href: "/platform" }];
+export const navLinks: NavLink[] = [
+  { label: "Platform", href: "/platform" },
+  { label: "Customers", href: "/customers" },
+];
+
+/** Bar order by label: links and menus interleave (client, 20 Nov 2026). */
+export const navOrder = ["Platform", "Solutions", "Customers", "Resources", "Company"];
 
 /*
  * Story tile photos. Not the bento's images (customers page), on purpose.
@@ -105,7 +112,6 @@ export const navMenus: NavMenu[] = [
   {
     label: "Resources",
     items: [
-      { label: "Customer stories", href: "/customers", desc: "How CPG brands recover and book their deductions with Roma.", icon: "stories" },
       { label: "Blog", href: "/blogs", desc: "Guides on deductions, retailers and trade spend.", icon: "blog" },
       { label: "Deduction codes", href: "/deduction-codes", desc: "Look up a retailer's deduction code and what it means.", icon: "codes" },
       { label: "FAQs", href: "/#faq", desc: "Quick answers on setup, retailers and security.", icon: "faq" },

@@ -271,6 +271,73 @@
   color: var(--color-on-dark-muted);
 }
 
+/* Story link on the active card (/customers). A solid tint on the scrim, no blur (§A.8). */
+.storyLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 1.75rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--border-on-dark);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #fff;
+  background: var(--fill-on-dark);
+  transition: background-color 150ms ease;
+}
+.storyLink svg {
+  transition: transform 350ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .storyLink:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  .storyLink:hover svg {
+    transform: translateX(3px);
+  }
+}
+.storyLink:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ── cream tone (/customers, §G.15): Hyperline's customers-page strip on the page cream.
+   Taller cards (Hyperline 480px at lg), ink quote on a white §E.6 panel. ── */
+.cream {
+  gap: 1rem;
+}
+@media (max-width: 1023px) {
+  .cream .card[data-active] {
+    height: min(26rem, 56svh);
+  }
+}
+@media (min-width: 1024px) {
+  .cream .row {
+    height: clamp(24rem, 56svh, 30rem);
+  }
+}
+.cream .quote {
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--color-sand-300);
+  background: var(--color-white);
+  color: var(--color-ink-900);
+}
+.cream .quoteText {
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.45;
+}
+.cream .author {
+  color: var(--color-ink-600);
+}
+@media (min-width: 1024px) {
+  .cream .quoteText {
+    font-size: 1.25rem;
+  }
+}
+
 /* Reduced motion: the backdrop doesn't scrub, so the section paints its own red. */
 .section[data-static] {
   background: radial-gradient(circle at 50% 50%, var(--color-red-700) 0%, var(--color-red-900) 100%);
@@ -279,7 +346,9 @@
   .card,
   .extras,
   .card[data-active] .extras,
-  .quoteInner {
+  .quoteInner,
+  .storyLink,
+  .storyLink svg {
     transition: none;
     animation: none;
   }

@@ -58,7 +58,7 @@ export const inbox = {
 
 export const capabilitiesCopy = {
   heading: { before: "From deduction to dollars ", accent: "back", after: "." } as Heading,
-  lead: "The work a lean team used to do in spreadsheets, in one place.",
+  lead: "The work your team used to do in spreadsheets, in one place.",
 };
 
 export type CapabilityKey = "inbox" | "backup" | "dispute" | "recovery";
@@ -228,14 +228,14 @@ export const moduleMocks = {
   },
 };
 
-/* ── Lean team (differentiators) ──────────────────────────────────────── */
+/* ── Any team size (differentiators) ──────────────────────────────────── */
 
 export const leanCopy = {
-  heading: { before: "Made for the team that wears five ", accent: "hats", after: "." } as Heading,
-  lead: "Roma is built for founders and lean finance teams, not AR departments.",
+  heading: { before: "Fits the team you already ", accent: "have", after: "." } as Heading,
+  lead: "From a founder doing it all to a full AR department, Roma works without adding headcount.",
   rows: [
     { title: "No software project", body: "Connect your portals. No ERP, no IT project, no CSV exports." },
-    { title: "Simple enough for a team of one", body: "A clean UI you can run alongside everything else." },
+    { title: "Simple at any size", body: "A clean UI one person can run alone, and a whole finance team can share." },
     { title: "Numbers you can act on", body: "99% matching accuracy, so you trust the numbers and dispute with confidence." },
     { title: "You stay in control", body: "You confirm every dispute, with a full audit trail." },
   ],

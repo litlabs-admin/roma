@@ -3,7 +3,7 @@ import { STEPS, stepsCopy } from "./data";
 import StepScene from "./steps/StepScene";
 import s from "./machine.module.css";
 
-/** "Built for lean finance teams." — Fruitful's "It's all built for you." steps. */
+/** "Built for finance teams of any size." — Fruitful's "It's all built for you." steps. */
 export default function BuiltForYou() {
   const { heading, muted, cta } = stepsCopy;
   return (

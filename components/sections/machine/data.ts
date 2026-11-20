@@ -1,4 +1,4 @@
-// "Recovery machine" + "Built for lean teams" — Roma's adaptation of Fruitful's
+// "Recovery machine" + "Built for finance teams of any size" — Roma's adaptation of Fruitful's
 // `.dm-flow` block ("This is your financial dream machine." + "It's all built for you.").
 // Copy: Messaging & Positioning PDF pillars + runroma.com, filtered by DESIGN.md §A.
 // Motion constants: Fruitful src/animations/dreamMachine.js + stepIcons.js (values verbatim).
@@ -73,7 +73,7 @@ export const MACHINE_CARDS: MachineCard[] = [
 ];
 
 export const stepsCopy = {
-  heading: "Built for lean finance teams.",
+  heading: "Built for finance teams of any size.",
   // Second line is muted (Fruitful .o--40); the accent sits on the outcome.
   muted: { before: "Connect it once,", after: "and your books stay ", accent: "current", end: "." },
   cta: { label: "Try now", href: "https://app.runroma.com/signup" },
@@ -104,7 +104,7 @@ export const STEPS: Step[] = [
   },
 ];
 
-/* ── step scenes (Built for lean finance teams) ─────────────────────────── */
+/* ── step scenes (Built for finance teams of any size) ──────────────────── */
 
 /** Step scenes play once at STEP_START, this much faster than authored. */
 export const SCENE_TIMESCALE = 1.2;

@@ -6,7 +6,8 @@
 // - status "real-figures": Good Day Chocolate ($53K in 6 months, Jasen Arias, VP Ops &
 //   Growth, from the positioning PDF, 4 Nov 2026), Smash Kitchen ($23K, PDF) and
 //   Mochidoki (live in 5 minutes). ONLY those headline figures and names are sourced.
-//   Their quotes, narratives, secondary metrics and facts are MOCK. No portraits and no
+//   Their quotes, narratives, secondary metrics, facts, card titles, "about" lines and
+//   summaries are MOCK. No portraits and no
 //   invented people at real brands, on purpose.
 // - status "mock": every other brand is FICTIONAL, with invented people, figures and
 //   narratives (carried over from the earlier /customers content, client decision
@@ -19,7 +20,6 @@
 // Guardrails (§A.1, §A.8, PDF): no "automatically", no guaranteed amounts, no "free",
 // retailers only as channels (never "took"/"owe"), "invalid" not "wrong".
 
-import type { EditorialHeroCopy } from "@/components/blog/BlogHero";
 import type { Block } from "./blog";
 import type { Heading } from "./platform";
 import { DEMO_HREF, SIGNUP_HREF } from "@/components/chat/data";
@@ -56,6 +56,12 @@ export type CustomerStory = {
   photo: { src: string; position: string; credit: string };
   headline: Heading;
   excerpt: string;
+  /** "How {brand} …": grid card title and the story page H1 (Hyperline pattern). */
+  cardTitle: string;
+  /** "About {brand}" paragraph on the story page. */
+  about: string;
+  /** Story page 2×2 summary (Hyperline's Challenge / Solution / Pricing model / Results). */
+  summary: { challenge: string; solution: string; channels: string; results: string };
   /** metrics[0] is the headline result: card pill, bento tile, homepage pill. */
   metrics: Metric[];
   /** Pill text when "figure label" reads badly (default: metrics[0] joined). */
@@ -86,6 +92,14 @@ export const CUSTOMER_STORIES: CustomerStory[] = [
     photo: { src: `${P}/mock-good-day-chocolate.webp`, position: "50% 30%", credit: "Walter Otto on Unsplash (unsplash.com/photos/qJ249_JzEL0)" },
     headline: { before: "$53K they’d already written off, ", accent: "back", after: "." },
     excerpt: "UNFI and KeHE deductions came off every payment and nobody had time to check them. Six months on Roma later, $53K that would have been written off had come back.",
+    cardTitle: "How Good Day Chocolate recovered $53K in deductions it had been writing off",
+    about: "Good Day Chocolate is a natural chocolate brand sold through UNFI and KeHE, with a lean team running operations and growth.",
+    summary: {
+      challenge: "Deductions came off every UNFI and KeHE payment. Checking one meant a portal export, an invoice search and a hunt for backup, so most were written off.",
+      solution: "Roma pulls deductions from both distributor portals and matches each one to its invoice and promo agreement, with the backup needed to dispute it.",
+      channels: "UNFI and KeHE, connected in Roma. Disputes go out and are tracked from one place.",
+      results: "$53K recovered within six months, without adding anyone to the team.",
+    },
     metrics: [
       { figure: "$53K", label: "recovered in 6 months" },
       { figure: "2", label: "distributor portals connected" },
@@ -119,6 +133,14 @@ export const CUSTOMER_STORIES: CustomerStory[] = [
     photo: { src: `${P}/mock-fernbrook.webp`, position: "50% 55%", credit: "Megumi Nachev on Unsplash (unsplash.com/photos/TcNG1talu3s)" },
     headline: { before: "The spreadsheet that ran on one ", accent: "person", after: "." },
     excerpt: "Deductions belonged to their head of operations, every Thursday, by hand. Roma turned a day of downloads into a Monday coffee, and they haven’t fallen behind since.",
+    cardTitle: "How Fernbrook Kombucha turned a day of portal downloads into a Monday review",
+    about: "Fernbrook Kombucha brews organic kombucha in Portland, Oregon, sold through UNFI, KeHE and Whole Foods. Its 14-person team runs deductions through one operations lead.",
+    summary: {
+      challenge: "Every Thursday the head of operations downloaded three portals’ exports and matched lines to invoices by hand. When she was busy, the backlog grew.",
+      solution: "Deductions from all three channels land in Roma categorized and matched, so her job changed from building the list to reviewing it.",
+      channels: "UNFI, KeHE and Whole Foods in one view. Disputes are confirmed in Roma with backup attached.",
+      results: "Deductions work went from 22 hours a week to 3, and $17.4K came back in the first quarter.",
+    },
     metrics: [
       { figure: "19 h", label: "back every week" },
       { figure: "3", label: "portals in one view" },
@@ -153,6 +175,14 @@ export const CUSTOMER_STORIES: CustomerStory[] = [
     photo: { src: `${P}/mock-little-ember.webp`, position: "50% 50%", credit: "Pylz Works on Unsplash (unsplash.com/photos/ViI6qkoRfNA)" },
     headline: { before: "One expense line, finally ", accent: "explained", after: "." },
     excerpt: "Their bookkeeper booked every deduction to one account. Split by retailer and promo in Roma, 61% of one retailer’s deductions traced back to a single spring promo.",
+    cardTitle: "How Little Ember Popcorn traced 61% of one retailer’s deductions to a single promo",
+    about: "Little Ember Popcorn makes small-batch popcorn in Austin, Texas, sold through KeHE, UNFI, Target and Walmart. A 22-person team with a co-founder running finance.",
+    summary: {
+      challenge: "Every deduction was booked to one expense account. The books were right, but that line couldn’t say which retailer, which promo, or what was invalid.",
+      solution: "Roma broke $186K of deductions down by channel, deduction type and promo, and coded each line for the bookkeeper.",
+      channels: "KeHE, UNFI, Target and Walmart, split line by line instead of one expense account.",
+      results: "They reworked their biggest promo and disputed the invalid deductions: 2.1 points of gross margin back at one retailer.",
+    },
     metrics: [
       { figure: "+2.1 pts", label: "gross margin at one retailer" },
       { figure: "$186K", label: "of deductions explained line by line" },
@@ -186,6 +216,14 @@ export const CUSTOMER_STORIES: CustomerStory[] = [
     photo: { src: `${P}/mock-smash-kitchen.webp`, position: "40% 50%", credit: "Unsplash (unsplash.com/photos/y--Os1aj_EU)" },
     headline: { before: "Every deduction next to its ", accent: "invoice", after: "." },
     excerpt: "For the first time, the team could see each deduction beside the invoice and promo it came from, and exactly which ones were invalid. $23K came back.",
+    cardTitle: "How Smash Kitchen matched every deduction to its invoice and recovered $23K",
+    about: "Smash Kitchen makes condiments for natural and specialty retail, distributed through UNFI and KeHE.",
+    summary: {
+      challenge: "Deductions arrived across distributor portals in different formats, without the invoice or promo they related to. Sorting valid from invalid meant rebuilding the context by hand.",
+      solution: "Roma matches every deduction to its invoice and promo agreement in one place, so the invalid ones stand out with their backup.",
+      channels: "UNFI and KeHE, with every deduction in one place and no portal exports by hand.",
+      results: "$23K in invalid deductions recovered, with each claim tracked to payment.",
+    },
     metrics: [
       { figure: "$23K", label: "recovered" },
       { figure: "1", label: "place for every deduction" },
@@ -215,6 +253,14 @@ export const CUSTOMER_STORIES: CustomerStory[] = [
     photo: { src: `${P}/mock-mochidoki.webp`, position: "48% 35%", credit: "Rifki Kurniawan on Unsplash (unsplash.com/photos/k63Or81F8-M)" },
     headline: { before: "Live in five minutes, not a ", accent: "quarter", after: "." },
     excerpt: "Setup took minutes, not weeks. Now one person handles deductions across every retailer, with no spreadsheet in sight.",
+    cardTitle: "How Mochidoki went live on Roma in five minutes and retired its deductions spreadsheets",
+    about: "Mochidoki makes mochi ice cream, sold through UNFI, KeHE and its retail partners.",
+    summary: {
+      challenge: "Each retailer’s deductions lived in its own exports and spreadsheets. Keeping up took more people than a growing frozen brand wanted to spend on it.",
+      solution: "The team connected its portals to Roma in about five minutes, with no ERP or IT project. Deductions now arrive in one view, categorized.",
+      channels: "UNFI and KeHE, connected in about five minutes.",
+      results: "One person handles deductions across every retailer, and the spreadsheets are gone.",
+    },
     metrics: [
       { figure: "5 min", label: "to go live" },
       { figure: "1", label: "person across every retailer" },
@@ -245,6 +291,14 @@ export const CUSTOMER_STORIES: CustomerStory[] = [
     photo: { src: `${P}/mock-hollis-farm.webp`, position: "55% 60%", credit: "Katya Azimova on Unsplash (unsplash.com/photos/mkdr9COQxsk)" },
     headline: { before: "Shortages were the blind ", accent: "spot", after: "." },
     excerpt: "Proof of delivery always existed somewhere. Roma put it next to the shortage deduction it answers, and $11.6K came back.",
+    cardTitle: "How Hollis Farm Granola put proof of delivery next to every shortage claim",
+    about: "Hollis Farm Granola bakes granola in Burlington, Vermont, sold through UNFI and KeHE. A nine-person team led by its founder.",
+    summary: {
+      challenge: "Shortage deductions were the hardest to fight. Proof of delivery existed, but finding it for each claim took longer than the claim seemed worth.",
+      solution: "Roma lines each shortage up with the shipment it refers to, so the team knows which proof to pull and disputes with the backup attached.",
+      channels: "UNFI and KeHE, with every shortage matched to its shipment.",
+      results: "38 shortage claims disputed and $11.6K recovered that had been absorbed as a cost of doing business.",
+    },
     metrics: [
       { figure: "$11.6K", label: "recovered on shortages" },
       { figure: "38", label: "shortage claims disputed" },
@@ -275,6 +329,14 @@ export const CUSTOMER_STORIES: CustomerStory[] = [
     photo: { src: `${P}/mock-saltwind.webp`, position: "50% 55%", credit: "Grace Boburka on Unsplash (unsplash.com/photos/4EOmQBqZqq8)" },
     headline: { before: "Five portals, one ", accent: "view", after: "." },
     excerpt: "Their fractional CFO used to ask for the deductions spreadsheet every month. Now she logs in and sees it herself, across five retailers.",
+    cardTitle: "How Saltwind Crackers brought five retailer portals into one view",
+    about: "Saltwind Crackers bakes crackers in Charleston, South Carolina, sold through UNFI, Target, Walmart, Kroger and Whole Foods. 31 people, with a fractional CFO.",
+    summary: {
+      challenge: "Five retailers meant five portals, five export formats and one spreadsheet that took days to reconcile at month-end.",
+      solution: "Roma brings all five portals into one view, and the fractional CFO has her own login instead of a monthly spreadsheet request.",
+      channels: "UNFI, Target, Walmart, Kroger and Whole Foods, in one view.",
+      results: "Month-end finished three days sooner, and $14.2K in invalid deductions came back over two quarters.",
+    },
     metrics: [
       { figure: "5", label: "portals, one view" },
       { figure: "$14.2K", label: "recovered in two quarters" },
@@ -306,6 +368,14 @@ export const CUSTOMER_STORIES: CustomerStory[] = [
     photo: { src: `${P}/mock-juniper-row.webp`, position: "50% 50%", credit: "Kita Centella on Unsplash (unsplash.com/photos/nVry2nZsoEU)" },
     headline: { before: "Connected between two ", accent: "calls", after: "." },
     excerpt: "A six-person team, one KeHE portal and no time. Their founder connected Roma between meetings and had every deduction sorted that afternoon.",
+    cardTitle: "How Juniper Row Tea connected KeHE between two calls and recovered $6.8K",
+    about: "Juniper Row Tea makes bottled iced tea in Asheville, North Carolina, distributed by KeHE. A six-person team where the founder covers finance.",
+    summary: {
+      challenge: "With six people and one distributor, deductions were nobody’s job. The founder suspected money was leaking but couldn’t justify a project to find out.",
+      solution: "Connecting KeHE took under five minutes. By the end of the day every deduction was categorized and the invalid ones were marked for review.",
+      channels: "KeHE, connected in under five minutes.",
+      results: "$6.8K recovered in the first 90 days, from a portal nobody had opened in months.",
+    },
     metrics: [
       { figure: "< 5 min", label: "to connect KeHE" },
       { figure: "$6.8K", label: "recovered in 90 days" },
@@ -336,6 +406,14 @@ export const CUSTOMER_STORIES: CustomerStory[] = [
     photo: { src: `${P}/mock-pebble-creek.webp`, position: "50% 50%", credit: "personalgraphic.com on Unsplash (unsplash.com/photos/RUqCyjDQZ-A)" },
     headline: { before: "The 3% they’d stopped ", accent: "questioning", after: "." },
     excerpt: "They budgeted deductions at 3% of sales and moved on. A real share of that 3% turned out to be invalid, and $8.2K came back in a quarter.",
+    cardTitle: "How Pebble Creek Nut Butter found that one in five deductions didn’t hold up",
+    about: "Pebble Creek Nut Butter makes nut butters in Boulder, Colorado, sold through KeHE and Walmart. A 12-person team run by two co-founders.",
+    summary: {
+      challenge: "Deductions were a budget line: 3% of sales, accepted as the cost of being on shelf. Nobody checked whether the 3% was right.",
+      solution: "Roma checks every KeHE and Walmart deduction against invoices and promo terms, so the invalid ones can be disputed with backup.",
+      channels: "KeHE and Walmart, each deduction checked against invoices and promo terms.",
+      results: "$8.2K back in the first quarter, and a deductions budget the team understands line by line.",
+    },
     metrics: [
       { figure: "$8.2K", label: "back in the first quarter" },
       { figure: "1 in 5", label: "deductions found invalid" },
@@ -372,10 +450,6 @@ export function getRelatedStories(slug: string, n = 3) {
   return [...same, ...others.filter((s) => s.category !== story?.category)].slice(0, n);
 }
 
-export function categoryLabel(key: CategoryKey) {
-  return CATEGORIES.find((c) => c.key === key)?.label ?? key;
-}
-
 export function pillText(story: CustomerStory) {
   return story.pill ?? `${story.metrics[0].figure} ${story.metrics[0].label}`;
 }
@@ -384,65 +458,23 @@ export function storyHref(slug: string) {
   return `/customers/${slug}`;
 }
 
-/** "Name, Role" or just the role when no person is named. */
-export function attribution(story: CustomerStory) {
-  return story.quote.name ? `${story.quote.name}, ${story.quote.role}` : story.quote.role;
-}
-
 /* ── Page copy ─────────────────────────────────────────────────────────── */
 
-export const custHero: EditorialHeroCopy = {
-  id: "customers-title",
-  eyebrow: "Customer stories",
-  icon: "book",
-  heading: { before: "They checked. The money was ", accent: "theirs", after: "." },
-  lead: "Natural and specialty brands selling through UNFI, KeHE and retailers, on what they found when someone finally looked at their deductions.",
-  image: { src: `${P}/mock-good-day-chocolate.webp`, position: "50% 30%" },
-  listLabel: "Browse by category",
-  items: CATEGORIES.map((c) => ({ label: c.label, href: `/customers?cat=${c.key}#library` })),
-};
-
-// Bento (DESIGN.md §G.15): the homepage Stories heading, continued.
-export const bentoCopy = {
-  heading: { before: "Brands that stopped writing off ", accent: "deductions", after: "." } as Heading,
-  lead: "From emerging natural brands to established CPG teams, finance leads use Roma across UNFI, KeHE and their other retailers.",
+// /customers (DESIGN.md §G.15): centred intro → featured strip (the homepage's three
+// real-figure brands, components/sections/stories/data.ts) → every story as a logo card.
+export const customersCopy = {
+  heading: "Built for brands that stopped writing off deductions",
+  lead: "See how natural and specialty CPG brands track, dispute and book their deductions with Roma.",
+  gridHeading: "All customer stories",
+  read: "Read story",
   note: RESULTS_VARY,
-  /** Lead photo tile, the rotating quote card, then the row of three tiles. */
-  leadTile: "good-day-chocolate",
-  quotes: ["fernbrook-kombucha", "little-ember-popcorn", "saltwind-crackers", "pebble-creek-nut-butter"],
-  row: [
-    { slug: "smash-kitchen", kind: "photo" as const },
-    { slug: "mochidoki", kind: "gradient" as const },
-    { slug: "hollis-farm-granola", kind: "photo" as const },
-  ],
-  read: "Read story",
-};
-
-export const libraryCopy = {
-  label: "All stories",
-  heading: { before: "Find a brand like ", accent: "yours", after: "." } as Heading,
-  lead: "Every story starts the same way: deductions nobody had time to check. Filter by what you make.",
-  all: "All",
-  featured: "Featured story",
-  read: "Read story",
-  empty: "No stories in this category yet.",
-  /** Closing tile of the "All" grid: the turn to the reader's own data. */
-  yours: {
-    label: "Your brand",
-    heading: { before: "A case study is someone else’s ", accent: "numbers", after: "." } as Heading,
-    body: "Connect a portal and see your own deductions by retailer and by type. Live in under 5 minutes, no ERP or IT project.",
-    cta: { label: "Try now", href: SIGNUP_HREF },
-    secondary: { label: "Book a demo", href: DEMO_HREF },
-  },
 };
 
 export const storyPageCopy = {
-  back: "All customer stories",
-  glance: "At a glance",
-  facts: { company: "Company", category: "Category", channels: "Channels", team: "Team", hq: "Headquarters", since: "On Roma since" },
-  try: { label: "Try now", href: SIGNUP_HREF },
-  results: "Results",
-  more: { label: "More stories", heading: { before: "Brands like ", accent: "theirs", after: "." } as Heading },
+  breadcrumb: "Customers",
+  about: "About",
+  summary: { challenge: "Challenge", solution: "Solution", channels: "Channels", results: "Results" },
+  more: "More customer stories",
   note: RESULTS_VARY,
 };
 

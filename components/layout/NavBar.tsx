@@ -15,8 +15,8 @@ import s from "./nav.module.css";
 
 /**
  * Primary nav (DESIGN.md §G.1). Transparent + white over the hero, solid cream with a
- * hairline once the hero has scrolled away. A plain Platform link, then three dropdowns
- * (Solutions · Resources · Company) that open full-width cream panels; opening one turns the bar solid cream so the panel
+ * hairline once the hero has scrolled away. Platform · Solutions · Customers · Resources ·
+ * Company: two plain links and three dropdowns that open full-width cream panels; opening one turns the bar solid cream so the panel
  * never hangs off a transparent bar. Below 992px the groups become an accordion in the sheet.
  *
  * Disclosure pattern (button + aria-expanded + aria-controls), not ARIA `menu`: the panels
@@ -27,7 +27,24 @@ import s from "./nav.module.css";
  * Routes whose first section sits on cream ([data-nav-light]). Known from the URL so the
  * server renders the light nav: no white-on-cream flash before hydration.
  */
-const LIGHT_ROUTES = ["/contact", "/book-a-demo", "/terms-and-conditions", "/privacy-policy"];
+const LIGHT_ROUTES = ["/contact", "/book-a-demo", "/terms-and-conditions", "/privacy-policy", "/customers"];
+/** Sections whose every page opens on cream (/customers/[slug], DESIGN.md §G.15). */
+const LIGHT_PREFIXES = ["/customers/"];
+
+type Entry = { kind: "link"; link: NavLink } | { kind: "menu"; menu: NavMenu; index: number };
+
+/** Links and menus in bar order (`order` holds labels); anything unlisted goes last. */
+function orderEntries(links: NavLink[], menus: NavMenu[], order: string[]): Entry[] {
+  const all: Entry[] = [
+    ...links.map((link): Entry => ({ kind: "link", link })),
+    ...menus.map((menu, index): Entry => ({ kind: "menu", menu, index })),
+  ];
+  const rank = (e: Entry) => {
+    const i = order.indexOf(e.kind === "link" ? e.link.label : e.menu.label);
+    return i < 0 ? order.length : i;
+  };
+  return all.sort((a, b) => rank(a) - rank(b));
+}
 
 const OPEN_DELAY = 120; // ms, hover intent before a panel opens
 const CLOSE_DELAY = 200; // ms, grace while the pointer crosses from trigger to panel
@@ -42,9 +59,10 @@ function Chevron({ className }: { className: string }) {
   );
 }
 
-export default function NavBar({ links, menus }: { links: NavLink[]; menus: NavMenu[] }) {
+export default function NavBar({ links, menus, order }: { links: NavLink[]; menus: NavMenu[]; order: string[] }) {
   const pathname = usePathname();
-  const lightRoute = LIGHT_ROUTES.includes(pathname);
+  const lightRoute = LIGHT_ROUTES.includes(pathname) || LIGHT_PREFIXES.some((p) => pathname.startsWith(p));
+  const entries = orderEntries(links, menus, order);
   const [solid, setSolid] = useState(lightRoute);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false); // mobile sheet
@@ -207,20 +225,24 @@ export default function NavBar({ links, menus }: { links: NavLink[]; menus: NavM
           }}
         >
           <ul className={s.menuList}>
-            {links.map((l) => (
-              <li key={l.href}>
-                <Link
-                  href={l.href}
-                  className={`${s.link} ${isActive(l.href) ? s.active : ""}`}
-                  aria-current={isActive(l.href) ? "page" : undefined}
-                  onPointerEnter={(e) => mouse(e) && menuRef.current && closeMenu()}
-                  onClick={closeMenu}
-                >
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-            {menus.map((m, i) => {
+            {entries.map((entry) => {
+              if (entry.kind === "link") {
+                const l = entry.link;
+                return (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      className={`${s.link} ${isActive(l.href) ? s.active : ""}`}
+                      aria-current={isActive(l.href) ? "page" : undefined}
+                      onPointerEnter={(e) => mouse(e) && menuRef.current && closeMenu()}
+                      onClick={closeMenu}
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                );
+              }
+              const { menu: m, index: i } = entry;
               const isOpen = menu === m.label;
               return (
                 <li key={m.label}>
@@ -305,19 +327,23 @@ export default function NavBar({ links, menus }: { links: NavLink[]; menus: NavM
 
       <div id="mobile-menu" className={s.sheet} hidden={!open}>
         <nav aria-label="Mobile" className={s.sheetLinks}>
-          {links.map((l) => (
-            <div key={l.href} className={s.group}>
-              <Link
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className={`${s.groupBtn} ${isActive(l.href) ? s.sheetActive : ""}`}
-                aria-current={isActive(l.href) ? "page" : undefined}
-              >
-                {l.label}
-              </Link>
-            </div>
-          ))}
-          {menus.map((m, i) => {
+          {entries.map((entry) => {
+            if (entry.kind === "link") {
+              const l = entry.link;
+              return (
+                <div key={l.href} className={s.group}>
+                  <Link
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    className={`${s.groupBtn} ${isActive(l.href) ? s.sheetActive : ""}`}
+                    aria-current={isActive(l.href) ? "page" : undefined}
+                  >
+                    {l.label}
+                  </Link>
+                </div>
+              );
+            }
+            const { menu: m, index: i } = entry;
             const expanded = sheetGroup === m.label;
             return (
               <div key={m.label} className={s.group}>

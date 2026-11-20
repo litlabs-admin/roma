@@ -29,14 +29,14 @@ Data decisions made with the team:
 ## A. Brand and design philosophy
 
 ### A.1 What Roma is (one paragraph, use this to sanity-check any copy)
-Natural and specialty CPG brands ($1M–$50M, sweet spot $3–10M) selling through UNFI, KeHE and major retailers lose 2–3% of revenue to deductions — chargebacks, promo claims, shortages, fees — deducted straight from their payments. Many are invalid, but no one on a lean team has time to check, so the money is written off by default. Roma pulls every deduction from distributor and retailer portals, categorizes it, matches it to invoices and promo agreements, and lets the brand dispute invalid ones from one place. Live in 5 minutes, no ERP or IT project, from $399/month.
+Natural and specialty CPG brands, from emerging to established, selling through UNFI, KeHE and major retailers lose 2–3% of revenue to deductions — chargebacks, promo claims, shortages, fees — deducted straight from their payments. Many are invalid, but checking them by hand takes more time than most teams have, so the money is written off by default. Roma pulls every deduction from distributor and retailer portals, categorizes it, matches it to invoices and promo agreements, and lets the brand dispute invalid ones from one place. Live in 5 minutes, no ERP or IT project, from $399/month.
 
 **Value proposition (headline-level):** Stop writing off deductions. Roma recovers invalid deductions across UNFI, KeHE and retailers.
 
 **Tone rule for retailers/distributors (client decision, Nov 2026, site-wide):** name them only as channels or portals (UNFI, KeHE, Target, Walmart, Costco, Kroger, Whole Foods, Amazon). Never imply wrongdoing ("take", "took", "keeping", "owe you"); deductions are "invalid" or "recoverable". Where copy names channels, say "UNFI, KeHE and retailers" (or "UNFI, KeHE, Target, Walmart and more"), not UNFI and KeHE alone. Coverage is a moving logo strip (home trust-strip marquee: 40px/s, single-ink masks, edge fade, paused off-screen, static under reduced motion) using the official marks in `public/logos/channels/` (client decision, Nov 2026; Wikimedia Commons sources, KeHE from kehe.com), shown only to name the portals Roma connects to.
 
 ### A.2 Audience
-The founder (or one finance person) of a $1M–$50M natural CPG brand. Owns the P&L, wears five hats, has no AR team. Suspects deductions eat margin but has never had time to look. Hates software projects, wants **proof in dollars, fast**. Often loops in a CFO or bookkeeper to validate — so the page must also survive a sceptical finance read.
+Finance owners at natural and specialty CPG brands of any size: a founder or single finance person at an emerging brand, up to a Controller, VP Finance or AR Manager with a full team. Never write copy that implies Roma is only for small or lean teams. Suspects deductions eat margin but has never had time to look. Hates software projects, wants **proof in dollars, fast**. Often loops in a CFO or bookkeeper to validate — so the page must also survive a sceptical finance read.
 
 ### A.3 Brand personality
 Direct · Plain-spoken · Founder-to-founder · Lightly urgent · Precise with numbers.
@@ -375,7 +375,7 @@ Words: 35ms (reveal) / 70ms (hero in) / 40ms (hero out). List items/tiles: 80ms.
 
 
 **Content hierarchy**
-1. Nav (transparent): Roma logo rendered fully white on the hero (`filter: brightness(0) invert(1)` — the red rosette disappears into red art; normal colours once solid), a plain "Platform" link then three dropdown triggers "Solutions · Resources · Company" (see **Primary navigation** below), right: "Log in" link + `inverse` button "Try now".
+1. Nav (transparent): Roma logo rendered fully white on the hero (`filter: brightness(0) invert(1)` — the red rosette disappears into red art; normal colours once solid), Platform · Solutions · Customers · Resources · Company: two plain links ("Platform", "Customers") and three dropdown triggers (see **Primary navigation** below), right: "Log in" link + `inverse` button "Try now".
 2. Announcement pill: "Good Day Chocolate recovered $53K in deductions →" (PDF proof point, quotable).
 3. H1 (`display`), rotating every 3.6s through the three pillars (first line is the SSR/SEO line):
    - "Every deduction, ⟨accounted for⟩." → "⟨explained⟩" → "⟨disputed⟩" → "⟨booked⟩"
@@ -395,7 +395,7 @@ Words: 35ms (reveal) / 70ms (hero in) / 40ms (hero out). List items/tiles: 80ms.
 **Interaction:** Announce pill links to the case study (`#` placeholder). Nav states (150ms colour transition): at top → transparent; scrolled inside the hero (`scrollY > 8`) → solid `red-950` so copy never runs under white nav text; past the hero (`scrollY > heroH − 72`) → solid cream-50, hairline sand-300, ink text, normal logo. An open dropdown panel also forces the solid cream state.
 
 **Primary navigation (Nov 2026 restructure).** Data in `lib/content/nav.ts`, built on the server (`components/layout/Nav.tsx`) and rendered by the client `NavBar.tsx`, so story and blog content stays out of the client bundle.
-- **IA (client, 20 Nov 2026):** Platform (standalone link to `/platform`, no dropdown; `navLinks`) · Solutions (Deduction management, Analytics, Accounting) · Resources (Customer stories, Blog, Deduction codes, FAQs, then Roma vs. each competitor, generated from `competitors`) · Company (Partners, Contact us). Right side stays Log in + Try now. New pages go into a group, never as new top-level links.
+- **IA (client, 20 Nov 2026):** Platform (standalone link to `/platform`) · Solutions (Deduction management, Analytics, Accounting) · **Customers** (standalone link to `/customers`, moved out of Resources by the client 20 Nov 2026) · Resources (Blog, Deduction codes, FAQs, then Roma vs. each competitor, generated from `competitors`) · Company (Partners, Contact us). Standalone links live in `navLinks`, dropdowns in `navMenus`; `navOrder` (labels) interleaves them, and `NavBar` renders the bar and the mobile sheet from that one order. Right side stays Log in + Try now. New pages go into a group; a new top-level link needs client sign-off (as Platform and Customers had).
 - **Desktop panel:** full-width white sheet under the bar (sand-300 hairline, `--shadow-raise`, the only shadow), content in `--container-lg`: a 2-column list of rows (cream-100 tile with a red-600 line glyph from `NavIcon.tsx`, 500-weight title, ink-600 one-liner; hover cream-200 + red arrow) and one **feature tile** in the customer results bento's language (§G.15, `components/layout/NavTile.tsx`): photo under the warm two-gradient scrim, or Roma red + texture; brand mark top-left (logo mask or serif wordmark), white arrow chip top-right on hover, figure (3.5rem) + label at the foot; photo zooms to 1.04 on hover. Tiles: Product → Good Day $53K (photo), Compare → Roma logo, "5 min to go live" (gradient), Resources → latest post on its cover, Company → Smash Kitchen $23K (photo). The two story tiles never reuse the bento's photos: theirs live in `public/images/nav/` (`NAV_PHOTOS` in `nav.ts`) and render as gradient tiles until set. Figures always come from `CUSTOMER_STORIES` / compare content. Row icons use `.icon` (not `.tile`).
 - **Behaviour:** disclosure pattern (button + `aria-expanded`/`aria-controls`, panels in DOM order after their trigger). Click toggles; mouse hover opens after 120ms, 200ms grace to cross into the panel; switching trigger → trigger swaps without re-animating. Closes on Esc (focus returns to the trigger), outside press, focus leaving the nav, link click, or scrolling 64px. Panel rises 8px over 180ms with an 8% ink scrim; no motion under reduced motion. The trigger of the group holding the current route uses the active style.
 - **Mobile sheet:** groups as an accordion (one open, the current route's group open by default), feature cards omitted; the Ask Roma launcher hides while the sheet is open.
@@ -404,7 +404,7 @@ Words: 35ms (reveal) / 70ms (hero in) / 40ms (hero out). List items/tiles: 80ms.
 
 **Responsive**
 - Tablet: display 4rem; lead 1.125rem; actions inline.
-- Mobile: display 2.75rem, line breaks balanced; announce text shortens to "Good Day Chocolate recovered $53K →"; actions stack full-width ≤ 479px; nav collapses to logo + menu button (full-screen cream sheet: the four groups as an accordion, Log in · Book a demo, primary CTA).
+- Mobile: display 2.75rem, line breaks balanced; announce text shortens to "Good Day Chocolate recovered $53K →"; actions stack full-width ≤ 479px; nav collapses to logo + menu button (full-screen cream sheet in bar order: the two links and the three groups as an accordion, Log in · Book a demo, primary CTA).
 
 ### G.1b Brand statement (after the hero) — REMOVED 18 Nov
 Cut at the client's request ("a lot of words"). Home order is now: Hero → Trust → Feature story (three questions) → Machine → Compliance → Stories → FAQ → Closing. (A "How do you handle deductions today?" comparison was tried here on 18 Nov and removed.) The spec below is kept for reference only.
@@ -517,7 +517,7 @@ section.feature                  z-index 1
 ### G.5 Compliance + customer stories
 
 - **Compliance** (`components/sections/compliance`): runroma.com's security section in Roma tokens — h2 with an accent phrase, ISO 27001 / SOC 2 badges (`public/images/compliance`), joined three-cell pillar strip (solid white, no glass). No binary-pattern background (dropped by request).
-- **Customer stories** (`components/sections/stories`): Hyperline Testimonials port — two-column header, card row with `flex-grow` 3:1 (500ms `--ease-out`), stacked 88/420px strips below 1024px, white logo masks, quote box below.
+- **Customer stories** (`components/sections/stories`): Hyperline Testimonials port — two-column header, card row with `flex-grow` 3:1 (500ms `--ease-out`), stacked 88/420px strips below 1024px, white logo masks, quote box below. The card row + quote is `StoryStrip.tsx`, shared with /customers (§G.15): `tone="backdrop"` here (text follows the red backdrop), `tone="cream"` there.
 - **MOCK — replace before launch:** all three quotes, the Smash Kitchen / Mochidoki attributions, the photos (Unsplash-licensed stand-ins in `public/images/stories`, credits in `stories/data.ts`), "Customer stories" / story links (`#`). The compliance claims come from runroma.com, not the positioning PDF — confirm before launch.
 
 ### G.6 FAQ (reference: Fruitful faq.js + initHeadlines)
@@ -532,7 +532,7 @@ section.feature                  z-index 1
 
 ### G.8 Footer + wordmark (reference: Hyperline footer)
 
-- `components/layout/Footer.tsx`: black (ink-900) continues from the CTA. Top row (client, 20 Nov 2026): a brand block (red rosette tile, "Every deduction, *accounted for*." 1.75/2rem with an accent phrase, mono tagline) beside three columns mirroring the nav: **Solutions** (Platform, the three solution pages) · **Resources** (Customer stories, Blog, Deduction codes, FAQs, every Roma vs. page) · **Company** (Partners, Book a demo, Contact us, Log in ↗). Grid: brand then 2 cols on phones, 3 cols ≥768px, brand 0.8fr | links 2.2fr ≥1024px. Column titles are mono labels at 50% white; links 0.9375rem on-dark-muted → white (150ms), external links carry a small ↗ that nudges on hover. A 12% white hairline, then the bottom row: copyright left, Terms · Privacy · LinkedIn right (stacked, links first, on phones). Links and copy in `lib/content/site.ts → footer`.
+- `components/layout/Footer.tsx`: black (ink-900) continues from the CTA. Top row (client, 20 Nov 2026): a brand block (red rosette tile, "Every deduction, *accounted for*." 1.75/2rem with an accent phrase, mono tagline) beside three columns mirroring the nav: **Solutions** (Platform, the three solution pages) · **Resources** (Customers, Blog, Deduction codes, FAQs, every Roma vs. page) · **Company** (Partners, Book a demo, Contact us, Log in ↗). Grid: brand then 2 cols on phones, 3 cols ≥768px, brand 0.8fr | links 2.2fr ≥1024px. Column titles are mono labels at 50% white; links 0.9375rem on-dark-muted → white (150ms), external links carry a small ↗ that nudges on hover. A 12% white hairline, then the bottom row: copyright left, Terms · Privacy · LinkedIn right (stacked, links first, on phones). Links and copy in `lib/content/site.ts → footer`.
 - `components/layout/Wordmark.tsx`: oversized "roma" in Fraunces 800 (cream-50 on black, −0.035em), the "o" is the rosette as an inline SVG in red-600. JS fits the word to the container width and clips it to **65% of the x-height** (measured from the rosette, which is exactly 1ex); the rest runs off the bottom of the page. One-shot rise on entry.
 
 ### G.9 "How Roma works" page (`/platform`, references: Hyperline capability hero + billing grid)
@@ -622,17 +622,27 @@ Client, 20 Nov 2026: brought in line with the index pages. Route `app/deduction-
 - **Pagination:** 25 rows a page (Prev · numbers with ellipses · Next); on change it scrolls back to the status line and focuses it. Every row stays in the HTML with `hidden` off-page, so all codes are prerendered and indexable.
 - **URL state:** `?q=&r=&region=&cat=&page=` via `history.replaceState`; links that change the URL (the hero list) re-seed the state.
 
-### G.15 Customer stories (`/customers`, `/customers/[slug]`; references: Lightfield customers grid, Kresna results bento)
-The homepage Stories section (G.5) is the preview; /customers continues it.
-1. **Hero**: the Blog hero (G.10) via `BlogHero copy={custHero}`; the topics row lists categories, linking to `?cat=…#library`.
-2. **Trust strip** (G.2).
-3. **Results bento** (`ResultsBento`, `data-backdrop="red"`, homepage heading and ink → white crossfade): a lead photo tile with a big number; beside it the **quote rotator** (`QuoteRotator`, port of duna.com's testimonial carousel: brand-logo tab strip, active at full opacity, others 0.3 / hover 0.8; the active tab's red bar is the autoplay clock (fills over 6s, its animationend advances; picking a logo jumps there and restarts it from zero); cream card with the quote top and name/role bottom on the left, portrait right, stacked portrait-first on phones; the quote appears word by word (blur 2px, 4px rise, 20ms stagger), portrait +0.3s, name +0.5s, role +0.6s; autoplay 6s, not paused by the mouse, paused by keyboard focus (:focus-visible) / off-screen / hidden tab, never under reduced motion; portraits are face-centred 4:5 crops (1200×1500); arrow keys move between tabs); then three tiles (photo / Roma-red gradient on the CTA texture / photo). Every tile links to its story. 3 cols ≥1024, 2 ≥640, 1 below.
-4. **Story library** (`StoryLibrary`, Blog grid sheet): category chips with counts (`aria-pressed`, synced to `?cat=`). Cards = homepage photo media (scrim, centred white brand mark, metric pill) + Blog card body (§E.6 hover). "All" leads with a wide featured card.
-5. **Closing CTA** (G.7) with the page's own copy.
+### G.15 Customers (`/customers`, `/customers/[slug]`; reference: hyperline.co/customers + its story pages, Nov 2026)
+Rebuilt 20 Nov 2026 (client: "simple yet premium", Hyperline style). Replaces the earlier blog-hero / trust strip / results bento / quote rotator / filterable library version. Linked from the nav as a standalone "Customers" link (§G.1) and from the footer Resources column.
 
-**`/customers/[slug]`**: the Blog's full-bleed hero on the brand photo (back link, brand pill, title; lead + three results where the Blog lists topics) → sticky "At a glance" facts card | story prose (`ArticleBody`), with a red-950 pull quote before "The results" → "More stories" (same category first) → closing CTA. Static params for every story; Article JSON-LD.
+**`/customers`** (`app/customers/page.tsx`): one cream-50 **sheet** (z-index 2, bottom radius 2.5rem / 1.25rem on phones) whose rounded corners sit on the closing CTA. `[data-nav-light]` + `LIGHT_ROUTES`: the nav is solid cream from the top.
+1. **Intro**, centred in `--container-lg`: h1 at `type-h2` (Hyperline's restrained heading; max 20ch, balance) + `type-lead` ink-600 (max 38rem), gap 1rem. Top padding `nav-h + 4rem` (3.5rem on phones); 2.5rem to the strip.
+2. **Featured strip**: `StoryStrip tone="cream" storyLink priority` with the homepage's three real-figure stories (`STORIES` in `components/sections/stories/data.ts`). Taller than the homepage row (`clamp(24rem, 56svh, 30rem)` ≥1024px, active strip `min(26rem, 56svh)` below). The active card shows the metric pill + a "Customer story →" pill (`--fill-on-dark`, `--border-on-dark`, no blur). The quote panel is a white §E.6 surface (sand-300 hairline), `--radius-md`, quote 1.125/1.25rem 400 ink-900, attribution ink-600.
+3. **Story grid**: every story as a `LogoCard` (`components/customers/LogoCard.tsx`), 3 cols ≥992, 2 ≥640, 1 below, gap 1rem, 4rem below the strip (2.5rem on phones). Visually hidden h2. `RESULTS_VARY` note under it (0.8125rem ink-500).
+4. **Closing CTA** (G.7) with `custClosing`.
 
-Data: one source, `lib/content/customers.ts` (`CUSTOMER_STORIES`); the homepage section derives its three cards from it. Each record is `status: "real-figures" | "mock"`.
+**Logo card** (§E.6 dress, client 20 Nov 2026: "red for better contrast"): white, 1px sand-300, `--radius-md`, padding 1.5rem (1.25rem phones), min-height 15rem (13rem phones), content split top/bottom. Top: `BrandMark` in ink-800 (logo mask at the §E.10 optical height, or the serif wordmark). Bottom: product as a mono `label` in **red-600**, the `cardTitle` ("How {brand} …", 1.125rem/500, max 28ch, the stretched link), "Read story →" 0.875rem/500 in **red-600**. Hover (pointer devices): border → red-600, "Read story" → red-700, arrow nudges 3px. Focus: 2px red-600 ring on the card (`:has(:focus-visible)`). Red stays a signal (§A.6 #5): text and hairline only, never a fill.
+
+**`/customers/[slug]`** (`app/customers/[slug]/page.tsx`): the same cream sheet, one reading column (`--container-sm`), Hyperline's story page order:
+1. `StoryIntro` (`components/customers/story/`): breadcrumb "Customers › {Brand}" (0.875rem ink-500/600, `›` in sand-400) → cover photo 16/9, `--radius-lg`, LCP → h1 `cardTitle` at `type-h3` → `type-lead` excerpt → person row: 3rem portrait (`--radius-sm`), name + "role @ brand". Brands without a portrait (the real ones, on purpose) show their brand mark in a white tile.
+2. `StorySummary`: a sand-300 rule, "About" (brand mark + `about`), then a 2×2 `<dl>` (one column <640px) of white §E.6 cards, padding 1.25rem: **Challenge · Solution · Channels · Results**. Titles red-600 1rem/500, body 0.9375rem ink-600. Channels replaces Hyperline's "Pricing model".
+3. Story prose (`ArticleBody`, §G.10 styles): body quotes become Hyperline's plain large quotes (no rule, curly quotes added in CSS). The attributed quote (`quote.text` + "name, role @ brand") opens "What changed" (else "The results"). `RESULTS_VARY` note after.
+4. "More customer stories" (`type-h4`) + 3 `LogoCard`s from `getRelatedStories`, in `--container-lg`.
+5. Closing CTA. Static params for every story; Article + BreadcrumbList JSON-LD.
+
+Motion: one-shot `Reveal` rises (16px, 0.5s, 80ms stagger); SSR is the final state; reduced motion shows everything at rest.
+
+Data: one source, `lib/content/customers.ts` (`CUSTOMER_STORIES`); the homepage section derives its three cards from it. Each record is `status: "real-figures" | "mock"` and carries `cardTitle`, `about` and `summary` for these pages. Page copy: `customersCopy`, `storyPageCopy`, `custClosing`.
 
 ### G.16 Partner program (`/partners`, reference: cygnet.one/partner-program/products)
 
@@ -673,7 +683,7 @@ Routes `app/blogs/page.tsx` and `app/blogs/[slug]/page.tsx` (prerendered via `ge
 | Element | Large desktop ≥1440 | Desktop 992–1439 | Tablet 768–991 | Mobile ≤767 |
 |---|---|---|---|---|
 | Root size | 16px fixed | `clamp(14px,1.111vw,16px)` | 16px | 16px |
-| Nav | 89px, 4 dropdowns | same | dropdowns → accordion sheet at <992 | 72px, accordion sheet |
+| Nav | 89px, 2 links + 3 dropdowns | same | dropdowns → accordion sheet at <992 | 72px, accordion sheet |
 | Hero H1 | 5.5rem | 5.5rem (fluid) | 4rem | 2.75rem |
 | Hero product | 75rem frame | fluid | full width | full width, radius .75rem |
 | Trust strip | label left, marquee right | same | label above | label above, full-bleed marquee |
@@ -760,5 +770,5 @@ Mobile-first Tailwind for layout; breakpoints `md 768 / lg 992 / xl 1440`. JS re
 4. **Higher-resolution customer logos** (current files are ≤ 336px wide; fine at ≤ 44px height on 2× screens, not beyond).
 5. Vector Roma logo (SVG) — only a 512px PNG exists.
 6. **Blog sample content** (G.10): the four articles, their author names and roles, and the Unsplash photography (credits in `lib/content/blog.ts`) were written for the client preview. Replace with real authors and approved posts before launch.
-7. **Customer stories content** (G.5, G.15): in `lib/content/customers.ts`, only the headline figures of Good Day Chocolate ($53K / 6 months, Jasen Arias), Smash Kitchen ($23K) and Mochidoki (live in 5 minutes) are sourced. Every narrative, quote and secondary metric is MOCK, the six other brands and their people are fictional, and all photos and portraits are Unsplash stand-ins. Replace (or remove the `mock` records) before launch.
+7. **Customer stories content** (G.5, G.15): in `lib/content/customers.ts`, only the headline figures of Good Day Chocolate ($53K / 6 months, Jasen Arias), Smash Kitchen ($23K) and Mochidoki (live in 5 minutes) are sourced. Every narrative, quote, secondary metric, card title, "about" line and Challenge/Solution/Channels/Results summary is MOCK, the six other brands and their people are fictional, and all photos and portraits are Unsplash stand-ins. Replace (or remove the `mock` records) before launch.
 8. **Partner program content** (G.16): all program terms, enablement items and FAQ answers are MOCK (Roma has no partner program yet). The founder quote is placeholder copy; the name and portrait are Roma's founder, Ujwal Kalra (`public/images/partners/founder-ujwal-kalra.webp`, background cut out). The application form has no backend.

@@ -32,7 +32,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: "What kind of brands is Roma built for?",
-    a: "Natural and specialty CPG brands selling through UNFI, KeHE and major retailers, usually run by a founder or a lean finance team.",
+    a: "Natural and specialty CPG brands selling through UNFI, KeHE and major retailers, from founder-led brands to established companies with full finance and AR teams.",
   },
   {
     q: "How current is the data in Roma?",

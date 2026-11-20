@@ -13,7 +13,7 @@ export const hero = {
   announce: {
     long: "Good Day Chocolate recovered $53K in 6 months",
     short: "Good Day Chocolate recovered $53K",
-    href: "/customers#good-day-chocolate",
+    href: "/customers/good-day-chocolate",
   },
   // Rotating H1 (Different AI). First line is the SSR / SEO line.
   // `accent` marks the serif phrase (one per line). The rotation walks the three
@@ -84,7 +84,7 @@ export const footer = {
     {
       title: "Resources",
       links: [
-        { label: "Customer stories", href: "/customers" },
+        { label: "Customers", href: "/customers" },
         { label: "Blog", href: "/blogs" },
         { label: "Deduction codes", href: "/deduction-codes" },
         { label: "FAQs", href: "/#faq" },

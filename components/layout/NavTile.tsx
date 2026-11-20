@@ -6,7 +6,7 @@ import { detailPrefetch } from "@/lib/prefetch";
 import s from "./nav.module.css";
 
 /**
- * Nav panel feature tile, in the customer results bento's language (ResultsBento
+ * Nav panel feature tile, in the language of the retired customer results bento (formerly
  * `MetricTile`, DESIGN.md §G.15): photo under a warm scrim, or Roma red + texture; mark
  * top-left, arrow chip top-right, big figure + label at the foot. One link per tile.
  * The arrow is drawn here, not imported from blog/PostCard: that module pulls in all of

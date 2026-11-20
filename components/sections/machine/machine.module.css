@@ -1,4 +1,4 @@
-/* Recovery machine + Built for lean teams — structure from Fruitful .dm-flow,
+/* Recovery machine + Built for any team size — structure from Fruitful .dm-flow,
    .dm_* and .tl_* (fruitful-2.webflow.shared.css + inline embeds), tokens from DESIGN.md. */
 
 /* ── shared wrapper + connector ──────────────────────────────────────── */
@@ -113,7 +113,7 @@
   }
 }
 
-/* ── built for lean teams (Fruitful .section_steps / .tl_*) ──────────── */
+/* ── built for any team size (Fruitful .section_steps / .tl_*) ──────────── */
 
 .steps {
   position: relative;

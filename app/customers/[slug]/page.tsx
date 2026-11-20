@@ -6,41 +6,33 @@ import Footer from "@/components/layout/Footer";
 import ArticleBody from "@/components/blog/ArticleBody";
 import Reveal from "@/components/blog/Reveal";
 import ClosingCta from "@/components/sections/closing/ClosingCta";
-import StoryHeader from "@/components/customers/StoryHeader";
-import StoryCard from "@/components/customers/StoryCard";
-import { StoryFacts, StoryQuote } from "@/components/customers/StoryAside";
-import { CUSTOMER_STORIES, custClosing, getRelatedStories, getStory, storyPageCopy } from "@/lib/content/customers";
+import LogoCard from "@/components/customers/LogoCard";
+import StoryIntro from "@/components/customers/story/StoryIntro";
+import StorySummary from "@/components/customers/story/StorySummary";
+import { CUSTOMER_STORIES, custClosing, getRelatedStories, getStory, storyHref, storyPageCopy } from "@/lib/content/customers";
 import a from "@/components/blog/article.module.css";
-import b from "@/components/blog/blog.module.css";
 import c from "@/components/customers/customers.module.css";
-import s from "@/components/customers/story.module.css";
+import s from "@/components/customers/story/story.module.css";
 
 export function generateStaticParams() {
   return CUSTOMER_STORIES.map((st) => ({ slug: st.slug }));
 }
 
-function titleOf(slug: string) {
-  const st = getStory(slug);
-  if (!st) return null;
-  const { before, accent, after } = st.headline;
-  return { st, title: `${before}${accent}${after}` };
-}
-
 export async function generateMetadata({ params }: PageProps<"/customers/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const t = titleOf(slug);
-  if (!t) return { title: "Story not found | Roma" };
-  const { st, title } = t;
+  const st = getStory(slug);
+  if (!st) return { title: "Story not found | Roma" };
   return {
-    title: `${st.brand.name}: ${title} | Roma customer stories`,
+    title: `${st.cardTitle} | Roma customers`,
     description: st.excerpt,
-    openGraph: { type: "article", title: `${st.brand.name}: ${title}`, description: st.excerpt, images: [{ url: st.photo.src }] },
+    openGraph: { type: "article", title: st.cardTitle, description: st.excerpt, images: [{ url: st.photo.src }] },
   };
 }
 
 /**
- * /customers/[slug] (DESIGN.md §G.15): header + results → facts | story (pull quote
- * before the results section) → more stories → closing CTA. Same Suspense pattern as
+ * /customers/[slug] (DESIGN.md §G.15, Hyperline story page): breadcrumb, cover, title,
+ * lead, person → about + 2×2 summary → story prose (the attributed quote before "What
+ * changed") → more customer stories → closing CTA. Same Suspense pattern as
  * /blogs/[slug]: known slugs prerender in full.
  */
 export default function CustomerStoryPage({ params }: PageProps<"/customers/[slug]">) {
@@ -61,62 +53,73 @@ export default function CustomerStoryPage({ params }: PageProps<"/customers/[slu
 }
 
 function Story({ slug }: { slug: string }) {
-  const t = titleOf(slug);
-  if (!t) notFound();
-  const { st, title } = t;
+  const st = getStory(slug);
+  if (!st) notFound();
 
-  // The pull quote sits before "The results" (or at the end if there is none).
-  const split = st.body.findIndex((blk) => blk.type === "h2" && blk.id === "results");
+  // The attributed quote opens "What changed" (else "The results", else the end), so it
+  // never stacks against a quote block that closes a section.
+  const at = (id: string) => st.body.findIndex((blk) => blk.type === "h2" && blk.id === id);
+  const split = at("what-changed") >= 0 ? at("what-changed") : at("results");
   const head = split < 0 ? st.body : st.body.slice(0, split);
   const tail = split < 0 ? [] : st.body.slice(split);
   const related = getRelatedStories(st.slug);
-  const { label, heading } = storyPageCopy.more;
+  const who = st.quote.name ? `${st.quote.name}, ${st.quote.role}` : st.quote.role;
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: `${st.brand.name}: ${title}`,
-    description: st.excerpt,
-    image: st.photo.src,
-    about: { "@type": "Organization", name: st.brand.name },
-    publisher: { "@type": "Organization", name: "Roma" },
-  };
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: st.cardTitle,
+      description: st.excerpt,
+      image: st.photo.src,
+      about: { "@type": "Organization", name: st.brand.name },
+      publisher: { "@type": "Organization", name: "Roma" },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: storyPageCopy.breadcrumb, item: "/customers" },
+        { "@type": "ListItem", position: 2, name: st.brand.name, item: storyHref(st.slug) },
+      ],
+    },
+  ];
 
   return (
     <>
       <main>
-        <StoryHeader story={st} />
-
-        <div className={s.main}>
-          <div className={s.layout}>
-            <StoryFacts story={st} />
-            <Reveal mode="each" as="article" className={a.prose} aria-labelledby="story-title">
+        <div className={s.page}>
+          <div className={s.column}>
+            <StoryIntro story={st} />
+            <Reveal mode="each">
+              <StorySummary story={st} />
+            </Reveal>
+            <Reveal mode="each" as="article" className={`${a.prose} ${s.prose}`} aria-labelledby="story-title">
               <ArticleBody blocks={head} />
-              <StoryQuote story={st} />
+              <figure className={s.quote} data-reveal>
+                <blockquote>“{st.quote.text}”</blockquote>
+                <figcaption>
+                  {who} @ {st.brand.name}
+                </figcaption>
+              </figure>
               <ArticleBody blocks={tail} />
             </Reveal>
+            <p className={s.note}>{storyPageCopy.note}</p>
           </div>
-        </div>
 
-        <Reveal as="section" className={b.sheet} aria-labelledby="more-heading">
-          <div className="container-lg">
-            <div className={b.gridHead}>
-              <p className={`${b.sectionLabel} type-label`} data-reveal>
-                {label}
-              </p>
-              <h2 id="more-heading" className={`${b.gridHeading} type-h2`} data-reveal>
-                {heading.before}
-                <span className="accent">{heading.accent}</span>
-                {heading.after}
-              </h2>
-            </div>
-            <div className={c.libraryGrid}>
+          <Reveal as="section" className={`container-lg ${s.more}`} aria-labelledby="more-heading">
+            <h2 id="more-heading" className={`${s.moreHeading} type-h4`} data-reveal>
+              {storyPageCopy.more}
+            </h2>
+            <ul className={c.grid}>
               {related.map((r) => (
-                <StoryCard key={r.slug} story={r} />
+                <li key={r.slug}>
+                  <LogoCard story={r} />
+                </li>
               ))}
-            </div>
-          </div>
-        </Reveal>
+            </ul>
+          </Reveal>
+        </div>
 
         <ClosingCta copy={custClosing} secondary={custClosing.secondary} />
       </main>

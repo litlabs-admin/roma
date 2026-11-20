@@ -1,24 +1,21 @@
 "use client";
 
-import Image from "next/image";
-import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
 import Button from "@/components/ui/Button";
 import ArrowLink from "@/components/ui/ArrowLink";
 import { splitChars } from "@/components/ui/splitChars";
 import { BACKDROP_RANGES } from "@/components/motion/PageBackdrop";
-import { STORIES, storiesCopy, type Story } from "./data";
+import { STORIES, storiesCopy } from "./data";
+import StoryStrip from "./StoryStrip";
 import s from "./stories.module.css";
 
 /**
  * Customer stories — port of Hyperline's Testimonials, on the red stretch of the page
  * backdrop (`data-backdrop="red"`).
  *
- * Cards share a row with `flex-basis: 0`; the active one grows to 3× (flex-grow 3:1,
- * 500ms ease-out). Below 1024px they stack and the active one grows in height instead
- * (420 vs 88px). Inactive cards are full-card buttons; the quote below follows the
- * active card. Text colour follows the backdrop: it crosses from ink to white over the
+ * The card row + quote is `StoryStrip` (shared with /customers). Text colour follows the backdrop: it crosses from ink to white over the
  * same scrubbed range the red fades in on, so contrast holds at every scroll position.
  */
 
@@ -27,16 +24,8 @@ const INK_MUTED = "#5a574f";
 const ON_DARK = "#ffffff";
 const ON_DARK_MUTED = "rgba(255, 255, 255, 0.78)";
 
-function LogoMark({ story }: { story: Story }) {
-  if (!story.logo) return <span className={s.wordmark}>{story.brand}</span>;
-  const style = { "--logo": `url(${story.logo.src})`, aspectRatio: `${story.logo.w} / ${story.logo.h}` } as CSSProperties;
-  return <span className={s.logo} style={style} role="img" aria-label={story.brand} />;
-}
-
 export default function Stories() {
   const root = useRef<HTMLElement>(null);
-  const [active, setActive] = useState(0);
-  const story = STORIES[active];
   const { heading } = storiesCopy;
 
   useLayoutEffect(() => {
@@ -97,42 +86,8 @@ export default function Stories() {
           </div>
         </div>
 
-        <div className={s.stories} data-reveal>
-          <ul className={s.row}>
-            {STORIES.map((st, i) => {
-              const on = i === active;
-              return (
-                <li key={st.brand} className={s.card} data-active={on || undefined} style={{ flexGrow: on ? 3 : 1 }}>
-                  <Image
-                    src={st.photo.src}
-                    alt=""
-                    fill
-                    sizes="(max-width: 1023px) 100vw, 45rem"
-                    quality={85}
-                    className={s.photo}
-                    style={{ objectPosition: st.photo.position }}
-                  />
-                  <span className={s.scrim} aria-hidden="true" />
-                  {!on && (
-                    <button type="button" className={s.hit} onClick={() => setActive(i)} aria-label={`Show ${st.brand}'s story`} />
-                  )}
-                  <div className={s.bar}>
-                    <LogoMark story={st} />
-                    <div className={s.extras} aria-hidden={!on}>
-                      <span className={s.metric}>{st.metric}</span>
-                    </div>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-
-          <figure className={s.quote} aria-live="polite">
-            <div key={active} className={s.quoteInner}>
-              <blockquote className={s.quoteText}>{story.quote}</blockquote>
-              <figcaption className={s.author}>{story.author}</figcaption>
-            </div>
-          </figure>
+        <div data-reveal>
+          <StoryStrip stories={STORIES} />
         </div>
       </div>
     </section>

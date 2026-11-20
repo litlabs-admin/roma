@@ -52,7 +52,7 @@ export const partnerHero = {
 export const why = {
   label: "Why partner with Roma",
   heading: { before: "The deduction layer your clients are ", accent: "missing", after: "." } as Heading,
-  lead: "Emerging CPG brands lose 2–3% of revenue to deductions from UNFI, KeHE and retailers. Bookkeepers record them, but nobody has time to recover them. Roma closes that gap, and partners help brands get there.",
+  lead: "CPG brands lose 2–3% of revenue to deductions from UNFI, KeHE and retailers. Bookkeepers record them, but nobody has time to recover them. Roma closes that gap, and partners help brands get there.",
   benefits: [
     {
       title: "Expand what you offer",
@@ -60,7 +60,7 @@ export const why = {
     },
     {
       title: "Reach a growing market",
-      text: "Natural and specialty brands selling through UNFI, KeHE and major retailers, from $1M to $50M in revenue.",
+      text: "Natural and specialty brands selling through UNFI, KeHE and major retailers, from emerging brands to established ones.",
     },
     {
       title: "Create recurring revenue",

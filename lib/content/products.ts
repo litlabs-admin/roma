@@ -107,7 +107,7 @@ export const desk = {
 export const dmIntro = {
   label: "Workflow",
   heading: { before: "Every deduction, start to ", accent: "finish", after: "." } as Heading,
-  lead: "Portal downloads, spreadsheets and email threads, replaced by one workflow a lean team can actually run.",
+  lead: "Portal downloads, spreadsheets and email threads, replaced by one workflow your team can actually run.",
 };
 
 export const dmChapters: { title: string; body: string; points: Point[]; summary: string }[] = [
