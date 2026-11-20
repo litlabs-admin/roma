@@ -35,7 +35,7 @@ function must(slug: string) {
 function MetricTile({ story, kind, className = "" }: { story: CustomerStory; kind: "photo" | "gradient"; className?: string }) {
   const m = story.metrics[0];
   return (
-    <Link href={storyHref(story.slug)} className={`${s.tile} ${className}`} data-kind={kind} data-reveal>
+    <Link href={storyHref(story.slug)} prefetch className={`${s.tile} ${className}`} data-kind={kind} data-reveal>
       {kind === "photo" ? (
         <Image
           src={story.photo.src}

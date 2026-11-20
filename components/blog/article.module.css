@@ -1,60 +1,14 @@
 /* /blogs/[slug] (DESIGN.md §G.10). Roma tokens only; no italics, one shadow (product). */
 
-/* ── Header band + straddling cover ─────────────────────────────────── */
-
-.header {
-  position: relative;
-  isolation: isolate;
-  container-type: inline-size;
-  padding-top: calc(var(--nav-h) + 2.5rem);
-  color: var(--color-on-dark);
-}
-/* The red band ends halfway down the cover: cover width = min(100cqw, container) − gutters;
-   half its height is width / 3 (3:2) or width / 4 (2:1). */
-.header::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 calc((min(100cqw, var(--container-lg)) - 2 * var(--gutter)) / 3) 0;
-  z-index: -1;
-  background: var(--color-red-950);
-}
-@media (min-width: 992px) {
-  .header {
-    padding-top: calc(var(--nav-h) + 4rem);
-  }
-  .header::before {
-    bottom: calc((min(100cqw, var(--container-lg)) - 2 * var(--gutter)) / 4);
-  }
-}
-
-.headerInner,
-.coverWrap {
-  width: 100%;
-  max-width: var(--container-lg);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-}
-.headerInner {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1.25rem;
-  padding-bottom: 2.5rem;
-}
-@media (min-width: 992px) {
-  .headerInner {
-    gap: 1.5rem;
-    padding-bottom: 3.5rem;
-  }
-}
+/* ── Hero additions (the hero itself is blog.module.css .hero, §G.10) ── */
 
 .back {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: -0.5rem;
   color: var(--color-on-dark-muted);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
   transition: color var(--dur-micro) ease;
@@ -65,7 +19,8 @@
   transition: transform 350ms var(--ease-out);
 }
 .back:focus-visible {
-  outline-color: #fff;
+  outline: 2px solid #fff;
+  outline-offset: 3px;
 }
 @media (hover: hover) and (pointer: fine) {
   .back:hover {
@@ -76,13 +31,9 @@
   }
 }
 
-.kicker {
-  display: flex;
+.metaPill {
   flex-wrap: wrap;
-  align-items: center;
   gap: 0.6rem;
-  margin: 0;
-  color: var(--color-on-dark-muted);
   font-variant-numeric: tabular-nums;
 }
 .category {
@@ -90,6 +41,7 @@
   align-items: center;
   gap: 0.5rem;
   color: var(--color-on-dark);
+  font-weight: 500;
 }
 .category::before {
   content: "";
@@ -101,75 +53,49 @@
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: currentColor;
+  background: var(--color-on-dark-muted);
 }
 
-.title {
-  margin: 0;
+/* Article titles run longer than the Blog hero's: a wider measure at type-h1. */
+h1.heroTitle {
   max-width: 18ch;
-  text-wrap: balance;
-}
-.w {
-  display: inline-block;
-  will-change: transform, opacity;
 }
 
-.lead {
-  max-width: 38rem;
-  margin: 0;
-  color: var(--color-on-dark-muted);
-  font-size: 1.0625rem;
-  line-height: 1.4;
-  letter-spacing: -0.005em;
-  text-wrap: pretty;
-}
-@media (min-width: 768px) {
-  .lead {
-    font-size: 1.125rem;
-  }
-}
-@media (min-width: 992px) {
-  .lead {
-    font-size: 1.25rem;
-  }
-}
-
-.author {
+/* Byline: where the story hero lists its results. */
+.byline {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-top: 0.5rem;
+  width: 100%;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-on-dark);
 }
-.authorText {
+.bylineText {
   display: flex;
   flex-direction: column;
   margin: 0;
   line-height: 1.3;
 }
-.authorName {
+.bylineName {
+  color: var(--color-on-dark);
   font-size: 0.9375rem;
   font-weight: 500;
+  text-decoration: none;
 }
-.authorRole {
-  color: var(--color-on-dark-muted);
-  font-size: 0.875rem;
+.bylineName:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
 }
-
-.cover {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 3 / 2;
-  border-radius: var(--radius-md);
-  background: var(--color-red-900);
-}
-@media (min-width: 992px) {
-  .cover {
-    aspect-ratio: 2 / 1;
-    border-radius: var(--radius-lg);
+@media (hover: hover) and (pointer: fine) {
+  .bylineName:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
   }
 }
-.coverImg {
-  object-fit: cover;
+.bylineRole {
+  color: var(--color-on-dark-muted);
+  font-size: 0.875rem;
 }
 
 /* ── Reading progress ────────────────────────────────────────────────── */
@@ -497,6 +423,7 @@
   max-width: 64ch;
   margin-top: 4rem !important;
   padding: 1.25rem;
+  scroll-margin-top: calc(var(--nav-h) + 1.5rem);
   border: 1px solid var(--color-sand-300);
   border-radius: var(--radius-md);
   background: var(--color-white);

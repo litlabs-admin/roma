@@ -50,7 +50,7 @@ export default function CompareHub({ others }: { others: Competitor[] }) {
         <ul className={s.grid}>
           {others.map((o) => (
             <li key={o.slug} data-hub>
-              <Link href={`/compare/${o.slug}`} className={s.card}>
+              <Link href={`/compare/${o.slug}`} prefetch className={s.card}>
                 <span className={s.logo}>
                   <CompetitorLogo of={o} height={o.logo.size * 0.85} />
                 </span>

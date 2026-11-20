@@ -8,6 +8,7 @@ import { DEMO_HREF, LOGIN_HREF, SIGNUP_HREF } from "@/components/chat/data";
 import Button from "@/components/ui/Button";
 import type { NavMenu } from "@/lib/content/nav";
 import { queryVisible } from "@/lib/motion";
+import { detailPrefetch } from "@/lib/prefetch";
 import NavIcon from "./NavIcon";
 import NavTile from "./NavTile";
 import s from "./nav.module.css";
@@ -234,6 +235,7 @@ export default function NavBar({ menus }: { menus: NavMenu[] }) {
                             <li key={item.href}>
                               <Link
                                 href={item.href}
+                                prefetch={detailPrefetch(item.href)}
                                 className={`${s.row} ${active ? s.rowActive : ""}`}
                                 aria-current={active ? "page" : undefined}
                                 onClick={closeMenu}
@@ -310,6 +312,7 @@ export default function NavBar({ menus }: { menus: NavMenu[] }) {
                       <li key={item.href}>
                         <Link
                           href={item.href}
+                          prefetch={detailPrefetch(item.href)}
                           onClick={() => setOpen(false)}
                           className={isActive(item.href) ? s.sheetActive : undefined}
                           aria-current={isActive(item.href) ? "page" : undefined}

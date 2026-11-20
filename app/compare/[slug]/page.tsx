@@ -39,8 +39,15 @@ export default function ComparePage({ params }: PageProps<"/compare/[slug]">) {
   return (
     <>
       <Nav />
-      <Suspense fallback={null}>{params.then(({ slug }) => <Comparison slug={slug} />)}</Suspense>
-      <Footer />
+      {/* Footer inside the boundary: until the slug resolves, nothing renders below the Nav. */}
+      <Suspense fallback={null}>
+        {params.then(({ slug }) => (
+          <>
+            <Comparison slug={slug} />
+            <Footer />
+          </>
+        ))}
+      </Suspense>
       <PageBackdrop />
     </>
   );

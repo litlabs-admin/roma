@@ -2,7 +2,8 @@ import d from "./doc.module.css";
 
 /**
  * Header for the reference pages.
- * - `dark` (default, /deduction-codes): the red-950 band, left-aligned, [data-hero].
+ * - `dark` (default; currently unused since /deduction-codes moved to the Blog hero):
+ *   the red-950 band, left-aligned, [data-hero].
  * - `light` (legal pages, client 20 Nov 2026): on the cream page, centred, ink text, a
  *   hairline closing it off; [data-nav-light] keeps the nav solid cream from the top.
  */

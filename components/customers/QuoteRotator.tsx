@@ -151,7 +151,7 @@ export default function QuoteRotator({ stories }: { stories: CustomerStory[] }) 
                 {st.quote.role}, {st.brand.name}
               </span>
             </p>
-            <Link href={storyHref(st.slug)} className={q.read}>
+            <Link href={storyHref(st.slug)} prefetch className={q.read}>
               {bentoCopy.read}
               <ArrowGlyph className={q.readIcon} />
             </Link>

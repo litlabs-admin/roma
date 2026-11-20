@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { NavFeature } from "@/lib/content/nav";
+import { detailPrefetch } from "@/lib/prefetch";
 import s from "./nav.module.css";
 
 /**
@@ -13,7 +14,7 @@ import s from "./nav.module.css";
  */
 export default function NavTile({ f, onNavigate }: { f: NavFeature; onNavigate: () => void }) {
   return (
-    <Link href={f.href} className={s.tile} data-kind={f.kind} onClick={onNavigate}>
+    <Link href={f.href} prefetch={detailPrefetch(f.href)} className={s.tile} data-kind={f.kind} onClick={onNavigate}>
       {f.kind === "photo" && f.image ? (
         <Image src={f.image.src} alt="" fill sizes="21rem" quality={75} className={s.tilePhoto} style={{ objectPosition: f.image.position }} />
       ) : (

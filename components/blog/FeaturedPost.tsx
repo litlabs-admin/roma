@@ -33,7 +33,7 @@ export default function FeaturedPost({ post }: { post: Post }) {
               <span className="type-label">{post.category}</span>
             </p>
             <h2 id="featured-title" className={`${s.featuredTitle} type-h3`}>
-              <Link href={`/blogs/${post.slug}`} className={s.stretch} aria-label={headingText(post.title)}>
+              <Link href={`/blogs/${post.slug}`} prefetch className={s.stretch} aria-label={headingText(post.title)}>
                 <span className={s.titleLine}>
                   {before}
                   <span className="accent">{accent}</span>

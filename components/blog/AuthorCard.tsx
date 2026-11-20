@@ -5,7 +5,7 @@ import a from "./article.module.css";
 /** §E.6 card closing the article: who wrote it (DESIGN.md §G.10). */
 export default function AuthorCard({ author }: { author: Author }) {
   return (
-    <aside className={a.authorCard} aria-label="About the author" data-reveal>
+    <aside id="author" className={a.authorCard} aria-label="About the author" data-reveal>
       <Monogram initials={author.initials} size="lg" />
       <div>
         <p className={`${a.authorCardLabel} type-label`}>Written by</p>

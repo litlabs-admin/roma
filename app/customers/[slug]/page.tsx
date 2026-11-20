@@ -47,8 +47,15 @@ export default function CustomerStoryPage({ params }: PageProps<"/customers/[slu
   return (
     <>
       <Nav />
-      <Suspense fallback={null}>{params.then(({ slug }) => <Story slug={slug} />)}</Suspense>
-      <Footer />
+      {/* Footer inside the boundary: until the slug resolves, nothing renders below the Nav. */}
+      <Suspense fallback={null}>
+        {params.then(({ slug }) => (
+          <>
+            <Story slug={slug} />
+            <Footer />
+          </>
+        ))}
+      </Suspense>
     </>
   );
 }

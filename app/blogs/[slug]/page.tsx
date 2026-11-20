@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: PageProps<"/blogs/[slug]">): 
 }
 
 /**
- * /blogs/[slug]: header → progress → TOC + body → author → keep reading → closing CTA
+ * /blogs/[slug]: full-bleed hero → progress → TOC + body → author → keep reading → closing CTA
  * (DESIGN.md §G.10). With Cache Components, params for a slug outside
  * generateStaticParams are runtime data, so they are awaited inside <Suspense>; the
  * four known slugs still prerender in full.
@@ -47,8 +47,15 @@ export default function ArticlePage({ params }: PageProps<"/blogs/[slug]">) {
   return (
     <>
       <Nav />
-      <Suspense fallback={null}>{params.then(({ slug }) => <Article slug={slug} />)}</Suspense>
-      <Footer />
+      {/* Footer inside the boundary: until the slug resolves, nothing renders below the Nav. */}
+      <Suspense fallback={null}>
+        {params.then(({ slug }) => (
+          <>
+            <Article slug={slug} />
+            <Footer />
+          </>
+        ))}
+      </Suspense>
     </>
   );
 }
@@ -64,7 +71,9 @@ function Article({ slug }: { slug: string }) {
     headline: headingText(post.title),
     description: post.excerpt,
     datePublished: post.date,
-    image: post.cover.src,
+    dateModified: post.date,
+    mainEntityOfPage: { "@type": "WebPage", "@id": `/blogs/${post.slug}` },
+    image: { "@type": "ImageObject", url: post.cover.src, width: post.cover.width, height: post.cover.height },
     author: { "@type": "Person", name: post.author.name, jobTitle: post.author.role },
     publisher: { "@type": "Organization", name: "Roma" },
   };

@@ -37,7 +37,7 @@ export default function PostCard({ post, headingLevel = 3 }: { post: Post; headi
       <div className={s.cardBody}>
         <p className={`${s.cardCat} type-label`}>{post.category}</p>
         <H className={`${s.cardTitle} type-h5`}>
-          <Link href={`/blogs/${post.slug}`} className={s.stretch} aria-label={headingText(post.title)}>
+          <Link href={`/blogs/${post.slug}`} prefetch className={s.stretch} aria-label={headingText(post.title)}>
             <span className={s.titleLine}>
               {before}
               <span className="accent">{accent}</span>

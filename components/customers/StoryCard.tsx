@@ -44,7 +44,7 @@ export default function StoryCard({ story, featured = false, label }: { story: C
           {categoryLabel(story.category)} · {story.product}
         </p>
         <h3 className={`${b.cardTitle} ${featured ? "type-h4" : "type-h5"}`}>
-          <Link href={storyHref(story.slug)} className={b.stretch} aria-label={`${story.brand.name}: ${before}${accent}${after}`}>
+          <Link href={storyHref(story.slug)} prefetch className={b.stretch} aria-label={`${story.brand.name}: ${before}${accent}${after}`}>
             <span className={b.titleLine}>
               {before}
               <span className="accent">{accent}</span>
