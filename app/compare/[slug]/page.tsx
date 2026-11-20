@@ -9,6 +9,7 @@ import Faq from "@/components/sections/faq/Faq";
 import ClosingCta from "@/components/sections/closing/ClosingCta";
 import { CompareProvider } from "@/components/compare/context";
 import CompareHub from "@/components/compare/CompareHub";
+import CalculatorBanner from "@/components/calculator/CalculatorBanner";
 import GlimpsePage from "@/components/compare/pages/GlimpsePage";
 import PromomashPage from "@/components/compare/pages/PromomashPage";
 import VividlyPage from "@/components/compare/pages/VividlyPage";
@@ -77,6 +78,8 @@ function Comparison({ slug }: { slug: string }) {
     <main>
       <CompareProvider competitor={c} order={order}>
         <Body c={c} />
+        {/* Brief §1.2: slim link to the calculator on every compare page. */}
+        <CalculatorBanner />
         <CompareHub others={others} />
       </CompareProvider>
       <Story />

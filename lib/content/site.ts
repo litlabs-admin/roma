@@ -85,6 +85,7 @@ export const footer = {
       title: "Resources",
       links: [
         { label: "Customers", href: "/customers" },
+        { label: "Deductions calculator", href: "/calculator" },
         { label: "Blog", href: "/blogs" },
         { label: "Deduction codes", href: "/deduction-codes" },
         { label: "FAQs", href: "/#faq" },
@@ -95,6 +96,7 @@ export const footer = {
     {
       title: "Company",
       links: [
+        { label: "Pricing", href: "/pricing" },
         { label: "Partners", href: "/partners" },
         { label: "Book a demo", href: "/book-a-demo" },
         { label: "Contact us", href: "/contact" },

@@ -1,0 +1,84 @@
+/* Payback chart (PaybackChart.tsx). Product-UI language: --ui-* lines, Inter-free mono
+   ticks, red is the money line and the payback marker. */
+.chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+}
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.grid {
+  stroke: var(--ui-line-soft);
+  stroke-width: 1;
+}
+.axis {
+  stroke: var(--color-sand-400);
+  stroke-width: 1;
+}
+.tick {
+  fill: var(--ui-axis);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+.area {
+  fill: var(--color-red-600);
+  opacity: 0.09;
+}
+.cost {
+  stroke: var(--color-ink-800);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+.value {
+  stroke: var(--color-red-600);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.drop {
+  stroke: var(--color-red-600);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+.mark {
+  fill: var(--color-white);
+  stroke: var(--color-red-600);
+  stroke-width: 3;
+}
+.marker {
+  transition: opacity 300ms ease;
+}
+.hidden {
+  opacity: 0;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  color: var(--color-ink-600);
+  font-size: 0.75rem;
+}
+.keyValue,
+.keyCost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.keyValue::before {
+  content: "";
+  width: 0.9rem;
+  height: 2.5px;
+  border-radius: 2px;
+  background: var(--color-red-600);
+}
+.keyCost::before {
+  content: "";
+  width: 0.9rem;
+  border-top: 1.5px dashed var(--color-ink-800);
+}

@@ -3,6 +3,7 @@
 
 import type { FormValues } from "./validation";
 import { countryByIso } from "@/lib/content/countries";
+import type { CalculatorPayload } from "@/lib/calculator/payload";
 
 export type SubmitResult = { ok: true } | { ok: false; message: string };
 
@@ -38,9 +39,12 @@ export async function submitContact(values: FormValues): Promise<SubmitResult> {
   return { ok: true };
 }
 
-// TODO(backend): POST toPayload(values) to the demo endpoint (or CRM, e.g. HubSpot).
-export async function submitDemo(values: FormValues): Promise<SubmitResult> {
-  void toPayload(values);
+/** Where a demo request came from, from the URL (/book-a-demo?src=calculator&plan=starter). */
+export type DemoContext = { src?: string; plan?: string; rev?: string };
+
+// TODO(backend): POST { ...toPayload(values), ...context } to the demo endpoint (or CRM, e.g. HubSpot).
+export async function submitDemo(values: FormValues, context: DemoContext = {}): Promise<SubmitResult> {
+  void { ...toPayload(values), ...context };
   await wait(SIMULATED_MS);
   return { ok: true };
 }
@@ -48,6 +52,14 @@ export async function submitDemo(values: FormValues): Promise<SubmitResult> {
 // TODO(backend): POST toPayload(values) to the partner-application endpoint (/partners, §G.16).
 export async function submitPartner(values: FormValues): Promise<SubmitResult> {
   void toPayload(values);
+  await wait(SIMULATED_MS);
+  return { ok: true };
+}
+
+// TODO(backend): submit to the HubSpot "ROI calculator" form (brief §2.7): `payload.fields`
+// as the form fields, `payload.context` as the HubSpot context (hutk, pageUri, pageName).
+export async function submitCalculator(payload: CalculatorPayload): Promise<SubmitResult> {
+  void payload;
   await wait(SIMULATED_MS);
   return { ok: true };
 }

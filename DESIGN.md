@@ -21,6 +21,7 @@ Version 1.0 · 12 Nov 2026 · Covers: Hero, Trust strip, Feature section ("Get i
 
 Data decisions made with the team:
 - **Proof numbers come from the PDF**: Good Day Chocolate recovered **$53K** within 6 months; Smash Kitchen **$23K**; **25 brands** pay for Roma. The site's "170+ brands" and "$38K" are **not** used.
+- **Exception (client, 20 Nov 2026, ROI calculator and pricing brief):** /pricing may use runroma.com's "Trusted by 170+ CPG brands" and the stats row "<5 min to go live · 90% time saved · $50M+ recovered" (always with "Results vary by brand."). Good Day Chocolate stays at $53K everywhere.
 - **Hero art is a placeholder**: Different AI's balloons-over-red-mountains illustration, used until Roma commissions its own. Must be replaced before launch (see §11).
 - **Fonts are free/open**: Instrument Sans (OFL) stands in for Hyperline's commercial Season Sans; Inter (OFL) for product-UI mock-ups; Geist Mono (OFL) for labels; Source Serif 4 (OFL) only inside paper/handwriting illustration props. No commercial font files ship.
 
@@ -658,6 +659,30 @@ Client-preview **shell** (20 Nov 2026): structure follows Cygnet's partner page;
 - **Founder note:** full-bleed ink-900 band; the cut-out portrait stands on the band's bottom edge and breaks out 6–7rem above it; quote, 2px red-600 rule, attribution. Stacks below 992px.
 - **Form:** `LeadForm kind="partner"`: first/last name, work email, company, type of partnership (full-width row), phone, message (optional), consent. `?type=` or a card link (`PARTNER_TYPE_EVENT`) presets the type. `submitPartner` in `lib/forms/submit.ts` is simulated. Dropdown options wrap instead of truncating (all forms).
 - **Left out on purpose:** Cygnet's partner logo wall and partner stories (Roma has no partners yet; they would be fictional), stat counters and week-by-week durations.
+
+### G.17–G.18 shared: brand-red surfaces and signature motion (client, 20 Nov 2026)
+
+Client asked for more brand colour and contrast on /calculator and /pricing ("dark red looks like maroon"). Approved exception to §A.6.5 for these two pages: result surfaces use **the home Stories red as a fill**: `radial-gradient(120% 90% at 50% 25–30%, red-700, red-900)`, never flat red-950. Used for the calculator results column and gate column, the compact embed's result panel, the featured plan card (a layer that glides to the picked column ≥768px), the "Will Roma pay for itself?" band, and Roma's price tag. On red: white type, `rgba(255,255,255,.8)` muted, `.2` hairlines, white cards with the Proof shadow (`0 30px 60px -30px rgba(31,10,8,.6)`), inverse/ghostOnDark buttons; the invalid figure is a cream-100 chip.
+Signature motion: **RollingNumber** (odometer digits, 700ms `--ease-out`, 45ms stagger from the right; rolls in on first view) for headline figures, plan prices and proof stats; **PaybackChart** (value line draws, dashed yearly-cost line, marker drops on the payback month; attr-tweens on input changes); **price tags** (Roma's tag rises and its price rolls, then the competitor tags rise in turn; straight rises only, no tilt or swing, client 20 Nov 2026; hover darkens the tag edge). The security row leads SOC 2 and ISO 27001 with the home Compliance medallions. Both pages end with `ProofRed` on the red scroll backdrop (§G.4). All static under reduced motion.
+
+### G.17 Deductions calculator (`/calculator`; brief: "ROI calculator and pricing brief", 20 Nov 2026)
+
+Route `app/calculator/page.tsx` (`/roi` 301s to it, `next.config.ts`); every input, constant and line of copy in `lib/content/calculator.ts`; math, rounding, parsing and URL params in `lib/calculator/math.ts` (pure; brief §2.12 worked example reproduces exactly: $38,400 · 702% · 1.5 months); components in `components/calculator/*`. Linked as the first Resources item and in the footer Resources column.
+
+- **Hero:** the /customers intro on its cream sheet (§G.15), with the calculator card where /customers has its story strip. `[data-nav-light]` + `LIGHT_ROUTES`.
+- **Card:** white, `--radius-xl`. ≥992px: inputs left in three numbered mono groups (Your business · Your deductions · Your team), results right in a cream-50 column whose content is CSS-sticky. Each input is a typed field + native range (`RangeField`: red fill to the thumb, 44px hit area, revenue on a log scale; accepts "10m" / "2.5%"; clamps on blur with "Enter a value between X and Y."; an emptied field falls back to its default and says so). Retailers: chips (UNFI, KeHE, Walmart, Target, Other) + a count stepper; ticking chips raises the count (client, 20 Nov).
+- **Results:** "Up to $X a year back" (red-600, counts to each new value, 450ms), deductions / invalid / hours saved, an invalid-share bar (shape only), the disclaimer, Copy link. Live, no email needed.
+- **Gate (brief §2.6):** the breakdown row under the card: gain, write-off, time value, ROI, payback (+ suggested plan, See pricing, Book a demo → with `?src=calculator&rev=&plan=`, Try now). Locked = each row shows a dashed "In your report" lock tag plus a one-line hint (client found blurred bars unclear); gated numbers never reach the DOM before submit. Inputs validate live: characters a field can't use are dropped as typed with "Use numbers only…", unreadable or out-of-range values are flagged while typing and clamped on blur. Form beside it ≥992px, a bottom sheet (native `<dialog>`) below. Personal email domains get a hint, not a block (client). Returning visitors: localStorage flag. Submission: `submitCalculator` in `lib/forms/submit.ts` (simulated until HubSpot), payload with the brief's HubSpot property names in `lib/calculator/payload.ts`.
+- **Mobile:** single column; a dark pill bar with the headline sits above the Ask Roma launcher while the inputs are on screen and the results aren't.
+- **How we calculate:** sticky head + assumptions with sources left, a live ledger table right; gated lines show only their formula until unlocked.
+- **Embeds:** `CalculatorCompact` (revenue, deduction rate, hours → one figure → "See full breakdown" with params) on `/` after MachineFlow, `/deduction-management` after Numbers and `/pricing` (adds payback at the entry plan price). `CalculatorBanner` (link only) on every compare page and inline in the deductions blog post (`{ type: "calculator" }` block). Embeds carry no `data-backdrop`.
+- **Analytics:** `track()` in `lib/calculator/track.ts` dispatches `roma:analytics` CustomEvents for every brief §2.10 / §3.10 event; attach the chosen tool there.
+
+### G.18 Pricing (`/pricing`; same brief, §3)
+
+Route `app/pricing/page.tsx`; plans, matrix, alternatives, proof and FAQ in `lib/content/pricing.ts` (model B: tiers by portals; every commercial value is `confirmed: false` until Roma signs off; the JSON-LD Offer waits on `offerConfirmed`); components in `components/pricing/*`. Top-level nav link between Customers and Resources (client, 20 Nov) and the footer Company column.
+
+Order: /customers intro + Book a demo → / Try now → plans (portal picker radiogroup marks the fitting plan with the §E.6 active border, others step back to .62; prices count up once; no "popular" badge) → feature matrix (grouped by product, sticky plan headers; plan tabs below 768px) → "Will Roma pay for itself?" embed → Roma vs alternatives (Roma row in the compare table's red wash; competitor prices numbered to their public sources) → TrustStrip → proof (two story cards led by their figure, stats card, security row) → FAQ (10 pricing questions) → closing CTA.
 
 ### G.10 Blog (`/blogs`, `/blogs/[slug]`, reference: Vodex `/resources/blog`, adapted)
 

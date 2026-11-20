@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { Block } from "@/lib/content/blog";
 import { renderInline } from "./inline";
 import ProductFigure from "./ProductFigure";
+import CalculatorBanner from "@/components/calculator/CalculatorBanner";
 import a from "./article.module.css";
 
 /**
@@ -65,6 +66,12 @@ export default function ArticleBody({ blocks }: { blocks: Block[] }) {
                 </div>
                 <figcaption className={a.caption}>{b.caption}</figcaption>
               </figure>
+            );
+          case "calculator":
+            return (
+              <div key={i} data-reveal>
+                <CalculatorBanner inline />
+              </div>
             );
           case "product":
             return <ProductFigure key={i} figure={b.figure} caption={b.caption} summary={b.summary} />;

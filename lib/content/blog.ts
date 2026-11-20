@@ -35,7 +35,9 @@ export type Block =
   | { type: "callout"; label: string; text: string }
   | { type: "figure"; image: BlogImage; caption: string }
   | { type: "product"; figure: ProductFigureKey; caption: string; summary: string }
-  | { type: "table"; caption: string; head: string[]; rows: string[][] };
+  | { type: "table"; caption: string; head: string[]; rows: string[][] }
+  /** Slim link banner to /calculator (brief §1.2). */
+  | { type: "calculator" };
 
 export type Post = {
   slug: string;
@@ -215,6 +217,7 @@ const POSTS: Post[] = [
         type: "p",
         text: `Curious what your own deductions look like? [Book 30 minutes with us](${DEMO_HREF}). We’ll show you your numbers.`,
       },
+      { type: "calculator" },
     ],
   },
 
@@ -596,6 +599,8 @@ function blockText(b: Block): string {
       return b.caption;
     case "callout":
       return `${b.label} ${b.text}`;
+    case "calculator":
+      return "";
     default:
       return b.text;
   }

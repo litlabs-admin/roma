@@ -66,6 +66,20 @@ const PATHS: Record<NavIconKey, React.ReactNode> = {
       <circle cx="12.5" cy="10" r="4" />
     </>
   ),
+  // calculator: screen + keys
+  calculator: (
+    <>
+      <rect x="4.5" y="2.5" width="11" height="15" rx="1.5" />
+      <path d="M7 6h6M7.5 10h.01M10 10h.01M12.5 10h.01M7.5 12.75h.01M10 12.75h.01M12.5 12.75h.01M7.5 15.25h.01M10 15.25h.01M12.5 15.25h.01" />
+    </>
+  ),
+  // price tag
+  pricing: (
+    <>
+      <path d="M3.5 10.2V4.5a1 1 0 0 1 1-1h5.7l6.3 6.3a1 1 0 0 1 0 1.4l-5.3 5.3a1 1 0 0 1-1.4 0z" />
+      <path d="M7.25 7.25h.01" />
+    </>
+  ),
   // envelope
   contact: (
     <>

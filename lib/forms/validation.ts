@@ -99,6 +99,18 @@ function message(v: string, required: boolean) {
   return "";
 }
 
+/** True for personal mailboxes (gmail, yahoo, outlook, hotmail, icloud). The calculator gate
+ *  flags these but still lets the form submit (client, 20 Nov 2026). */
+export function isFreeEmail(v: string, domains: string[]): boolean {
+  const at = v.trim().toLowerCase().split("@")[1];
+  return !!at && domains.includes(at);
+}
+
+/** The calculator gate's email rule (same check as the lead forms). */
+export const checkEmail = (v: string) => email(v);
+export const checkFirstName = (v: string) => name(v, "first");
+export const checkCompany = (v: string) => text(v, "Please enter your company name.", 2, 100, "Company name");
+
 /** Error for one field ("" when valid). */
 export function validateField(field: FieldName, v: FormValues, kind: FormKind): string {
   switch (field) {

@@ -25,6 +25,8 @@ const sourceSerif = localFont({
 });
 
 export const metadata: Metadata = {
+  // Resolves canonical and Open Graph URLs (brief §3.9).
+  metadataBase: new URL("https://www.runroma.com"),
   title: "Roma | Every deduction, accounted for",
   description:
     "Every deduction from UNFI, KeHE and your retailers, accounted for. See where the money went, dispute the invalid ones, and book the rest. Live in under 5 minutes.",

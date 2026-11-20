@@ -9,6 +9,7 @@ import Faq from "@/components/sections/faq/Faq";
 import ClosingCta from "@/components/sections/closing/ClosingCta";
 import Footer from "@/components/layout/Footer";
 import PageBackdrop from "@/components/motion/PageBackdrop";
+import CalculatorCompact from "@/components/calculator/CalculatorCompact";
 
 export default function Home() {
   return (
@@ -19,6 +20,8 @@ export default function Home() {
         <TrustStrip />
         <FeatureStory />
         <MachineFlow />
+        {/* Brief §1.2: after "Recovery you can track" (MachineFlow's last card). */}
+        <CalculatorCompact variant="home" />
         <Compliance />
         <Stories />
         <Faq />

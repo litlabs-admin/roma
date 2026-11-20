@@ -1,0 +1,44 @@
+/* Odometer digits (RollingNumber.tsx). Each digit clips a 0–9 strip to one line and
+   moves it with transform only; lower digits settle first. */
+.odo {
+  display: inline-flex;
+  align-items: flex-start;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.char {
+  display: inline-block;
+  height: 1.05em;
+  line-height: 1.05;
+}
+.digit {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  height: 1.05em;
+  line-height: 1.05;
+}
+.sizer {
+  visibility: hidden;
+}
+.strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  transform: translateY(calc(var(--d, 0) * -1.05em));
+  transition: transform 700ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 45ms);
+}
+.strip > span {
+  display: block;
+  height: 1.05em;
+}
+@media (prefers-reduced-motion: reduce) {
+  .strip {
+    transition: none;
+  }
+}

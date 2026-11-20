@@ -19,7 +19,9 @@ export type NavIconKey =
   | "codes"
   | "faq"
   | "partners"
-  | "contact";
+  | "contact"
+  | "calculator"
+  | "pricing";
 
 export type NavItem = { label: string; href: string; desc: string; icon: NavIconKey };
 
@@ -52,10 +54,11 @@ export type NavLink = { label: string; href: string };
 export const navLinks: NavLink[] = [
   { label: "Platform", href: "/platform" },
   { label: "Customers", href: "/customers" },
+  { label: "Pricing", href: "/pricing" },
 ];
 
 /** Bar order by label: links and menus interleave (client, 20 Nov 2026). */
-export const navOrder = ["Platform", "Solutions", "Customers", "Resources", "Company"];
+export const navOrder = ["Platform", "Solutions", "Customers", "Pricing", "Resources", "Company"];
 
 /*
  * Story tile photos. Not the bento's images (customers page), on purpose.
@@ -112,6 +115,7 @@ export const navMenus: NavMenu[] = [
   {
     label: "Resources",
     items: [
+      { label: "Deductions calculator", href: "/calculator", desc: "See what deductions cost you each year and what you could get back.", icon: "calculator" },
       { label: "Blog", href: "/blogs", desc: "Guides on deductions, retailers and trade spend.", icon: "blog" },
       { label: "Deduction codes", href: "/deduction-codes", desc: "Look up a retailer's deduction code and what it means.", icon: "codes" },
       { label: "FAQs", href: "/#faq", desc: "Quick answers on setup, retailers and security.", icon: "faq" },

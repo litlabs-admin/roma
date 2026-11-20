@@ -27,7 +27,7 @@ import s from "./nav.module.css";
  * Routes whose first section sits on cream ([data-nav-light]). Known from the URL so the
  * server renders the light nav: no white-on-cream flash before hydration.
  */
-const LIGHT_ROUTES = ["/contact", "/book-a-demo", "/terms-and-conditions", "/privacy-policy", "/customers"];
+const LIGHT_ROUTES = ["/contact", "/book-a-demo", "/terms-and-conditions", "/privacy-policy", "/customers", "/calculator", "/pricing"];
 /** Sections whose every page opens on cream (/customers/[slug], DESIGN.md §G.15). */
 const LIGHT_PREFIXES = ["/customers/"];
 

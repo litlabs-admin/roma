@@ -1,0 +1,606 @@
+/* /pricing (DESIGN.md §G.18). Hero = the /customers intro (customers.module.css); every
+   section below shares one head pattern (mono eyebrow → h2 → lead) and §E.6 cards. */
+
+.page {
+  position: relative;
+  padding-top: calc(var(--nav-h) + 3.5rem);
+}
+@media (min-width: 768px) {
+  .page {
+    padding-top: calc(var(--nav-h) + 4rem);
+  }
+}
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+@media (max-width: 479px) {
+  .heroActions {
+    width: 100%;
+  }
+  .heroActions > * {
+    width: 100%;
+  }
+}
+
+/* ── section rhythm + head ── */
+.section {
+  padding-block: var(--section-lg) 0;
+}
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+@media (min-width: 992px) {
+  .head {
+    margin-bottom: 4rem;
+  }
+  .headSplit {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: end;
+    gap: 4rem;
+  }
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--color-ink-600);
+}
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--color-red-600);
+}
+.title {
+  max-width: 20ch;
+  margin: 0.5rem 0 0;
+  color: var(--color-ink-900);
+  text-wrap: balance;
+}
+.lead {
+  max-width: 38rem;
+  margin: 0;
+  color: var(--color-ink-600);
+  text-wrap: pretty;
+}
+
+/* ── plans ── */
+/* The home Stories red (§G.4) as a surface: Roma red glowing in the middle, red-900 at
+   the edges. Never flat dark red (client, 20 Nov 2026: "looks like maroon"). */
+.plans {
+  --red-surface: radial-gradient(120% 90% at 50% 25%, var(--color-red-700) 0%, var(--color-red-900) 100%);
+  --on-red-muted: rgba(255, 255, 255, 0.8);
+  --on-red-line: rgba(255, 255, 255, 0.2);
+  --gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+}
+.picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+@media (min-width: 768px) {
+  .picker {
+    flex-direction: row;
+    gap: 1rem;
+  }
+}
+.pickerLabel {
+  margin: 0;
+  color: var(--color-ink-800);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.segment {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(4.75rem, 1fr));
+  padding: 4px;
+  border: 1px solid var(--color-sand-400);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+}
+.segBtn {
+  position: relative;
+  z-index: 1;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-ink-800);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: color 300ms var(--ease-state);
+}
+.segBtn:focus-visible {
+  outline-offset: 0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .segBtn:not(.segOn):hover {
+    color: var(--color-red-700);
+  }
+}
+.segOn {
+  color: #fff;
+}
+.segThumb {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc((100% - 8px) / 3);
+  border-radius: var(--radius-pill);
+  background: var(--color-red-600);
+  transition: transform 500ms var(--ease-out);
+}
+
+/* stage: the red spotlight glides behind the grid to the picked column */
+.planStage {
+  position: relative;
+  width: 100%;
+}
+.spot {
+  display: none;
+}
+@media (min-width: 768px) {
+  .spot {
+    position: absolute;
+    top: -0.75rem;
+    bottom: -0.75rem;
+    left: 0;
+    display: block;
+    width: calc((100% - 2 * var(--gap)) / 3);
+    border-radius: var(--radius-xl);
+    background: var(--red-surface);
+    box-shadow: 0 30px 60px -30px rgba(31, 10, 8, 0.6);
+    transform: translateX(calc(var(--pick, 1) * (100% + var(--gap))));
+    transition: transform 600ms var(--ease-out);
+  }
+}
+.planGrid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--gap);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 768px) {
+  .planGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.plan {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 1);
+  color: var(--color-ink-900);
+  text-align: left;
+  transition:
+    background-color 450ms var(--ease-state),
+    border-color 450ms var(--ease-state),
+    color 450ms var(--ease-state),
+    border-radius 450ms var(--ease-state);
+}
+@media (min-width: 992px) {
+  .plan {
+    padding: 2rem;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .plan:not(.planOn):hover {
+    border-color: var(--color-red-600);
+  }
+}
+/* featured: transparent over the spotlight (≥768) or red itself (phones) */
+.planOn {
+  border-color: transparent;
+  border-radius: var(--radius-xl);
+  background: rgba(255, 255, 255, 0);
+  color: #fff;
+}
+@media (max-width: 767px) {
+  .planOn {
+    background: var(--red-surface);
+    box-shadow: 0 30px 60px -30px rgba(31, 10, 8, 0.6);
+  }
+}
+.planTop {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.planNameRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 1.75rem;
+}
+.planName {
+  margin: 0;
+  font-size: 1.375rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.fits {
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--color-red-700);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(6px) scale(0.92);
+  transition:
+    opacity 300ms var(--ease-state),
+    transform 450ms var(--ease-out);
+}
+.planOn .fits {
+  opacity: 1;
+  transform: none;
+  transition-delay: 200ms;
+}
+.bestFor {
+  min-height: 2.9em;
+  margin: 0;
+  color: var(--color-ink-600);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  text-wrap: pretty;
+  transition: color 450ms var(--ease-state);
+}
+.planOn .bestFor,
+.planOn .priceFrom,
+.planOn .priceUnit,
+.planOn .planRow dt {
+  color: var(--on-red-muted);
+}
+.price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+  min-height: 4.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-sand-300);
+  transition: border-color 450ms var(--ease-state);
+}
+.planOn .price,
+.planOn .planRow {
+  border-color: var(--on-red-line);
+}
+.priceFrom {
+  flex-basis: 100%;
+  color: var(--color-ink-600);
+  font-size: 0.875rem;
+}
+.priceFig {
+  font-size: 3.25rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+@media (min-width: 992px) {
+  .priceFig {
+    font-size: 3.75rem;
+  }
+}
+.priceCustom {
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+}
+@media (min-width: 992px) {
+  .priceCustom {
+    font-size: 2.25rem;
+  }
+}
+.priceUnit {
+  color: var(--color-ink-600);
+  font-size: 0.9375rem;
+}
+.planCta {
+  width: 100%;
+}
+.planRows {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+.planRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--ui-line);
+  transition: border-color 450ms var(--ease-state);
+}
+.planRow dt {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.planRow dd {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+.flat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0;
+  color: var(--color-ink-600);
+  font-size: 0.9375rem;
+  text-align: center;
+}
+.flat svg {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: var(--color-red-600);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ── feature matrix ── */
+.matrixTabs {
+  display: none;
+}
+.matrixWrap {
+  overflow: clip; /* rounds the table without breaking the sticky header */
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+}
+.matrix {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.9375rem;
+}
+.matrix thead th {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 2;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--color-sand-300);
+  background: var(--color-white);
+  text-align: left;
+  vertical-align: bottom;
+}
+.mFeatureHead {
+  width: 40%;
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.mPlanHead {
+  width: 20%;
+}
+.mPlanName {
+  display: block;
+  color: var(--color-ink-900);
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+.mPlanPrice {
+  display: block;
+  color: var(--color-ink-600);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+/* the picked plan's column: faint red wash + red rule on its header (compare table, §G.13) */
+.matrix .mOn {
+  background: #fdf6f4;
+  transition: background-color 400ms var(--ease-state);
+}
+.matrix thead .mOn {
+  box-shadow: inset 0 3px 0 var(--color-red-600);
+}
+.matrix thead .mOn .mPlanName {
+  color: var(--color-red-700);
+}
+.matrix td,
+.matrix thead th {
+  transition: background-color 400ms var(--ease-state);
+}
+.mGroup th {
+  padding: 1.5rem 1.25rem 0.6rem;
+  border-bottom: 1px solid var(--color-sand-300);
+  background: var(--color-cream-50);
+  color: var(--color-ink-900);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-align: left;
+}
+.mGroupLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: inherit;
+  text-decoration: none;
+}
+.mGroupLink svg {
+  width: 0.8rem;
+  height: 0.8rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 350ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .mGroupLink:hover {
+    color: var(--color-red-700);
+  }
+  .mGroupLink:hover svg {
+    transform: translate(2px, -2px);
+  }
+}
+.mRow th,
+.mRow td {
+  padding: 0.8rem 1.25rem;
+  border-bottom: 1px solid var(--ui-line);
+  vertical-align: middle;
+}
+.mRow th {
+  color: var(--color-ink-800);
+  font-weight: 400;
+  text-align: left;
+}
+.matrix tbody:last-child .mRow:last-child th,
+.matrix tbody:last-child .mRow:last-child td {
+  border-bottom: 0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .mRow:hover th,
+  .mRow:hover td {
+    background: var(--ui-well);
+  }
+}
+.cellText {
+  color: var(--color-ink-900);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.yes {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--color-red-100);
+  color: var(--color-red-700);
+}
+.yes svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.no {
+  color: var(--color-sand-400);
+  font-size: 1.125rem;
+}
+
+/* phones: plan tabs pick one column */
+@media (max-width: 767px) {
+  .matrixTabs {
+    position: sticky;
+    top: calc(var(--nav-h) + 0.5rem);
+    z-index: 3;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    margin-bottom: 0.75rem;
+    padding: 4px;
+    border: 1px solid var(--color-sand-400);
+    border-radius: var(--radius-pill);
+    background: var(--color-white);
+  }
+  .matrixTab {
+    min-height: 2.75rem;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--color-ink-800);
+    font: inherit;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      background-color 300ms var(--ease-state),
+      color 300ms var(--ease-state);
+  }
+  .matrixTabOn {
+    background: var(--color-ink-900);
+    color: #fff;
+  }
+  .matrix thead {
+    display: none;
+  }
+  .matrix th:not(:first-child),
+  .matrix td {
+    display: none;
+  }
+  .matrix .mGroup th {
+    display: table-cell;
+  }
+  .matrix .mRow > :nth-child(1) {
+    width: 70%;
+  }
+  .matrix[data-col="0"] .mRow > :nth-child(2),
+  .matrix[data-col="1"] .mRow > :nth-child(3),
+  .matrix[data-col="2"] .mRow > :nth-child(4) {
+    display: table-cell;
+    text-align: right;
+  }
+  .mRow th,
+  .mRow td {
+    padding: 0.8rem 1rem;
+  }
+  .mGroup th {
+    padding: 1.25rem 1rem 0.5rem;
+  }
+}
+
+/* trust strip spacing inside the page */
+.trust {
+  margin-top: var(--section-md);
+}
+
+/* closing space before the FAQ sheet */
+.end {
+  height: var(--section-lg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .segThumb,
+  .segBtn,
+  .plan,
+  .fits,
+  .matrixTab {
+    transition: none;
+  }
+}

@@ -16,7 +16,7 @@ import {
   formCopy,
 } from "@/lib/content/contact";
 import { FIELDS, emptyValues, validateAll, validateField, type Errors, type FieldName, type FormKind, type FormValues } from "@/lib/forms/validation";
-import { submitContact, submitDemo, submitPartner } from "@/lib/forms/submit";
+import { submitContact, submitDemo, submitPartner, type DemoContext } from "@/lib/forms/submit";
 import { PARTNER_TYPES, PARTNER_TYPE_EVENT, partnerFieldCopy as P, partnerPage } from "@/lib/content/partners";
 import { ChipGroup, Consent, Counter, Field, PhoneInput, SelectInput, TextArea, TextInput, ids } from "./fields";
 import f from "./forms.module.css";
@@ -71,6 +71,24 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
     if (!t || !TOPICS.some((o) => o.value === t)) return;
     // after hydration (the server renders no topic)
     const raf = requestAnimationFrame(() => setValues((v) => ({ ...v, topic: t })));
+    return () => cancelAnimationFrame(raf);
+  }, [kind]);
+
+  // Demo: context passed from the calculator or pricing (?src=calculator&rev=10000000&plan=starter,
+  // brief §1.3). `rev` preselects the matching revenue band; src/plan ride along in the payload.
+  const demoContext = useRef<DemoContext>({});
+  useEffect(() => {
+    if (kind !== "demo") return;
+    const q = new URLSearchParams(window.location.search);
+    const src = q.get("src") ?? undefined;
+    const plan = q.get("plan") ?? undefined;
+    const revRaw = q.get("rev");
+    demoContext.current = { src, plan, rev: revRaw ?? undefined };
+    const rev = revRaw ? Number(revRaw) : NaN;
+    if (!Number.isFinite(rev) || rev <= 0) return;
+    const band = rev < 1e6 ? "under-1m" : rev < 5e6 ? "1m-5m" : rev < 1e7 ? "5m-10m" : rev < 5e7 ? "10m-50m" : "50m-plus";
+    if (!REVENUE.some((o) => o.value === band)) return;
+    const raf = requestAnimationFrame(() => setValues((v) => (v.revenue ? v : { ...v, revenue: band })));
     return () => cancelAnimationFrame(raf);
   }, [kind]);
 
@@ -212,7 +230,7 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
       return;
     }
     setStatus("sending");
-    const res = await (kind === "contact" ? submitContact(values) : kind === "partner" ? submitPartner(values) : submitDemo(values));
+    const res = await (kind === "contact" ? submitContact(values) : kind === "partner" ? submitPartner(values) : submitDemo(values, demoContext.current));
     if (res.ok) {
       setDoneName(values.firstName.trim());
       setStatus("done");

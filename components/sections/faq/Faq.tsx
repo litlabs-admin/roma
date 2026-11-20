@@ -29,8 +29,14 @@ type HeadCopy = { label: string; lines: readonly { text: string; accent?: string
 /**
  * `order`: optional indexes into FAQS, so a product page can lead with its own question.
  * `items` / `copy`: a page-specific list and heading (the comparison page, §G.13).
+ * `onOpen`: called with the question each time an answer opens (pricing analytics, §G.18).
  */
-export default function Faq({ order, items: own, copy = faqCopy }: { order?: number[]; items?: FaqItem[]; copy?: HeadCopy } = {}) {
+export default function Faq({
+  order,
+  items: own,
+  copy = faqCopy,
+  onOpen,
+}: { order?: number[]; items?: FaqItem[]; copy?: HeadCopy; onOpen?: (q: string) => void } = {}) {
   const items = own ?? (order ? order.map((i) => FAQS[i]).filter(Boolean) : FAQS);
   const root = useRef<HTMLElement>(null);
   const answers = useRef<(HTMLDivElement | null)[]>([]);
@@ -59,6 +65,7 @@ export default function Faq({ order, items: own, copy = faqCopy }: { order?: num
   const toggle = (i: number) => {
     const next = !open[i];
     setOpen((o) => o.map((v, j) => (j === i ? next : v)));
+    if (next) onOpen?.(items[i].q);
     const answer = answers.current[i];
     const icon = icons.current[i];
     const instant = prefersReducedMotion();

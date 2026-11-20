@@ -38,4 +38,9 @@ export const FAQS: Faq[] = [
     q: "How current is the data in Roma?",
     a: "Roma updates as new remittances come in, so you work from a live view, not last month’s spreadsheet.",
   },
+  // Appended last so product pages' `order` indexes stay valid (brief §3.1: home FAQ).
+  {
+    q: "How much does Roma cost?",
+    a: "Plans start from $399/month, priced by the portals you connect, not your deduction volume. See every plan on the pricing page.",
+  },
 ];

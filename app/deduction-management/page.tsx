@@ -10,6 +10,7 @@ import Story from "@/components/product/story/Story";
 import TrustStrip from "@/components/sections/trust/TrustStrip";
 import Faq from "@/components/sections/faq/Faq";
 import ClosingCta from "@/components/sections/closing/ClosingCta";
+import CalculatorCompact from "@/components/calculator/CalculatorCompact";
 import { dmHero, faqOrder } from "@/lib/content/products";
 
 export const metadata: Metadata = {
@@ -30,6 +31,8 @@ export default function DeductionManagementPage() {
         <TrustStrip />
         <Journey />
         <Numbers />
+        {/* Brief §1.2: after "We don't speak. Our numbers do." */}
+        <CalculatorCompact variant="product" />
         <Story />
         <Faq order={faqOrder.deductions} />
         <ClosingCta />
