@@ -1,0 +1,583 @@
+/* /customers (DESIGN.md §G.15): results bento on the red backdrop, then the story
+   library sheet. Roma tokens; photo-card language from stories.module.css (homepage),
+   card body from blog.module.css. Hover per §F.7: no zoom, no lift. */
+
+/* ── Brand marks ─────────────────────────────────────────────────────── */
+
+.logo {
+  display: block;
+  flex: none;
+  height: 2rem;
+  max-width: 8rem;
+  background: currentColor;
+  -webkit-mask: var(--logo) left center / contain no-repeat;
+  mask: var(--logo) left center / contain no-repeat;
+}
+.wordmark {
+  flex: none;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+/* ── Bento section ───────────────────────────────────────────────────── */
+
+.bentoSection {
+  --st-fg: #ffffff;
+  --st-muted: rgba(255, 255, 255, 0.78);
+  position: relative;
+  z-index: 1;
+  color: var(--st-fg);
+}
+.bentoSection[data-static] {
+  background: radial-gradient(circle at 50% 50%, var(--color-red-700) 0%, var(--color-red-900) 100%);
+}
+.bentoInner {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: var(--container-lg);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  padding-block: var(--section-md);
+}
+@media (min-width: 1024px) {
+  .bentoInner {
+    gap: 3rem;
+  }
+}
+.bentoHead {
+  display: grid;
+  gap: 1rem;
+}
+.bentoHeading {
+  max-width: 32rem;
+  margin: 0;
+  text-wrap: balance;
+}
+.bentoSide {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.bentoLead {
+  max-width: 30rem;
+  margin: 0;
+  color: var(--st-muted);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+.bentoNote {
+  margin: 0;
+  color: var(--st-muted);
+  font-size: 0.875rem;
+}
+@media (min-width: 1024px) {
+  .bentoHead {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .bentoLead {
+    font-size: 1.125rem;
+  }
+}
+
+/* Grid: 1 col → 2 (quote spans both) → 3 (lead tile + quote, then three tiles). */
+.bento {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: minmax(18rem, auto);
+  gap: 0.75rem;
+}
+@media (min-width: 640px) {
+  .bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(19rem, auto);
+    gap: 1rem;
+  }
+  .quoteSlot {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+  .tileLead {
+    grid-row: 2;
+  }
+  /* Odd one out at tablet: the last tile runs full width. */
+  .bento > .tile:last-child {
+    grid-column: 1 / -1;
+  }
+}
+@media (min-width: 1024px) {
+  .bento {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    /* rows grow if the quote card's content needs more than the clamp */
+    grid-template-rows: minmax(clamp(25rem, 52svh, 29rem), auto) minmax(clamp(18rem, 38svh, 22rem), auto);
+    grid-auto-rows: auto;
+  }
+  .quoteSlot {
+    grid-column: 2 / span 2;
+    grid-row: 1;
+  }
+  .tileLead {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .bento > .tile:last-child {
+    grid-column: auto;
+  }
+}
+
+/* ── Metric tile ── */
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 18rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  background: var(--color-red-950);
+  color: #fff;
+  text-decoration: none;
+}
+@media (min-width: 1024px) {
+  .tile {
+    padding: 2rem;
+  }
+}
+.tile:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.tilePhoto {
+  z-index: -3;
+  object-fit: cover;
+}
+/* Roma-red gradient tile: the closing CTA's amber texture, washed in red. */
+.tile[data-kind="gradient"] {
+  background:
+    radial-gradient(120% 90% at 85% 0%, rgba(201, 120, 60, 0.55) 0%, transparent 55%),
+    linear-gradient(160deg, var(--color-red-700) 0%, var(--color-red-900) 70%, var(--color-red-950) 100%);
+}
+.tileTexture {
+  z-index: -3;
+  object-fit: cover;
+  opacity: 0.35;
+  mix-blend-mode: soft-light;
+}
+.tileScrim {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(to top, rgba(31, 10, 8, 0.78) 0%, rgba(31, 10, 8, 0.2) 50%, transparent 70%),
+    linear-gradient(to bottom, rgba(31, 10, 8, 0.5) 0%, transparent 32%);
+  transition: opacity 350ms var(--ease-out);
+}
+.tile[data-kind="gradient"] .tileScrim {
+  opacity: 0;
+}
+.tileMark {
+  height: 1.75rem;
+}
+.tileMark.wordmark {
+  height: auto;
+  font-size: 1.125rem;
+}
+.tileArrow {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-red-700);
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition:
+    opacity 250ms var(--ease-out),
+    transform 350ms var(--ease-out);
+}
+.tileArrow svg {
+  width: 1rem;
+  height: 1rem;
+}
+.tileFoot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+.tileFigure {
+  font-size: clamp(3rem, 2.2rem + 2.4vw, 4.25rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  font-variant-numeric: tabular-nums;
+}
+.tileLead .tileFigure {
+  font-size: clamp(3.5rem, 2.4rem + 3vw, 5.25rem);
+}
+.tileLabel {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover .tileArrow {
+    opacity: 1;
+    transform: none;
+  }
+  .tile[data-kind="photo"]:hover .tileScrim {
+    opacity: 0.85;
+  }
+}
+.tile:focus-visible .tileArrow {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Quote slot (QuoteRotator, quoteRotator.module.css) ── */
+.quoteSlot {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.quoteSlot > * {
+  flex: 1;
+}
+
+/* ── Library ─────────────────────────────────────────────────────────── */
+
+.library {
+  scroll-margin-top: var(--nav-h);
+}
+.libraryHead {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.libraryTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.libraryLead {
+  max-width: 28rem;
+  margin: 0;
+  color: var(--color-ink-500);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+@media (min-width: 992px) {
+  .libraryHead {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 4rem;
+    margin-bottom: 2.5rem;
+  }
+}
+
+.chips {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.chips::-webkit-scrollbar {
+  display: none;
+}
+@media (min-width: 640px) {
+  .chips {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+}
+.chip {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+  padding: 0 0.875rem 0 1rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  color: var(--color-ink-900);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-micro) ease,
+    background-color var(--dur-micro) ease,
+    color var(--dur-micro) ease;
+}
+.chipCount {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.375rem;
+  height: 1.375rem;
+  padding: 0 0.375rem;
+  border-radius: 999px;
+  background: var(--color-cream-200);
+  color: var(--color-ink-500);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+.chip:hover {
+  border-color: var(--color-sand-400);
+}
+.chip[aria-pressed="true"] {
+  border-color: var(--color-ink-900);
+  background: var(--color-ink-900);
+  color: #fff;
+}
+.chip[aria-pressed="true"] .chipCount {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+.chip:focus-visible {
+  outline: 2px solid var(--color-red-600);
+  outline-offset: 2px;
+}
+
+.libraryGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  animation: gridIn 350ms var(--ease-out) both;
+}
+@keyframes gridIn {
+  from {
+    opacity: 0;
+  }
+}
+@media (min-width: 640px) {
+  .libraryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+@media (min-width: 992px) {
+  .libraryGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+.empty {
+  margin: 0;
+  color: var(--color-ink-500);
+}
+
+/* ── Story card (blog card body + homepage photo media) ── */
+.storyCard {
+  min-width: 0;
+}
+.cardMedia {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-red-950);
+  color: #fff;
+}
+.cardPhoto {
+  z-index: -2;
+  object-fit: cover;
+}
+.cardScrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(31, 10, 8, 0.38) 0%, rgba(31, 10, 8, 0.12) 60%),
+    linear-gradient(to top, rgba(31, 10, 8, 0.6) 0%, transparent 45%);
+  transition: opacity 350ms var(--ease-out);
+}
+/* Lightfield-style centred mark on the photo. */
+.cardMark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 2.25rem;
+  max-width: 60%;
+  -webkit-mask-position: center;
+  mask-position: center;
+  text-shadow: 0 1px 12px rgba(31, 10, 8, 0.35);
+}
+.cardMark.wordmark {
+  height: auto;
+  font-size: 1.5rem;
+  text-align: center;
+  white-space: normal;
+  text-wrap: balance;
+}
+.pill {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  display: inline-flex;
+  align-items: center;
+  max-width: calc(100% - 2rem);
+  height: 1.75rem;
+  padding: 0 0.75rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-red-700);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+@media (hover: hover) and (pointer: fine) {
+  .storyCard:hover .cardScrim {
+    opacity: 0.8;
+  }
+}
+
+.cardBody {
+  gap: 0.625rem;
+}
+.flag {
+  margin-right: 0.75rem;
+  color: var(--color-red-700);
+}
+.flag::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.5rem;
+  vertical-align: 0.15em;
+  background: var(--color-red-600);
+}
+.cardChannels {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-ink-500);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.cardQuote {
+  margin: 0.5rem 0 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--color-red-600);
+}
+.cardQuote blockquote {
+  margin: 0;
+  color: var(--color-ink-900);
+  font-size: 1rem;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+.cardQuote figcaption {
+  margin-top: 0.375rem;
+  color: var(--color-ink-500);
+  font-size: 0.875rem;
+}
+
+/* Featured: the full row, media beside the body. */
+@media (min-width: 640px) {
+  .storyCard[data-featured] {
+    grid-column: 1 / -1;
+  }
+}
+@media (min-width: 768px) {
+  .storyCard[data-featured] {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    min-height: 26rem;
+  }
+  .storyCard[data-featured] .cardMedia {
+    aspect-ratio: auto;
+    min-height: 100%;
+  }
+  .storyCard[data-featured] .cardMark {
+    height: 2.75rem;
+  }
+  .storyCard[data-featured] .cardMark.wordmark {
+    font-size: 2rem;
+  }
+  .storyCard[data-featured] .cardBody {
+    padding: 2rem;
+  }
+}
+@media (min-width: 992px) {
+  .storyCard[data-featured] .cardBody {
+    justify-content: center;
+    padding: 2.5rem 3rem;
+  }
+}
+
+/* "Your brand": closes the All grid, on the red of the homepage cards. */
+.yours {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  min-height: 22rem;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 1.75rem;
+  border-radius: var(--radius-md);
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(201, 120, 60, 0.45) 0%, transparent 55%),
+    linear-gradient(160deg, var(--color-red-700) 0%, var(--color-red-900) 75%, var(--color-red-950) 100%);
+  color: #fff;
+}
+.yoursLabel {
+  margin: 0 0 1rem;
+  color: var(--color-on-dark-muted);
+}
+.yoursHeading {
+  margin: 0;
+  text-wrap: balance;
+}
+.yoursBody {
+  margin: 0.875rem 0 0;
+  color: var(--color-on-dark-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.yoursActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+/* Phone/tablet two-column: the tile sits alone, so it runs full width. */
+@media (min-width: 640px) and (max-width: 991px) {
+  .yours {
+    grid-column: 1 / -1;
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .libraryGrid {
+    animation: none;
+  }
+  .tileArrow,
+  .tileScrim,
+  .cardScrim {
+    transition: none;
+  }
+}

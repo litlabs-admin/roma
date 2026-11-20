@@ -1,0 +1,214 @@
+/* The "With X / With Roma" switch card (DESIGN.md §G.13): one white card, a bar with a
+   mono label and the homepage-style CTA that becomes a toggle, two stacked layers. */
+
+.card {
+  container-type: inline-size;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-xl);
+  background: #fff;
+  color: var(--color-ink-900);
+}
+.flush {
+  border-bottom: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: var(--shadow-raise);
+}
+
+/* ── bar ── */
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  min-height: 4.5rem;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid var(--color-sand-300);
+  border-radius: inherit;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background: #fff;
+}
+@container (min-width: 48rem) {
+  .bar {
+    padding: 1rem 2rem;
+  }
+}
+.barLabel {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 2.875rem;
+  padding: 0 1.125rem 0 1.375rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-red-600);
+  box-shadow: 0 8px 20px -10px color-mix(in srgb, var(--color-red-700) 80%, transparent);
+  color: #fff;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--dur-micro, 150ms) ease;
+}
+.cta svg {
+  width: 16px;
+  height: 16px;
+  transition: translate 350ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .cta:hover {
+    background: var(--color-red-700);
+  }
+  .cta:hover svg {
+    translate: 3px 0;
+  }
+}
+
+.toggle {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0.25rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-200);
+}
+.thumb {
+  position: absolute;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  left: 0.25rem;
+  width: calc(50% - 0.25rem);
+  border-radius: var(--radius-pill);
+  background: var(--color-ink-900);
+  transition:
+    transform 400ms var(--ease-state),
+    background-color 400ms var(--ease-state);
+}
+.thumb[data-side="roma"] {
+  background: var(--color-red-600);
+  transform: translateX(100%);
+}
+.opt {
+  position: relative;
+  z-index: 1;
+  padding: 0.6rem 1.25rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--color-ink-600);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 300ms var(--ease-state);
+}
+.opt[aria-pressed="true"] {
+  color: #fff;
+}
+@media (hover: hover) and (pointer: fine) {
+  .opt[aria-pressed="false"]:hover {
+    color: var(--color-ink-900);
+  }
+}
+.cta:focus-visible,
+.opt:focus-visible {
+  outline: 2px solid var(--color-red-600);
+  outline-offset: 2px;
+}
+@container (max-width: 29.99rem) {
+  .barLabel {
+    width: 100%;
+  }
+  .toggle,
+  .cta {
+    width: 100%;
+  }
+  .cta {
+    justify-content: center;
+  }
+}
+
+/* ── layers: stacked in one cell so switching never changes the card's height ── */
+.stack {
+  display: grid;
+}
+.layer {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+.layer[data-on="false"] {
+  visibility: hidden;
+}
+
+/* ── shared control row + takeaway strip ── */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  padding: 0.65rem 1.25rem;
+  border-bottom: 1px solid var(--color-sand-300);
+  background: #fff;
+}
+@container (min-width: 48rem) {
+  .toolbar {
+    padding-inline: 2rem;
+  }
+}
+.take {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.85rem;
+  margin: 0;
+  padding: 1rem 1.25rem 1.1rem;
+  border-top: 1px solid var(--color-sand-300);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  background: #fff;
+  color: var(--color-ink-800);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+@container (min-width: 48rem) {
+  .take {
+    padding-inline: 2rem;
+  }
+}
+.take b {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.takeRoma span {
+  color: var(--color-red-700);
+}
+.flush .take {
+  border-radius: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumb,
+  .opt,
+  .cta svg {
+    transition: none;
+  }
+}

@@ -7,7 +7,7 @@ import type { Competitor } from "./types";
  * Application module: 3–4 weeks), TrewUp's claims about
  * Floret (a competitor's page). Credit where due: Floret's team executes disputes, and
  * brands can keep disputes in-house; it publishes per-brand results.
- * No timeline in the hero (no published go-live), so the hero uses the glance card.
+ * No timeline in the hero (no published go-live): the hero shows the two ways to start.
  */
 
 const CHECKED_ON = "20 Nov 2026";
@@ -21,9 +21,9 @@ export const floret: Competitor = {
   blurb: "Deduction software with a team that executes disputes.",
   site: HOME,
   checkedOn: CHECKED_ON,
-  // Client-supplied logo (public/logos/competitors/floret-wordmark.svg, a raster in an
-  // SVG); the flower icon was cropped into an alpha mask. Rendered single-ink.
-  mark: { src: "/logos/competitors/floret-mark.png", ratio: 1 },
+  // Client-supplied logo: a 236×64 raster inside an SVG, so it is capped at 32px tall
+  // (2× density) to stay sharp.
+  logo: { src: "/logos/competitors/floret-wordmark.svg", w: 118, h: 32, size: 1.75, maxPx: 32 },
   meta: {
     title: "Roma vs. Floret | Roma",
     description:
@@ -70,6 +70,7 @@ export const floret: Competitor = {
   },
 
   hero: {
+    layout: "centered",
     copy: {
       eyebrow: "Roma vs. Floret",
       icon: "sort",
@@ -77,70 +78,84 @@ export const floret: Competitor = {
       lead: "Floret pairs deduction software with a team that executes disputes, starting with a free pilot and a custom quote. Roma is software you run, live in under 5 minutes, from $399 a month on the page. Here’s how they compare, in each company’s own words.",
       ground: { src: "/images/cta/texture-bg.webp", position: "50% 50%" },
       summary:
-        "A side-by-side card. Price: Roma from $399 a month, published; Floret a free pilot, then a quote. Go-live: Roma under 5 minutes; Floret doesn’t publish one for deductions. Disputes: with Roma you confirm and Roma files; Floret’s team executes them, or you keep them in-house. Accounting: both sync with QuickBooks and NetSuite.",
+        "The same buyer questions, answered by each side. What does it cost? Floret offers a free pilot to estimate recoveries, then a custom quote; Roma is from $399 a month, published. How fast can I start? Floret doesn’t publish a go-live time for deductions; Roma is under 5 minutes. Who files the disputes? Floret’s team executes them, or you keep them in-house; with Roma you confirm and Roma files.",
     },
-    caption: `Floret details from tryfloret.com, checked ${CHECKED_ON}.`,
-    art: {
-      kind: "glance",
-      title: "At a glance",
-      rows: [
-        { label: "Price", roma: "From $399/mo, published", them: "Free pilot, then a quote" },
-        { label: "Go-live", roma: "Under 5 minutes", them: "Not published for deductions" },
-        { label: "Disputes", roma: "You confirm, Roma files", them: "Their team executes them" },
-        { label: "Accounting", roma: "NetSuite, QuickBooks, CSV", them: "QuickBooks, NetSuite, Sage" },
+    caption: `Floret details from tryfloret.com, checked ${CHECKED_ON}. Roma setup time varies by portal.`,
+  },
+
+  story: {
+    kind: "floret",
+    qa: {
+      questions: [
+        {
+          id: "cost",
+          q: "What does it cost?",
+          them: [
+            { text: "“We offer a detailed free pilot where we can estimate the potential recoveries for your brand.”", source: "pilot" },
+            { text: "Then a custom quote." },
+          ],
+          roma: "From $399/month, published right here. Book a demo for exact pricing for your brand.",
+          takeaway: { them: "A pilot and a quote first.", roma: "Your price, before any pilot." },
+        },
+        {
+          id: "speed",
+          q: "How fast can I start?",
+          them: [
+            { text: "No go-live time is published for deductions." },
+            { text: "Its Cash Application setup “can take 3-4 weeks”.", source: "cashApp" },
+          ],
+          roma: "Under 5 minutes. Connect your portals and your deductions start coming in. No ERP or IT project.",
+          takeaway: { them: "No published go-live for deductions.", roma: "Your deductions, in under 5 minutes." },
+        },
+        {
+          id: "disputes",
+          q: "Who files the disputes?",
+          them: [
+            { text: "“Our team (not a bot!) actually executes the disputes.”", source: "team" },
+            { text: "“If you'd like to keep your disputes functionality in-house, you can certainly do so!”", source: "inHouse" },
+          ],
+          roma: "You decide. Roma queues invalid deductions with their documents; you confirm, and Roma files and tracks every status to payment.",
+          takeaway: { them: "Their team files, or you keep it in-house.", roma: "Nothing is filed until you confirm it." },
+        },
       ],
     },
+    alike: {
+      heading: { before: "The closest match. The difference is how you ", accent: "start", after: "." },
+      body: "Floret and Roma are both deduction software for CPG brands. Both work with QuickBooks and NetSuite, both show where your trade dollars go, and Floret’s team can execute disputes for you, or you can keep them in-house. Where they part is the first step: a pilot and a quote, or a price on the page and your deductions in view today.",
+      quote: { text: "If you'd like to keep your disputes functionality in-house, you can certainly do so!", source: "inHouse" },
+    },
+    backups: {
+      heading: { before: "Every backup on a check, in ", accent: "one zip", after: "." },
+      lead: "Download the remittance advice and every deduction backup behind it in one file, ready for your bookkeeper. Missing a backup? Roma asks the distributor on day 3, then every 15 days until it arrives.",
+      quote: "brandy",
+    },
   },
 
-  verdict: {
-    heading: { before: "Know the price, go live today, keep the ", accent: "decisions", after: "." },
-    lead: "Floret starts with a pilot and a team that executes your disputes. Roma starts the moment you connect a portal, at a price you can read now.",
-    tiles: [
-      { label: "Price", figure: "$399/mo", sub: "Flat and published", vs: { text: "A free pilot, then a custom quote", source: "pilot" } },
-      { label: "Time to go live", figure: "5 min", sub: "No ERP or IT project", vs: { text: "No go-live time published for deductions" } },
-      { label: "Classification", figure: "0%", sub: "Of deductions left uncategorized", only: "Every line gets a type, subtype and retailer." },
-    ],
-  },
-
-  apart: {
-    heading: { before: "Where Roma stands ", accent: "apart", after: "." },
-    lead: "Three things you get on day one, without a pilot.",
-    rows: [
-      { visual: "price", title: "A price you can read before the pilot.", body: "Roma is a flat subscription from $399 a month, published right here. No pilot needed to get a number. Book a demo for exact pricing for your brand.", them: { text: "“We offer a detailed free pilot where we can estimate the potential recoveries for your brand.”", source: "pilot" } },
-      { visual: "classify" },
-      { visual: "backups", quote: "brandy" },
-    ],
-  },
-
-  price: { stamp: "Free pilot", quote: { text: "We offer a detailed free pilot where we can estimate the potential recoveries for your brand.", source: "pilot" } },
-
-  matrix: {
+  table: {
     heading: { before: "Line by line, in their ", accent: "words", after: " and ours." },
-    lead: "Ticks mark what both offer. Where the two differ, the last column says what it means for you.",
+    lead: "Price, time and disputes decide it, so they come first. Floret’s side is quoted from its own site; the numbers open each source.",
     rows: [
+      { label: "Price", key: { figure: "$399/mo" }, roma: "From $399/month, flat and published", them: { text: "A free pilot, then a custom quote.", source: "pilot" }, means: "Know your cost before any pilot." },
+      { label: "Time to go live", key: { figure: "5 min" }, roma: "Under 5 minutes, no ERP or IT project", them: { text: "Not published for deductions; its Cash Application setup “can take 3-4 weeks”.", source: "cashApp" }, means: "See this quarter’s deductions today." },
+      { label: "Who files disputes", key: { figure: "You confirm" }, roma: "You confirm, Roma files", them: { text: "“Our team (not a bot!) actually executes the disputes.” Or keep them in-house.", source: "team" }, means: "Both let you stay in control; Floret can also do it for you." },
       { label: "What it is", roma: "Deduction software your team runs", them: { text: "“The new operating system for CPG Sales and Finance teams.”", source: "what" }, means: "Both are software; Floret adds a dispute team." },
-      { label: "Price", roma: "From $399/month, flat and published", them: { text: "A free pilot, then a custom quote.", source: "pilot" }, means: "Know your cost before any pilot." },
-      { label: "Time to go live", roma: "Under 5 minutes, no ERP or IT project", them: { text: "Not published for deductions; its Cash Application setup “can take 3-4 weeks”.", source: "cashApp" }, means: "See this quarter’s deductions today." },
-      { label: "Who files disputes", roma: "You confirm, Roma files", them: { text: "“Our team (not a bot!) actually executes the disputes.” Or keep them in-house.", source: "team" }, means: "Both let you stay in control; Floret can also do it for you." },
       { label: "Classification", roma: "0% left uncategorized: type, subtype, retailer", them: { text: "Chargebacks “coded to the corresponding categories” in your GL.", source: "gl" }, means: "Every line named, so you can dispute it." },
       { label: "Insights", roma: "Trade rate by retailer, deductions as % of sales, margin impact", them: { text: "“Insights by month, UPC, retailer, and category.”", source: "insights" }, means: "Both show where your trade dollars go.", parity: true },
       { label: "Accounting", roma: "Export to NetSuite, QuickBooks or CSV", them: { text: "QuickBooks Online, NetSuite and Sage Intacct.", source: "erp" }, means: "Both fit your books.", parity: true },
     ],
+    choose: {
+      roma: [
+        "You want the price on the page before any pilot.",
+        "You want to be live today, in under 5 minutes.",
+        "You want every line classified and every backup in one zip.",
+      ],
+      them: [
+        "You’d like a team to execute disputes for you.",
+        "You want a free pilot to estimate recoveries first.",
+        "You want insights by month, UPC, retailer and category.",
+      ],
+    },
   },
-
-  fit: {
-    roma: [
-      "You want the price on the page before any pilot.",
-      "You want to be live today, in under 5 minutes.",
-      "You want every line classified and every backup in one zip.",
-    ],
-    them: [
-      "You’d like a team to execute disputes for you.",
-      "You want a free pilot to estimate recoveries first.",
-      "You want insights by month, UPC, retailer and category.",
-    ],
-  },
-
 
   faqs: [
     { q: "How much does Roma cost compared with Floret?", a: "Roma is a paid subscription from $399/month, published on this page. Floret starts with a free pilot and a custom quote. Book a demo and we’ll give you exact pricing for your brand." },

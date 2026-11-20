@@ -1,0 +1,325 @@
+/* Glimpse hero: the first 45 days as a calendar (DESIGN.md §G.13). Same window language
+   as the other product-hero art (cream-50 body, white head, raised, flush top corners). */
+
+.window {
+  position: relative;
+  container-type: inline-size;
+  overflow: hidden;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--color-cream-50);
+  box-shadow: var(--shadow-raise);
+  color: var(--color-ink-900);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--ui-line);
+  background: #fff;
+}
+.title {
+  font-weight: 600;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+}
+.legend {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.key {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.key i {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 0.2rem;
+}
+.keyRoma {
+  background: var(--color-red-100);
+  box-shadow: inset 0 0 0 1.5px var(--color-red-600);
+}
+.keyThem {
+  box-shadow: inset 0 0 0 2px var(--color-ink-900);
+}
+
+/* ── body: calendar + milestone list ── */
+.body {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+@container (min-width: 46rem) {
+  .body {
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    gap: 2rem;
+    padding: 1.5rem 2rem 1.75rem 1.5rem;
+  }
+}
+
+.calWrap {
+  min-width: 0;
+}
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.85rem;
+  color: var(--color-red-700);
+  font-weight: 600;
+  font-size: 0.8125rem;
+}
+.badge {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.4rem;
+  background: var(--color-red-600);
+  color: #fff;
+}
+.rosette {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@container (min-width: 46rem) {
+  .grid {
+    gap: 0.35rem;
+  }
+}
+.cell {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 0.35rem;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--ui-line);
+}
+@container (min-width: 46rem) {
+  .cell {
+    aspect-ratio: 1.15;
+    border-radius: 0.45rem;
+  }
+}
+.fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--color-red-100) 70%, #fff);
+}
+.n {
+  position: absolute;
+  left: 0.3rem;
+  top: 0.2rem;
+  color: var(--color-red-800);
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+}
+@container (min-width: 46rem) {
+  .n {
+    left: 0.4rem;
+    top: 0.3rem;
+    font-size: 0.625rem;
+  }
+}
+
+/* A deduction landing: a dot on phones, a dot + label on wide windows */
+.chip {
+  position: absolute;
+  right: 0.25rem;
+  bottom: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.chip i {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #fff;
+}
+.chipText {
+  display: none;
+}
+@container (min-width: 46rem) {
+  .chip {
+    left: 0.3rem;
+    right: auto;
+    bottom: 0.3rem;
+    max-width: calc(100% - 0.6rem);
+  }
+  .chipText {
+    display: block;
+    overflow: hidden;
+    color: var(--color-ink-800);
+    font-size: 0.5rem;
+    font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+.promo {
+  background: var(--data-promo-fg);
+}
+.shortage {
+  background: #b98a2a;
+}
+.fees {
+  background: var(--data-fees-fg);
+}
+
+/* Glimpse milestone: an ink frame with its number */
+.cellMs {
+  box-shadow: inset 0 0 0 2px var(--color-ink-900);
+}
+.cellMs .fill {
+  inset: 2px;
+  border-radius: calc(0.35rem - 2px);
+}
+.pin {
+  position: absolute;
+  top: -0.45rem;
+  right: -0.35rem;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 50%;
+  background: var(--color-ink-900);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  font-weight: 500;
+}
+.cellKey .pin {
+  background: var(--color-ink-900);
+  box-shadow: 0 0 0 2px var(--color-cream-50);
+}
+.grid li:nth-child(9n) .pin {
+  right: 0.1rem;
+}
+
+/* ── side: Glimpse's milestones in its own words ── */
+.side {
+  min-width: 0;
+}
+.sideHead {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.85rem;
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.msList {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@container (max-width: 45.99rem) {
+  .msList {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 1rem;
+  }
+}
+.ms {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--ui-line);
+  color: var(--color-ink-600);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+.ms:last-child {
+  border-bottom: 0;
+}
+.ms b {
+  display: block;
+  color: var(--color-ink-900);
+  font-weight: 600;
+}
+.msN {
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--color-ink-900);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+}
+.msKey b {
+  text-decoration: underline;
+  text-decoration-color: var(--color-ink-500);
+  text-underline-offset: 0.2em;
+}
+
+/* ── end strip ── */
+.end {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+  padding: 0.9rem 1.25rem 1.1rem;
+  border-top: 1px solid var(--ui-line);
+  background: #fff;
+  color: var(--color-ink-600);
+  font-size: 0.8125rem;
+}
+.end b {
+  color: var(--color-ink-900);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.endSep {
+  width: 1px;
+  height: 0.9rem;
+  background: var(--color-sand-300);
+}
+.endRoma {
+  color: var(--color-red-700);
+  font-weight: 500;
+}
+@container (min-width: 46rem) {
+  .end {
+    padding-inline: 1.5rem;
+  }
+}

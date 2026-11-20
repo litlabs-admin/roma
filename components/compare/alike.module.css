@@ -1,0 +1,61 @@
+/* Floret "Where we're alike" (DESIGN.md §G.13): an editorial block, no illustration. */
+
+.wrap {
+  display: grid;
+  gap: 2.5rem;
+}
+@media (min-width: 992px) {
+  .wrap {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+    align-items: end;
+    gap: 5rem;
+  }
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+.title {
+  max-width: 22ch;
+  margin: 0;
+  text-wrap: balance;
+}
+.body {
+  max-width: 44rem;
+  margin: 0;
+  color: var(--color-ink-600);
+  font-size: 1.1875rem;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+@media (min-width: 992px) {
+  .body {
+    font-size: 1.3125rem;
+  }
+}
+.quote {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  margin: 0;
+  padding: 1.5rem;
+  border-left: 3px solid var(--color-sand-400);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--color-cream-50);
+}
+.text {
+  margin: 0;
+  color: var(--color-ink-900);
+  font-size: 1.0625rem;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+.cap {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}

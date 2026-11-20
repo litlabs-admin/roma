@@ -4,8 +4,10 @@ import { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
+import Link from "next/link";
 import { blogIndex } from "@/lib/content/blog";
-import { Glyph } from "@/components/platform/mock/kit";
+import type { Heading } from "@/lib/content/platform";
+import { Glyph, type GlyphKey } from "@/components/platform/mock/kit";
 import s from "./blog.module.css";
 
 /**
@@ -13,10 +15,35 @@ import s from "./blog.module.css";
  * photo under --overlay-hero, [data-hero] so the nav's dark → cream logic applies.
  * Copy sits at the bottom: pill + title left, lead + topics right (≥992px).
  * Load: background settles 1.06 → 1, pill → title words (70ms) → lead → topics.
+ *
+ * `copy` lets another index page (e.g. /customers) reuse the hero; items with an
+ * `href` render as links.
  */
-export default function BlogHero() {
+export type EditorialHeroCopy = {
+  id: string;
+  eyebrow: string;
+  icon: GlyphKey;
+  heading: Heading;
+  lead: string;
+  image: { src: string; position?: string };
+  listLabel: string;
+  items: { label: string; href?: string }[];
+};
+
+const BLOG_COPY: EditorialHeroCopy = {
+  id: "blog-title",
+  eyebrow: blogIndex.eyebrow,
+  icon: "book",
+  heading: blogIndex.heading,
+  lead: blogIndex.lead,
+  image: { src: blogIndex.heroImage.src },
+  listLabel: blogIndex.topicsLabel,
+  items: blogIndex.topics.map((label) => ({ label })),
+};
+
+export default function BlogHero({ copy = BLOG_COPY }: { copy?: EditorialHeroCopy }) {
   const root = useRef<HTMLElement>(null);
-  const { before, accent, after } = blogIndex.heading;
+  const { before, accent, after } = copy.heading;
   const words = before.trim().split(/\s+/);
 
   useLayoutEffect(() => {
@@ -42,10 +69,10 @@ export default function BlogHero() {
   }, []);
 
   return (
-    <section ref={root} className={s.hero} data-hero aria-labelledby="blog-title">
+    <section ref={root} className={s.hero} data-hero aria-labelledby={copy.id}>
       <div className={s.heroBg} data-bg aria-hidden="true">
         <Image
-          src={blogIndex.heroImage.src}
+          src={copy.image.src}
           alt=""
           fill
           sizes="100vw"
@@ -53,6 +80,7 @@ export default function BlogHero() {
           fetchPriority="high"
           loading="eager"
           className={s.heroImg}
+          style={copy.image.position ? { objectPosition: copy.image.position } : undefined}
         />
       </div>
       <div className={s.heroOverlay} aria-hidden="true" />
@@ -60,10 +88,10 @@ export default function BlogHero() {
       <div className={s.heroInner}>
         <div className={s.heroTitleCol}>
           <p className={s.pill} data-anim="pill">
-            <Glyph k="book" className={s.pillIcon} />
-            {blogIndex.eyebrow}
+            <Glyph k={copy.icon} className={s.pillIcon} />
+            {copy.eyebrow}
           </p>
-          <h1 id="blog-title" className={`${s.heroH1} type-display`} aria-label={`${before}${accent}${after}`}>
+          <h1 id={copy.id} className={`${s.heroH1} type-display`} aria-label={`${before}${accent}${after}`}>
             <span aria-hidden="true">
               {words.map((w, i) => (
                 <span key={i}>
@@ -82,14 +110,20 @@ export default function BlogHero() {
 
         <div className={s.heroLeadCol}>
           <p className={s.heroLead} data-anim="lead">
-            {blogIndex.lead}
+            {copy.lead}
           </p>
           <div className={s.topicsWrap} data-anim="topics">
-            <p className={`${s.topicsLabel} type-label`}>{blogIndex.topicsLabel}</p>
+            <p className={`${s.topicsLabel} type-label`}>{copy.listLabel}</p>
             <ul className={s.topics}>
-              {blogIndex.topics.map((t) => (
-                <li key={t} className="type-label">
-                  {t}
+              {copy.items.map((t) => (
+                <li key={t.label} className="type-label">
+                  {t.href ? (
+                    <Link href={t.href} className={s.topicLink}>
+                      {t.label}
+                    </Link>
+                  ) : (
+                    t.label
+                  )}
                 </li>
               ))}
             </ul>

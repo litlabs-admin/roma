@@ -1,0 +1,506 @@
+/* Vividly "Where a deduction goes" (DESIGN.md §G.13): four stations, a deduction chip on
+   a lane above them, a "Your team" rail below. Lives in the shared switch card. Wide
+   cards: stations in columns; phones: stations stack and the current one is marked. */
+
+.pane {
+  --gap: 0.75rem;
+  display: grid;
+  gap: 1.25rem;
+  height: 100%;
+  padding: 1.5rem 1.25rem 1.25rem;
+  background: var(--well-neutral);
+  font-family: var(--font-ui);
+  color: var(--color-ink-900);
+}
+@container (min-width: 44rem) {
+  .pane {
+    --gap: 1rem;
+    padding: 1.75rem 2rem 1.5rem;
+  }
+}
+.board {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* ── station heads (wide only) ── */
+.heads {
+  display: none;
+}
+@container (min-width: 44rem) {
+  .heads {
+    display: grid;
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    gap: var(--gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+.headCell {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--color-ink-500);
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 300ms var(--ease-state);
+}
+.headCell::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-sand-300);
+}
+.headCell:last-child::after {
+  display: none;
+}
+.reached {
+  color: var(--color-ink-900);
+}
+.num {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: 50%;
+  background: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  transition:
+    background-color 300ms var(--ease-state),
+    color 300ms var(--ease-state),
+    border-color 300ms var(--ease-state);
+}
+.reached .num {
+  border-color: var(--color-ink-900);
+  background: var(--color-ink-900);
+  color: #fff;
+}
+.paneRoma .reached .num {
+  border-color: var(--color-red-600);
+  background: var(--color-red-600);
+}
+
+/* ── the deduction chip on its lane (wide only) ── */
+.lane {
+  display: none;
+}
+@container (min-width: 44rem) {
+  .lane {
+    position: relative;
+    display: block;
+    height: 2.4rem;
+  }
+}
+.chip {
+  position: absolute;
+  top: 0.2rem;
+  left: calc(var(--pos) * (100% + var(--gap)) / var(--n));
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.75rem 0.4rem 0.6rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  box-shadow: 0 8px 18px -10px rgba(var(--mock-shadow-rgb), 0.35);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: left 600ms var(--ease-out);
+}
+.chip b {
+  color: var(--color-ink-600);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--data-promo-fg);
+}
+.chipWait {
+  border-color: var(--color-red-600);
+  animation: wait 1.6s ease-in-out infinite;
+}
+@keyframes wait {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-red-600) 30%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-red-600) 0%, transparent);
+  }
+}
+.chipDone {
+  border-color: var(--color-ink-900);
+}
+.paneRoma .chipDone {
+  border-color: var(--color-red-600);
+  color: var(--color-red-700);
+}
+
+/* ── station cards ── */
+.cards {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@container (min-width: 44rem) {
+  .cards {
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    gap: var(--gap);
+  }
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  min-width: 0;
+  padding: 1rem 1.05rem 1.1rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-md);
+  background: var(--color-cream-50);
+  box-shadow: 0 6px 14px -10px rgba(var(--mock-shadow-rgb), 0.25);
+  transition:
+    border-color 300ms var(--ease-state),
+    background-color 300ms var(--ease-state),
+    box-shadow 300ms var(--ease-state);
+}
+@container (min-width: 44rem) {
+  .card {
+    min-height: 11.5rem;
+    padding: 1.15rem 1.2rem 1.25rem;
+  }
+}
+.cardHere {
+  border-color: var(--color-ink-900);
+  background: #fff;
+  box-shadow: 0 14px 26px -16px rgba(var(--mock-shadow-rgb), 0.45);
+}
+.paneRoma .cardHere {
+  border-color: var(--color-red-600);
+}
+.cardGate {
+  border-style: dashed;
+  border-color: var(--color-red-600);
+}
+.cardStep {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@container (min-width: 44rem) {
+  .cardStep {
+    display: none;
+  }
+}
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+}
+.cardText {
+  color: var(--color-ink-600);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+.needs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--color-ink-800);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink-800);
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+.needs::before {
+  content: "!";
+  display: grid;
+  place-items: center;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  background: var(--color-ink-800);
+  color: #fff;
+  font-size: 0.5625rem;
+}
+
+/* Phones: the chip's place is a label on the current card. */
+@container (max-width: 43.99rem) {
+  .cardHere::before {
+    content: "● " attr(data-chip);
+    align-self: stretch;
+    margin: -0.25rem 0 0.15rem;
+    color: var(--color-ink-900);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .paneRoma .cardHere::before {
+    color: var(--color-red-700);
+  }
+}
+
+/* the gate control (the micro-interaction) */
+.gateCtl {
+  margin-top: auto;
+  padding-top: 0.35rem;
+}
+.confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.9rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-red-600);
+  color: #fff;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 18px -10px color-mix(in srgb, var(--color-red-700) 80%, transparent);
+  transition:
+    background-color 150ms ease,
+    transform 150ms ease;
+}
+.confirm:not(:disabled) {
+  animation: wait 1.6s ease-in-out infinite;
+}
+@media (hover: hover) and (pointer: fine) {
+  .confirm:not(:disabled):hover {
+    background: var(--color-red-700);
+  }
+}
+.confirm:active:not(:disabled) {
+  transform: scale(0.96);
+}
+.confirm:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.confirm:focus-visible,
+.replay:focus-visible {
+  outline: 2px solid var(--color-red-600);
+  outline-offset: 2px;
+}
+.you {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+.confirmed {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-red-700);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: auto;
+  padding-top: 0.35rem;
+}
+.status span {
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-200);
+  color: var(--color-ink-700, var(--color-ink-600));
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+.status span:first-child {
+  background: var(--color-red-100);
+  color: var(--color-red-800);
+}
+
+/* ── your team rail ── */
+.rail {
+  display: grid;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--color-sand-400);
+}
+@container (min-width: 44rem) {
+  .rail {
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    gap: var(--gap);
+    align-items: center;
+  }
+}
+.railWho {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--color-ink-900);
+  color: #fff;
+}
+.avatar svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+.railTrack {
+  display: contents;
+}
+.railCell:empty {
+  display: none;
+}
+@container (min-width: 44rem) {
+  .railCell:empty {
+    display: block;
+  }
+  /* the rail's label takes column 1; cells from Matched onward line up under cards 2…n */
+  .railCell:first-child {
+    display: none;
+  }
+}
+.youToken {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  border: 1.5px dashed var(--color-sand-400);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink-500);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  transition:
+    background-color 300ms var(--ease-state),
+    color 300ms var(--ease-state),
+    border-color 300ms var(--ease-state);
+}
+.youToken svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+.youOn {
+  border-style: solid;
+  border-color: var(--color-ink-900);
+  background: var(--color-ink-900);
+  color: #fff;
+}
+.railEmpty {
+  justify-self: start;
+  padding: 0.4rem 0.75rem;
+  border: 1.5px dashed var(--color-sand-400);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink-500);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+@container (min-width: 44rem) {
+  .railEmpty {
+    grid-column: 2 / -1;
+    justify-self: stretch;
+    text-align: center;
+  }
+}
+
+/* ── foot: who + mode, replay ── */
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+.who {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.who b {
+  font-weight: 600;
+}
+.badge {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.4rem;
+  background: var(--color-red-600);
+  color: #fff;
+}
+.rosette {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+.mode {
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-200);
+  color: var(--color-ink-600);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.modeRoma {
+  background: var(--color-red-100);
+  color: var(--color-red-800);
+}
+.replay {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--color-ink-800);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.replay svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+.illus {
+  margin-left: auto;
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip,
+  .card,
+  .num,
+  .headCell,
+  .youToken {
+    transition: none;
+  }
+  .chipWait,
+  .confirm:not(:disabled) {
+    animation: none;
+  }
+}

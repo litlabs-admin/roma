@@ -4,19 +4,16 @@ import { notFound } from "next/navigation";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import PageBackdrop from "@/components/motion/PageBackdrop";
-import ProductHero from "@/components/product/hero/ProductHero";
 import Story from "@/components/product/story/Story";
-import TrustStrip from "@/components/sections/trust/TrustStrip";
 import Faq from "@/components/sections/faq/Faq";
 import ClosingCta from "@/components/sections/closing/ClosingCta";
 import { CompareProvider } from "@/components/compare/context";
-import GoLiveTimeline from "@/components/compare/GoLiveTimeline";
-import GlanceCard from "@/components/compare/GlanceCard";
-import VerdictBand from "@/components/compare/VerdictBand";
-import StandApart from "@/components/compare/StandApart";
-import DecisionMatrix from "@/components/compare/DecisionMatrix";
-import FitLedger from "@/components/compare/FitLedger";
 import CompareHub from "@/components/compare/CompareHub";
+import GlimpsePage from "@/components/compare/pages/GlimpsePage";
+import PromomashPage from "@/components/compare/pages/PromomashPage";
+import VividlyPage from "@/components/compare/pages/VividlyPage";
+import FloretPage from "@/components/compare/pages/FloretPage";
+import type { Competitor } from "@/lib/content/compare/types";
 import { competitors, getCompetitor, sourceOrder } from "@/lib/content/compare";
 
 export function generateStaticParams() {
@@ -31,10 +28,10 @@ export async function generateMetadata({ params }: PageProps<"/compare/[slug]">)
 }
 
 /**
- * /compare/[slug] (DESIGN.md §G.13): one template, every competitor. Each section has
- * one job: hero (time to go live) → the short answer → where Roma stands apart → the
- * decision matrix → who each is for → other comparisons → proof (red backdrop) → FAQ →
- * closing CTA. Content: lib/content/compare/<slug>.ts; Roma's side: roma.ts.
+ * /compare/[slug] (DESIGN.md §G.13). Shared frame only: nav, the competitor context, the
+ * "compare with others" hub, proof (red backdrop), FAQ, closing CTA. Everything from the
+ * hero to the comparison table is the competitor's own page body
+ * (components/compare/pages/*), so no two comparisons share a layout.
  */
 export default function ComparePage({ params }: PageProps<"/compare/[slug]">) {
   // With Cache Components, params are awaited inside <Suspense> (as /blogs/[slug]);
@@ -49,6 +46,20 @@ export default function ComparePage({ params }: PageProps<"/compare/[slug]">) {
   );
 }
 
+function Body({ c }: { c: Competitor }) {
+  const st = c.story;
+  switch (st.kind) {
+    case "glimpse":
+      return <GlimpsePage c={{ ...c, story: st }} />;
+    case "promomash":
+      return <PromomashPage c={{ ...c, story: st }} />;
+    case "vividly":
+      return <VividlyPage c={{ ...c, story: st }} />;
+    case "floret":
+      return <FloretPage c={{ ...c, story: st }} />;
+  }
+}
+
 function Comparison({ slug }: { slug: string }) {
   const c = getCompetitor(slug);
   if (!c) notFound();
@@ -58,14 +69,7 @@ function Comparison({ slug }: { slug: string }) {
   return (
     <main>
       <CompareProvider competitor={c} order={order}>
-        <ProductHero copy={c.hero.copy} caption={c.hero.caption}>
-          {c.hero.art.kind === "timeline" ? <GoLiveTimeline art={c.hero.art} /> : <GlanceCard art={c.hero.art} />}
-        </ProductHero>
-        <TrustStrip />
-        <VerdictBand />
-        <StandApart />
-        <DecisionMatrix />
-        <FitLedger />
+        <Body c={c} />
         <CompareHub others={others} />
       </CompareProvider>
       <Story />

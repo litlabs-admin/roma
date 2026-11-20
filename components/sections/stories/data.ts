@@ -1,11 +1,11 @@
 // Customer stories — layout from Hyperline's Testimonials, content for Roma.
 //
-// MOCK — replace before launch. Proof numbers ($53K Good Day Chocolate in 6 months,
-// $23K Smash Kitchen, Jasen Arias / VP Ops & Growth) come from the
-// positioning PDF; every QUOTE below is placeholder copy (the PDF has no written
-// quotes) and the photos are Unsplash-licensed stand-ins, not the customers.
+// The three cards are the real-figure brands from lib/content/customers.ts (the single
+// source for this section, /customers and /customers/[slug]); see that file for what
+// is sourced and what is MOCK.
 
 import { SIGNUP_HREF } from "@/components/chat/data";
+import { CUSTOMER_STORIES, pillText, storyHref } from "@/lib/content/customers";
 
 export const storiesCopy = {
   heading: { before: "Brands that stopped writing off ", accent: "deductions", after: "." },
@@ -15,6 +15,8 @@ export const storiesCopy = {
 };
 
 export type Story = {
+  id: string;
+  href: string;
   brand: string;
   /** Single-ink alpha mask, rendered white. Omit to fall back to a wordmark. */
   logo?: { src: string; w: number; h: number };
@@ -24,43 +26,19 @@ export type Story = {
   photo: { src: string; position: string; credit: string };
 };
 
-export const STORIES: Story[] = [
-  {
-    brand: "Good Day Chocolate",
-    metric: "$53K recovered in 6 months",
-    quote:
-      "We were writing off UNFI and KeHE deductions because nobody had time to check them. Within six months on Roma we'd recovered $53K we would have written off.",
-    author: "Jasen Arias, VP Ops & Growth @ Good Day Chocolate",
-    photo: {
-      src: "/images/stories/mock-good-day-chocolate.webp",
-      position: "50% 30%",
-      credit: "Walter Otto on Unsplash (unsplash.com/photos/qJ249_JzEL0)",
-    },
-  },
-  {
-    brand: "Smash Kitchen",
-    logo: { src: "/logos/customers/smash-kitchen.png", w: 176, h: 107 },
-    metric: "$23K recovered",
-    quote:
-      "For the first time we could see every deduction next to its invoice and promo, and exactly which ones were wrong. We got $23K back.",
-    author: "Finance lead @ Smash Kitchen",
-    photo: {
-      src: "/images/stories/mock-smash-kitchen.webp",
-      position: "40% 50%",
-      credit: "Unsplash (unsplash.com/photos/y--Os1aj_EU)",
-    },
-  },
-  {
-    brand: "Mochidoki",
-    logo: { src: "/logos/customers/mochidoki.png", w: 161, h: 38 },
-    metric: "Live in 5 minutes",
-    quote:
-      "Setup took minutes, not weeks. Now one person handles deductions across every retailer, and not a single spreadsheet.",
-    author: "Operations @ Mochidoki",
-    photo: {
-      src: "/images/stories/mock-mochidoki.webp",
-      position: "48% 35%",
-      credit: "Rifki Kurniawan on Unsplash (unsplash.com/photos/k63Or81F8-M)",
-    },
-  },
-];
+const HOME_SLUGS = ["good-day-chocolate", "smash-kitchen", "mochidoki"];
+
+export const STORIES: Story[] = HOME_SLUGS.map((slug) => {
+  const st = CUSTOMER_STORIES.find((c) => c.slug === slug)!;
+  const who = st.quote.name ? `${st.quote.name}, ${st.quote.role}` : st.quote.role;
+  return {
+    id: st.slug,
+    href: storyHref(st.slug),
+    brand: st.brand.name,
+    logo: st.brand.logo,
+    metric: pillText(st),
+    quote: st.quote.text,
+    author: `${who} @ ${st.brand.name}`,
+    photo: st.photo,
+  };
+});

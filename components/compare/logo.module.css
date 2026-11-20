@@ -1,0 +1,62 @@
+/* Competitor wordmarks and the hero "Roma vs X" lockup (DESIGN.md §G.13). Logos keep
+   their own colours, so they always sit on a light plate. */
+
+.logo {
+  display: block;
+  flex: none;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0.7rem 1.1rem 0.7rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--color-cream-50);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset, 0 10px 30px -12px rgba(31, 10, 8, 0.55);
+}
+@media (min-width: 768px) {
+  .lockup {
+    gap: 1.15rem;
+    padding: 0.85rem 1.4rem 0.85rem 1.2rem;
+  }
+}
+.roma {
+  display: block;
+  width: auto;
+  height: 1.35rem;
+}
+@media (min-width: 768px) {
+  .roma {
+    height: 1.55rem;
+  }
+}
+.vs {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: 50%;
+  color: var(--color-ink-500);
+  font-family: var(--font-serif, serif);
+  font-style: italic;
+  font-size: 0.875rem;
+  line-height: 1;
+}
+.them {
+  max-height: 2rem;
+}
+@media (max-width: 380px) {
+  .lockup {
+    gap: 0.6rem;
+    padding-inline: 0.8rem;
+  }
+  .them {
+    max-width: 7rem;
+  }
+}

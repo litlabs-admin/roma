@@ -1,0 +1,281 @@
+/* Promomash order summary (DESIGN.md §G.13): a volume control over two checkout sheets.
+   Lives in the shared switch card (the card is the container). */
+
+/* ── toolbar: the volume control ── */
+.volLabel {
+  color: var(--color-ink-800);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.chips {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.2rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-200);
+}
+.chip {
+  min-width: 4rem;
+  padding: 0.4rem 0.85rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--color-ink-600);
+  font: inherit;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition:
+    background-color 250ms var(--ease-state),
+    color 250ms var(--ease-state),
+    box-shadow 250ms var(--ease-state);
+}
+.chip[aria-pressed="true"] {
+  background: #fff;
+  color: var(--color-ink-900);
+  box-shadow:
+    0 1px 2px rgba(var(--mock-shadow-rgb), 0.12),
+    0 0 0 1px var(--color-sand-300);
+}
+@media (hover: hover) and (pointer: fine) {
+  .chip[aria-pressed="false"]:hover {
+    color: var(--color-ink-900);
+  }
+}
+.chip:focus-visible {
+  outline: 2px solid var(--color-red-600);
+  outline-offset: 2px;
+}
+.illus {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.illus {
+  margin-left: auto;
+}
+
+/* ── pane: one sheet, centred on a warm desk ── */
+.pane {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: 1rem;
+  background: var(--well-warm);
+  font-family: var(--font-ui);
+}
+@container (min-width: 30rem) {
+  .pane {
+    padding: 1.25rem 1.5rem;
+  }
+}
+.sheet {
+  width: min(100%, 32rem);
+  padding: 0.9rem 1.1rem 0.85rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-md);
+  background: #fff;
+  box-shadow:
+    0 18px 32px -18px rgba(var(--mock-shadow-rgb), 0.25),
+    0 1px 2px rgba(var(--mock-shadow-rgb), 0.05);
+  color: var(--color-ink-900);
+}
+@container (min-width: 30rem) {
+  .sheet {
+    padding: 1rem 1.35rem 0.9rem;
+  }
+}
+.sheetRoma {
+  border-color: color-mix(in srgb, var(--color-red-600) 30%, var(--color-sand-300));
+}
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+  margin: 0;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--color-ink-900);
+}
+.head .stamp {
+  margin-left: auto;
+}
+.romaLogo {
+  display: block;
+  width: auto;
+  height: 1.2rem;
+}
+.stamp {
+  flex: none;
+  padding: 0.3rem 0.55rem;
+  border: 1.5px solid var(--color-ink-800);
+  border-radius: 0.35rem;
+  color: var(--color-ink-800);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: rotate(-5deg);
+}
+.stampRoma {
+  border-color: var(--color-red-600);
+  color: var(--color-red-700);
+}
+.kicker {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── checkout lines ── */
+.lines {
+  margin: 0;
+}
+.line {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  gap: 0.75rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px dashed var(--color-sand-400);
+}
+.line dt {
+  padding-top: 0.1rem;
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.line dd {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  min-width: 0;
+}
+@container (max-width: 25rem) {
+  .line {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}
+.said {
+  color: var(--color-ink-600);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+.romaVal {
+  color: var(--color-ink-900);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* the volume meter (Promomash) / the flat price (Roma) */
+.meterHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 0.75rem;
+  color: var(--color-ink-600);
+  font-size: 0.75rem;
+}
+.meterHead b {
+  color: var(--color-ink-900);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.meter {
+  position: relative;
+  height: 0.6rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-200);
+  overflow: hidden;
+}
+.meter i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--fill);
+  border-radius: inherit;
+  background: repeating-linear-gradient(-45deg, var(--color-ink-800) 0 6px, var(--color-ink-600) 6px 12px);
+  transition: width 600ms var(--ease-out);
+}
+.same {
+  color: var(--color-red-700);
+  font-weight: 600;
+}
+.flash {
+  animation: flash 900ms var(--ease-out);
+}
+@keyframes flash {
+  0% {
+    background: color-mix(in srgb, var(--color-red-100) 90%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-red-100) 90%, transparent);
+  }
+  100% {
+    background: transparent;
+    box-shadow: 0 0 0 4px transparent;
+  }
+}
+
+/* ── total ── */
+.total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.15rem 0 0;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--color-ink-900);
+}
+.total > span {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.totalThem {
+  color: var(--color-ink-800);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+.totalRoma {
+  color: var(--color-red-600);
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 2rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.totalRoma small {
+  margin-left: 0.3rem;
+  color: var(--color-ink-600);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  letter-spacing: -0.005em;
+}
+.foot {
+  margin: 0.35rem 0 0;
+  color: var(--color-ink-500);
+  font-size: 0.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip,
+  .meter i {
+    transition: none;
+  }
+  .flash {
+    animation: none;
+  }
+}

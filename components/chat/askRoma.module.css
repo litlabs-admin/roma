@@ -44,6 +44,10 @@
   bottom: var(--bottom);
   transform: translateX(-50%);
 }
+/* The mobile nav sheet is open (components/layout/NavBar.tsx): don't cover its CTA. */
+:global(html[data-nav-sheet]) .btnLayer {
+  visibility: hidden;
+}
 
 .launcher {
   display: flex;

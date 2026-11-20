@@ -6,11 +6,11 @@ import { prefersReducedMotion } from "@/lib/motion";
 import type { TimelineArt } from "@/lib/content/compare/types";
 import { RomaGlyph } from "@/components/platform/mock/kit";
 import { useCompare } from "./context";
-import CompetitorMark from "./CompetitorMark";
+import CompetitorLogo from "./CompetitorLogo";
 import s from "./goLive.module.css";
 
 /**
- * Hero art for the comparison pages (DESIGN.md §G.13): "time to go live".
+ * Promomash hero art (DESIGN.md §G.13): "time to go live" over four months.
  * A ledger-style timeline, day 0 → `days`, two lanes. Roma is live at day 0 and
  * deductions land along its lane; the competitor's lane carries only what it publishes:
  * milestones, a single marker (e.g. first dispute), or a range band (e.g. "two to four
@@ -147,14 +147,9 @@ export default function GoLiveTimeline({ art }: { art: TimelineArt }) {
 
         {/* Competitor lane: neutral ink, only what it publishes */}
         <div className={`${s.row} ${s.lane}`}>
-          <div className={s.who}>
-            <span className={`${s.badge} ${s.badgeThem}`}>
-              <CompetitorMark />
-            </span>
-            <span>
-              <b>{c.name}</b>
-              <em>{them.tag}</em>
-            </span>
+          <div className={`${s.who} ${s.whoThem}`}>
+            <CompetitorLogo height={1.2} />
+            <em>{them.tag}</em>
           </div>
           <div className={`${s.track} ${them.marker || them.range ? s.trackThem : ""}`}>
             {them.marker && (

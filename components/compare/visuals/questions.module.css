@@ -1,0 +1,430 @@
+/* Floret hero: the same question, two answers (DESIGN.md §G.13). In the shared switch
+   card (flush, on the hero band); one identical frame per side. */
+
+.card {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+/* ── question chips (toolbar) ── */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.chip {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-50);
+  color: var(--color-ink-600);
+  font: inherit;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 250ms var(--ease-state),
+    color 250ms var(--ease-state),
+    border-color 250ms var(--ease-state);
+}
+.chip[aria-pressed="true"] {
+  border-color: var(--color-ink-900);
+  background: var(--color-ink-900);
+  color: #fff;
+}
+@media (hover: hover) and (pointer: fine) {
+  .chip[aria-pressed="false"]:hover {
+    border-color: var(--color-sand-400);
+    color: var(--color-ink-900);
+  }
+}
+.chip:focus-visible {
+  outline: 2px solid var(--color-red-600);
+  outline-offset: 2px;
+}
+
+/* ── the frame ── */
+.pane {
+  display: grid;
+  gap: 1rem;
+  height: 100%;
+  padding: 1.25rem;
+  background: var(--color-cream-50);
+}
+@container (min-width: 44rem) {
+  .pane {
+    padding: 1.5rem 2rem 1.75rem;
+  }
+}
+.qline {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  color: var(--color-ink-900);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+@container (min-width: 44rem) {
+  .qline {
+    font-size: 1.5rem;
+  }
+}
+.qBadge {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 0.5rem;
+  background: var(--color-ink-900);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.answer {
+  display: grid;
+  gap: 1rem;
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-md);
+  background: #fff;
+  box-shadow: 0 12px 26px -18px rgba(var(--mock-shadow-rgb), 0.35);
+}
+.paneRoma .answer {
+  border-color: color-mix(in srgb, var(--color-red-600) 30%, var(--color-sand-300));
+}
+@container (min-width: 44rem) {
+  .answer {
+    grid-template-columns: minmax(0, 1fr) 14rem;
+    align-items: center;
+    gap: 2rem;
+    min-height: 11.5rem;
+    padding: 1.35rem 1.5rem;
+  }
+}
+.swap {
+  animation: swap 380ms var(--ease-out) both;
+}
+@keyframes swap {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.text {
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
+}
+.who {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.15rem;
+}
+.who b {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.badge {
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 0.45rem;
+  background: var(--color-red-600);
+  color: #fff;
+}
+.rosette {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+.says {
+  margin: 0;
+  color: var(--color-ink-800);
+  font-size: 1rem;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+.says + .says {
+  color: var(--color-ink-600);
+  font-size: 0.9375rem;
+}
+.paneRoma .says {
+  color: var(--color-ink-900);
+  font-size: 1.0625rem;
+  font-weight: 500;
+}
+
+/* ── visuals ── */
+.visual {
+  display: grid;
+  place-items: center;
+}
+.vLabel {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* price tag */
+.tag {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: 0.3rem;
+  width: 13rem;
+  padding: 1rem 1.1rem 1rem 1.6rem;
+  border: 1.5px dashed var(--color-sand-400);
+  border-radius: 0.5rem 1.4rem 1.4rem 0.5rem;
+  background: var(--color-cream-50);
+  transform: rotate(-3deg);
+}
+.tagRoma {
+  border: 1.5px solid var(--color-red-600);
+  background: #fff;
+  box-shadow: 0 14px 26px -16px color-mix(in srgb, var(--color-red-700) 60%, transparent);
+  animation: tagIn 520ms cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+@keyframes tagIn {
+  from {
+    opacity: 0;
+    transform: rotate(-12deg) translateY(10px) scale(0.9);
+  }
+}
+.tagHole {
+  position: absolute;
+  left: 0.55rem;
+  top: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: -0.25rem;
+  border: 1.5px solid var(--color-sand-400);
+  border-radius: 50%;
+  background: var(--color-cream-50);
+}
+.tagRoma .tagHole {
+  border-color: var(--color-red-600);
+}
+.unknown {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 2.6rem;
+  border: 1.5px dashed var(--color-sand-400);
+  border-radius: 0.4rem;
+  color: var(--color-ink-500);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.price {
+  color: var(--color-red-600);
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.price small {
+  margin-left: 0.3rem;
+  color: var(--color-ink-600);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  letter-spacing: -0.005em;
+}
+.tagNote {
+  color: var(--color-ink-800);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.tagRoma .tagNote {
+  color: var(--color-red-700);
+}
+.steps {
+  color: var(--color-ink-500);
+  font-size: 0.6875rem;
+}
+
+/* dial */
+.dial {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 10rem;
+  height: 10rem;
+}
+.dial svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.track {
+  fill: none;
+  stroke: var(--color-sand-400);
+  stroke-width: 5;
+  stroke-dasharray: 4 7;
+}
+.dialRoma .track {
+  stroke: var(--color-red-100);
+  stroke-dasharray: none;
+}
+.ring {
+  fill: none;
+  stroke: var(--color-red-600);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: ring 1.1s 250ms var(--ease-out) both;
+}
+@keyframes ring {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+.dialText {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.3rem;
+  max-width: 7rem;
+  text-align: center;
+}
+.dialText b {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-ink-800);
+}
+.dialRoma .dialText b {
+  color: var(--color-red-700);
+}
+.dialText > span {
+  color: var(--color-ink-500);
+  font-size: 0.75rem;
+}
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-red-600);
+  color: #fff !important;
+  font-weight: 600;
+  animation: pop 360ms 1.25s cubic-bezier(0.2, 0.9, 0.3, 1.5) both;
+}
+.live svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+/* filing */
+.filing {
+  display: grid;
+  gap: 0.6rem;
+  width: 13rem;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: 0.6rem;
+  background: var(--color-cream-50);
+}
+.filingRoma {
+  border-color: color-mix(in srgb, var(--color-red-600) 35%, var(--color-sand-300));
+  background: #fff;
+}
+.fileRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.fileRow svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+.or {
+  justify-self: start;
+  padding: 0.2rem 0.55rem;
+  border: 1.5px dashed var(--color-sand-400);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink-600);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.amt {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+.confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-red-600);
+  color: #fff;
+  font-size: 0.75rem;
+  animation: press 300ms 600ms ease-in-out both;
+}
+.confirm svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+@keyframes press {
+  50% {
+    transform: scale(0.88);
+  }
+}
+.filed {
+  margin-left: auto;
+  padding: 0.15rem 0.45rem;
+  border: 1.5px solid var(--color-red-600);
+  border-radius: 0.3rem;
+  color: var(--color-red-700);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: rotate(-6deg);
+  animation: stamp 320ms 950ms cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+@keyframes stamp {
+  from {
+    opacity: 0;
+    transform: rotate(-16deg) scale(1.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swap,
+  .tagRoma,
+  .ring,
+  .live,
+  .confirm,
+  .filed {
+    animation: none;
+  }
+  .chip {
+    transition: none;
+  }
+}

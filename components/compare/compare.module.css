@@ -1,9 +1,11 @@
-/* Shared frame for the /compare/glimpse sections (DESIGN.md §G.13): section rhythm,
+/* Shared frame for the /compare/* sections (DESIGN.md §G.13): section rhythm,
    container and section head. Each section's own art lives in its own module. */
 
 .section {
   position: relative;
   padding-block: var(--section-lg);
+  /* Closed cite popovers sit off to the side; keep them from widening the page on phones. */
+  overflow-x: clip;
 }
 .sectionTight {
   padding-top: var(--section-md);

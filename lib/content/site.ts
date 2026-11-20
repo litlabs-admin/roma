@@ -7,14 +7,7 @@
 import { DEMO_HREF, SIGNUP_HREF } from "@/components/chat/data";
 import { competitors } from "./compare";
 
-// Hash targets are absolute ("/#…") so they also work from other routes (/platform).
-export const navLinks = [
-  { label: "How it works", href: "/platform" },
-  { label: "Deduction management", href: "/deduction-management" },
-  { label: "Analytics", href: "/analytics" },
-  { label: "Accounting", href: "/accounting" },
-  { label: "Blog", href: "/blogs" },
-];
+// The primary nav lives in ./nav.ts (built on the server, see components/layout/Nav.tsx).
 
 export const hero = {
   announce: {

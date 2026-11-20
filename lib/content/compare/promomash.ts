@@ -18,9 +18,8 @@ export const promomash: Competitor = {
   blurb: "A trade management suite with deduction specialists, priced on volume.",
   site: HOME,
   checkedOn: CHECKED_ON,
-  // Client-supplied logo (public/logos/competitors/promomash-wordmark.svg); the "p" icon
-  // was cut from it as the mark. Rendered single-ink, never in its purple/teal.
-  mark: { src: "/logos/competitors/promomash-mark.svg", ratio: 39 / 33 },
+  // Client-supplied logo, in its own purple and teal.
+  logo: { src: "/logos/competitors/promomash-wordmark.svg", w: 189, h: 37, size: 1.6 },
   meta: {
     title: "Roma vs. Promomash | Roma",
     description:
@@ -75,8 +74,11 @@ export const promomash: Competitor = {
         "A four-month timeline. Roma is live on day zero, in under 5 minutes, and deductions from UNFI, KeHE, Target and Walmart arrive from then on. Promomash says onboarding for trade and deduction management typically takes a minimum of two to four months, shown as a band from month two to month four.",
     },
     caption: `Illustrative. Promomash onboarding estimate from promomash.com, checked ${CHECKED_ON}. Roma setup time varies by portal.`,
-    art: {
-      kind: "timeline",
+  },
+
+  story: {
+    kind: "promomash",
+    timeline: {
       days: 120,
       unit: "Month",
       per: 30,
@@ -96,68 +98,51 @@ export const promomash: Competitor = {
       },
       end: { label: "Month 4", them: "Promomash: end of its typical minimum onboarding", roma: "Roma: four months of deductions already in view" },
     },
+    terms: {
+      heading: { before: "What you sign up for, ", accent: "in writing", after: "." },
+      lead: "Promomash publishes the terms of its plans. Here they are, word for word. Pick a deduction volume, then see Roma’s side: a flat price you can read now, not one tied to your volume.",
+      stamp: "Volume-priced",
+      volumes: [100, 500, 2000],
+      clauses: [
+        { label: "Price", price: true, text: "Plans and pricing are based on monthly deduction invoice (DI) volume to process.", source: "pricing" },
+        { label: "Commitment", text: "One year commitment required.", source: "commit" },
+        { label: "Fees", text: "One-time initial onboarding fee may apply.", source: "commit" },
+        { label: "Onboarding", text: "For trade and deduction management, onboarding can typically take a minimum of two to four months", source: "onboard" },
+      ],
+    },
+    scope: {
+      heading: { before: "One job, not the whole ", accent: "trade suite", after: "." },
+      lead: "Promomash covers trade promotion, deductions and field marketing, with a team behind it. Roma is built only for deductions.",
+      modules: [{ name: "Trade Promotion" }, { name: "Deduction Management", roma: true }, { name: "Field Marketing" }],
+      source: "scope",
+    },
   },
 
-  verdict: {
-    heading: { before: "One job, done today, at a price you can ", accent: "see", after: "." },
-    lead: "Promomash covers trade promotion, deductions and field marketing, with a team behind it. Roma is built only for deductions: live in minutes, at a flat price you can see.",
-    tiles: [
-      { label: "Time to go live", figure: "5 min", sub: "No ERP or IT project", vs: { text: "“A minimum of two to four months”", source: "onboard" } },
-      { label: "Price", figure: "$399/mo", sub: "Flat and published", vs: { text: "Priced on “monthly deduction invoice (DI) volume”", source: "pricing" } },
-      { label: "Focus", figure: "Deductions", sub: "Built only for deductions", vs: { text: "Trade promotion, deduction management and field marketing", source: "scope" } },
-    ],
-  },
-
-  apart: {
-    heading: { before: "Where Roma stands ", accent: "apart", after: "." },
-    lead: "Built only for deductions, and priced in the open.",
-    rows: [
-      { visual: "price", title: "A flat price, not a volume meter.", body: "Roma is a flat subscription from $399 a month, published right here, and it isn’t priced on your deduction volume. Book a demo for exact pricing for your brand.", them: { text: "“Plans and pricing are based on monthly deduction invoice (DI) volume to process.”", source: "pricing" } },
-      { visual: "classify", them: { text: "“AI-assisted categorization/coding, validation”", source: "capture" } },
-      { visual: "control", them: { text: "“Dedicated team of deduction specialists to assist from coding & validation to dispute & recovery”", source: "team" } },
-      { visual: "backups", quote: "brandy" },
-    ],
-  },
-
-  pen: {
-    stages: [
-      { step: "Capture", title: "Promomash captures", text: "“Automated deduction invoice capture”", source: "capture" },
-      { step: "Code", title: "Coded and validated", text: "“AI-assisted categorization/coding, validation”", source: "capture" },
-      { step: "Dispute", title: "Specialists dispute", text: "“dispute/recovery of invalid deductions, and expert HITL (humans in the loop)”", source: "recovery" },
-      { step: "Reconcile", title: "Reconciled for close", text: "“Facilitate promo reconciliation & month-end closes”", source: "reconcile" },
-    ],
-    yourLane: { text: "“Dedicated team of deduction specialists to assist from coding & validation to dispute & recovery”", source: "team" },
-  },
-
-  price: { stamp: "Volume-priced", quote: { text: "Plans and pricing are based on monthly deduction invoice (DI) volume to process.", source: "pricing" } },
-
-  matrix: {
+  table: {
     heading: { before: "Line by line, in their ", accent: "words", after: " and ours." },
-    lead: "Ticks mark what both offer. Where the two differ, the last column says what it means for you.",
+    lead: "Price, time and scope decide it, so they come first. Promomash’s side is quoted from its own site; the numbers open each source.",
     rows: [
-      { label: "What it is", roma: "Deduction software your team runs", them: { text: "Trade promotion, deduction management and field marketing, software and services.", source: "scope" }, means: "Roma if deductions are the job; Promomash if you want the whole trade suite." },
-      { label: "Price", roma: "From $399/month, flat and published", them: { text: "Priced on “monthly deduction invoice (DI) volume”; no prices published.", source: "pricing" }, means: "Your price isn’t tied to deduction volume." },
-      { label: "Time to go live", roma: "Under 5 minutes, no ERP or IT project", them: { text: "“A minimum of two to four months”", source: "onboard" }, means: "See this quarter’s deductions this week." },
+      { label: "Price", key: { figure: "$399/mo" }, roma: "From $399/month, flat and published", them: { text: "Priced on “monthly deduction invoice (DI) volume”; no prices published.", source: "pricing" }, means: "Your price isn’t tied to deduction volume." },
+      { label: "Time to go live", key: { figure: "5 min" }, roma: "Under 5 minutes, no ERP or IT project", them: { text: "“A minimum of two to four months”", source: "onboard" }, means: "See this quarter’s deductions this week." },
+      { label: "What it is", key: { figure: "Deductions" }, roma: "Deduction software your team runs, built only for deductions", them: { text: "Trade promotion, deduction management and field marketing, software and services.", source: "scope" }, means: "Roma if deductions are the job; Promomash if you want the whole trade suite." },
       { label: "Who handles disputes", roma: "You confirm, Roma files", them: { text: "A “dedicated team of deduction specialists”.", source: "team" }, means: "Roma if you want to decide; Promomash if you want a team to." },
       { label: "Classification", roma: "0% left uncategorized: type, subtype, retailer", them: { text: "“AI-assisted categorization/coding, validation”", source: "capture" }, means: "Every line named, so you can dispute it." },
       { label: "ERP", roma: "Export to NetSuite, QuickBooks or CSV", them: { text: "NetSuite, QuickBooks, Sage.", source: "erp" }, means: "Both fit your books.", parity: true },
       { label: "Security", roma: "SOC 2 Type II and ISO 27001", them: { text: "SOC II Type 2.", source: "soc2" }, means: "Both are audited.", parity: true },
     ],
+    choose: {
+      roma: [
+        "Deductions are the job, and you want them handled this week.",
+        "You want a flat price on the page, not one tied to volume.",
+        "You want every line classified and every dispute in your hands.",
+      ],
+      them: [
+        "You want trade promotion, deductions and field marketing in one suite.",
+        "You’d rather a team of specialists code, validate and dispute for you.",
+        "A one-year commitment and a 2–4 month onboarding work for you.",
+      ],
+    },
   },
-
-  fit: {
-    roma: [
-      "Deductions are the job, and you want them handled this week.",
-      "You want a flat price on the page, not one tied to volume.",
-      "You want every line classified and every dispute in your hands.",
-    ],
-    them: [
-      "You want trade promotion, deductions and field marketing in one suite.",
-      "You’d rather a team of specialists code, validate and dispute for you.",
-      "A one-year commitment and a 2–4 month onboarding work for you.",
-    ],
-  },
-
 
   faqs: [
     { q: "How does Roma’s pricing compare with Promomash’s?", a: "Roma is a flat subscription from $399/month, published on this page and not tied to deduction volume. Promomash prices its deductions plans on monthly deduction invoice volume and doesn’t publish prices. Book a demo and we’ll give you exact pricing for your brand." },

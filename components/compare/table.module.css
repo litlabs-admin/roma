@@ -1,0 +1,406 @@
+/* The one comparison table (DESIGN.md §G.13): a white sheet, the Roma column raised
+   (faint red wash, red top rule), the competitor under its own logo. Groups: deciders
+   (Roma's figure set large) → details → "Both offer it" (ticks, tinted) → "Which fits?".
+   Rows become blocks below 768px. */
+
+.section {
+  scroll-margin-top: calc(var(--nav-h) + 1rem);
+}
+
+.sheet {
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-lg);
+  background: #fff;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+.table th,
+.table td {
+  text-align: left;
+  vertical-align: top;
+}
+
+/* ── head: the two logos ── */
+.table thead th {
+  padding: 1.5rem 1.25rem 1.25rem;
+  border-bottom: 1px solid var(--color-ink-900);
+  vertical-align: bottom;
+  font-weight: 500;
+}
+.cornerHead {
+  width: 26%;
+}
+.cornerText {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.romaHead {
+  width: 37%;
+  box-shadow: inset 0 3px 0 var(--color-red-600);
+}
+.themHead {
+  width: 37%;
+}
+.romaLogo {
+  display: block;
+  width: auto;
+  height: 1.5rem;
+}
+
+/* ── group labels ── */
+.group th {
+  padding: 1.5rem 1.25rem 0.6rem;
+  border-bottom: 1px solid var(--color-sand-300);
+  color: var(--color-red-700);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.groupNote {
+  margin-left: 0.75rem;
+  color: var(--color-ink-500);
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+/* ── rows ── */
+.row {
+  border-bottom: 1px solid var(--color-sand-300);
+}
+tbody .row:last-child {
+  border-bottom: 0;
+}
+.rowLabel {
+  padding: 1.15rem 1.25rem;
+  font-weight: 400;
+}
+.factor {
+  display: block;
+  color: var(--color-ink-900);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  letter-spacing: -0.005em;
+}
+.means {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--color-ink-500);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+.cell {
+  position: relative;
+  padding: 1.15rem 1.25rem 1.2rem;
+  text-wrap: pretty;
+}
+.romaHead,
+.cellRoma {
+  background: color-mix(in srgb, var(--color-red-100) 28%, #fff);
+}
+.cellRoma {
+  color: var(--color-ink-900);
+  font-weight: 500;
+}
+.cellThem {
+  color: var(--color-ink-600);
+}
+
+/* Deciders: Roma's figure large, the competitor's words a step up in size. */
+.keyRow .rowLabel,
+.keyRow .cell {
+  padding-block: 1.5rem 1.6rem;
+}
+.keyRow .factor {
+  font-size: 1.0625rem;
+}
+.figure {
+  display: block;
+  color: var(--color-red-600);
+  font-weight: 500;
+  font-size: 2rem;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+@media (min-width: 992px) {
+  .figure {
+    font-size: 2.5rem;
+  }
+}
+.sub {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--color-ink-800);
+  font-weight: 500;
+  font-size: 0.9375rem;
+}
+.keyRow .cellThem {
+  color: var(--color-ink-800);
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  vertical-align: middle;
+}
+
+/* Both offer it: tinted, ticks in both columns. */
+.parity .row,
+.parity .group th {
+  background: var(--color-cream-50);
+}
+.parity .cellRoma {
+  background: color-mix(in srgb, var(--color-red-100) 20%, var(--color-cream-50));
+}
+.parity .cell {
+  padding-left: 2.6rem;
+}
+.tick {
+  position: absolute;
+  left: 0.85rem;
+  top: 1.2rem;
+  width: 1.3rem;
+  height: 1.1rem;
+  overflow: visible;
+}
+.tick path {
+  stroke: var(--color-red-600);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Which fits? */
+.choose {
+  border-top: 1px solid var(--color-ink-900);
+  border-bottom: 0;
+}
+.chooseHead {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: var(--color-ink-900);
+  font-weight: 500;
+}
+.chooseList {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-weight: 400;
+}
+.chooseList li {
+  position: relative;
+  padding-left: 1rem;
+}
+.chooseList li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  background: var(--color-ink-500);
+}
+.cellRoma .chooseList li::before {
+  background: var(--color-red-600);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  tbody .row:hover .rowLabel,
+  tbody .row:hover .cellThem {
+    background: var(--color-cream-50);
+    transition: background-color 150ms ease;
+  }
+}
+
+@media (min-width: 992px) {
+  .table thead th:first-child,
+  .rowLabel,
+  .group th {
+    padding-left: 2rem;
+  }
+  .table thead th:last-child,
+  .cellThem {
+    padding-right: 2rem;
+  }
+  .cell {
+    padding-left: 1.75rem;
+  }
+  .parity .cell {
+    padding-left: 3rem;
+  }
+  .tick {
+    left: 1.2rem;
+  }
+}
+
+/* Phones: each row is a block — factor, then Roma, then the competitor. */
+@media (max-width: 767px) {
+  .table,
+  .table tbody,
+  .table tfoot,
+  .table tr,
+  .table th,
+  .table td {
+    display: block;
+  }
+  .table thead {
+    display: none;
+  }
+  .group th {
+    padding: 1.25rem 1.25rem 0.5rem;
+  }
+  .row {
+    padding: 1.1rem 1.25rem 1.2rem;
+  }
+  .rowLabel,
+  .keyRow .rowLabel {
+    padding: 0 0 0.75rem;
+  }
+  .cell,
+  .keyRow .cell {
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.5rem;
+  }
+  .parity .cell {
+    padding-left: 2.1rem;
+  }
+  .cellRoma {
+    margin-bottom: 0.4rem;
+  }
+  .cell::before {
+    content: attr(data-col);
+    display: block;
+    margin-bottom: 0.2rem;
+    color: var(--color-ink-500);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .cellRoma::before {
+    color: var(--color-red-700);
+  }
+  .tick {
+    left: 0.55rem;
+    top: 1.45rem;
+  }
+  .figure {
+    font-size: 1.75rem;
+  }
+}
+
+/* ── legend + sources ── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.75rem 2rem;
+  padding: 1.1rem 1.25rem;
+  border-top: 1px solid var(--color-ink-900);
+  color: var(--color-ink-600);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+@media (min-width: 768px) {
+  .legend {
+    padding: 1.25rem 2rem;
+  }
+}
+.noteLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--color-sand-400);
+  text-underline-offset: 0.2em;
+}
+.noteLink:hover {
+  color: var(--color-red-700);
+  text-decoration-color: currentColor;
+}
+
+.sources {
+  border-top: 1px solid var(--color-sand-300);
+}
+.summary {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1rem 1.25rem;
+  color: var(--color-ink-900);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  list-style: none;
+}
+.summary::-webkit-details-marker {
+  display: none;
+}
+.summary::after {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-left: 0.35rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-0.12rem) rotate(45deg);
+  transition: transform 300ms var(--ease-state);
+}
+.sources[open] .summary::after {
+  transform: translateY(0.1rem) rotate(-135deg);
+}
+.summary span {
+  color: var(--color-ink-500);
+  font-weight: 400;
+}
+.summary:focus-visible {
+  outline: 2px solid var(--color-red-600);
+  outline-offset: -2px;
+  border-radius: var(--radius-sm);
+}
+@media (min-width: 768px) {
+  .summary {
+    padding-inline: 2rem;
+  }
+}
+.srcList {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0 1.25rem 1.5rem;
+  list-style: none;
+  color: var(--color-ink-600);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+@media (min-width: 768px) {
+  .srcList {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2.5rem;
+    padding-inline: 2rem;
+  }
+}
+.srcList li {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: 0.4rem;
+}
+.srcN {
+  padding-top: 0.1rem;
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .summary::after {
+    transition: none;
+  }
+}

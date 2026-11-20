@@ -15,7 +15,7 @@ export const glimpse: Competitor = {
   blurb: "A managed deductions service with a 45-day onboarding.",
   site: "https://www.tryglimpse.com/",
   checkedOn: CHECKED_ON,
-  mark: { src: "/logos/competitors/glimpse-mark.svg", ratio: 25.22 / 16.47 },
+  logo: { src: "/logos/competitors/glimpse-wordmark.svg", w: 100, h: 21, size: 1.5 },
   meta: {
     title: "Roma vs. Glimpse | Roma",
     description:
@@ -73,16 +73,15 @@ export const glimpse: Competitor = {
       lead: "Glimpse is a managed service that works your deductions for you, after a 45-day onboarding. Roma puts every deduction in front of you in under 5 minutes, and you decide what gets disputed. Here’s how they compare, in each company’s own words.",
       ground: { src: "/images/cta/texture-bg.webp", position: "50% 50%" },
       summary:
-        "A 45-day timeline. Roma is live on day zero, in under 5 minutes, and deductions from UNFI, KeHE, Target and Walmart arrive from then on. Glimpse’s published onboarding runs from Today (we discuss your needs) to Day 10 (we build the pipelines) to Day 45 (we identify lost revenue), with the first dispute 30 days after signing on average.",
+        "A 45-day calendar. With Roma every day is filled from day one: live in under 5 minutes, with deductions from UNFI, KeHE, Target and Walmart arriving from then on. Glimpse’s published onboarding is pinned on the same calendar: Today (we discuss your needs), Day 10 (we build the pipelines), Day 30 (first dispute, on average) and Day 45 (we identify lost revenue).",
     },
     caption: `Illustrative. Glimpse milestones from tryglimpse.com, checked ${CHECKED_ON}. Roma setup time varies by portal.`,
-    art: {
-      kind: "timeline",
+  },
+
+  story: {
+    kind: "glimpse",
+    calendar: {
       days: 45,
-      unit: "Day",
-      per: 1,
-      ruler: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45],
-      rulerMobile: [0, 10, 30, 45],
       chips: [
         { day: 1, label: "UNFI · MCB", cat: "promo" },
         { day: 6, label: "KeHE · Shortage", cat: "shortage" },
@@ -90,86 +89,65 @@ export const glimpse: Competitor = {
         { day: 20, label: "Walmart · Damage", cat: "shortage" },
         { day: 27, label: "UNFI · Promo", cat: "promo" },
         { day: 34, label: "KeHE · Slotting", cat: "fees" },
+        { day: 41, label: "Target · Shortage", cat: "shortage" },
       ],
-      them: {
-        tag: "Published onboarding",
-        milestones: [
-          { day: 0, label: "Today", title: "We discuss your needs" },
-          { day: 10, label: "Day 10", title: "We build the pipelines" },
-          { day: 45, label: "Day 45", title: "We identify lost revenue" },
-        ],
-        marker: { day: 30, label: "Day 30", title: "First dispute, on average" },
-      },
-      end: { label: "Day 45", them: "Glimpse: onboarded", roma: "Roma: 45 days of deductions already in view" },
+      milestones: [
+        { day: 1, label: "Today", title: "We discuss your needs" },
+        { day: 10, label: "Day 10", title: "We build the pipelines" },
+        { day: 30, label: "Day 30", title: "First dispute, on average", key: true },
+        { day: 45, label: "Day 45", title: "We identify lost revenue" },
+      ],
+      end: { them: "Glimpse: onboarded on day 45", roma: "Roma: 45 days of deductions already in view" },
+    },
+    pen: {
+      stages: [
+        { step: "Retrieve", title: "Glimpse retrieves", text: "“Glimpse pulls deduction documents, automatically.”", source: "retrieve" },
+        { step: "Validate", title: "AI agents + experts validate", text: "“AI agents check every single deduction.” Human experts check the edge cases.", source: "validate" },
+        { step: "Dispute", title: "Glimpse files", text: "“Glimpse files disputes before the retailer windows close.”", source: "dispute" },
+        { step: "Recover", title: "Applied to your ERP", text: "“Recovered dollars are applied automatically and reflected in your ERP.”", source: "recover" },
+      ],
+      yourLane: { text: "“Most customers spend under an hour per week in Glimpse.”", source: "hour" },
+    },
+    work: {
+      heading: { before: "Hand it off, or ", accent: "run it", after: " yourself." },
+      lead: "This is the real choice between the two. Glimpse’s specialists work each step for you. With Roma, your team sees every deduction and nothing is disputed in your name until you confirm it. Flip the toggle to see who does what.",
+      them: { text: "“Glimpse isn't a tool you have to implement. It's a managed service that handles retailer deductions end-to-end.”", source: "managed" },
+    },
+    switched: {
+      heading: { before: "Every line named, says a brand that ", accent: "switched", after: "." },
+      lead: "Roma decodes every UNFI, KeHE and Target code and reads the backup when a code is new or vague. Each line gets a type, subtype and retailer, so 0% of deductions are left uncategorized. Fix a mapping once and it sticks.",
+      note: "Brands that moved from Glimpse told us about double entries and exports that didn’t tie out.",
+      quote: "julie",
     },
   },
 
-  verdict: {
-    heading: { before: "Live today, priced on the page, and ", accent: "you decide", after: "." },
-    lead: "Glimpse runs your deductions for you as a managed service. Roma gives your team every deduction, classified and ready to dispute, from day one.",
-    tiles: [
-      { label: "Time to go live", figure: "5 min", sub: "No ERP or IT project", vs: { text: "“Get onboarded in 45 days”", source: "onboard" } },
-      { label: "Price", figure: "$399/mo", sub: "Flat and published", vs: { text: "“Talk to sales for a custom quote”", source: "pricing" } },
-      { label: "Disputes", figure: "You confirm", sub: "Every dispute, before it’s filed", vs: { text: "“Deduction specialists file every dispute”", source: "specialists" } },
-    ],
-  },
-
-  apart: {
-    heading: { before: "Where Roma stands ", accent: "apart", after: "." },
-    lead: "Four places Roma works differently, and why it matters.",
-    rows: [
-      {
-        visual: "classify",
-        note: "Brands that moved from Glimpse told us about double entries and exports that didn’t tie out.",
-        quote: "julie",
-      },
-      { visual: "control", them: { text: "“Deduction specialists file every dispute.”", source: "specialists" } },
-      { visual: "backups", quote: "brandy" },
-      { visual: "price", them: { text: "“Talk to sales for a custom quote tailored to your brand's scale and retailer mix.”", source: "pricing" } },
-    ],
-  },
-
-  pen: {
-    stages: [
-      { step: "Retrieve", title: "Glimpse retrieves", text: "“Glimpse pulls deduction documents, automatically.”", source: "retrieve" },
-      { step: "Validate", title: "AI agents + experts validate", text: "“AI agents check every single deduction.” Human experts check the edge cases.", source: "validate" },
-      { step: "Dispute", title: "Glimpse files", text: "“Glimpse files disputes before the retailer windows close.”", source: "dispute" },
-      { step: "Recover", title: "Applied to your ERP", text: "“Recovered dollars are applied automatically and reflected in your ERP.”", source: "recover" },
-    ],
-    yourLane: { text: "“Most customers spend under an hour per week in Glimpse.”", source: "hour" },
-  },
-
-  price: { stamp: "Custom quote", quote: { text: "Talk to sales for a custom quote tailored to your brand's scale and retailer mix.", source: "pricing" } },
-
-  matrix: {
+  table: {
     heading: { before: "Line by line, in their ", accent: "words", after: " and ours." },
-    lead: "Ticks mark what both offer. Where the two differ, the last column says what it means for you.",
+    lead: "The three differences that decide it come first. Glimpse’s side is quoted from its own site; the numbers open each source.",
     rows: [
+      { label: "Time to go live", key: { figure: "5 min" }, roma: "Under 5 minutes, no ERP or IT project", them: { text: "“Get onboarded in 45 days.”", source: "onboard" }, means: "See this quarter’s deductions this week." },
+      { label: "Who files disputes", key: { figure: "You confirm" }, roma: "You confirm every dispute, then Roma files", them: { text: "“Deduction specialists file every dispute.”", source: "specialists" }, means: "Nothing goes out in your name without you." },
+      { label: "Price", key: { figure: "$399/mo" }, roma: "From $399/month, flat and published", them: { text: "“Talk to sales for a custom quote.”", source: "pricing" }, means: "Know your cost before the first call." },
       { label: "What it is", roma: "Deduction software your team runs", them: { text: "“A managed service that handles retailer deductions end-to-end.”", source: "managed" }, means: "Roma if you want to see and decide; Glimpse if you’d rather hand it off." },
-      { label: "Price", roma: "From $399/month, flat and published", them: { text: "“Talk to sales for a custom quote.”", source: "pricing" }, means: "Know your cost before the first call." },
-      { label: "Time to go live", roma: "Under 5 minutes, no ERP or IT project", them: { text: "“Get onboarded in 45 days.”", source: "onboard" }, means: "See this quarter’s deductions this week." },
       { label: "First dispute", roma: "Two clicks, once your portals are connected", them: { text: "“On average, 30 days, from signing the contract.”", source: "firstDispute" }, means: "Your first dispute can go out this week." },
-      { label: "Who files disputes", roma: "You confirm, Roma files", them: { text: "“Deduction specialists file every dispute.”", source: "specialists" }, means: "Nothing goes out in your name without you." },
       { label: "Classification", roma: "0% left uncategorized: type, subtype, retailer", them: { text: "“AI agents check every single deduction.”", source: "validate" }, means: "Every line named, so you can dispute it." },
       { label: "Backups", roma: "One zip per check; missing backups requested on day 3", them: { text: "“Glimpse pulls deduction documents, automatically.”", source: "retrieve" }, means: "Your bookkeeper gets the whole check at once." },
       { label: "ERP", roma: "Export to NetSuite, QuickBooks or CSV", them: { text: "Connects to QuickBooks and NetSuite.", source: "erp" }, means: "Both fit your books.", parity: true },
       { label: "Security", roma: "SOC 2 Type II and ISO 27001", them: { text: "SOC 2, with a public Trust Center.", source: "soc2" }, means: "Both are audited.", parity: true },
     ],
+    choose: {
+      roma: [
+        "You want to see every deduction yourself, starting this week.",
+        "You’d rather approve each dispute than hand it off.",
+        "You want the price on the page: from $399 a month.",
+      ],
+      them: [
+        "You’d rather hand deductions to a managed service and not look at them.",
+        "You want their specialists filing disputes for you.",
+        "A 30–45 day onboarding and a custom quote work for you.",
+      ],
+    },
   },
-
-  fit: {
-    roma: [
-      "You want to see every deduction yourself, starting this week.",
-      "You’d rather approve each dispute than hand it off.",
-      "You want the price on the page: from $399 a month.",
-    ],
-    them: [
-      "You’d rather hand deductions to a managed service and not look at them.",
-      "You want their specialists filing disputes for you.",
-      "A 30–45 day onboarding and a custom quote work for you.",
-    ],
-  },
-
 
   faqs: [
     {

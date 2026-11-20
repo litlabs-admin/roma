@@ -30,10 +30,12 @@ type Props = {
   sheetClass?: string;
   /** Caption above the art; defaults to the "Illustrative data" line. */
   caption?: string;
+  /** Replaces the eyebrow pill (the comparison pages' "Roma vs X" logo lockup). */
+  pill?: ReactNode;
   children: ReactNode;
 };
 
-export default function ProductHero({ copy, layout = "split", sheetClass = "", caption = ILLUSTRATIVE, children }: Props) {
+export default function ProductHero({ copy, layout = "split", sheetClass = "", caption = ILLUSTRATIVE, pill, children }: Props) {
   const root = useRef<HTMLElement>(null);
   const { before, accent, after } = copy.heading;
   const words = before.trim().split(/\s+/);
@@ -65,10 +67,16 @@ export default function ProductHero({ copy, layout = "split", sheetClass = "", c
       <div className={s.inner}>
         <div className={s.top}>
           <div className={s.titleCol}>
-            <p className={s.pill} data-anim="pill">
-              <Glyph k={copy.icon} className={s.pillIcon} />
-              {copy.eyebrow}
-            </p>
+            {pill ? (
+              <p className={s.pillSlot} data-anim="pill">
+                {pill}
+              </p>
+            ) : (
+              <p className={s.pill} data-anim="pill">
+                <Glyph k={copy.icon} className={s.pillIcon} />
+                {copy.eyebrow}
+              </p>
+            )}
             <h1 id="product-title" className={`${s.h1} type-h1`} aria-label={`${before}${accent}${after}`}>
               <span aria-hidden="true">
                 {words.map((w, i) => (

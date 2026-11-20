@@ -1,0 +1,271 @@
+/* Product scenes inside the "Who does each step" cards (DESIGN.md §G.13). A small inset
+   screen at the top of each step card; type in --font-ui, sized for a ~14rem column. */
+
+.scene {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  min-height: 6.25rem;
+  padding: 0.7rem 0.75rem;
+  border: 1px solid var(--ui-line, var(--color-sand-300));
+  border-radius: 0.6rem;
+  background: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  line-height: 1.25;
+  color: var(--color-ink-900);
+  overflow: hidden;
+}
+
+.rows {
+  display: grid;
+  gap: 0.35rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+.stack {
+  display: grid;
+  gap: 0.5rem;
+  width: 100%;
+}
+.line {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+.code {
+  color: var(--color-ink-500);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  white-space: nowrap;
+}
+.amt {
+  margin-left: auto;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.strong {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.clip {
+  width: 0.8rem;
+  height: 0.8rem;
+  color: var(--color-ink-500);
+}
+.arrow {
+  color: var(--color-ink-500);
+}
+
+/* check: the reason you can read */
+.why {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  justify-self: start;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.4rem;
+  background: var(--color-red-100);
+  color: var(--color-red-800);
+  font-weight: 600;
+}
+.why svg {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+/* dispute: documents + confirm → filed */
+.docs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+.doc {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.15rem 0.35rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: 0.3rem;
+  background: var(--color-cream-50);
+  color: var(--color-ink-600);
+  font-size: 0.625rem;
+}
+.doc svg {
+  width: 0.7rem;
+  height: 0.7rem;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-red-600);
+  color: #fff;
+  font-weight: 600;
+}
+.btn svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+.filed {
+  margin-left: auto;
+  padding: 0.15rem 0.45rem;
+  border: 1.5px solid var(--color-red-600);
+  border-radius: 0.3rem;
+  color: var(--color-red-700);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: rotate(-6deg);
+}
+
+/* recover: status track */
+.track {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.15rem;
+}
+.track::before,
+.trackFill {
+  content: "";
+  position: absolute;
+  left: 0.35rem;
+  right: 0.35rem;
+  top: 0.5rem;
+  height: 2px;
+  background: var(--color-sand-300);
+}
+.trackFill {
+  background: var(--color-red-600);
+  transform-origin: 0 50%;
+}
+.node {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--color-ink-700, var(--color-ink-600));
+}
+.node:first-of-type {
+  justify-items: start;
+}
+.node:last-of-type {
+  justify-items: end;
+  color: var(--color-red-700);
+}
+.node i {
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--color-red-600);
+  box-shadow: 0 0 0 1px var(--color-red-600);
+}
+
+/* Glimpse: retrieve */
+.pile {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  width: 100%;
+}
+.paperDoc {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 2.3rem;
+  margin-right: -0.55rem;
+  box-shadow: 0 2px 4px rgba(var(--mock-shadow-rgb), 0.08);
+  border: 1px solid var(--color-sand-300);
+  border-radius: 0.3rem;
+  background: var(--color-cream-50);
+  color: var(--color-ink-500);
+  font-size: 0.5625rem;
+}
+.paperDoc svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+.into {
+  margin-left: 0.85rem;
+  color: var(--color-ink-500);
+}
+.into svg {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+.vault {
+  margin-left: auto;
+  padding: 0.45rem 0.55rem;
+  border-radius: 0.4rem;
+  background: var(--color-ink-900);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.6875rem;
+}
+
+/* Glimpse: validate + file */
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.badge,
+.sent {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink-900);
+  color: #fff;
+  font-size: 0.625rem;
+  font-weight: 600;
+}
+.badge svg,
+.sent svg {
+  width: 0.7rem;
+  height: 0.7rem;
+}
+.sent {
+  justify-self: start;
+  background: var(--color-cream-200);
+  color: var(--color-ink-800);
+}
+.env {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: 0.4rem;
+  background: var(--color-cream-50);
+  font-weight: 600;
+}
+.env svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  color: var(--color-ink-600);
+}
+.ledgerHead {
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--color-sand-300);
+  font-weight: 600;
+}

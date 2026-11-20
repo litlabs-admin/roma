@@ -53,6 +53,9 @@
   line-height: 1.2;
   letter-spacing: -0.005em;
 }
+.pillSlot {
+  margin: 0;
+}
 .pillIcon {
   width: 1rem;
   height: 1rem;

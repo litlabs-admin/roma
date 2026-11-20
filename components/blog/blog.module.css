@@ -154,6 +154,18 @@
   height: 6px;
   background: var(--color-red-600);
 }
+/* Linked items (e.g. /customers jump links): same label, underline on hover. */
+.topicLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.3em;
+  transition: text-decoration-color 200ms var(--ease-out);
+}
+.topicLink:hover,
+.topicLink:focus-visible {
+  text-decoration-color: currentColor;
+}
 
 /* ── Shared bits ─────────────────────────────────────────────────────── */
 
