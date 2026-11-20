@@ -16,7 +16,8 @@ import {
   formCopy,
 } from "@/lib/content/contact";
 import { FIELDS, emptyValues, validateAll, validateField, type Errors, type FieldName, type FormKind, type FormValues } from "@/lib/forms/validation";
-import { submitContact, submitDemo } from "@/lib/forms/submit";
+import { submitContact, submitDemo, submitPartner } from "@/lib/forms/submit";
+import { PARTNER_TYPES, PARTNER_TYPE_EVENT, partnerFieldCopy as P, partnerPage } from "@/lib/content/partners";
 import { ChipGroup, Consent, Counter, Field, PhoneInput, SelectInput, TextArea, TextInput, ids } from "./fields";
 import f from "./forms.module.css";
 
@@ -44,12 +45,13 @@ const LABELS: Record<FieldName, string> = {
   otherChannels: C.otherChannels.label,
   topic: C.topic.label,
   volume: C.volume.label,
+  partnerType: P.partnerType.label,
   message: C.message.label,
   consent: "Privacy policy",
 };
 
 export default function LeadForm({ kind }: { kind: FormKind }) {
-  const page = kind === "contact" ? contactPage : demoPage;
+  const page = kind === "contact" ? contactPage : kind === "partner" ? partnerPage : demoPage;
   const [values, setValues] = useState<FormValues>(() => emptyValues(kind === "demo" ? "demo" : ""));
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Partial<Record<FieldName, boolean>>>({});
@@ -72,6 +74,32 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
     return () => cancelAnimationFrame(raf);
   }, [kind]);
 
+  // Partner type: preset from the URL (?type=technology#apply) on mount, and from the
+  // partner-type CTAs on the same page (they dispatch PARTNER_TYPE_EVENT, no reload).
+  useEffect(() => {
+    if (kind !== "partner") return;
+    const valid = (t: string | null): t is string => !!t && PARTNER_TYPES.some((o) => o.value === t);
+    const preset = (t: string) => {
+      setValues((v) => ({ ...v, partnerType: t }));
+      setErrors((prev) => {
+        const out = { ...prev };
+        delete out.partnerType;
+        return out;
+      });
+    };
+    const t = new URLSearchParams(window.location.search).get("type");
+    const raf = valid(t) ? requestAnimationFrame(() => preset(t)) : 0;
+    const onPreset = (ev: Event) => {
+      const v = (ev as CustomEvent<string>).detail;
+      if (valid(v)) preset(v);
+    };
+    window.addEventListener(PARTNER_TYPE_EVENT, onPreset);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener(PARTNER_TYPE_EVENT, onPreset);
+    };
+  }, [kind]);
+
   // Success panel entrance (cross-fade + check pop).
   useLayoutEffect(() => {
     if (status !== "done" || !panelRef.current || prefersReducedMotion()) return;
@@ -88,7 +116,7 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
 
   // Choice controls (selects, chips, consent) validate as soon as they change; text
   // fields only once touched (blurred) or already showing an error.
-  const INSTANT: FieldName[] = ["revenue", "topic", "volume", "channels", "consent"];
+  const INSTANT: FieldName[] = ["revenue", "topic", "volume", "partnerType", "channels", "consent"];
   const set = <K extends keyof FormValues>(key: K, val: FormValues[K]) => {
     const next = { ...values, [key]: val };
     setValues(next);
@@ -184,7 +212,7 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
       return;
     }
     setStatus("sending");
-    const res = await (kind === "contact" ? submitContact(values) : submitDemo(values));
+    const res = await (kind === "contact" ? submitContact(values) : kind === "partner" ? submitPartner(values) : submitDemo(values));
     if (res.ok) {
       setDoneName(values.firstName.trim());
       setStatus("done");
@@ -228,8 +256,9 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
 
   const e = errors;
   const otherShown = values.channels.includes("Other");
-  const message = kind === "contact" ? C.message : C.demoMessage;
-  const messageHint = kind === "contact" ? undefined : C.demoMessage.hint;
+  const partner = kind === "partner";
+  const message = kind === "contact" ? C.message : partner ? P.message : C.demoMessage;
+  const messageHint = kind === "demo" ? C.demoMessage.hint : undefined;
 
   return (
     <form className={f.form} noValidate onSubmit={onSubmit} aria-busy={sending || undefined}>
@@ -313,7 +342,8 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
         />
       </Field>
 
-      <div className={f.row}>
+      {/* Partner form: company and type each get a full row, so the type's long options read in full. */}
+      <div className={`${f.row} ${partner ? f.rowSingle : ""}`}>
         <Field name="company" label={C.company.label} required error={e.company}>
           <TextInput
             name="company"
@@ -328,20 +358,36 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
             maxLength={110}
           />
         </Field>
-        <Field name="jobTitle" label={C.jobTitle.label} required error={e.jobTitle}>
-          <TextInput
-            name="jobTitle"
-            required
-            error={e.jobTitle}
-            autoComplete="organization-title"
-            placeholder={C.jobTitle.placeholder}
-            value={values.jobTitle}
-            onChange={(ev) => set("jobTitle", ev.target.value)}
-            onBlur={() => blur("jobTitle")}
-            readOnly={sending}
-            maxLength={90}
-          />
-        </Field>
+        {partner ? (
+          <Field name="partnerType" label={P.partnerType.label} required error={e.partnerType}>
+            <SelectInput
+              name="partnerType"
+              required
+              error={e.partnerType}
+              placeholder={P.partnerType.placeholder}
+              options={PARTNER_TYPES}
+              value={values.partnerType}
+              onChange={(v) => set("partnerType", v)}
+              onLeave={() => blur("partnerType")}
+              disabled={sending}
+            />
+          </Field>
+        ) : (
+          <Field name="jobTitle" label={C.jobTitle.label} required error={e.jobTitle}>
+            <TextInput
+              name="jobTitle"
+              required
+              error={e.jobTitle}
+              autoComplete="organization-title"
+              placeholder={C.jobTitle.placeholder}
+              value={values.jobTitle}
+              onChange={(ev) => set("jobTitle", ev.target.value)}
+              onBlur={() => blur("jobTitle")}
+              readOnly={sending}
+              maxLength={90}
+            />
+          </Field>
+        )}
       </div>
 
 
@@ -374,6 +420,8 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
         />
       </Field>
 
+      {!partner && (
+      <>
       <div className={f.row}>
         <Field name="revenue" label={C.revenue.label} required error={e.revenue}>
           <SelectInput
@@ -444,6 +492,8 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
             maxLength={110}
           />
         </Field>
+      )}
+      </>
       )}
 
 

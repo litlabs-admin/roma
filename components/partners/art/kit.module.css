@@ -1,0 +1,247 @@
+/* Partner hub (DESIGN.md §G.16), 560 × 460 canvas: one product window, six blocks. */
+
+.well {
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-xl);
+}
+
+.window {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--ui-well);
+}
+.bar0 {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 12);
+  padding: calc(var(--u) * 10) calc(var(--u) * 14);
+  border-bottom: calc(var(--u) * 1) solid var(--ui-line);
+  background: #fff;
+}
+.dots {
+  display: flex;
+  gap: calc(var(--u) * 5);
+}
+.dots i {
+  width: calc(var(--u) * 8);
+  height: calc(var(--u) * 8);
+  border-radius: 50%;
+  background: var(--color-sand-300);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 7);
+  margin-right: auto;
+  font-size: calc(var(--u) * 12.5);
+  white-space: nowrap;
+}
+.brand b {
+  font-weight: 600;
+}
+.firm {
+  color: var(--color-ink-500);
+}
+.mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: calc(var(--u) * 20);
+  height: calc(var(--u) * 20);
+  border-radius: calc(var(--u) * 6);
+  background: var(--color-red-600);
+  color: #fff;
+}
+.mark svg {
+  width: 62%;
+  height: 62%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  grid-auto-rows: calc(var(--u) * 116);
+  gap: calc(var(--u) * 10);
+  padding: calc(var(--u) * 12);
+}
+.cell {
+  min-width: 0;
+}
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 8);
+  height: 100%;
+  padding: calc(var(--u) * 11) calc(var(--u) * 12);
+  border: calc(var(--u) * 1) solid var(--ui-line);
+  border-radius: calc(var(--u) * 10);
+  background: #fff;
+}
+@media (hover: hover) and (pointer: fine) {
+  .block {
+    transition:
+      opacity var(--dur-state) var(--ease-state),
+      border-color var(--dur-state) var(--ease-state),
+      box-shadow var(--dur-state) var(--ease-state);
+  }
+  .focusing .block:not(.on) {
+    opacity: 0.5;
+  }
+  .on {
+    border-color: var(--color-red-600);
+    box-shadow:
+      0 0 0 calc(var(--u) * 3) rgba(178, 21, 21, 0.12),
+      0 calc(var(--u) * 12) calc(var(--u) * 24) rgba(var(--mock-shadow-rgb), 0.1);
+  }
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--u) * 8);
+  min-height: calc(var(--u) * 18);
+}
+
+/* co-marketing */
+.webTitle {
+  font-weight: 600;
+  font-size: calc(var(--u) * 15);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.webMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--u) * 8);
+  margin-top: auto;
+  color: var(--color-ink-500);
+  font-size: calc(var(--u) * 10);
+  white-space: nowrap;
+}
+.cobrand {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 6);
+  color: var(--color-ink-800);
+  font-weight: 500;
+  font-size: calc(var(--u) * 10.5);
+}
+.cobrand .mark {
+  width: calc(var(--u) * 16);
+  height: calc(var(--u) * 16);
+  border-radius: calc(var(--u) * 5);
+}
+
+/* file / list rows */
+.files {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 5);
+}
+.file {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 7);
+  color: var(--color-ink-800);
+  font-size: calc(var(--u) * 11);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.fileIc {
+  flex: none;
+  width: calc(var(--u) * 13);
+  height: calc(var(--u) * 13);
+  color: var(--color-red-600);
+}
+.fileDl {
+  width: calc(var(--u) * 12);
+  height: calc(var(--u) * 12);
+  margin-left: auto;
+  color: var(--ui-axis);
+}
+
+/* demo workspace */
+.sandbox {
+  background: var(--data-fees-bg);
+  color: var(--data-fees-fg);
+}
+.rows {
+  display: flex;
+  flex-direction: column;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 8);
+  padding: calc(var(--u) * 6) 0;
+  border-top: calc(var(--u) * 1) solid var(--ui-line);
+  font-size: calc(var(--u) * 11);
+}
+.row b {
+  font-weight: 600;
+}
+.row > :last-child {
+  margin-left: auto;
+}
+.rowAv {
+  width: calc(var(--u) * 20);
+  height: calc(var(--u) * 20);
+  font-size: calc(var(--u) * 9);
+}
+
+/* referral revenue */
+.bars {
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  gap: calc(var(--u) * 7);
+  border-bottom: calc(var(--u) * 1) solid var(--ui-line);
+}
+.bar,
+.barOn {
+  flex: 1;
+  border-radius: calc(var(--u) * 3) calc(var(--u) * 3) 0 0;
+  background: var(--color-red-100);
+}
+.barOn {
+  background: var(--color-red-600);
+}
+
+/* partner manager */
+.mgr {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 8);
+  font-size: calc(var(--u) * 12);
+}
+.mgr b {
+  font-weight: 600;
+}
+.mgrAv {
+  width: calc(var(--u) * 28);
+  height: calc(var(--u) * 28);
+  background: var(--color-red-100);
+  color: var(--color-red-800);
+}
+.mgrActions {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 6);
+  margin-top: auto;
+}
+.iconBtn {
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 22);
+  height: calc(var(--u) * 22);
+  border: calc(var(--u) * 1) solid var(--color-sand-300);
+  border-radius: 50%;
+  color: var(--color-ink-600);
+}
+.iconBtn svg {
+  width: 55%;
+  height: 55%;
+}

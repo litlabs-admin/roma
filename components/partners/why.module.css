@@ -1,0 +1,74 @@
+/* Why partner (DESIGN.md §G.16): joined benefit strip + hairline proof row. */
+
+.strip {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 992px) {
+  .strip {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem 0.75rem 1.75rem;
+  border: 1px solid var(--color-sand-300);
+  background: var(--color-white);
+}
+.cell > :not(:first-child) {
+  margin-inline: 0.5rem;
+}
+@media (min-width: 768px) {
+  .cell {
+    padding: 0.75rem 0.75rem 2.25rem;
+  }
+  .cell > :not(:first-child) {
+    margin-inline: 1.25rem;
+  }
+}
+.cell + .cell {
+  border-top-width: 0;
+}
+.cell:first-child {
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+.cell:last-child {
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+@media (min-width: 992px) {
+  .cell + .cell {
+    border-top-width: 1px;
+    border-left-width: 0;
+  }
+  .cell:first-child {
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+  }
+  .cell:last-child {
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+}
+.cell > :first-child {
+  margin-bottom: 0.75rem;
+}
+.num {
+  color: var(--color-red-600);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.title {
+  margin: 0.5rem 0 0;
+}
+.text {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--color-ink-600);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}

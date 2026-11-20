@@ -1,0 +1,20 @@
+/* /partners hero additions on top of the blog hero (components/blog/blog.module.css). */
+
+.img {
+  object-position: 50% 55%;
+}
+.h1 {
+  max-width: 11ch;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+@media (max-width: 479px) {
+  .actions > a:first-child {
+    width: 100%;
+    justify-content: center;
+  }
+}

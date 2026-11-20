@@ -1,0 +1,30 @@
+/* Solutions scroll story (DESIGN.md §G.16): the DM Journey layout (journey.module.css)
+   with a shorter pin (3 chapters, ~1.1 viewports each) and a link per chapter. */
+
+@media (min-width: 992px) {
+  /* The sticky layout is centred in the viewport, which leaves ~13rem of empty pin above
+     it on arrival; pull the pin up so the chapters follow the heading closely. */
+  .pin.pin {
+    height: 340vh;
+    margin-top: -8rem;
+  }
+}
+/* Reduced motion: stacked, no pin, so no pull-up. */
+[data-static] .pin.pin {
+  margin-top: 0;
+}
+.chapters {
+  margin-top: 1rem;
+}
+@media (min-width: 992px) {
+  .chapters {
+    margin-top: 0;
+  }
+}
+.lede {
+  color: var(--color-ink-900);
+  font-weight: 500;
+}
+.explore {
+  margin: 0.25rem 0 0.35rem;
+}

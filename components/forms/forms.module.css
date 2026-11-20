@@ -21,6 +21,10 @@
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
   }
+  .row.rowSingle {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
 }
 
 .field {
@@ -587,12 +591,12 @@
   color: var(--color-ink-900);
   font-weight: 500;
 }
+/* Options wrap rather than truncate, so a long label is always readable in full. */
 .ddLabel {
   flex: 1;
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 .ddMeta {
   color: var(--color-ink-500);

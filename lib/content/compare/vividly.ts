@@ -18,6 +18,9 @@ export const vividly: Competitor = {
   blurb: "A full trade promotion platform, live in as little as two weeks.",
   site: HOME,
   checkedOn: CHECKED_ON,
+  // Client-supplied logo (public/logos/competitors/vividly-wordmark.svg); the bar mark
+  // was cut from its mask path. Rendered single-ink, never in its own colours.
+  mark: { src: "/logos/competitors/vividly-mark.svg", ratio: 36 / 24.95 },
   meta: {
     title: "Roma vs. Vividly | Roma",
     description:
@@ -110,7 +113,7 @@ export const vividly: Competitor = {
       { step: "Follow up", title: "Followed to resolution", text: "“We stay on it until it's resolved”", source: "resolved" },
       { step: "Apply cash", title: "Cash applied", text: "Cash application is part of the platform.", source: "cashApp" },
     ],
-    yourLane: { text: "Disputes run “automatically”, from deduction to resolution.", source: "auto" },
+    yourLane: { text: "Disputes are handled for you: “we stay on it until it’s resolved.”", source: "resolved" },
   },
 
   price: { stamp: "Ask sales", quote: { text: "Get off spreadsheets without the enterprise price tag.", source: "pricing" } },
@@ -123,7 +126,7 @@ export const vividly: Competitor = {
       { label: "Scope", roma: "Deductions only: classify, dispute, book", them: { text: "Brands manage “their full trade program on Vividly”.", source: "scope" }, means: "No trade-plan rollout before you see a deduction." },
       { label: "Price", roma: "From $399/month, flat and published", them: { text: "No prices published.", source: "pricing" }, means: "Know your cost before the first call." },
       { label: "Time to go live", roma: "Under 5 minutes, no ERP or IT project", them: { text: "“As little as two weeks.”", source: "live" }, means: "See this quarter’s deductions today." },
-      { label: "Disputes", roma: "You confirm, Roma files", them: { text: "“From deduction to dispute resolution, automatically.”", source: "auto" }, means: "Nothing goes out in your name without you." },
+      { label: "Disputes", roma: "You confirm, Roma files", them: { text: "Auto Disputes, plus a dispute service: “we stay on it until it’s resolved.”", source: "resolved" }, means: "Roma if you want to approve each dispute; Vividly if you want them handled." },
       { label: "Classification", roma: "0% left uncategorized: type, subtype, retailer", them: { text: "Deductions reconcile “against your live trade plans”.", source: "reconcile" }, means: "Every line named, with or without a trade plan." },
       { label: "Security", roma: "SOC 2 Type II and ISO 27001", them: { text: "SOC 1 Type II and SOC 2 Type II.", source: "soc" }, means: "Both are audited.", parity: true },
     ],
@@ -138,7 +141,7 @@ export const vividly: Competitor = {
     them: [
       "You want promotion planning, forecasting and deductions on one platform.",
       "You run a full trade program and want deductions tied to your trade plans.",
-      "You’d like disputes to run automatically.",
+      "You’d like disputes handled for you, through Auto Disputes or its dispute service.",
     ],
   },
 

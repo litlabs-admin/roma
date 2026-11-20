@@ -1,0 +1,108 @@
+/* How it works (DESIGN.md §G.16): numbered nodes on a track that fills once. */
+
+.section {
+  scroll-margin-top: var(--nav-h);
+}
+.section[data-static] {
+  background: radial-gradient(circle at 50% 50%, #fbeeeb 0%, var(--color-red-100) 100%);
+}
+
+.wrap {
+  --node: 2.75rem;
+  position: relative;
+}
+.list {
+  position: relative;
+  display: grid;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 992px) {
+  .list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem;
+  }
+}
+
+/* Vertical rail by default, horizontal ≥992px; both run node centre to node centre. */
+.track {
+  position: absolute;
+  top: calc(var(--node) / 2);
+  bottom: calc(var(--node) / 2);
+  left: calc(var(--node) / 2);
+  width: 1px;
+  background: var(--color-sand-400);
+}
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-red-600);
+  transform-origin: top center;
+}
+@media (min-width: 992px) {
+  .track {
+    top: calc(var(--node) / 2);
+    bottom: auto;
+    left: calc(var(--node) / 2);
+    right: calc((100% - 6rem) / 4 - var(--node) / 2);
+    width: auto;
+    height: 1px;
+  }
+  .fill {
+    transform-origin: left center;
+  }
+}
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--node) 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 992px) {
+  .step {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+.node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--node);
+  height: var(--node);
+  border: 1px solid var(--color-red-600);
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-red-600);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.55rem;
+}
+@media (min-width: 992px) {
+  .text {
+    padding-top: 0;
+    padding-right: 1rem;
+  }
+}
+.title {
+  margin: 0;
+}
+.body {
+  max-width: 30ch;
+  margin: 0;
+  color: var(--color-ink-600);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  text-wrap: pretty;
+}

@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, type MouseEvent } from "react";
 import { gsap } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
 import Button from "@/components/ui/Button";
+import { scrollToTarget } from "@/components/motion/SmoothScroll";
 import { closingCta } from "@/lib/content/site";
 import s from "./closing.module.css";
 
@@ -18,11 +19,22 @@ import s from "./closing.module.css";
  * band tucks under the FAQ sheet's rounded bottom corners.
  */
 type Cta = { label: string; href: string };
+type Copy = { heading: { before: string; accent: string; after: string }; sub: string; cta: Cta };
 
-/** Try now leads; `secondary` (default: Book a demo) sits beside it as an outline button. */
-export default function ClosingCta({ secondary = closingCta.secondary }: { secondary?: Cta } = {}) {
+/**
+ * Try now leads; `secondary` (default: Book a demo) sits beside it as an outline button.
+ * `copy` swaps heading, sub and primary CTA for a page's own (e.g. /partners); an
+ * in-page hash CTA scrolls via Lenis.
+ */
+export default function ClosingCta({ secondary = closingCta.secondary, copy = closingCta }: { secondary?: Cta; copy?: Copy } = {}) {
   const root = useRef<HTMLElement>(null);
-  const { before, accent, after } = closingCta.heading;
+  const { before, accent, after } = copy.heading;
+  const onCta = copy.cta.href.startsWith("#")
+    ? (e: MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        scrollToTarget(copy.cta.href);
+      }
+    : undefined;
 
   useLayoutEffect(() => {
     const el = root.current;
@@ -51,12 +63,12 @@ export default function ClosingCta({ secondary = closingCta.secondary }: { secon
             {after}
           </h2>
           <p className={s.sub} data-reveal>
-            {closingCta.sub}
+            {copy.sub}
           </p>
         </div>
         <div className={s.actions} data-reveal>
-          <Button href={closingCta.cta.href} variant="inverse">
-            {closingCta.cta.label}
+          <Button href={copy.cta.href} onClick={onCta} variant="inverse">
+            {copy.cta.label}
           </Button>
           {secondary && (
             <Button href={secondary.href} variant="ghostOnDark" className={s.secondary}>

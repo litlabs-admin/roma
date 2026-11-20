@@ -1,0 +1,262 @@
+/* Solutions scroll story scenes (DESIGN.md §G.16), 560 × 460 canvas, --u from the stage.
+   Shared pieces (paper, mono, avatars, pills) come from art.module.css. */
+
+/* client switcher */
+.switcher {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 8);
+  padding: 0 calc(var(--u) * 12);
+  border-radius: calc(var(--u) * 23);
+}
+.clientName {
+  font-weight: 600;
+  font-size: calc(var(--u) * 12.5);
+  white-space: nowrap;
+}
+.caret {
+  width: calc(var(--u) * 12);
+  height: calc(var(--u) * 12);
+  color: var(--color-ink-500);
+}
+.others {
+  display: flex;
+  margin-left: auto;
+}
+.otherAv {
+  width: calc(var(--u) * 22);
+  height: calc(var(--u) * 22);
+  margin-left: calc(var(--u) * -6);
+  border: calc(var(--u) * 2) solid #fff;
+  font-size: calc(var(--u) * 9);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 calc(var(--u) * 16) calc(var(--u) * 10);
+  border-bottom: calc(var(--u) * 1) solid var(--ui-line);
+}
+.count {
+  color: var(--color-ink-500);
+  font-size: calc(var(--u) * 11);
+}
+.amt {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* 1 · inbox */
+.inbox {
+  padding: calc(var(--u) * 14) 0 0;
+  overflow: hidden;
+}
+.row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto calc(var(--u) * 66);
+  align-items: center;
+  gap: calc(var(--u) * 10);
+  padding: calc(var(--u) * 9) calc(var(--u) * 16);
+  border-bottom: calc(var(--u) * 1) solid var(--ui-line);
+}
+.rowInvalid {
+  background: #fdf5f3;
+}
+.rowText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.rowText b {
+  font-weight: 600;
+  font-size: calc(var(--u) * 11.5);
+}
+.rowText span {
+  color: var(--color-ink-500);
+  font-size: calc(var(--u) * 10);
+}
+.status {
+  justify-self: stretch;
+}
+.toast {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 4);
+  padding: calc(var(--u) * 14) calc(var(--u) * 16);
+}
+.big {
+  color: var(--color-red-600);
+  font-weight: 600;
+  font-size: calc(var(--u) * 26);
+  letter-spacing: -0.02em;
+}
+.note {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 5);
+  color: var(--data-ok-fg);
+  font-size: calc(var(--u) * 10.5);
+  font-weight: 500;
+}
+.note svg {
+  width: calc(var(--u) * 11);
+  height: calc(var(--u) * 11);
+}
+
+/* 2 · chart */
+.chart {
+  padding: calc(var(--u) * 14) 0 0;
+}
+.total {
+  font-weight: 600;
+  font-size: calc(var(--u) * 16);
+}
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 18);
+  padding: calc(var(--u) * 20) calc(var(--u) * 16);
+}
+.barRow {
+  display: grid;
+  grid-template-columns: calc(var(--u) * 86) minmax(0, 1fr) calc(var(--u) * 70);
+  align-items: center;
+  gap: calc(var(--u) * 10);
+}
+.barLabel {
+  font-size: calc(var(--u) * 11.5);
+  font-weight: 500;
+}
+.track {
+  height: calc(var(--u) * 16);
+  border-radius: calc(var(--u) * 4);
+  background: var(--ui-well);
+}
+.fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transform-origin: left center;
+}
+.promo {
+  background: var(--color-red-600);
+}
+.shortage {
+  background: #c9a24a;
+}
+.fees {
+  background: #7d8a9c;
+}
+.barAmt {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-weight: 600;
+  font-size: calc(var(--u) * 11.5);
+}
+.barAmt span {
+  color: var(--color-ink-500);
+  font-weight: 500;
+  font-size: calc(var(--u) * 10);
+}
+.report {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(var(--u) * 10);
+  padding: calc(var(--u) * 14) calc(var(--u) * 16);
+}
+.reportHead {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 6);
+  font-size: calc(var(--u) * 12);
+}
+.reportHead svg {
+  width: calc(var(--u) * 14);
+  height: calc(var(--u) * 14);
+  color: var(--color-red-600);
+}
+.reportFrom {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 6);
+}
+.reportArrow {
+  width: calc(var(--u) * 14);
+  height: calc(var(--u) * 14);
+  color: var(--ui-axis);
+}
+
+/* 3 · ledger */
+.ledger {
+  padding: calc(var(--u) * 14) 0 0;
+  overflow: hidden;
+}
+.gRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto calc(var(--u) * 150);
+  align-items: center;
+  gap: calc(var(--u) * 12);
+  padding: calc(var(--u) * 12) calc(var(--u) * 16);
+  border-bottom: calc(var(--u) * 1) solid var(--ui-line);
+}
+.gLabel {
+  font-weight: 500;
+}
+.gl {
+  overflow: hidden;
+  padding: calc(var(--u) * 4) calc(var(--u) * 8);
+  border-radius: calc(var(--u) * 6);
+  background: var(--data-ok-bg);
+  color: var(--data-ok-fg);
+  font-size: calc(var(--u) * 10.5);
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.foot {
+  display: flex;
+  justify-content: space-between;
+  padding: calc(var(--u) * 14) calc(var(--u) * 16);
+  border-top: calc(var(--u) * 2) double var(--color-ink-800);
+  margin-top: calc(var(--u) * -1);
+  font-size: calc(var(--u) * 12);
+}
+.foot b {
+  font-weight: 600;
+}
+.diff b {
+  color: var(--data-ok-fg);
+}
+.stamp {
+  padding: calc(var(--u) * 6) calc(var(--u) * 14);
+  border: calc(var(--u) * 2.5) solid var(--color-red-600);
+  border-radius: calc(var(--u) * 8);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--color-red-600);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: calc(var(--u) * 13);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: rotate(-8deg);
+}
+.export {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 10);
+  padding: 0 calc(var(--u) * 14);
+  font-size: calc(var(--u) * 12);
+}
+.exportMark {
+  background: var(--data-fees-bg);
+  color: var(--data-fees-fg);
+}
+.exportCheck {
+  width: calc(var(--u) * 14);
+  height: calc(var(--u) * 14);
+  margin-left: auto;
+  color: var(--data-ok);
+}

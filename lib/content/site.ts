@@ -105,6 +105,7 @@ export const footer = {
       title: "Company",
       links: [
         { label: "Customer stories", href: "/customers" },
+        { label: "Partners", href: "/partners" },
         { label: "Book a demo", href: "/book-a-demo" },
         { label: "Contact us", href: "/contact" },
         { label: "Log in", href: "https://app.runroma.com/", external: true },

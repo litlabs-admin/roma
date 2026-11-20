@@ -1,4 +1,4 @@
-// Field rules for the contact and demo forms (DESIGN.md §G.12). Pure functions: the
+// Field rules for the contact, demo and partner forms (DESIGN.md §G.12, §G.16). Pure functions: the
 // same rules can run on the server when the backend is connected.
 
 import { MESSAGE_MAX, MESSAGE_MIN } from "@/lib/content/contact";
@@ -17,6 +17,7 @@ export type FormValues = {
   otherChannels: string;
   topic: string;
   volume: string;
+  partnerType: string; // /partners only
   message: string;
   consent: boolean;
   website: string; // honeypot
@@ -24,7 +25,7 @@ export type FormValues = {
 
 export type FieldName = Exclude<keyof FormValues, "website" | "phoneCountry">;
 export type Errors = Partial<Record<FieldName, string>>;
-export type FormKind = "contact" | "demo";
+export type FormKind = "contact" | "demo" | "partner";
 
 export const emptyValues = (topic = ""): FormValues => ({
   firstName: "",
@@ -39,6 +40,7 @@ export const emptyValues = (topic = ""): FormValues => ({
   otherChannels: "",
   topic,
   volume: "",
+  partnerType: "",
   message: "",
   consent: false,
   website: "",
@@ -122,6 +124,8 @@ export function validateField(field: FieldName, v: FormValues, kind: FormKind): 
       return kind === "contact" && !v.topic ? "Please choose a topic." : "";
     case "volume":
       return "";
+    case "partnerType":
+      return kind === "partner" && !v.partnerType ? "Please choose a type of partnership." : "";
     case "message":
       return message(v.message, kind === "contact");
     case "consent":
@@ -133,6 +137,7 @@ export function validateField(field: FieldName, v: FormValues, kind: FormKind): 
 export const FIELDS: Record<FormKind, FieldName[]> = {
   contact: ["firstName", "lastName", "email", "company", "jobTitle", "phone", "revenue", "topic", "channels", "otherChannels", "message", "consent"],
   demo: ["firstName", "lastName", "email", "company", "jobTitle", "phone", "revenue", "volume", "channels", "otherChannels", "message", "consent"],
+  partner: ["firstName", "lastName", "email", "company", "partnerType", "phone", "message", "consent"],
 };
 
 export function validateAll(v: FormValues, kind: FormKind): Errors {

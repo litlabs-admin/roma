@@ -23,6 +23,7 @@ export function toPayload(v: FormValues) {
     otherChannels: v.channels.includes("Other") ? v.otherChannels.trim() : undefined,
     topic: v.topic || undefined,
     volume: v.volume || undefined,
+    partnerType: v.partnerType || undefined,
     message: v.message.trim() || undefined,
     consent: v.consent,
   };
@@ -39,6 +40,13 @@ export async function submitContact(values: FormValues): Promise<SubmitResult> {
 
 // TODO(backend): POST toPayload(values) to the demo endpoint (or CRM, e.g. HubSpot).
 export async function submitDemo(values: FormValues): Promise<SubmitResult> {
+  void toPayload(values);
+  await wait(SIMULATED_MS);
+  return { ok: true };
+}
+
+// TODO(backend): POST toPayload(values) to the partner-application endpoint (/partners, §G.16).
+export async function submitPartner(values: FormValues): Promise<SubmitResult> {
   void toPayload(values);
   await wait(SIMULATED_MS);
   return { ok: true };
