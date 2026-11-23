@@ -5,41 +5,31 @@ import { MESSAGE_MAX, MESSAGE_MIN } from "@/lib/content/contact";
 import { DEFAULT_COUNTRY, countryByIso } from "@/lib/content/countries";
 
 export type FormValues = {
-  firstName: string;
-  lastName: string;
+  name: string; // one field, full name as typed (client, Nov 2026)
   email: string;
   company: string;
   jobTitle: string;
   phoneCountry: string; // ISO code for the dial-code picker
   phone: string; // national number, without the dial code
-  revenue: string;
-  channels: string[];
-  otherChannels: string;
-  topic: string;
-  volume: string;
+  topic: string; // contact only: not a field, preset from ?topic= and sent as context
   partnerType: string; // /partners only
   message: string;
   consent: boolean;
   website: string; // honeypot
 };
 
-export type FieldName = Exclude<keyof FormValues, "website" | "phoneCountry">;
+export type FieldName = Exclude<keyof FormValues, "website" | "phoneCountry" | "topic">;
 export type Errors = Partial<Record<FieldName, string>>;
 export type FormKind = "contact" | "demo" | "partner";
 
 export const emptyValues = (topic = ""): FormValues => ({
-  firstName: "",
-  lastName: "",
+  name: "",
   email: "",
   company: "",
   jobTitle: "",
   phoneCountry: DEFAULT_COUNTRY,
   phone: "",
-  revenue: "",
-  channels: [],
-  otherChannels: "",
   topic,
-  volume: "",
   partnerType: "",
   message: "",
   consent: false,
@@ -51,10 +41,10 @@ const NAME = /^[\p{L}\p{M}][\p{L}\p{M} .'’-]*$/u;
 const EMAIL = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)*\.[A-Za-z]{2,}$/;
 const PHONE_CHARS = /^[\d\s().-]+$/;
 
-function name(v: string, which: "first" | "last") {
+function name(v: string, empty: string, max: number) {
   const t = v.trim();
-  if (!t) return `Please enter your ${which} name.`;
-  if (t.length > 50) return "Names can be up to 50 characters.";
+  if (!t) return empty;
+  if (t.length > max) return `Names can be up to ${max} characters.`;
   if (!NAME.test(t)) return "Names can only use letters, spaces, hyphens and apostrophes.";
   return "";
 }
@@ -108,16 +98,14 @@ export function isFreeEmail(v: string, domains: string[]): boolean {
 
 /** The calculator gate's email rule (same check as the lead forms). */
 export const checkEmail = (v: string) => email(v);
-export const checkFirstName = (v: string) => name(v, "first");
+export const checkFirstName = (v: string) => name(v, "Please enter your first name.", 50);
 export const checkCompany = (v: string) => text(v, "Please enter your company name.", 2, 100, "Company name");
 
 /** Error for one field ("" when valid). */
 export function validateField(field: FieldName, v: FormValues, kind: FormKind): string {
   switch (field) {
-    case "firstName":
-      return name(v.firstName, "first");
-    case "lastName":
-      return name(v.lastName, "last");
+    case "name":
+      return name(v.name, "Please enter your name.", 100);
     case "email":
       return email(v.email);
     case "company":
@@ -126,20 +114,10 @@ export function validateField(field: FieldName, v: FormValues, kind: FormKind): 
       return text(v.jobTitle, "Please enter your job title.", 2, 80, "Job title");
     case "phone":
       return phone(v.phone, v.phoneCountry);
-    case "revenue":
-      return v.revenue ? "" : "Please choose your annual revenue.";
-    case "channels":
-      return kind === "demo" && v.channels.length === 0 ? "Choose at least one retailer you sell through." : "";
-    case "otherChannels":
-      return v.channels.includes("Other") ? text(v.otherChannels, "Tell us which other retailers you sell through.", 2, 100, "Other retailers") : "";
-    case "topic":
-      return kind === "contact" && !v.topic ? "Please choose a topic." : "";
-    case "volume":
-      return "";
     case "partnerType":
       return kind === "partner" && !v.partnerType ? "Please choose a type of partnership." : "";
     case "message":
-      return message(v.message, kind === "contact");
+      return message(v.message, false); // partner only, optional
     case "consent":
       return v.consent ? "" : "Please accept the privacy policy to continue.";
   }
@@ -147,9 +125,9 @@ export function validateField(field: FieldName, v: FormValues, kind: FormKind): 
 
 /** Fields each form shows, in on-screen order (drives focus order of errors). */
 export const FIELDS: Record<FormKind, FieldName[]> = {
-  contact: ["firstName", "lastName", "email", "company", "jobTitle", "phone", "revenue", "topic", "channels", "otherChannels", "message", "consent"],
-  demo: ["firstName", "lastName", "email", "company", "jobTitle", "phone", "revenue", "volume", "channels", "otherChannels", "message", "consent"],
-  partner: ["firstName", "lastName", "email", "company", "partnerType", "phone", "message", "consent"],
+  contact: ["name", "email", "company", "jobTitle", "phone", "consent"],
+  demo: ["name", "email", "company", "jobTitle", "phone", "consent"],
+  partner: ["name", "email", "company", "partnerType", "phone", "message", "consent"],
 };
 
 export function validateAll(v: FormValues, kind: FormKind): Errors {

@@ -7,14 +7,8 @@ import { LOGIN_HREF } from "@/components/chat/data";
 
 export type Option = { value: string; label: string };
 
-export const REVENUE: Option[] = [
-  { value: "under-1m", label: "Under $1M" },
-  { value: "1m-5m", label: "$1M–$5M" },
-  { value: "5m-10m", label: "$5M–$10M" },
-  { value: "10m-50m", label: "$10M–$50M" },
-  { value: "50m-plus", label: "$50M+" },
-];
-
+/** Valid ?topic= values for /contact (links like /contact?topic=partnerships). There is no
+ *  topic field any more (client, Nov 2026); the value rides along in the payload. */
 export const TOPICS: Option[] = [
   { value: "demo", label: "Book a demo" },
   { value: "pricing", label: "Pricing" },
@@ -24,34 +18,17 @@ export const TOPICS: Option[] = [
   { value: "other", label: "Other" },
 ];
 
-export const VOLUME: Option[] = [
-  { value: "under-50", label: "Under 50" },
-  { value: "50-200", label: "50–200" },
-  { value: "200-500", label: "200–500" },
-  { value: "500-plus", label: "500+" },
-  { value: "not-sure", label: "Not sure" },
-];
-
-export const CHANNELS = ["UNFI", "KeHE", "Target", "Walmart", "Costco", "Kroger", "Whole Foods", "Amazon", "Other"];
-
 export const MESSAGE_MIN = 10;
 export const MESSAGE_MAX = 2000;
 
-/** Labels, hints and placeholders shared by both forms. */
+/** Labels and placeholders shared by the contact, demo and partner forms. Contact and
+ *  demo ask only for these five plus consent (client, Nov 2026: nothing to look up). */
 export const fieldCopy = {
-  firstName: { label: "First name", placeholder: "Jordan" },
-  lastName: { label: "Last name", placeholder: "Alvarez" },
+  name: { label: "Name", placeholder: "Jordan Alvarez" },
   email: { label: "Work email", placeholder: "jordan@yourbrand.com" },
   company: { label: "Company", placeholder: "Your brand" },
   jobTitle: { label: "Job title", placeholder: "Founder, Head of Finance…" },
   phone: { label: "Phone", placeholder: "555 123 4567", country: "Country code", search: "Search country or code" },
-  revenue: { label: "Annual revenue", placeholder: "Choose a range" },
-  channels: { label: "Retailers you sell through", hint: "Choose all that apply." },
-  otherChannels: { label: "Other retailers", placeholder: "e.g. Sprouts, H-E-B" },
-  topic: { label: "How can we help?", placeholder: "Choose a topic" },
-  volume: { label: "Deductions per month", hint: "A rough number is fine.", placeholder: "Choose a range" },
-  message: { label: "Message", placeholder: "Tell us a little about what you need." },
-  demoMessage: { label: "Anything we should know?", hint: undefined as string | undefined, placeholder: "Your portals, your biggest deduction headache, anything." },
   consent: { before: "I agree to Roma’s ", link: "Privacy policy", href: "/privacy-policy", after: "." },
   required: "Required",
 };
@@ -59,18 +36,18 @@ export const fieldCopy = {
 export const contactPage = {
   eyebrow: "Contact",
   heading: { before: "Let’s ", accent: "talk", after: "." } as Heading,
-  lead: "Questions about Roma, pricing, support or partnerships? Send us a note and the right person will get back to you.",
+  lead: "Questions about Roma, pricing, support or partnerships? Leave your details and the right person will get back to you.",
   aside: [
     { title: "Prefer a walkthrough?", link: { label: "Book a demo", href: "/book-a-demo" } },
     { title: "Already a customer?", link: { label: "Log in", href: LOGIN_HREF } },
   ],
-  formTitle: "Send us a message",
+  formTitle: "Get in touch",
   formSub: "We reply within one business day.",
-  submit: "Send message",
+  submit: "Get in touch",
   success: {
     title: (name: string) => `Thanks, ${name}.`,
-    body: "Your message is in. We’ll be in touch within one business day.",
-    again: "Send another message",
+    body: "Your details are in. We’ll be in touch within one business day.",
+    again: "Send another request",
   },
 };
 
@@ -79,7 +56,7 @@ export const demoPage = {
   heading: { before: "See what Roma can ", accent: "do", after: " for you." } as Heading,
   lead: "Book 30 minutes. We’ll show you your own numbers and answer your questions.",
   formTitle: "Book your demo",
-  formSub: "Tell us a little about your brand and we’ll set up a time that works.",
+  formSub: "Leave your details and we’ll set up a time that works.",
   submit: "Book my demo",
   success: {
     title: (name: string) => `Thanks, ${name}.`,

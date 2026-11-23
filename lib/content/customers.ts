@@ -4,9 +4,10 @@
 //
 // WHAT IS REAL vs MOCK (replace before launch; see DESIGN.md pre-launch item 7)
 // - status "real": Farmer Direct Foods. The quote (supplied by the client, 23 Nov 2026),
-//   the video testimonial and the logo are real; the story body, summary and pill are
-//   written only from what Julie Mayden says in that video (no figures). The product
-//   kicker / "about" line ("grain and flour") is inferred from the video: confirm.
+//   the video testimonial and the logo are real. Story copy, summary and "about" come
+//   from "Roma | Farmer Direct Foods Case Study | Drafts v1" (23 Nov 2026), which is a
+//   DRAFT pending Julie's written approval and a claims check: confirm before launch.
+//   No figures (Julie gave none). Surname "Mayden" per that doc and the video lower-third.
 // - status "real-figures": Good Day Chocolate ($53K in 6 months, Jasen Arias, VP Ops &
 //   Growth, from the positioning PDF, 4 Nov 2026), Smash Kitchen ($23K, PDF) and
 //   Mochidoki (live in 5 minutes). ONLY those headline figures and names are sourced.
@@ -115,19 +116,19 @@ export const CUSTOMER_STORIES: CustomerStory[] = [
     status: "real",
     brand: { name: "Farmer Direct Foods", logo: { src: "/logos/customers/farmer-direct-foods.png", w: 202, h: 240 } },
     category: "pantry",
-    product: "Grain and flour",
+    product: "Stone ground flour",
     channels: ["KeHE", "UNFI"],
-    facts: {},
+    facts: { hq: "Central Kansas" },
     photo: { src: `${VID}/farmer-direct-foods-teaser-poster-v2.webp`, position: "50% 30%", credit: "Still from Farmer Direct Foods’ video testimonial" },
-    headline: { before: "Evaluate deductions, not just ", accent: "react", after: " to them." },
-    excerpt: "Julie Mayden ran Farmer Direct Foods’ revenue deductions on spreadsheets she built herself. With Roma checking her classifications, she can analyze deductions and make decisions from them.",
-    cardTitle: "How Farmer Direct Foods moved revenue deductions off spreadsheets and started making decisions from them",
-    about: "Farmer Direct Foods is a grain and flour company whose retail brand is sold through KeHE and UNFI. It’s a small team where, in Julie Mayden’s words, “each of us covers a lot of bases.”",
+    headline: { before: "From spreadsheets to ", accent: "answers", after: "." },
+    excerpt: "A Kansas flour brand’s finance lead swapped self-built spreadsheets for one view of every deduction, by DC and by store, and now evaluates deductions instead of just reacting to them.",
+    cardTitle: "“Even better than I do”: how Farmer Direct Foods got clear on its KeHE and UNFI deductions",
+    about: "Farmer Direct Foods is a stone ground whole wheat flour mill in central Kansas, with partner mills for all-purpose flour. Alongside toll milling, its retail brand, started about three years ago, is growing in the natural food sector. Julie Mayden, Senior VP of Grain and Finance and a CPA, runs grain sourcing, hedging and the monthly financials, and owns retail deductions too.",
     summary: {
-      challenge: "Revenue deductions for the retail brand ran on Excel spreadsheets Julie built herself. A firm they tried first showed errors when she checked it against her spreadsheets for a few months.",
-      solution: "Roma understands KeHE and UNFI invoice types and checks Julie’s classifications, so she can trust the data and analyze it.",
-      channels: "KeHE and UNFI, the retail brand’s distributors.",
-      results: "Deductions she can analyze and make decisions from, and a Roma team she calls the single biggest improvement.",
+      challenge: "Julie tracked KeHE and UNFI deductions on spreadsheets she built herself: monthly KeHE Connect downloads, every deduction type labeled by hand, pivot tables to spot anything out of line. UNFI was manual entry.",
+      solution: "Roma pulls KeHE and UNFI deductions into one dashboard and classifies each line, so Julie confirms instead of building the view herself.",
+      channels: "KeHE and UNFI, in one dashboard, broken out by DC and by grocery store.",
+      results: "One clear view of deductions, a second check on every classification, and deduction levels she can weigh against sales.",
     },
     metrics: [{ figure: "KeHE & UNFI", label: "invoice types, understood" }],
     pill: "“Knows KeHE & UNFI invoices better than I do”",
@@ -151,17 +152,23 @@ export const CUSTOMER_STORIES: CustomerStory[] = [
       role: "Senior VP of Grain and Finance",
     },
     body: [
-      { type: "h2", id: "challenge", text: "The challenge" },
-      { type: "p", text: "Farmer Direct Foods is a small company, and everyone covers a lot of bases. On the accounting side, Julie Mayden, Senior VP of Grain and Finance, ended up handling all of the revenue deductions for the retail brand, on Excel spreadsheets she created herself." },
-      { type: "p", text: "They tried one other firm first, one her CEO had met at a baking convention. Julie ran her spreadsheets side by side with their system for a few months to check it, and found errors. That made her nervous about whether they were gathering all the data they needed." },
-      { type: "h2", id: "what-changed", text: "What changed" },
-      { type: "p", text: "Julie classifies deductions as best she can. Running Roma showed her that the system understands the invoice types from KeHE and UNFI even better than she does, because Roma has more history with them." },
-      { type: "quote", text: "It’s been really reassuring to have a system behind me, checking all my classifications." },
-      { type: "p", text: "With deductions classified and checked, she can use the data to analyze and make decisions, which she couldn’t do before." },
-      { type: "h2", id: "results", text: "The results" },
-      { type: "p", text: "For Julie, the Roma team has been the single biggest improvement. Roma took an interest in how a small, growing company like Farmer Direct Foods works, so it could shape its program around that." },
-      { type: "p", text: "Asked whether she’d recommend Roma: “If you’re willing to work with me at my size and program, and change things for someone like us, there would be no reason to not recommend you.”" },
-      { type: "callout", label: "In her words", text: "It allows me the ability to evaluate versus just react." },
+      // Source: "Roma | Farmer Direct Foods Case Study | Drafts v1" (LitLabs, 23 Nov 2026),
+      // §2 web version + §0 quote bank. Web-story rules from that doc: no previous-vendor
+      // mention, no store names, no numbers, CSM unnamed.
+      { type: "h2", id: "challenge", text: "Before: deductions on spreadsheets" },
+      { type: "p", text: "Julie runs grain and finance at Farmer Direct Foods, a stone ground flour mill in central Kansas with a fast-growing retail brand. Deductions landed on her desk too. She downloaded KeHE data each month, labeled every deduction type by hand and built pivot tables to find problems. UNFI was manual entry." },
+      { type: "quote", text: "It was spreadsheet based, Excel spreadsheets. They were spreadsheets that I created." },
+      { type: "p", text: "She needed two things: a system that knew distributor deduction types well enough to check her own work, and a team that would stay in touch." },
+      { type: "h2", id: "what-changed", text: "What changed: one clear view, a second check" },
+      { type: "p", text: "With Roma, Julie sees KeHE and UNFI deductions in one dashboard, broken out by DC and by grocery store, as the data comes in. Roma classifies each deduction and she confirms, which gives her a check on the calls she used to make alone." },
+      { type: "quote", text: "Your system understands the invoice types from KeHE and UNFI even better than I do. You have more history with that." },
+      { type: "p", text: "“It’s been really reassuring to have a system behind me checking all my classifications,” she says. “Roma’s dashboard is much more user-friendly. It’s very clear… It provides the data I need.”" },
+      { type: "p", text: "Each month she meets her Roma CSM with saved-up questions, and the CSM’s KeHE ordering tips helped spread orders across time instead of bunching them around discount periods." },
+      { type: "h2", id: "results", text: "The outcome: evaluate, not react" },
+      { type: "p", text: "Julie now compares deduction levels against sales to ask whether deductions are running too high." },
+      { type: "quote", text: "It allows me the ability to evaluate versus just react. I can actually use it to analyze and make decisions. And that is something I did not have before." },
+      { type: "p", text: "Monthly meetings with her Roma CSM keep questions from piling up. In her words, the team is “probably… the single biggest improvement.”" },
+      { type: "callout", label: "Would she recommend Roma?", text: "Absolutely. If you’re willing to work with me at my size… and change things for someone like us… there would be no reason to not recommend you. It really makes a difference." },
     ],
   },
   {

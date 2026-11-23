@@ -4,25 +4,17 @@ import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from "re
 import { gsap } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
 import { Glyph } from "@/components/platform/mock/kit";
-import {
-  CHANNELS,
-  MESSAGE_MAX,
-  REVENUE,
-  TOPICS,
-  VOLUME,
-  contactPage,
-  demoPage,
-  fieldCopy as C,
-  formCopy,
-} from "@/lib/content/contact";
+import { MESSAGE_MAX, TOPICS, contactPage, demoPage, fieldCopy as C, formCopy } from "@/lib/content/contact";
 import { FIELDS, emptyValues, validateAll, validateField, type Errors, type FieldName, type FormKind, type FormValues } from "@/lib/forms/validation";
 import { submitContact, submitDemo, submitPartner, type DemoContext } from "@/lib/forms/submit";
 import { PARTNER_TYPES, PARTNER_TYPE_EVENT, partnerFieldCopy as P, partnerPage } from "@/lib/content/partners";
-import { ChipGroup, Consent, Counter, Field, PhoneInput, SelectInput, TextArea, TextInput, ids } from "./fields";
+import { Consent, Counter, Field, PhoneInput, SelectInput, TextArea, TextInput, ids } from "./fields";
 import f from "./forms.module.css";
 
 /**
- * The contact / demo form (DESIGN.md §G.12). One component, two field sets.
+ * The contact / demo / partner form (DESIGN.md §G.12). Contact and demo ask for name,
+ * email, company, job title and an optional phone, nothing anyone has to look up
+ * (client, Nov 2026); partner adds its type and a message.
  *
  * Validation: a field is checked on blur, then re-checked on every change once
  * touched (no errors while someone is still typing into a fresh field). Submit checks
@@ -33,20 +25,17 @@ import f from "./forms.module.css";
 
 type Status = "idle" | "sending" | "done" | "error";
 
+/** First word of the Name field, for the thank-you line ("Thanks, Jordan."). */
+const firstWord = (name: string) => name.trim().split(/\s+/)[0] ?? "";
+
 const LABELS: Record<FieldName, string> = {
-  firstName: C.firstName.label,
-  lastName: C.lastName.label,
+  name: C.name.label,
   email: C.email.label,
   company: C.company.label,
   jobTitle: C.jobTitle.label,
   phone: C.phone.label,
-  revenue: C.revenue.label,
-  channels: C.channels.label,
-  otherChannels: C.otherChannels.label,
-  topic: C.topic.label,
-  volume: C.volume.label,
   partnerType: P.partnerType.label,
-  message: C.message.label,
+  message: P.message.label,
   consent: "Privacy policy",
 };
 
@@ -63,8 +52,9 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
   const panelRef = useRef<HTMLDivElement>(null);
   const sending = status === "sending";
 
-  // Contact topic can be preset from the URL (?topic=pricing). Read on mount only, so
-  // the page stays static.
+  // Contact topic comes from the URL (?topic=partnerships). It isn't a field; it rides
+  // along in the payload so the right person picks it up. Read on mount only, so the
+  // page stays static.
   useEffect(() => {
     if (kind !== "contact") return;
     const t = new URLSearchParams(window.location.search).get("topic");
@@ -75,21 +65,12 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
   }, [kind]);
 
   // Demo: context passed from the calculator or pricing (?src=calculator&rev=10000000&plan=starter,
-  // brief §1.3). `rev` preselects the matching revenue band; src/plan ride along in the payload.
+  // brief §1.3). No revenue field any more; src/plan/rev ride along in the payload.
   const demoContext = useRef<DemoContext>({});
   useEffect(() => {
     if (kind !== "demo") return;
     const q = new URLSearchParams(window.location.search);
-    const src = q.get("src") ?? undefined;
-    const plan = q.get("plan") ?? undefined;
-    const revRaw = q.get("rev");
-    demoContext.current = { src, plan, rev: revRaw ?? undefined };
-    const rev = revRaw ? Number(revRaw) : NaN;
-    if (!Number.isFinite(rev) || rev <= 0) return;
-    const band = rev < 1e6 ? "under-1m" : rev < 5e6 ? "1m-5m" : rev < 1e7 ? "5m-10m" : rev < 5e7 ? "10m-50m" : "50m-plus";
-    if (!REVENUE.some((o) => o.value === band)) return;
-    const raf = requestAnimationFrame(() => setValues((v) => (v.revenue ? v : { ...v, revenue: band })));
-    return () => cancelAnimationFrame(raf);
+    demoContext.current = { src: q.get("src") ?? undefined, plan: q.get("plan") ?? undefined, rev: q.get("rev") ?? undefined };
   }, [kind]);
 
   // Partner type: preset from the URL (?type=technology#apply) on mount, and from the
@@ -134,21 +115,18 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
 
   // Choice controls (selects, chips, consent) validate as soon as they change; text
   // fields only once touched (blurred) or already showing an error.
-  const INSTANT: FieldName[] = ["revenue", "topic", "volume", "partnerType", "channels", "consent"];
+  const INSTANT: FieldName[] = ["partnerType", "consent"];
   const set = <K extends keyof FormValues>(key: K, val: FormValues[K]) => {
     const next = { ...values, [key]: val };
     setValues(next);
     if (key === "website") return;
-    const recheck: FieldName[] = key === "channels" ? ["channels", "otherChannels"] : [key as FieldName];
+    const fld = key as FieldName;
     setErrors((prev) => {
+      if (!(touched[fld] || prev[fld] || INSTANT.includes(fld))) return prev;
       const out = { ...prev };
-      for (const fld of recheck) {
-        if (touched[fld] || prev[fld] || INSTANT.includes(fld)) {
-          const msg = validateField(fld, next, kind);
-          if (msg) out[fld] = msg;
-          else delete out[fld];
-        }
-      }
+      const msg = validateField(fld, next, kind);
+      if (msg) out[fld] = msg;
+      else delete out[fld];
       return out;
     });
   };
@@ -225,14 +203,14 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
     setSummary([]);
     if (values.website) {
       // Honeypot filled: pretend it worked, send nothing.
-      setDoneName(values.firstName.trim());
+      setDoneName(firstWord(values.name));
       setStatus("done");
       return;
     }
     setStatus("sending");
     const res = await (kind === "contact" ? submitContact(values) : kind === "partner" ? submitPartner(values) : submitDemo(values, demoContext.current));
     if (res.ok) {
-      setDoneName(values.firstName.trim());
+      setDoneName(firstWord(values.name));
       setStatus("done");
     } else {
       setStatus("error");
@@ -273,10 +251,7 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
   }
 
   const e = errors;
-  const otherShown = values.channels.includes("Other");
   const partner = kind === "partner";
-  const message = kind === "contact" ? C.message : partner ? P.message : C.demoMessage;
-  const messageHint = kind === "demo" ? C.demoMessage.hint : undefined;
 
   return (
     <form className={f.form} noValidate onSubmit={onSubmit} aria-busy={sending || undefined}>
@@ -311,36 +286,20 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
         </div>
       )}
 
-      <div className={f.row}>
-        <Field name="firstName" label={C.firstName.label} required error={e.firstName}>
-          <TextInput
-            name="firstName"
-            required
-            error={e.firstName}
-            autoComplete="given-name"
-            placeholder={C.firstName.placeholder}
-            value={values.firstName}
-            onChange={(ev) => set("firstName", ev.target.value)}
-            onBlur={() => blur("firstName")}
-            readOnly={sending}
-            maxLength={60}
-          />
-        </Field>
-        <Field name="lastName" label={C.lastName.label} required error={e.lastName}>
-          <TextInput
-            name="lastName"
-            required
-            error={e.lastName}
-            autoComplete="family-name"
-            placeholder={C.lastName.placeholder}
-            value={values.lastName}
-            onChange={(ev) => set("lastName", ev.target.value)}
-            onBlur={() => blur("lastName")}
-            readOnly={sending}
-            maxLength={60}
-          />
-        </Field>
-      </div>
+      <Field name="name" label={C.name.label} required error={e.name}>
+        <TextInput
+          name="name"
+          required
+          error={e.name}
+          autoComplete="name"
+          placeholder={C.name.placeholder}
+          value={values.name}
+          onChange={(ev) => set("name", ev.target.value)}
+          onBlur={() => blur("name")}
+          readOnly={sending}
+          maxLength={110}
+        />
+      </Field>
 
       <Field name="email" label={C.email.label} required error={e.email}>
         <TextInput
@@ -438,104 +397,25 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
         />
       </Field>
 
-      {!partner && (
-      <>
-      <div className={f.row}>
-        <Field name="revenue" label={C.revenue.label} required error={e.revenue}>
-          <SelectInput
-            name="revenue"
-            required
-            error={e.revenue}
-            placeholder={C.revenue.placeholder}
-            options={REVENUE}
-            value={values.revenue}
-            onChange={(v) => set("revenue", v)}
-            onLeave={() => blur("revenue")}
-            disabled={sending}
-          />
-        </Field>
-        {kind === "contact" ? (
-          <Field name="topic" label={C.topic.label} required error={e.topic}>
-            <SelectInput
-              name="topic"
-              required
-              error={e.topic}
-              placeholder={C.topic.placeholder}
-              options={TOPICS}
-              value={values.topic}
-              onChange={(v) => set("topic", v)}
-              onLeave={() => blur("topic")}
-              disabled={sending}
-            />
-          </Field>
-        ) : (
-          <Field name="volume" label={C.volume.label} hint={C.volume.hint} error={e.volume}>
-            <SelectInput
-              name="volume"
-              hint={C.volume.hint}
-              placeholder={C.volume.placeholder}
-              options={VOLUME}
-              value={values.volume}
-              onChange={(v) => set("volume", v)}
-              disabled={sending}
-            />
-          </Field>
-        )}
-      </div>
-
-      <Field name="channels" label={C.channels.label} required={kind === "demo"} hint={C.channels.hint} error={e.channels} group>
-        <ChipGroup
-          name="channels"
-          options={CHANNELS}
-          value={values.channels}
-          disabled={sending}
-          onToggle={(o) => {
-            const next = values.channels.includes(o) ? values.channels.filter((c) => c !== o) : [...values.channels, o];
-            set("channels", next);
-          }}
-        />
-      </Field>
-
-      {otherShown && (
-        <Field name="otherChannels" label={C.otherChannels.label} required error={e.otherChannels} className={f.reveal}>
-          <TextInput
-            name="otherChannels"
-            required
-            error={e.otherChannels}
-            placeholder={C.otherChannels.placeholder}
-            value={values.otherChannels}
-            onChange={(ev) => set("otherChannels", ev.target.value)}
-            onBlur={() => blur("otherChannels")}
-            readOnly={sending}
-            maxLength={110}
-          />
-        </Field>
-      )}
-      </>
-      )}
-
-
-      <Field
-        name="message"
-        label={message.label}
-        required={kind === "contact"}
-        hint={messageHint}
-        error={e.message}
-        counter={<Counter length={values.message.trim().length} max={MESSAGE_MAX} />}
-      >
-        <TextArea
+      {partner && (
+        <Field
           name="message"
-          rows={5}
-          required={kind === "contact"}
-          hint={messageHint}
+          label={P.message.label}
           error={e.message}
-          placeholder={message.placeholder}
-          value={values.message}
-          onChange={(ev) => set("message", ev.target.value)}
-          onBlur={() => blur("message")}
-          readOnly={sending}
-        />
-      </Field>
+          counter={<Counter length={values.message.trim().length} max={MESSAGE_MAX} />}
+        >
+          <TextArea
+            name="message"
+            rows={5}
+            error={e.message}
+            placeholder={P.message.placeholder}
+            value={values.message}
+            onChange={(ev) => set("message", ev.target.value)}
+            onBlur={() => blur("message")}
+            readOnly={sending}
+          />
+        </Field>
+      )}
 
       {/* Honeypot: hidden from people and assistive tech; bots fill it. */}
       <div className={f.hp} aria-hidden="true">

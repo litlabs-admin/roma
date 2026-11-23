@@ -9,21 +9,29 @@ export type SubmitResult = { ok: true } | { ok: false; message: string };
 
 const SIMULATED_MS = 900;
 
-/** Trimmed payload without the honeypot. */
+/** Splits the single Name field at the first space, for CRMs that want first/last
+ *  (HubSpot's firstname/lastname). "Jordan Alvarez" → ["Jordan", "Alvarez"];
+ *  "Mary Ann de la Cruz" → ["Mary", "Ann de la Cruz"]; "Cher" → ["Cher", ""]. */
+export function splitName(full: string): [string, string] {
+  const t = full.trim().replace(/\s+/g, " ");
+  const i = t.indexOf(" ");
+  return i === -1 ? [t, ""] : [t.slice(0, i), t.slice(i + 1)];
+}
+
+/** Trimmed payload without the honeypot. `name` is exactly what was typed; first/last
+ *  are derived from it so either mapping works in the receiving system. */
 export function toPayload(v: FormValues) {
+  const [firstName, lastName] = splitName(v.name);
   return {
-    firstName: v.firstName.trim(),
-    lastName: v.lastName.trim(),
+    name: v.name.trim().replace(/\s+/g, " "),
+    firstName,
+    lastName: lastName || undefined,
     email: v.email.trim(),
     company: v.company.trim(),
-    jobTitle: v.jobTitle.trim(),
+    jobTitle: v.jobTitle.trim() || undefined,
     // E.164-style: "+1 5551234567" (dial code + national digits)
     phone: v.phone.trim() ? `${countryByIso(v.phoneCountry).dial} ${v.phone.replace(/\D/g, "")}` : undefined,
-    revenue: v.revenue,
-    channels: v.channels,
-    otherChannels: v.channels.includes("Other") ? v.otherChannels.trim() : undefined,
     topic: v.topic || undefined,
-    volume: v.volume || undefined,
     partnerType: v.partnerType || undefined,
     message: v.message.trim() || undefined,
     consent: v.consent,
