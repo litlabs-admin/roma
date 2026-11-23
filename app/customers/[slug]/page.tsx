@@ -25,7 +25,13 @@ export async function generateMetadata({ params }: PageProps<"/customers/[slug]"
   return {
     title: `${st.cardTitle} | Roma customers`,
     description: st.excerpt,
-    openGraph: { type: "article", title: st.cardTitle, description: st.excerpt, images: [{ url: st.photo.src }] },
+    openGraph: {
+      type: "article",
+      title: st.cardTitle,
+      description: st.excerpt,
+      images: [st.video ? { url: st.video.og, width: 1200, height: 630 } : { url: st.photo.src }],
+      ...(st.video ? { videos: [{ url: st.video.sources[st.video.sources.length - 1].src, type: "video/mp4", width: 1280, height: 720 }] } : {}),
+    },
   };
 }
 
@@ -65,7 +71,23 @@ function Story({ slug }: { slug: string }) {
   const related = getRelatedStories(st.slug);
   const who = st.quote.name ? `${st.quote.name}, ${st.quote.role}` : st.quote.role;
 
+  const video = st.video;
   const jsonLd = [
+    ...(video
+      ? [
+          {
+            "@context": "https://schema.org",
+            "@type": "VideoObject",
+            name: video.title,
+            description: `${who} @ ${st.brand.name}: “${st.quote.text}”`,
+            thumbnailUrl: video.og,
+            uploadDate: video.uploadDate,
+            duration: video.isoDuration,
+            contentUrl: video.sources[video.sources.length - 1].src,
+            publisher: { "@type": "Organization", name: "Roma" },
+          },
+        ]
+      : []),
     {
       "@context": "https://schema.org",
       "@type": "Article",

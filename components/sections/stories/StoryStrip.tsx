@@ -3,6 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, type CSSProperties } from "react";
+import TeaserVideo from "@/components/video/TeaserVideo";
+import WatchTestimonial from "@/components/video/WatchTestimonial";
+import v from "@/components/video/video.module.css";
 import type { Story } from "./data";
 import s from "./stories.module.css";
 
@@ -19,7 +22,9 @@ import s from "./stories.module.css";
 
 function LogoMark({ story }: { story: Story }) {
   if (!story.logo) return <span className={s.wordmark}>{story.brand}</span>;
-  const style = { "--logo": `url(${story.logo.src})`, aspectRatio: `${story.logo.w} / ${story.logo.h}` } as CSSProperties;
+  const { src, w, h } = story.logo;
+  // Stacked (taller-than-wide) marks need more height to read at the same weight.
+  const style = { "--logo": `url(${src})`, aspectRatio: `${w} / ${h}`, ...(w / h < 1.2 ? { height: "3.25rem" } : {}) } as CSSProperties;
   return <span className={s.logo} style={style} role="img" aria-label={story.brand} />;
 }
 
@@ -64,6 +69,7 @@ export default function StoryStrip({
                 style={{ objectPosition: st.photo.position }}
                 {...(priority && i === 0 ? { loading: "eager" as const, fetchPriority: "high" as const } : {})}
               />
+              {st.video && <TeaserVideo src={st.video.teaser} play={on} position={st.photo.position} className={v.teaser} />}
               <span className={s.scrim} aria-hidden="true" />
               {!on && (
                 <button type="button" className={s.hit} onClick={() => setActive(i)} aria-label={`Show ${st.brand}'s story`} />
@@ -72,6 +78,7 @@ export default function StoryStrip({
                 <LogoMark story={st} />
                 <div className={s.extras} aria-hidden={!on}>
                   <span className={s.metric}>{st.metric}</span>
+                  {st.video && on && <WatchTestimonial video={st.video} className={s.storyLink} />}
                   {storyLink && on && (
                     <Link href={st.href} className={s.storyLink}>
                       Customer story

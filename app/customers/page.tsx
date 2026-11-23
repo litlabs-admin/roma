@@ -12,7 +12,7 @@ import c from "@/components/customers/customers.module.css";
 export const metadata: Metadata = {
   title: "Customers | Roma",
   description:
-    "How CPG brands stopped writing off deductions with Roma: Good Day Chocolate recovered $53K in 6 months, Smash Kitchen recovered $23K, and Mochidoki was live in 5 minutes.",
+    "How CPG brands stopped writing off deductions with Roma: watch Farmer Direct Foods’ story, and see how Good Day Chocolate recovered $53K in 6 months and Smash Kitchen recovered $23K.",
 };
 
 /**

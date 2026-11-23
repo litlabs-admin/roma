@@ -64,8 +64,10 @@
   margin-top: 1.25rem;
   border-radius: var(--radius-lg);
   background: var(--color-cream-200);
+  isolation: isolate;
 }
 .cover img {
+  z-index: -2; /* poster under the teaser video (video.module.css .teaser) */
   object-fit: cover;
 }
 .title {

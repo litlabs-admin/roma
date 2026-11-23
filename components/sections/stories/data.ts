@@ -1,11 +1,11 @@
 // Customer stories — layout from Hyperline's Testimonials, content for Roma.
 //
-// The three cards are the real-figure brands from lib/content/customers.ts (the single
-// source for this section, /customers and /customers/[slug]); see that file for what
-// is sourced and what is MOCK.
+// The three cards are real brands from lib/content/customers.ts (the single source for
+// this section, /customers and /customers/[slug]); see that file for what is sourced and
+// what is MOCK. Farmer Direct Foods leads (video testimonial, real quote).
 
 import { SIGNUP_HREF } from "@/components/chat/data";
-import { CUSTOMER_STORIES, pillText, storyHref } from "@/lib/content/customers";
+import { CUSTOMER_STORIES, pillText, storyHref, type StoryVideo } from "@/lib/content/customers";
 
 export const storiesCopy = {
   heading: { before: "Brands that stopped writing off ", accent: "deductions", after: "." },
@@ -24,9 +24,10 @@ export type Story = {
   quote: string;
   author: string;
   photo: { src: string; position: string; credit: string };
+  video?: StoryVideo;
 };
 
-const HOME_SLUGS = ["good-day-chocolate", "smash-kitchen", "mochidoki"];
+const HOME_SLUGS = ["farmer-direct-foods", "good-day-chocolate", "smash-kitchen"];
 
 export const STORIES: Story[] = HOME_SLUGS.map((slug) => {
   const st = CUSTOMER_STORIES.find((c) => c.slug === slug)!;
@@ -40,5 +41,6 @@ export const STORIES: Story[] = HOME_SLUGS.map((slug) => {
     quote: st.quote.text,
     author: `${who} @ ${st.brand.name}`,
     photo: st.photo,
+    video: st.video,
   };
 });

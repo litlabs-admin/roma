@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { storyPageCopy, type CustomerStory } from "@/lib/content/customers";
+import TeaserVideo from "@/components/video/TeaserVideo";
+import WatchTestimonial from "@/components/video/WatchTestimonial";
+import v from "@/components/video/video.module.css";
 import BrandMark from "../BrandMark";
 import s from "./story.module.css";
 
@@ -34,6 +37,12 @@ export default function StoryIntro({ story }: { story: CustomerStory }) {
           fetchPriority="high"
           style={{ objectPosition: story.photo.position }}
         />
+        {story.video && (
+          <>
+            <TeaserVideo src={story.video.teaser} position={story.photo.position} className={v.teaser} />
+            <WatchTestimonial video={story.video} variant="cover" />
+          </>
+        )}
       </div>
 
       <h1 id="story-title" className={`${s.title} type-h3`}>

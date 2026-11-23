@@ -3,6 +3,10 @@
 // DESIGN.md §G.15.
 //
 // WHAT IS REAL vs MOCK (replace before launch; see DESIGN.md pre-launch item 7)
+// - status "real": Farmer Direct Foods. The quote (supplied by the client, 23 Nov 2026),
+//   the video testimonial and the logo are real; the story body, summary and pill are
+//   written only from what Julie Mayden says in that video (no figures). The product
+//   kicker / "about" line ("grain and flour") is inferred from the video: confirm.
 // - status "real-figures": Good Day Chocolate ($53K in 6 months, Jasen Arias, VP Ops &
 //   Growth, from the positioning PDF, 4 Nov 2026), Smash Kitchen ($23K, PDF) and
 //   Mochidoki (live in 5 minutes). ONLY those headline figures and names are sourced.
@@ -39,10 +43,32 @@ export type CategoryKey = (typeof CATEGORIES)[number]["key"];
 
 export type Metric = { figure: string; label: string };
 
+/**
+ * A video testimonial, self-hosted in public/videos/stories (versioned file names, served
+ * immutable: next.config.ts). The card plays the silent `teaser` loop; "Watch testimonial"
+ * opens the full video, which is only fetched then. Captions are burned into the video.
+ */
+export type StoryVideo = {
+  /** Accessible name and dialog title. */
+  title: string;
+  /** "2:26" for the button, ISO 8601 for VideoObject JSON-LD. */
+  duration: string;
+  isoDuration: string;
+  uploadDate: string;
+  /** Silent loop for the card (H.264, no audio track). */
+  teaser: string;
+  /** Poster frame for the full video (shown until it starts). */
+  poster: string;
+  /** 1200×630 JPEG for Open Graph and VideoObject.thumbnailUrl. */
+  og: string;
+  /** Full video, first matching source wins: list larger files first with a `media` gate. */
+  sources: { src: string; media?: string }[];
+};
+
 export type CustomerStory = {
   slug: string;
   /** What must be replaced before launch (see header). */
-  status: "real-figures" | "mock";
+  status: "real" | "real-figures" | "mock";
   brand: {
     name: string;
     /** Single-ink alpha mask, rendered white. Omit for a serif wordmark. */
@@ -66,6 +92,8 @@ export type CustomerStory = {
   metrics: Metric[];
   /** Pill text when "figure label" reads badly (default: metrics[0] joined). */
   pill?: string;
+  /** Video testimonial: replaces the photo on the card and the story cover. */
+  video?: StoryVideo;
   quote: {
     text: string;
     name?: string;
@@ -79,8 +107,63 @@ export type CustomerStory = {
 /* ── Stories ───────────────────────────────────────────────────────────── */
 
 const P = "/images/stories";
+const VID = "/videos/stories";
 
 export const CUSTOMER_STORIES: CustomerStory[] = [
+  {
+    slug: "farmer-direct-foods",
+    status: "real",
+    brand: { name: "Farmer Direct Foods", logo: { src: "/logos/customers/farmer-direct-foods.png", w: 202, h: 240 } },
+    category: "pantry",
+    product: "Grain and flour",
+    channels: ["KeHE", "UNFI"],
+    facts: {},
+    photo: { src: `${VID}/farmer-direct-foods-teaser-poster-v2.webp`, position: "50% 30%", credit: "Still from Farmer Direct Foods’ video testimonial" },
+    headline: { before: "Evaluate deductions, not just ", accent: "react", after: " to them." },
+    excerpt: "Julie Mayden ran Farmer Direct Foods’ revenue deductions on spreadsheets she built herself. With Roma checking her classifications, she can analyze deductions and make decisions from them.",
+    cardTitle: "How Farmer Direct Foods moved revenue deductions off spreadsheets and started making decisions from them",
+    about: "Farmer Direct Foods is a grain and flour company whose retail brand is sold through KeHE and UNFI. It’s a small team where, in Julie Mayden’s words, “each of us covers a lot of bases.”",
+    summary: {
+      challenge: "Revenue deductions for the retail brand ran on Excel spreadsheets Julie built herself. A firm they tried first showed errors when she checked it against her spreadsheets for a few months.",
+      solution: "Roma understands KeHE and UNFI invoice types and checks Julie’s classifications, so she can trust the data and analyze it.",
+      channels: "KeHE and UNFI, the retail brand’s distributors.",
+      results: "Deductions she can analyze and make decisions from, and a Roma team she calls the single biggest improvement.",
+    },
+    metrics: [{ figure: "KeHE & UNFI", label: "invoice types, understood" }],
+    pill: "“Knows KeHE & UNFI invoices better than I do”",
+    video: {
+      title: "Julie Mayden, Farmer Direct Foods, on Roma",
+      duration: "2:26",
+      isoDuration: "PT2M26S",
+      uploadDate: "2026-11-23",
+      teaser: `${VID}/farmer-direct-foods-teaser-v2.mp4`,
+      poster: `${VID}/farmer-direct-foods-poster-v1.webp`,
+      og: `${VID}/farmer-direct-foods-og-v1.jpg`,
+      sources: [
+        // 1080p only where the player is wider than ~1280 device pixels.
+        { src: `${VID}/farmer-direct-foods-1080-v1.mp4`, media: "(min-width: 1400px), (min-width: 900px) and (min-resolution: 1.5dppx)" },
+        { src: `${VID}/farmer-direct-foods-720-v1.mp4` },
+      ],
+    },
+    quote: {
+      text: "Roma helps us understand our deductions and make better decisions. Their proactive team understands our business and gives us the support we need as we grow.",
+      name: "Julie Mayden",
+      role: "Senior VP of Grain and Finance",
+    },
+    body: [
+      { type: "h2", id: "challenge", text: "The challenge" },
+      { type: "p", text: "Farmer Direct Foods is a small company, and everyone covers a lot of bases. On the accounting side, Julie Mayden, Senior VP of Grain and Finance, ended up handling all of the revenue deductions for the retail brand, on Excel spreadsheets she created herself." },
+      { type: "p", text: "They tried one other firm first, one her CEO had met at a baking convention. Julie ran her spreadsheets side by side with their system for a few months to check it, and found errors. That made her nervous about whether they were gathering all the data they needed." },
+      { type: "h2", id: "what-changed", text: "What changed" },
+      { type: "p", text: "Julie classifies deductions as best she can. Running Roma showed her that the system understands the invoice types from KeHE and UNFI even better than she does, because Roma has more history with them." },
+      { type: "quote", text: "It’s been really reassuring to have a system behind me, checking all my classifications." },
+      { type: "p", text: "With deductions classified and checked, she can use the data to analyze and make decisions, which she couldn’t do before." },
+      { type: "h2", id: "results", text: "The results" },
+      { type: "p", text: "For Julie, the Roma team has been the single biggest improvement. Roma took an interest in how a small, growing company like Farmer Direct Foods works, so it could shape its program around that." },
+      { type: "p", text: "Asked whether she’d recommend Roma: “If you’re willing to work with me at my size and program, and change things for someone like us, there would be no reason to not recommend you.”" },
+      { type: "callout", label: "In her words", text: "It allows me the ability to evaluate versus just react." },
+    ],
+  },
   {
     slug: "good-day-chocolate",
     status: "real-figures",
@@ -461,7 +544,7 @@ export function storyHref(slug: string) {
 /* ── Page copy ─────────────────────────────────────────────────────────── */
 
 // /customers (DESIGN.md §G.15): centred intro → featured strip (the homepage's three
-// real-figure brands, components/sections/stories/data.ts) → every story as a logo card.
+// real brands, components/sections/stories/data.ts) → every story as a logo card.
 export const customersCopy = {
   heading: "Built for brands that stopped writing off deductions",
   lead: "See how natural and specialty CPG brands track, dispute and book their deductions with Roma.",

@@ -1,0 +1,183 @@
+/* Video testimonial: teaser layer, "Watch testimonial" triggers and the player dialog. */
+
+/* ── teaser (sits over the poster image, same box) ── */
+.teaser {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 400ms ease;
+  pointer-events: none;
+}
+.teaser[data-ready] {
+  opacity: 1;
+}
+
+/* ── pill trigger (story strip): shape from the caller's pill class ── */
+.pill {
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.pill svg {
+  flex: none;
+}
+
+/* ── cover trigger (story page) ── */
+.cover {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: linear-gradient(to top, rgba(31, 10, 8, 0.55) 0%, rgba(31, 10, 8, 0.05) 45%, transparent 70%);
+  color: #fff;
+  cursor: pointer;
+}
+.disc {
+  display: grid;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  padding-left: 0.25rem; /* optical centre of the triangle */
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-red-700);
+  box-shadow: 0 8px 24px rgba(31, 10, 8, 0.25);
+  transition: transform 350ms var(--ease-out);
+}
+.coverLabel {
+  position: absolute;
+  left: 1.25rem;
+  bottom: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2rem;
+  padding: 0 0.875rem;
+  border: 1px solid var(--border-on-dark);
+  border-radius: 999px;
+  background: var(--fill-on-dark);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.coverTime {
+  color: var(--color-on-dark-muted);
+  font-variant-numeric: tabular-nums;
+}
+@media (hover: hover) and (pointer: fine) {
+  .cover:hover .disc {
+    transform: scale(1.06);
+  }
+}
+.cover:focus-visible {
+  outline: 3px solid var(--color-red-700);
+  outline-offset: 3px;
+}
+
+/* ── dialog ── */
+.dialog {
+  width: min(calc(100vw - 2rem), 72rem, calc((100svh - 8rem) * 16 / 9));
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  overflow: visible;
+}
+.dialog::backdrop {
+  background: rgba(17, 8, 6, 0.86);
+}
+.dialog[open] {
+  animation: dialogIn 350ms var(--ease-out);
+}
+.dialog[open]::backdrop {
+  animation: fadeIn 250ms ease;
+}
+@keyframes dialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.sub {
+  margin: 0.125rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--color-on-dark-muted);
+}
+.close {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--border-on-dark);
+  border-radius: 999px;
+  background: var(--fill-on-dark);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .close:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+.close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+.frame {
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  background: #000;
+}
+.player {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .teaser,
+  .disc {
+    transition: none;
+  }
+  .dialog[open],
+  .dialog[open]::backdrop {
+    animation: none;
+  }
+}
