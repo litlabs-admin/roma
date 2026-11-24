@@ -15,7 +15,8 @@ export type AnalyticsEvent =
   | "pricing_plan_cta_click"
   | "pricing_billing_toggle"
   | "pricing_faq_open"
-  | "pricing_compare_click";
+  | "pricing_compare_click"
+  | "ai_ask_click";
 
 export type AnalyticsProps = Record<string, string | number | boolean | undefined>;
 

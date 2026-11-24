@@ -1,0 +1,110 @@
+/* "Ask AI for more info" pills (FAQ head + compare tables). */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.start {
+  align-items: flex-start;
+}
+
+.label {
+  margin: 0;
+  color: var(--color-ink-600);
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.start .list {
+  justify-content: flex-start;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 3rem;
+  padding: 0.625rem 1rem 0.625rem 1.125rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  color: var(--color-ink-900);
+  font-size: 1rem;
+  line-height: 1.2;
+  text-decoration: none;
+  transition:
+    border-color 0.2s var(--ease-state),
+    box-shadow 0.25s var(--ease-state),
+    transform 0.25s var(--ease-state);
+}
+.name {
+  font-weight: 600;
+}
+.logo {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.arrow {
+  flex: none;
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-left: 0.5rem;
+  color: var(--color-ink-500);
+  transition:
+    transform 0.25s var(--ease-state),
+    color 0.2s var(--ease-state);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pill:hover {
+    border-color: var(--color-sand-400);
+    box-shadow: 0 8px 20px -12px rgba(58, 20, 14, 0.28);
+    transform: translateY(-1px);
+  }
+  .pill:hover .arrow {
+    color: var(--color-ink-900);
+    transform: translate(2px, -2px);
+  }
+}
+.pill:focus-visible {
+  outline: 2px solid var(--color-red-700);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill,
+  .arrow {
+    transition: none;
+  }
+  .pill:hover,
+  .pill:hover .arrow {
+    transform: none;
+  }
+}
+
+@media (max-width: 479px) {
+  .root,
+  .list,
+  .list li {
+    width: 100%;
+  }
+  .list {
+    flex-direction: column;
+  }
+  .pill {
+    width: 100%;
+  }
+  .arrow {
+    margin-left: auto;
+  }
+}

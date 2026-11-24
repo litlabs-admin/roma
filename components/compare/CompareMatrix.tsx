@@ -10,6 +10,8 @@ import { CRITERIA, NOT_PUBLISHED, compareHubCopy } from "@/lib/content/compare/c
 import { playOnce, refreshWhenReady, rise } from "@/components/platform/motion";
 import RollingNumber from "@/components/calculator/RollingNumber";
 import ArrowLink from "@/components/ui/ArrowLink";
+import AskAi from "@/components/ui/AskAi";
+import { promptFor } from "@/lib/content/askAi";
 import { useSpotlight } from "./spotlight";
 import { CiteMark } from "./Cite";
 import SectionHead from "./SectionHead";
@@ -259,6 +261,8 @@ export default function CompareMatrix() {
             </div>
           </details>
         </div>
+
+        <AskAi className={t.ask} placement="compare_hub" align="start" label="Ask AI to compare Roma with the alternatives" prompt={promptFor("/compare")} />
       </div>
     </section>
   );

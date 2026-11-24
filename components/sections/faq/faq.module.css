@@ -32,6 +32,14 @@
   display: block;
   transform-origin: 0% 50%;
 }
+.ask {
+  margin-top: 1.25rem;
+}
+@media (max-width: 479px) {
+  .ask {
+    width: 100%;
+  }
+}
 
 /* Fruitful .faq-container (max 90rem, 4rem pad) wrapping .faq-wrap (max 63.5rem). */
 .container {

@@ -16,6 +16,7 @@ import VividlyPage from "@/components/compare/pages/VividlyPage";
 import FloretPage from "@/components/compare/pages/FloretPage";
 import type { Competitor } from "@/lib/content/compare/types";
 import { competitors, getCompetitor, sourceOrder } from "@/lib/content/compare";
+import { compareAskPrompt } from "@/lib/content/askAi";
 
 export function generateStaticParams() {
   return competitors.map((c) => ({ slug: c.slug }));
@@ -83,7 +84,7 @@ function Comparison({ slug }: { slug: string }) {
         <CompareHub others={others} />
       </CompareProvider>
       <Story />
-      <Faq items={c.faqs} copy={{ label: `Roma vs. ${c.name}`, lines: [{ text: "Still comparing?" }, { text: "Here are straight ", accent: "answers" }] }} />
+      <Faq items={c.faqs} ask={compareAskPrompt(c)} copy={{ label: `Roma vs. ${c.name}`, lines: [{ text: "Still comparing?" }, { text: "Here are straight ", accent: "answers" }] }} />
       <ClosingCta />
     </main>
   );

@@ -6,6 +6,8 @@ import { gsap } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
 import type { MatrixRow } from "@/lib/content/compare/types";
 import { playOnce, refreshWhenReady, rise } from "@/components/platform/motion";
+import { compareAskPrompt } from "@/lib/content/askAi";
+import AskAi from "@/components/ui/AskAi";
 import { useCompare } from "./context";
 import SectionHead from "./SectionHead";
 import Cite from "./Cite";
@@ -196,6 +198,8 @@ export default function CompareTable() {
             </ol>
           </details>
         </div>
+
+        <AskAi className={s.ask} placement="compare_table" align="start" label={`Ask AI to compare Roma and ${comp.name}`} prompt={compareAskPrompt(comp)} />
       </div>
     </section>
   );

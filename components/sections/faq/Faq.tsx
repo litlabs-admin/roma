@@ -1,8 +1,11 @@
 "use client";
 
 import { useLayoutEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
+import { promptFor } from "@/lib/content/askAi";
+import AskAi from "@/components/ui/AskAi";
 import { FAQS, faqCopy, type Faq as FaqItem } from "./data";
 import s from "./faq.module.css";
 
@@ -30,14 +33,19 @@ type HeadCopy = { label: string; lines: readonly { text: string; accent?: string
  * `order`: optional indexes into FAQS, so a product page can lead with its own question.
  * `items` / `copy`: a page-specific list and heading (the comparison page, §G.13).
  * `onOpen`: called with the question each time an answer opens (pricing analytics, §G.18).
+ * `ask`: the question the "Ask ChatGPT / Claude" pills prefill. Defaults to this path's
+ *   entry in lib/content/askAi.ts; `false` hides the pills.
  */
 export default function Faq({
   order,
   items: own,
   copy = faqCopy,
   onOpen,
-}: { order?: number[]; items?: FaqItem[]; copy?: HeadCopy; onOpen?: (q: string) => void } = {}) {
+  ask,
+}: { order?: number[]; items?: FaqItem[]; copy?: HeadCopy; onOpen?: (q: string) => void; ask?: string | false } = {}) {
   const items = own ?? (order ? order.map((i) => FAQS[i]).filter(Boolean) : FAQS);
+  const pathname = usePathname();
+  const askPrompt = ask === false ? null : (ask ?? promptFor(pathname));
   const root = useRef<HTMLElement>(null);
   const answers = useRef<(HTMLDivElement | null)[]>([]);
   const icons = useRef<(SVGSVGElement | null)[]>([]);
@@ -53,6 +61,8 @@ export default function Faq({
 
       const heading = q("[data-faq-heading]")[0];
       const lineTl = gsap.timeline({ paused: true }).fromTo(q("[data-faq-line]"), rise, { ...rest, stagger: { amount: 0.25 } });
+      const ask = q("[data-faq-ask]");
+      if (ask.length) lineTl.fromTo(ask, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.3);
       replayOnEnter(heading, lineTl);
 
       q("[data-faq-item]").forEach((item) => {
@@ -94,6 +104,11 @@ export default function Faq({
             </span>
           ))}
         </h2>
+        {askPrompt && (
+          <div className={s.ask} data-faq-ask>
+            <AskAi prompt={askPrompt} placement="faq" />
+          </div>
+        )}
       </div>
 
       <div className={s.container}>
