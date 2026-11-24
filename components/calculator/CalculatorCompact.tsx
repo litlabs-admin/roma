@@ -3,17 +3,18 @@
 import { useMemo, useState } from "react";
 import Reveal from "@/components/blog/Reveal";
 import Button from "@/components/ui/Button";
-import { INPUTS, calcCopy, type InputKey } from "@/lib/content/calculator";
+import { calcCopy, type InputKey } from "@/lib/content/calculator";
 import { DEFAULT_INPUTS, compute, fmtMoney, toParams, type Inputs } from "@/lib/calculator/math";
 import Num from "./Num";
-import RangeField from "./RangeField";
+import RevenueHero from "./RevenueHero";
 import RollingNumber from "./RollingNumber";
 import { useCalcTracking } from "./useCalcTracking";
 import s from "./calculator.module.css";
 
 /**
- * Compact calculator embed: the same three inputs and results as /calculator, and one CTA
- * that opens the full calculator with these values in the URL.
+ * Compact calculator embed: revenue only (quick-pick chips + typed field), the figure
+ * updates live, and one CTA opens /calculator on its reveal with ?R= in the URL. The rates
+ * stay at their defaults here; visitors fine-tune them on the full calculator.
  *
  * - home / product: white card, result on the home Stories red (odometer figure).
  * - pricing: a full red band; inputs left, results on a white card right.
@@ -43,9 +44,7 @@ export default function CalculatorCompact({ variant, id }: { variant: Variant; i
 
   const inputs = (
     <div className={s.compactInputs}>
-      <RangeField spec={INPUTS.R} value={inp.R} onChange={(v) => update("R", v)} idPrefix={prefix} compact />
-      <RangeField spec={INPUTS.v} value={inp.v} onChange={(v) => update("v", v)} idPrefix={prefix} label="Valid deductions (% of revenue)" compact />
-      <RangeField spec={INPUTS.i} value={inp.i} onChange={(v) => update("i", v)} idPrefix={prefix} label="Invalid deductions (% of revenue)" compact />
+      <RevenueHero mode="embed" value={inp.R} onChange={(v) => update("R", v)} idPrefix={prefix} />
     </div>
   );
 

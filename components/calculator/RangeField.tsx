@@ -1,43 +1,19 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import type { InputSpec } from "@/lib/content/calculator";
-import { calcCopy } from "@/lib/content/calculator";
-import { clamp, fmtMoneyShort, parseMoney, parsePercent } from "@/lib/calculator/math";
+import { clamp } from "@/lib/calculator/math";
+import { formatInput, formatShort, useNumberField } from "./useNumberField";
 import s from "./calculator.module.css";
 
 /**
  * One calculator input: a label, a typed field and a slider bound to the same value
- * (brief §2.9, §2.11). Typing accepts "10m" / "10,000,000" / "2.5%"; out-of-range values
- * clamp on blur with an inline message; an emptied field falls back to its default and
- * says so. The slider is native (keyboard and screen readers for free), restyled; revenue
- * uses a log scale because it spans $100K to $1B.
+ * (brief §2.9, §2.11). Typed parsing and validation live in useNumberField. The slider is
+ * native (keyboard and screen readers for free), restyled; revenue uses a log scale
+ * because it spans $100K to $1B.
  */
 
-const usd = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
-
-export function formatInput(spec: InputSpec, v: number) {
-  switch (spec.unit) {
-    case "money":
-      return usd.format(v);
-    case "percent":
-      return `${Number.isInteger(v) ? v : v.toFixed(1)}%`;
-  }
-}
-
-function formatShort(spec: InputSpec, v: number) {
-  return spec.unit === "money" ? fmtMoneyShort(v) : formatInput(spec, v);
-}
-
-/** Characters each kind of field accepts; anything else is dropped as it's typed. */
-const DISALLOWED: Record<InputSpec["unit"], RegExp> = {
-  money: /[^0-9.,$kmbKMB\s]/g,
-  percent: /[^0-9.%\s]/g,
-};
-
-function parse(spec: InputSpec, raw: string) {
-  return spec.unit === "money" ? parseMoney(raw) : parsePercent(raw);
-}
+export { formatInput };
 
 const STEPS = 1000;
 
@@ -83,58 +59,12 @@ export default function RangeField({
   compact?: boolean;
 }) {
   const id = `${idPrefix}-${spec.key}`;
-  const [draft, setDraft] = useState<string | null>(null);
-  const [msg, setMsg] = useState<{ kind: "range" | "fallback"; text: string } | null>(null);
+  const { draft, setDraft, msg, setMsg, onType, onCommit } = useNumberField(spec, onChange);
 
   const pos = toPos(spec, value);
   const lo = toPos(spec, spec.min);
   const hi = toPos(spec, spec.max);
   const pct = ((pos - lo) / (hi - lo)) * 100;
-  const rangeMsg = calcCopy.notes.range(formatShort(spec, spec.min), formatShort(spec, spec.max));
-
-  // Live validation: disallowed characters never reach the field; a value that can't be
-  // read, or is out of range, is flagged while typing (and clamped on blur).
-  const onType = (typed: string) => {
-    const raw = typed.replace(DISALLOWED[spec.unit], "");
-    setDraft(raw);
-    const blocked = raw !== typed;
-    if (!raw.trim()) {
-      setMsg(blocked ? { kind: "range", text: calcCopy.notes.format[spec.unit] } : null);
-      return;
-    }
-    const v = parse(spec, raw);
-    if (!Number.isFinite(v)) {
-      setMsg({ kind: "range", text: calcCopy.notes.format[spec.unit] });
-      return;
-    }
-    if (v < spec.min || v > spec.max) {
-      // a blocked keystroke explains itself first; the range shows on the next key or blur
-      setMsg({ kind: "range", text: blocked ? calcCopy.notes.format[spec.unit] : rangeMsg });
-      return;
-    }
-    onChange(v);
-    setMsg(blocked ? { kind: "range", text: calcCopy.notes.format[spec.unit] } : null);
-  };
-
-  const onCommit = () => {
-    const raw = draft;
-    setDraft(null);
-    if (raw === null) return;
-    if (!raw.trim()) {
-      onChange(spec.def);
-      setMsg({ kind: "fallback", text: calcCopy.notes.fallback(formatInput(spec, spec.def)) });
-      return;
-    }
-    const v = parse(spec, raw);
-    if (!Number.isFinite(v)) {
-      // unreadable: keep the last good value and say why
-      setMsg({ kind: "range", text: calcCopy.notes.format[spec.unit] });
-      return;
-    }
-    const c = clamp(v, spec.min, spec.max);
-    onChange(c);
-    setMsg(c !== v ? { kind: "range", text: rangeMsg } : null);
-  };
 
   const describedBy = [msg ? `${id}-msg` : "", note ? `${id}-note` : ""].filter(Boolean).join(" ") || undefined;
 

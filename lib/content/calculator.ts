@@ -1,6 +1,8 @@
 // Deductions calculator (DESIGN.md §G.17): every input spec and line of copy in one place.
 // Simplified per Roma's meeting, Nov 2026: revenue, valid deductions (%) and invalid
 // deductions (%), both taken as a share of revenue. Change defaults here only.
+// Revenue-first flow (Nov 2026): visitors give revenue only; the two rates start at the
+// typical defaults below and sit behind "Fine-tune the rates".
 
 import { SIGNUP_HREF, DEMO_HREF } from "@/components/chat/data";
 
@@ -55,11 +57,38 @@ export const INPUTS: Record<InputKey, InputSpec> = {
 export const calcCopy = {
   meta: {
     title: "Deductions calculator | What are deductions costing you? | Roma",
-    description: "Enter your revenue and deduction rates to see how much goes to valid and invalid deductions each year.",
+    description: "Enter your annual revenue to see how much goes to valid and invalid deductions each year.",
   },
   heading: "What are deductions costing you?",
-  lead: "Three numbers. See how much of your revenue goes to deductions each year, and how much of it is invalid.",
+  lead: "One number. See how much of your revenue goes to deductions each year, and how much of it is invalid.",
   groupTitle: "Your numbers",
+  ask: {
+    label: "Start here",
+    prompt: "What’s your brand’s annual revenue?",
+    placeholder: "$10,000,000",
+    hint: "Type 10m or 10,000,000, or pick one",
+    readout: (v: string) => `That’s ${v} a year`,
+    chips: [5_000_000, 25_000_000, 100_000_000, 500_000_000],
+    chipsLabel: "Common revenue sizes",
+    submit: "Calculate",
+    empty: "Enter your annual revenue to see your numbers.",
+    summaryBefore: "On",
+    summaryAfter: "in annual revenue",
+  },
+  split: {
+    label: "Where your revenue goes",
+    kept: "Revenue you keep",
+    valid: "Valid deductions",
+    invalid: "Invalid deductions",
+    total: "Total deductions per year",
+  },
+  fineTune: {
+    toggle: "Fine-tune the rates",
+    hide: "Hide the rates",
+    help: "Based on typical rates. Know yours? Adjust them.",
+    valid: "Valid deductions (% of revenue)",
+    invalid: "Invalid deductions (% of revenue)",
+  },
   results: {
     label: "Your estimate",
     headlineBefore: "",
@@ -91,13 +120,13 @@ export const calcCopy = {
   compact: {
     label: "Deductions calculator",
     heading: "What are deductions costing you?",
-    lead: "Three numbers from your business. See what goes to deductions each year, and how much of it is invalid.",
+    lead: "Enter your annual revenue. See what goes to deductions each year, and how much of it is invalid.",
     resultTail: "a year in invalid deductions",
     cta: "Open the calculator",
   },
   banner: {
     heading: "What are deductions costing you?",
-    sub: "Three numbers. See what you lose each year and how much of it is invalid.",
+    sub: "One number. See what you lose each year and how much of it is invalid.",
     cta: "Open the calculator",
   },
   proof: {

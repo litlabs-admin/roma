@@ -11,6 +11,8 @@ export type AnalyticsEvent =
   | "calculator_result_view"
   | "calculator_cta_click"
   | "calculator_share"
+  | "calculator_submit"
+  | "calculator_finetune_open"
   | "pricing_view"
   | "pricing_plan_cta_click"
   | "pricing_billing_toggle"

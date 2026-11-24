@@ -53,65 +53,6 @@
     border-radius: var(--radius-md);
   }
 }
-.calcGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-}
-@media (min-width: 992px) {
-  .calcGrid {
-    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
-  }
-}
-
-/* inputs */
-.inputs {
-  display: flex;
-  flex-direction: column;
-  padding: 1.25rem;
-}
-@media (min-width: 768px) {
-  .inputs {
-    padding: 2rem;
-  }
-}
-@media (min-width: 992px) {
-  .inputs {
-    padding: 2.5rem;
-  }
-}
-.group {
-  min-width: 0;
-  margin: 0;
-  padding: 0 0 1.75rem;
-  border: 0;
-}
-.group + .group {
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--color-sand-300);
-}
-.group:last-child {
-  padding-bottom: 0;
-}
-.groupTitle {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  float: left; /* lets the legend sit inside the fieldset's flow */
-  width: 100%;
-  margin: 0 0 1.25rem;
-  padding: 0;
-  color: var(--color-ink-900);
-}
-.groupNum {
-  color: var(--color-red-600);
-}
-.groupBody {
-  clear: both;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 /* one input: label + typed value, slider under it */
 .field {
   display: flex;
@@ -287,14 +228,15 @@
 
 /* ── results column ── */
 .results {
+  margin: 0 -1px -1px; /* sits over the card's hairline */
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
   background: var(--red-surface);
   color: #fff;
   scroll-margin-top: calc(var(--nav-h) + 1rem);
 }
-@media (min-width: 992px) {
+@media (max-width: 767px) {
   .results {
-    margin: -1px -1px 0 0; /* sits over the card's hairline */
-    border-radius: 0 var(--radius-xl) 0 0;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
   }
 }
 .results .dot {
@@ -306,19 +248,17 @@
 .resultsInner {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding: 1.5rem 1.25rem;
+  gap: 1.75rem;
+  padding: 1.75rem 1.25rem;
 }
 @media (min-width: 768px) {
   .resultsInner {
-    padding: 2rem;
+    padding: 2.5rem;
   }
 }
 @media (min-width: 992px) {
   .resultsInner {
-    position: sticky;
-    top: calc(var(--nav-h) + 1.5rem);
-    padding: 2.5rem;
+    padding: 3rem 3.5rem;
   }
 }
 .resultsLabel {
@@ -395,57 +335,6 @@
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
-.figureRed {
-  color: var(--color-red-600) !important;
-}
-/* "invalid" on the red panel: a cream chip, the money at stake */
-.figureChip {
-  padding: 0.1rem 0.55rem;
-  border-radius: var(--radius-pill);
-  background: var(--color-cream-100);
-  color: var(--color-red-700) !important;
-}
-
-/* invalid share of every deduction dollar (shape only) */
-.flow {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-.flowLabel {
-  margin: 0;
-  color: var(--on-red-muted);
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  letter-spacing: 0.02em;
-}
-.flowBar {
-  overflow: hidden;
-  height: 0.625rem;
-  border-radius: var(--radius-pill);
-  background: var(--on-red-line);
-}
-.flowFill {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: var(--color-cream-100);
-  transform: scaleX(var(--share, 0));
-  transform-origin: left center;
-  transition: transform var(--dur-state) var(--ease-state);
-}
-.flowKeys {
-  display: flex;
-  justify-content: space-between;
-  color: var(--on-red-muted);
-  font-size: 0.8125rem;
-  font-variant-numeric: tabular-nums;
-}
-.flowKeyRed {
-  color: #fff;
-  font-weight: 500;
-}
-
 .resultsFoot {
   display: flex;
   flex-direction: column;
@@ -870,7 +759,6 @@
 
 /* ── reduced motion: everything at rest ── */
 @media (prefers-reduced-motion: reduce) {
-  .flowFill,
   .stickyBar,
   .range::-webkit-slider-thumb,
   .copyBtn {
@@ -886,4 +774,490 @@
 /* page wrapper for the card */
 .calcWrap {
   position: relative;
+}
+
+/* ── revenue-first flow (DESIGN.md §G.17, Nov 2026) ─────────────────── */
+/* One centred column: the question on white, the reveal on the red surface below it. */
+.flowCard {
+  max-width: 52rem;
+  margin-inline: auto;
+}
+.askPane {
+  padding: 2rem 1.25rem;
+  transition: padding var(--dur-state) var(--ease-state);
+}
+@media (min-width: 768px) {
+  .askPane {
+    padding: 3.5rem 3rem;
+  }
+}
+@media (min-width: 992px) {
+  .askPane {
+    padding: 4rem 3.5rem;
+  }
+}
+.flowCardDone .askPane {
+  padding-block: 1.5rem;
+}
+@media (min-width: 768px) {
+  .flowCardDone .askPane {
+    padding-block: 1.75rem;
+  }
+}
+
+/* the question */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+.heroPrompt {
+  max-width: 20ch;
+  margin: 0;
+  color: var(--color-ink-900);
+  text-wrap: balance;
+}
+.heroRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 34rem;
+  margin-top: 0.5rem;
+}
+.heroField {
+  position: relative;
+  display: flex;
+  flex: 1 1 16rem;
+  min-width: 0;
+  border: 1px solid var(--color-sand-400);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  transition:
+    border-color var(--dur-micro) ease,
+    box-shadow var(--dur-micro) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .heroField:hover:not(:focus-within) {
+    border-color: var(--color-ink-500);
+  }
+}
+.heroField:focus-within {
+  border-color: var(--color-red-600);
+  box-shadow: 0 0 0 4px rgba(178, 21, 21, 0.12);
+}
+.heroFieldWarn,
+.heroFieldWarn:focus-within {
+  border-color: var(--color-red-600);
+}
+.heroInput {
+  width: 100%;
+  min-width: 0;
+  min-height: 4rem;
+  padding: 0.5rem 1.25rem;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: var(--color-ink-900);
+  font: inherit;
+  font-size: 1.75rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .heroInput {
+    min-height: 4.5rem;
+    font-size: 2.25rem;
+  }
+}
+.heroInput:focus {
+  outline: none;
+}
+.heroInput::placeholder {
+  color: var(--color-sand-400);
+}
+.heroSubmit {
+  flex: 0 0 auto;
+  min-height: 4rem;
+  padding-inline: 1.75rem;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+}
+@media (min-width: 768px) {
+  .heroSubmit {
+    min-height: 4.5rem;
+  }
+}
+@media (max-width: 479px) {
+  .heroSubmit {
+    flex-basis: 100%;
+  }
+}
+.heroReadout {
+  margin: 0.25rem 0 0;
+  color: var(--color-red-700);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  animation: msgIn 250ms var(--ease-out);
+}
+.hero .fieldMsg,
+.hero .fieldNote {
+  margin: 0;
+}
+
+/* quick picks */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.hero .chips {
+  margin-top: 0.25rem;
+}
+.chip {
+  min-height: 2.5rem;
+  padding: 0 1rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-50);
+  color: var(--color-ink-800);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-micro) ease,
+    background-color var(--dur-micro) ease,
+    color var(--dur-micro) ease,
+    transform 350ms var(--ease-out);
+}
+.chip:active {
+  transform: scale(0.96);
+}
+.chip:focus-visible {
+  outline: 2px solid var(--color-red-600);
+  outline-offset: 2px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .chip:hover {
+    border-color: var(--color-red-600);
+    color: var(--color-red-700);
+  }
+}
+.chipOn {
+  border-color: var(--color-red-600);
+  background: var(--color-red-600);
+  color: #fff;
+}
+@media (hover: hover) and (pointer: fine) {
+  .chipOn:hover {
+    color: #fff;
+  }
+}
+
+/* after the reveal: "On [$10,000,000] in annual revenue" */
+.summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  text-align: center;
+  animation: msgIn 400ms var(--ease-out);
+}
+.summaryLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.75rem;
+  color: var(--color-ink-800);
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+@media (min-width: 768px) {
+  .summaryLine {
+    font-size: 1.375rem;
+  }
+}
+.heroFieldSummary {
+  flex: 0 1 auto;
+  align-items: center;
+  border-color: var(--color-sand-300);
+  background: var(--color-cream-50);
+}
+.heroFieldSummary .heroInput {
+  width: auto;
+  min-height: 3rem;
+  padding: 0.25rem 0.25rem 0.25rem 1rem;
+  font-size: 1.375rem;
+  text-align: left;
+}
+@media (min-width: 768px) {
+  .heroFieldSummary .heroInput {
+    font-size: 1.75rem;
+  }
+}
+.summaryPen {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.85rem;
+  fill: none;
+  stroke: var(--color-ink-500);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+
+/* embeds */
+.heroEmbed {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.heroEmbed .chips {
+  justify-content: flex-start;
+  margin-top: 0.25rem;
+}
+.heroFieldEmbed {
+  flex: none;
+}
+.heroFieldEmbed .heroInput {
+  min-height: 3.5rem;
+  font-size: 1.5rem;
+  text-align: left;
+}
+
+/* the reveal: children rise in, one after another */
+.stagger > * {
+  animation: rise 600ms var(--ease-out) both;
+}
+.stagger > :nth-child(2) {
+  animation-delay: 80ms;
+}
+.stagger > :nth-child(3) {
+  animation-delay: 220ms;
+}
+.stagger > :nth-child(4) {
+  animation-delay: 360ms;
+}
+.stagger > :nth-child(5) {
+  animation-delay: 460ms;
+}
+.stagger > :nth-child(n + 6) {
+  animation-delay: 540ms;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+/* "Where your revenue goes": one bar that splits */
+.split {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+.splitLabel {
+  margin: 0;
+  color: var(--on-red-muted);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+}
+.splitBar {
+  display: flex;
+  gap: 3px;
+  overflow: hidden;
+  height: 2.75rem;
+  border-radius: var(--radius-sm);
+}
+.splitSeg {
+  flex: none;
+  width: calc(var(--w, 0) * (100% - 6px));
+  border-radius: 3px;
+  transition: width 1100ms var(--ease-out);
+}
+.splitSeg:nth-child(2) {
+  transition-delay: 120ms;
+}
+.swInvalid {
+  background: var(--color-cream-100);
+}
+.swValid {
+  background: rgba(255, 255, 255, 0.42);
+}
+.swKept {
+  background: rgba(255, 255, 255, 0.14);
+}
+.splitLegend {
+  margin: 0.25rem 0 0;
+  border-top: 1px solid var(--on-red-line);
+}
+.splitRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--on-red-line);
+}
+.splitRow dt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.6rem;
+  color: var(--on-red-muted);
+  font-size: 0.9375rem;
+}
+.splitRow dd {
+  margin: 0;
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+@media (max-width: 479px) {
+  .splitRow dt {
+    font-size: 0.875rem;
+  }
+  .splitRow dd {
+    font-size: 1.0625rem;
+  }
+}
+.splitRowHot dt {
+  color: #fff;
+  font-weight: 500;
+}
+.splitRowHot dd {
+  padding: 0.1rem 0.6rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-100);
+  color: var(--color-red-700);
+}
+.swatch {
+  display: inline-block;
+  flex: none;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 2px;
+}
+.splitShare {
+  color: var(--on-red-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.splitTotal dt {
+  color: #fff;
+  font-weight: 500;
+}
+
+/* "Fine-tune the rates": the two sliders on a white inset */
+.tune {
+  display: flex;
+  flex-direction: column;
+}
+.tuneToggle {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.75rem;
+  padding: 0 1rem 0 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-micro) ease,
+    background-color var(--dur-micro) ease,
+    color var(--dur-micro) ease;
+}
+.tuneToggle svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+.tuneRates {
+  color: var(--on-red-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+@media (hover: hover) and (pointer: fine) {
+  .tuneToggle:hover {
+    border-color: #fff;
+    background: #fff;
+    color: var(--color-red-700);
+  }
+  .tuneToggle:hover .tuneRates {
+    color: var(--color-ink-500);
+  }
+}
+.tunePanel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-state) var(--ease-state);
+}
+.tunePanelOn {
+  grid-template-rows: 1fr;
+}
+.tunePanelClip {
+  overflow: hidden;
+  min-height: 0;
+}
+.tunePanelBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.875rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  color: var(--color-ink-900);
+}
+@media (min-width: 768px) {
+  .tunePanelBody {
+    padding: 1.5rem 1.75rem;
+  }
+}
+.tuneHelp {
+  margin: 0;
+  color: var(--color-ink-600);
+  font-size: 0.875rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stagger > *,
+  .summary,
+  .heroReadout {
+    animation: none;
+  }
+  .splitSeg,
+  .tunePanel,
+  .askPane,
+  .chip {
+    transition: none;
+  }
 }
