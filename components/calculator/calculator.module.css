@@ -6,7 +6,6 @@
 /* The home Stories red (DESIGN.md §G.4): Roma red glowing in the middle, deepening to
    red-900 at the edges. Used for the result panels; never flat dark red. */
 .card,
-.compact,
 .band {
   --red-surface: radial-gradient(120% 90% at 50% 30%, var(--color-red-700) 0%, var(--color-red-900) 100%);
   --on-red-muted: rgba(255, 255, 255, 0.78);
@@ -430,237 +429,12 @@
   font-weight: 500;
 }
 
-/* ── compact embed ── */
+/* ── compact embeds: the revenue-first card on the page sheet ── */
 .compactSection {
   padding-block: var(--section-md);
 }
-.compact {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  overflow: hidden;
-  border: 1px solid var(--color-sand-300);
-  border-radius: var(--radius-xl);
-  background: var(--color-white);
-}
-@media (max-width: 767px) {
-  .compact {
-    border-radius: var(--radius-md);
-  }
-}
-@media (min-width: 992px) {
-  .compact {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  }
-}
-.compactMain {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1.5rem 1.25rem;
-}
-@media (min-width: 768px) {
-  .compactMain {
-    padding: 2.5rem;
-  }
-}
-@media (min-width: 992px) {
-  .compactMain {
-    padding: 3rem;
-  }
-}
-.compactTitle {
-  max-width: 18ch;
-  margin: 0.25rem 0 0;
-  color: var(--color-ink-900);
-  text-wrap: balance;
-}
-.compactLead {
-  max-width: 32rem;
-  margin: 0;
-  color: var(--color-ink-600);
-  text-wrap: pretty;
-}
-.compactInputs {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1rem;
-}
 .fieldCompact .fieldLabel {
   font-size: 0.875rem;
-}
-.compactResult {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding: 1.5rem 1.25rem;
-  background: var(--red-surface);
-  color: #fff;
-}
-@media (min-width: 768px) {
-  .compactResult {
-    padding: 2.5rem;
-  }
-}
-@media (min-width: 992px) {
-  .compactResult {
-    padding: 3rem;
-  }
-}
-.compactResult .compactFigure {
-  color: #fff;
-}
-.compactFigures {
-  width: 100%;
-}
-/* pricing band: the same rows on the white result card */
-.bandFigures {
-  border-top-color: var(--color-sand-400);
-}
-.bandFigures .figure {
-  border-bottom-color: var(--color-sand-300);
-}
-.bandFigures .figure dt {
-  color: var(--color-ink-600);
-}
-.bandFigures .figure dd {
-  color: var(--color-ink-900);
-}
-.compactKickerOnRed {
-  margin: 0;
-  color: var(--on-red-muted);
-  font-size: 1.125rem;
-  font-weight: 500;
-}
-.compactDisclaimerOnRed {
-  margin: 0;
-  color: var(--on-red-muted);
-  font-size: 0.75rem;
-  line-height: 1.45;
-}
-
-/* ── pricing: "Will Roma pay for itself?" band ── */
-.bandSection {
-  padding-block: var(--section-lg) 0;
-}
-.band {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 2rem;
-  padding: 2rem 1.25rem;
-  border-radius: var(--radius-md);
-  background: var(--red-surface);
-  color: #fff;
-}
-@media (min-width: 768px) {
-  .band {
-    padding: 3.5rem;
-    border-radius: 2.5rem;
-  }
-}
-@media (min-width: 992px) {
-  .band {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-    align-items: center;
-    gap: 4rem;
-    padding: 5rem;
-  }
-}
-.bandMain {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.bandEyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0;
-  color: var(--on-red-muted);
-}
-.bandEyebrow .dot {
-  background: #fff;
-}
-.bandTitle {
-  max-width: 13ch;
-  margin: 0.25rem 0 0;
-  color: #fff;
-  text-wrap: balance;
-}
-.bandLead {
-  max-width: 30rem;
-  margin: 0;
-  color: var(--on-red-muted);
-  text-wrap: pretty;
-}
-.bandInputs {
-  margin-top: 1rem;
-  padding: 0.5rem 1.5rem 1.25rem;
-  border-radius: var(--radius-lg);
-  background: var(--color-white);
-  color: var(--color-ink-900);
-}
-.bandResult {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  padding: 1.5rem;
-  border-radius: var(--radius-xl);
-  background: var(--color-white);
-  color: var(--color-ink-900);
-  box-shadow: var(--lift);
-}
-@media (min-width: 768px) {
-  .bandResult {
-    padding: 2.25rem;
-  }
-}
-.bandFigureRow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem 2rem;
-}
-.bandFigure {
-  margin: 0.25rem 0;
-  color: var(--color-red-600);
-  font-size: 3.25rem;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.035em;
-}
-@media (min-width: 992px) {
-  .bandFigure {
-    font-size: 4.25rem;
-  }
-}
-.compactKicker,
-.compactTail {
-  margin: 0;
-  color: var(--color-ink-800);
-  font-size: 1.125rem;
-  font-weight: 500;
-}
-.compactFigure {
-  margin: 0.25rem 0;
-  color: var(--color-red-600);
-  font-size: 3.25rem;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.035em;
-  font-variant-numeric: tabular-nums;
-}
-@media (min-width: 992px) {
-  .compactFigure {
-    font-size: 4.5rem;
-  }
-}
-.compactNote {
-  margin: 0.6rem 0 0;
-  color: var(--color-ink-500);
-  font-size: 0.8125rem;
 }
 .compactActions {
   display: flex;
@@ -673,14 +447,65 @@
     width: 100%;
   }
 }
-.compactLink {
-  color: var(--color-ink-900);
+
+/* ── pricing: the same card centred on a full red band ── */
+.bandSection {
+  padding-block: var(--section-lg) 0;
 }
-.compactDisclaimer {
+.band {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 2.5rem 1.25rem;
+  border-radius: var(--radius-md);
+  background: var(--red-surface);
+  color: #fff;
+}
+@media (min-width: 768px) {
+  .band {
+    padding: 4rem 3rem;
+    border-radius: 2.5rem;
+  }
+}
+@media (min-width: 992px) {
+  .band {
+    padding: 5rem;
+  }
+}
+.band .flowCard {
+  width: 100%;
+  border-color: transparent;
+  box-shadow: var(--lift);
+}
+.bandHead {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+.bandEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   margin: 0;
-  color: var(--color-ink-500);
-  font-size: 0.75rem;
-  line-height: 1.45;
+  color: var(--on-red-muted);
+}
+.bandEyebrow .dot {
+  background: #fff;
+}
+.bandTitle {
+  max-width: 16ch;
+  margin: 0;
+  color: #fff;
+  text-wrap: balance;
+}
+.bandLead {
+  max-width: 34rem;
+  margin: 0;
+  color: var(--on-red-muted);
+  text-wrap: pretty;
 }
 
 /* ── slim banner (compare pages, blog) ── */
@@ -748,12 +573,20 @@
   font-size: 0.9375rem;
   line-height: 1.45;
 }
-.bannerBtn {
-  flex: none;
+.bannerTop {
+  display: flex;
+  flex: 1 1 18rem;
+  align-items: center;
+  gap: 1rem 1.25rem;
+  min-width: 0;
 }
-@media (max-width: 767px) {
-  .bannerBtn {
-    width: 100%;
+.bannerForm {
+  flex: 1 1 22rem;
+  min-width: 0;
+}
+@media (min-width: 992px) {
+  .bannerForm {
+    flex: 0 0 24rem;
   }
 }
 
@@ -1018,25 +851,6 @@
   stroke-linejoin: round;
 }
 
-/* embeds */
-.heroEmbed {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-.heroEmbed .chips {
-  justify-content: flex-start;
-  margin-top: 0.25rem;
-}
-.heroFieldEmbed {
-  flex: none;
-}
-.heroFieldEmbed .heroInput {
-  min-height: 3.5rem;
-  font-size: 1.5rem;
-  text-align: left;
-}
-
 /* the reveal: children rise in, one after another */
 .stagger > * {
   animation: rise 600ms var(--ease-out) both;
@@ -1260,4 +1074,72 @@
   .chip {
     transition: none;
   }
+}
+
+/* embeds: the section heading above the question; the prompt becomes the field label */
+.heroPromptSmall {
+  margin: 0;
+  color: var(--color-ink-600);
+  font-size: 1.0625rem;
+  font-weight: 500;
+}
+
+/* banner: field + Calculate in one row */
+.heroInline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.heroInlineRow {
+  display: flex;
+  gap: 0.5rem;
+}
+.heroFieldInline {
+  flex: 1 1 auto;
+  border-radius: var(--radius-pill);
+}
+.heroFieldInline .heroInput {
+  min-height: 3rem;
+  padding-inline: 1.1rem;
+  font-size: 1.125rem;
+  text-align: left;
+}
+.heroInlineRow .heroSubmit {
+  flex: none;
+  min-height: 3rem;
+  padding-inline: 1.25rem;
+  font-size: 0.9375rem;
+}
+
+/* results on cream, for hosts that already sit on red (pricing band) */
+.resultsLight {
+  --on-red-muted: var(--color-ink-600);
+  --on-red-line: var(--color-sand-300);
+  border-top: 1px solid var(--color-sand-300);
+  background: var(--color-cream-50);
+  color: var(--color-ink-900);
+}
+.resultsLight .dot {
+  background: var(--color-red-600);
+}
+.resultsLight .headlineFigure {
+  color: var(--color-red-600);
+}
+.resultsLight .splitRow dd,
+.resultsLight .splitRowHot dt,
+.resultsLight .splitTotal dt {
+  color: var(--color-ink-900);
+}
+.resultsLight .splitRowHot dd {
+  background: var(--color-red-600);
+  color: #fff;
+}
+.resultsLight .swInvalid {
+  background: var(--color-red-600);
+}
+.resultsLight .swValid {
+  background: var(--color-red-100);
+}
+.resultsLight .swKept {
+  background: var(--color-sand-300);
 }

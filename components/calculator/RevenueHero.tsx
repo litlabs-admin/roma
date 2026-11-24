@@ -10,16 +10,17 @@ import ui from "@/components/ui/ui.module.css";
  * The revenue question (DESIGN.md §G.17). One large money field, quick-pick chips and a
  * live readout ("That's $10M a year"), sharing RangeField's parsing and validation.
  *
- * - ask:     the full page before results; big prompt, Calculate (or Enter, or a chip) reveals.
- * - summary: the full page after the reveal; "On [$10,000,000] in annual revenue", still
- *            editable, results re-tween live.
- * - embed:   compact embeds; label + field + chips, results update live, no submit step.
+ * - ask:     before results; big prompt, Calculate (or Enter, or a chip) reveals. Embeds
+ *            pass their own eyebrow + heading; the prompt then reads as the field's label.
+ * - summary: after the reveal; "On [$10,000,000] in annual revenue", still editable,
+ *            results re-tween live.
+ * - inline:  the slim banner; field + Calculate in one row, no chips.
  */
 
 const spec = INPUTS.R;
 const C = calcCopy.ask;
 
-type Mode = "ask" | "summary" | "embed";
+type Mode = "ask" | "summary" | "inline";
 
 export default function RevenueHero({
   value,
@@ -28,6 +29,8 @@ export default function RevenueHero({
   mode,
   entered = true,
   onSubmit,
+  eyebrow = C.label,
+  heading,
 }: {
   value: number;
   onChange: (v: number) => void;
@@ -35,7 +38,11 @@ export default function RevenueHero({
   mode: Mode;
   /** False until the visitor has given a revenue: the field shows its placeholder. */
   entered?: boolean;
-  onSubmit?: () => void;
+  /** Called with the revenue to use (a just-typed value may not be in `value` yet). */
+  onSubmit?: (v: number) => void;
+  eyebrow?: string;
+  /** An embed's own section heading; the prompt then becomes a smaller label under it. */
+  heading?: { id: string; text: string };
 }) {
   const id = `${idPrefix}-R`;
   const { draft, setDraft, msg, setMsg, onType, onCommit } = useNumberField(spec, onChange, { emptyFallback: entered });
@@ -43,13 +50,12 @@ export default function RevenueHero({
   const shown = draft ?? (entered ? formatInput(spec, value) : "");
   const parsed = draft !== null ? parseInput(spec, draft) : NaN;
   const readout =
-    Number.isFinite(parsed) && parsed >= spec.min && parsed <= spec.max && draft !== formatInput(spec, parsed)
-      ? C.readout(fmtMoneyShort(parsed))
-      : null;
+    Number.isFinite(parsed) && parsed >= spec.min && parsed <= spec.max && draft !== formatInput(spec, parsed) ? C.readout(fmtMoneyShort(parsed)) : null;
 
   const submit = () => {
     const committed = onCommit();
-    if (committed !== null || entered) onSubmit?.();
+    if (committed !== null) onSubmit?.(committed);
+    else if (entered) onSubmit?.(value);
     else setMsg((m) => m ?? { kind: "range", text: C.empty });
   };
 
@@ -57,7 +63,7 @@ export default function RevenueHero({
     setDraft(null);
     setMsg(null);
     onChange(v);
-    if (mode === "ask") onSubmit?.();
+    if (mode === "ask") onSubmit?.(v);
   };
 
   const note = msg ? (
@@ -82,20 +88,21 @@ export default function RevenueHero({
       inputMode="decimal"
       autoComplete="off"
       spellCheck={false}
-      enterKeyHint={mode === "ask" ? "go" : "done"}
+      enterKeyHint={mode === "summary" ? "done" : "go"}
       placeholder={C.placeholder}
       value={shown}
       onFocus={(e) => {
         setDraft(shown);
         const t = e.currentTarget;
-        requestAnimationFrame(() => t.select());
+        // select the formatted value for easy overwrite, unless typing has already begun
+        if (shown) requestAnimationFrame(() => t.value === shown && t.select());
       }}
       onChange={(e) => onType(e.target.value)}
       onBlur={() => onCommit()}
       onKeyDown={(e) => {
         if (e.key !== "Enter") return;
         e.preventDefault();
-        if (mode === "ask") submit();
+        if (mode !== "summary") submit();
         else e.currentTarget.blur();
       }}
       aria-describedby={note ? `${id}-msg` : undefined}
@@ -135,15 +142,24 @@ export default function RevenueHero({
     );
   }
 
-  if (mode === "embed") {
+  const submitBtn = (
+    <button type="button" className={`${ui.btn} ${ui.primary} ${s.heroSubmit}`} onClick={submit}>
+      <span className={ui.fill} aria-hidden="true" />
+      <span className={ui.label}>{C.submit} →</span>
+    </button>
+  );
+
+  if (mode === "inline") {
     return (
-      <div className={s.heroEmbed}>
-        <label htmlFor={`${id}-text`} className={s.fieldLabel}>
+      <div className={s.heroInline}>
+        <label htmlFor={`${id}-text`} className="sr-only">
           {spec.label}
         </label>
-        <span className={`${s.heroField} ${s.heroFieldEmbed} ${msg?.kind === "range" ? s.heroFieldWarn : ""}`}>{input}</span>
-        {note}
-        {chips}
+        <div className={s.heroInlineRow}>
+          <span className={`${s.heroField} ${s.heroFieldInline} ${msg?.kind === "range" ? s.heroFieldWarn : ""}`}>{input}</span>
+          {submitBtn}
+        </div>
+        {msg && note}
       </div>
     );
   }
@@ -152,17 +168,19 @@ export default function RevenueHero({
     <div className={s.hero}>
       <p className={`${s.eyebrow} type-label`}>
         <span className={s.dot} aria-hidden="true" />
-        {C.label}
+        {eyebrow}
       </p>
-      <label htmlFor={`${id}-text`} className={`${s.heroPrompt} type-h3`}>
+      {heading && (
+        <h2 id={heading.id} className={`${s.heroPrompt} type-h3`}>
+          {heading.text}
+        </h2>
+      )}
+      <label htmlFor={`${id}-text`} className={heading ? s.heroPromptSmall : `${s.heroPrompt} type-h3`}>
         {C.prompt}
       </label>
       <div className={s.heroRow}>
         <span className={`${s.heroField} ${msg?.kind === "range" ? s.heroFieldWarn : ""}`}>{input}</span>
-        <button type="button" className={`${ui.btn} ${ui.primary} ${s.heroSubmit}`} onClick={submit}>
-          <span className={ui.fill} aria-hidden="true" />
-          <span className={ui.label}>{C.submit} →</span>
-        </button>
+        {submitBtn}
       </div>
       {note}
       {chips}

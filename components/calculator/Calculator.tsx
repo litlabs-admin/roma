@@ -9,9 +9,8 @@ import { track } from "@/lib/calculator/track";
 import Button from "@/components/ui/Button";
 import Reveal from "@/components/blog/Reveal";
 import RangeField from "./RangeField";
+import ResultsPane from "./ResultsPane";
 import RevenueHero from "./RevenueHero";
-import RevenueSplit from "./RevenueSplit";
-import RollingNumber from "./RollingNumber";
 import { useCalcTracking } from "./useCalcTracking";
 import s from "./calculator.module.css";
 
@@ -81,7 +80,10 @@ export default function Calculator() {
   useEffect(() => {
     if (stage !== "result") return;
     const invalid = compute(inp).invalid;
-    track("calculator_submit", { value_band: valueBand(invalid), source: userSubmitted.current ? "typed" : "link" });
+    track("calculator_submit", {
+      value_band: valueBand(invalid),
+      source: userSubmitted.current ? "typed" : "link",
+    });
     onInput("R", invalid);
     if (!userSubmitted.current) return;
     const raf = requestAnimationFrame(() => {
@@ -180,62 +182,53 @@ export default function Calculator() {
           </div>
 
           {revealed && (
-            <section ref={resultsRef} id="calc-results" className={s.results} aria-labelledby="calc-results-label">
-              <div className={`${s.resultsInner} ${s.stagger}`}>
-                <p id="calc-results-label" className={`${s.resultsLabel} type-label`}>
-                  <span className={s.dot} aria-hidden="true" />
-                  {C.results.label}
-                </p>
-                <p ref={headlineRef} className={s.headline}>
-                  <RollingNumber text={fmtMoney(out.invalid)} className={s.headlineFigure} rollIn />
-                  <span className={s.headlineSmall}>{C.results.headlineAfter}</span>
-                </p>
-
-                <RevenueSplit inp={inp} out={out} />
-
-                <div className={s.tune}>
-                  <button type="button" className={s.tuneToggle} aria-expanded={tuneOpen} aria-controls="calc-tune" onClick={toggleTune}>
-                    <svg viewBox="0 0 16 16" aria-hidden="true">
-                      <path d="M2.5 5h7M12.5 5h1M2.5 11h1M6.5 11h7" />
-                      <circle cx="11" cy="5" r="1.5" />
-                      <circle cx="5" cy="11" r="1.5" />
-                    </svg>
-                    <span>{tuneOpen ? C.fineTune.hide : C.fineTune.toggle}</span>
-                    <span className={s.tuneRates}>
-                      {inp.v}% · {inp.i}%
-                    </span>
-                  </button>
-                  <div id="calc-tune" className={`${s.tunePanel} ${tuneOpen ? s.tunePanelOn : ""}`} inert={!tuneOpen}>
-                    <div className={s.tunePanelClip}>
-                      <div className={s.tunePanelBody}>
-                        <p className={s.tuneHelp}>{C.fineTune.help}</p>
-                        <RangeField spec={INPUTS.v} value={inp.v} onChange={(v) => update("v", v)} idPrefix="calc" label={C.fineTune.valid} />
-                        <RangeField spec={INPUTS.i} value={inp.i} onChange={(v) => update("i", v)} idPrefix="calc" label={C.fineTune.invalid} />
-                      </div>
+            <ResultsPane inp={inp} out={out} idPrefix="calc" paneRef={resultsRef} headlineRef={headlineRef}>
+              <div className={s.tune}>
+                <button type="button" className={s.tuneToggle} aria-expanded={tuneOpen} aria-controls="calc-tune" onClick={toggleTune}>
+                  <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M2.5 5h7M12.5 5h1M2.5 11h1M6.5 11h7" />
+                    <circle cx="11" cy="5" r="1.5" />
+                    <circle cx="5" cy="11" r="1.5" />
+                  </svg>
+                  <span>{tuneOpen ? C.fineTune.hide : C.fineTune.toggle}</span>
+                  <span className={s.tuneRates}>
+                    {inp.v}% · {inp.i}%
+                  </span>
+                </button>
+                <div id="calc-tune" className={`${s.tunePanel} ${tuneOpen ? s.tunePanelOn : ""}`} inert={!tuneOpen}>
+                  <div className={s.tunePanelClip}>
+                    <div className={s.tunePanelBody}>
+                      <p className={s.tuneHelp}>{C.fineTune.help}</p>
+                      <RangeField spec={INPUTS.v} value={inp.v} onChange={(v) => update("v", v)} idPrefix="calc" label={C.fineTune.valid} />
+                      <RangeField spec={INPUTS.i} value={inp.i} onChange={(v) => update("i", v)} idPrefix="calc" label={C.fineTune.invalid} />
                     </div>
                   </div>
                 </div>
-
-                <div className={s.compactActions}>
-                  <Button href={demoHref} variant="inverse" onClick={() => onCta("book_demo")}>
-                    {C.ctas.demo.label} →
-                  </Button>
-                  <Button href={C.ctas.try.href} variant="ghostOnDark" onClick={() => onCta("try_now")}>
-                    {C.ctas.try.label}
-                  </Button>
-                </div>
-
-                <div className={s.resultsFoot}>
-                  <p className={s.disclaimer}>{C.results.disclaimer}</p>
-                  <button type="button" className={s.copyBtn} onClick={copyLink}>
-                    <svg viewBox="0 0 16 16" aria-hidden="true">
-                      {copied ? <path d="M3.5 8.5 6.5 11.5 12.5 5" /> : <path d="M6.5 9.5 9.5 6.5M7.2 4.6l1.4-1.4a2.6 2.6 0 0 1 3.7 3.7l-1.4 1.4M8.8 11.4l-1.4 1.4a2.6 2.6 0 0 1-3.7-3.7l1.4-1.4" />}
-                    </svg>
-                    <span aria-live="polite">{copied ? C.results.copied : C.results.copy}</span>
-                  </button>
-                </div>
               </div>
-            </section>
+
+              <div className={s.compactActions}>
+                <Button href={demoHref} variant="inverse" onClick={() => onCta("book_demo")}>
+                  {C.ctas.demo.label} →
+                </Button>
+                <Button href={C.ctas.try.href} variant="ghostOnDark" onClick={() => onCta("try_now")}>
+                  {C.ctas.try.label}
+                </Button>
+              </div>
+
+              <div className={s.resultsFoot}>
+                <p className={s.disclaimer}>{C.results.disclaimer}</p>
+                <button type="button" className={s.copyBtn} onClick={copyLink}>
+                  <svg viewBox="0 0 16 16" aria-hidden="true">
+                    {copied ? (
+                      <path d="M3.5 8.5 6.5 11.5 12.5 5" />
+                    ) : (
+                      <path d="M6.5 9.5 9.5 6.5M7.2 4.6l1.4-1.4a2.6 2.6 0 0 1 3.7 3.7l-1.4 1.4M8.8 11.4l-1.4 1.4a2.6 2.6 0 0 1-3.7-3.7l1.4-1.4" />
+                    )}
+                  </svg>
+                  <span aria-live="polite">{copied ? C.results.copied : C.results.copy}</span>
+                </button>
+              </div>
+            </ResultsPane>
           )}
 
           <p className="sr-only" aria-live="polite">

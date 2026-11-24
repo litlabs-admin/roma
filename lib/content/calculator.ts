@@ -122,12 +122,11 @@ export const calcCopy = {
     heading: "What are deductions costing you?",
     lead: "Enter your annual revenue. See what goes to deductions each year, and how much of it is invalid.",
     resultTail: "a year in invalid deductions",
-    cta: "Open the calculator",
+    cta: "See the full breakdown",
   },
   banner: {
     heading: "What are deductions costing you?",
-    sub: "One number. See what you lose each year and how much of it is invalid.",
-    cta: "Open the calculator",
+    sub: "Enter your annual revenue. See what you lose each year and how much of it is invalid.",
   },
   proof: {
     label: "From estimate to recovered",
