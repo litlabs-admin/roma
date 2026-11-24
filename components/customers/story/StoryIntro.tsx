@@ -4,13 +4,12 @@ import { storyPageCopy, type CustomerStory } from "@/lib/content/customers";
 import TeaserVideo from "@/components/video/TeaserVideo";
 import WatchTestimonial from "@/components/video/WatchTestimonial";
 import v from "@/components/video/video.module.css";
-import BrandMark from "../BrandMark";
 import s from "./story.module.css";
 
 /**
  * Story page intro (DESIGN.md §G.15, Hyperline story page): breadcrumb → cover photo →
- * title → lead → the person quoted. Brands without a named person or portrait (the real
- * brands, on purpose) show their brand mark in place of a face.
+ * title → lead → the person quoted (portrait when we have one). The brand mark appears
+ * only in "At a glance" (StoryGlance), never twice.
  * [data-nav-light]: the nav is solid cream from the top.
  */
 export default function StoryIntro({ story }: { story: CustomerStory }) {
@@ -45,19 +44,13 @@ export default function StoryIntro({ story }: { story: CustomerStory }) {
         )}
       </div>
 
-      <h1 id="story-title" className={`${s.title} type-h3`}>
+      <h1 id="story-title" className={s.title}>
         {story.cardTitle}
       </h1>
       <p className={`${s.lead} type-lead`}>{story.excerpt}</p>
 
       <div className={s.person}>
-        {quote.portrait ? (
-          <Image src={quote.portrait.src} alt="" width={96} height={96} className={s.portrait} />
-        ) : (
-          <span className={s.markTile} aria-hidden="true">
-            <BrandMark brand={brand} className={s.tileMark} />
-          </span>
-        )}
+        {quote.portrait && <Image src={quote.portrait.src} alt="" width={96} height={96} className={s.portrait} />}
         <div className={s.personText}>
           {quote.name && <p className={s.personName}>{quote.name}</p>}
           <p className={quote.name ? s.personRole : s.personName}>

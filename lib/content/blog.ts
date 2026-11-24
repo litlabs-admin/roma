@@ -27,7 +27,8 @@ export type ProductFigureKey = "matching" | "tradeRate";
 
 export type Block =
   | { type: "p"; text: string }
-  | { type: "h2"; id: string; text: string }
+  /** `toc`: shorter "On this page" label (default: the heading text). */
+  | { type: "h2"; id: string; text: string; toc?: string }
   | { type: "h3"; text: string }
   | { type: "ul"; items: string[] }
   | { type: "ol"; items: string[] }
@@ -36,6 +37,8 @@ export type Block =
   | { type: "figure"; image: BlogImage; caption: string }
   | { type: "product"; figure: ProductFigureKey; caption: string; summary: string }
   | { type: "table"; caption: string; head: string[]; rows: string[][] }
+  /** Short titled points in a 2×2 grid (e.g. a story's outcomes). */
+  | { type: "cards"; items: { title: string; text: string }[] }
   /** Slim link banner to /calculator (brief §1.2). */
   | { type: "calculator" };
 
@@ -601,6 +604,8 @@ function blockText(b: Block): string {
       return `${b.label} ${b.text}`;
     case "calculator":
       return "";
+    case "cards":
+      return b.items.map((c) => `${c.title} ${c.text}`).join(" ");
     default:
       return b.text;
   }
@@ -636,6 +641,6 @@ export function getRelated(slug: string, n = 3) {
     .slice(0, n);
 }
 
-export function getToc(post: Post) {
-  return post.body.flatMap((b) => (b.type === "h2" ? [{ id: b.id, text: b.text }] : []));
+export function getToc(post: Pick<Post, "body">) {
+  return post.body.flatMap((b) => (b.type === "h2" ? [{ id: b.id, text: b.toc ?? b.text }] : []));
 }

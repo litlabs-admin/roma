@@ -152,8 +152,8 @@
 }
 .qNum {
   color: var(--color-red-600);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
 }
 .qText {
   color: var(--color-ink-900);
@@ -163,10 +163,9 @@
 }
 .qPillar {
   color: var(--color-ink-500);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
 }
 
 .progress {

@@ -71,11 +71,10 @@
 .tagline {
   margin: 0;
   color: rgba(255, 255, 255, 0.5);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-weight: 500;
   font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .grid {
@@ -104,12 +103,11 @@
 .colTitle {
   margin: 0;
   color: rgba(255, 255, 255, 0.5);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-weight: 500;
   font-size: 0.75rem;
   line-height: 1.6;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 .links {
   display: flex;

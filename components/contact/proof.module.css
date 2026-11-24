@@ -39,17 +39,16 @@
   }
 }
 .suffix {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 0.75em;
   letter-spacing: -0.02em;
 }
 .statLabel {
   color: var(--color-ink-500);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-weight: 500;
-  font-size: 0.66rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
 }
 
 .case {
@@ -73,11 +72,10 @@
   align-items: center;
   gap: 0.45rem;
   color: var(--color-red-700);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-weight: 500;
-  font-size: 0.66rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
 }
 .caseLabel::before {
   content: "";
@@ -98,7 +96,7 @@
 }
 .money {
   color: var(--color-red-700);
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.08em;
 }
 .spark {

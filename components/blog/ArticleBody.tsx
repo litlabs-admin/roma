@@ -19,15 +19,22 @@ export default function ArticleBody({ blocks }: { blocks: Block[] }) {
             return <p key={i}>{renderInline(b.text, a.inlineLink)}</p>;
           case "h2":
             return (
-              <h2 key={i} id={b.id} className="type-h4" data-reveal>
+              <h2 key={i} id={b.id} data-reveal>
                 {b.text}
               </h2>
             );
           case "h3":
+            return <h3 key={i}>{b.text}</h3>;
+          case "cards":
             return (
-              <h3 key={i} className="type-h5">
-                {b.text}
-              </h3>
+              <ul key={i} className={a.cards} data-reveal>
+                {b.items.map((c) => (
+                  <li key={c.title} className={a.card}>
+                    <p className={a.cardTitle}>{c.title}</p>
+                    <p className={a.cardText}>{renderInline(c.text, a.inlineLink)}</p>
+                  </li>
+                ))}
+              </ul>
             );
           case "ul":
             return (

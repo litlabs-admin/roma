@@ -170,11 +170,11 @@
 }
 .wordmark {
   display: block;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 500;
   font-size: 1.375rem;
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 @media (prefers-reduced-motion: reduce) {

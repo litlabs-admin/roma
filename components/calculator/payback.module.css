@@ -22,7 +22,7 @@
 }
 .tick {
   fill: var(--ui-axis);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 9px;
   letter-spacing: 0.04em;
 }

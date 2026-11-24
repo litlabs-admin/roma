@@ -59,11 +59,10 @@
 }
 .brand {
   color: var(--color-red-700);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-weight: 500;
   font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 .value {
   margin: 1rem 0 0;

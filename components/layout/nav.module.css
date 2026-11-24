@@ -349,11 +349,11 @@
 }
 /* Serif only because it imitates a printed brand mark (§C.1 props rule), as in the bento. */
 .tileWordmark {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.125rem;
   font-weight: 500;
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   white-space: nowrap;
 }
 .tileRoma {
@@ -364,8 +364,7 @@
 .tileEyebrow {
   font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: rgba(255, 255, 255, 0.85);
 }
 

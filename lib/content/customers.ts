@@ -85,8 +85,10 @@ export type CustomerStory = {
   excerpt: string;
   /** "How {brand} …": grid card title and the story page H1 (Hyperline pattern). */
   cardTitle: string;
-  /** "About {brand}" paragraph on the story page. */
+  /** "About {brand}" text in the story page's "At a glance" card. */
   about: string;
+  /** "At a glance" facts; omit to derive them from product, facts and channels. */
+  glance?: { label: string; value: string }[];
   /** Story page 2×2 summary (Hyperline's Challenge / Solution / Pricing model / Results). */
   summary: { challenge: string; solution: string; channels: string; results: string };
   /** metrics[0] is the headline result: card pill, bento tile, homepage pill. */
@@ -123,7 +125,14 @@ export const CUSTOMER_STORIES: CustomerStory[] = [
     headline: { before: "From spreadsheets to ", accent: "answers", after: "." },
     excerpt: "A Kansas flour brand’s finance lead swapped self-built spreadsheets for one view of every deduction, by DC and by store, and now evaluates deductions instead of just reacting to them.",
     cardTitle: "“Even better than I do”: how Farmer Direct Foods got clear on its KeHE and UNFI deductions",
-    about: "Farmer Direct Foods is a stone ground whole wheat flour mill in central Kansas, with partner mills for all-purpose flour. Alongside toll milling, its retail brand, started about three years ago, is growing in the natural food sector. Julie Mayden, Senior VP of Grain and Finance and a CPA, runs grain sourcing, hedging and the monthly financials, and owns retail deductions too.",
+    about: "A stone ground whole wheat flour mill in central Kansas whose retail brand, started about three years ago, is growing in natural food.",
+    glance: [
+      { label: "Business", value: "Toll milling and its own retail flour brand" },
+      { label: "Headquarters", value: "Central Kansas" },
+      { label: "Channels", value: "KeHE, UNFI" },
+      { label: "Deductions owner", value: "Julie Mayden, SVP of Grain and Finance (CPA)" },
+      { label: "Uses Roma for", value: "Deduction dashboard, DC and store views, classification, monthly CSM reviews" },
+    ],
     summary: {
       challenge: "Julie tracked KeHE and UNFI deductions on spreadsheets she built herself: monthly KeHE Connect downloads, every deduction type labeled by hand, pivot tables to spot anything out of line. UNFI was manual entry.",
       solution: "Roma pulls KeHE and UNFI deductions into one dashboard and classifies each line, so Julie confirms instead of building the view herself.",
@@ -155,19 +164,32 @@ export const CUSTOMER_STORIES: CustomerStory[] = [
       // Source: "Roma | Farmer Direct Foods Case Study | Drafts v1" (LitLabs, 23 Nov 2026),
       // §2 web version + §0 quote bank. Web-story rules from that doc: no previous-vendor
       // mention, no store names, no numbers, CSM unnamed.
-      { type: "h2", id: "challenge", text: "Before: deductions on spreadsheets" },
-      { type: "p", text: "Julie runs grain and finance at Farmer Direct Foods, a stone ground flour mill in central Kansas with a fast-growing retail brand. Deductions landed on her desk too. She downloaded KeHE data each month, labeled every deduction type by hand and built pivot tables to find problems. UNFI was manual entry." },
+      { type: "h2", id: "challenge", text: "Before: deductions on spreadsheets", toc: "Before" },
+      { type: "p", text: "Julie runs grain and finance at Farmer Direct Foods, a stone ground flour mill in central Kansas with a fast-growing retail brand. It’s a small team, so the CPA who runs grain sourcing and the monthly financials also owns retail revenue deductions." },
       { type: "quote", text: "It was spreadsheet based, Excel spreadsheets. They were spreadsheets that I created." },
-      { type: "p", text: "She needed two things: a system that knew distributor deduction types well enough to check her own work, and a team that would stay in touch." },
-      { type: "h2", id: "what-changed", text: "What changed: one clear view, a second check" },
-      { type: "p", text: "With Roma, Julie sees KeHE and UNFI deductions in one dashboard, broken out by DC and by grocery store, as the data comes in. Roma classifies each deduction and she confirms, which gives her a check on the calls she used to make alone." },
+      { type: "p", text: "As the retail brand grew, she tracked KeHE and UNFI on spreadsheets she built herself. She downloaded KeHE Connect data each month, labeled every deduction type by hand and ran pivot tables to spot anything out of line. UNFI was manual entry." },
+      { type: "h2", id: "why-roma", text: "Why Roma", toc: "Why Roma" },
+      { type: "p", text: "Julie needed two things: a system that knew distributor deduction types well enough to check her own work, and a team that would stay in touch. Roma pulls her KeHE and UNFI deductions into one dashboard and classifies each line, so she confirms instead of building the view herself." },
       { type: "quote", text: "Your system understands the invoice types from KeHE and UNFI even better than I do. You have more history with that." },
-      { type: "p", text: "“It’s been really reassuring to have a system behind me checking all my classifications,” she says. “Roma’s dashboard is much more user-friendly. It’s very clear… It provides the data I need.”" },
-      { type: "p", text: "Each month she meets her Roma CSM with saved-up questions, and the CSM’s KeHE ordering tips helped spread orders across time instead of bunching them around discount periods." },
-      { type: "h2", id: "results", text: "The outcome: evaluate, not react" },
+      { type: "h2", id: "what-changed", text: "What changed: one clear view, a second check", toc: "What changed" },
+      { type: "p", text: "Julie now works from Roma’s dashboard instead of exports and pivot tables. She sees deductions by DC and by individual grocery store as the data comes in." },
+      { type: "quote", text: "Roma’s dashboard is much more user-friendly. It’s very clear… It provides the data I need." },
+      { type: "p", text: "Roma’s classification checks hers. “I did question some of the classifications I was making on my own before,” she says. “It’s been really reassuring to have a system behind me checking all my classifications.”" },
+      { type: "p", text: "Each month she meets her Roma CSM with saved-up questions. The CSM’s KeHE ordering tips helped spread orders across time instead of bunching them around discount periods." },
+      { type: "quote", text: "It’s great to have someone who has experience in the industry that I can ask the questions, and they’re available for me to ask. And I get emails consistently, I know who I need to talk to." },
+      { type: "h2", id: "results", text: "The outcome: evaluate, not react", toc: "Outcome" },
       { type: "p", text: "Julie now compares deduction levels against sales to ask whether deductions are running too high." },
       { type: "quote", text: "It allows me the ability to evaluate versus just react. I can actually use it to analyze and make decisions. And that is something I did not have before." },
-      { type: "p", text: "Monthly meetings with her Roma CSM keep questions from piling up. In her words, the team is “probably… the single biggest improvement.”" },
+      {
+        type: "cards",
+        items: [
+          { title: "Clarity", text: "One clear view of deductions by DC and by store, which she couldn’t easily get before." },
+          { title: "Confidence", text: "A second check on every classification she makes." },
+          { title: "Evaluate, not react", text: "She compares deduction levels against sales to ask whether deductions are running too high." },
+          { title: "Support", text: "In her words, the Roma team is “probably… the single biggest improvement.” Monthly meetings keep questions from piling up." },
+        ],
+      },
+      { type: "quote", text: "Roma has really taken an interest in how we do things so that they can build their program to address that. And that’s invaluable." },
       { type: "callout", label: "Would she recommend Roma?", text: "Absolutely. If you’re willing to work with me at my size… and change things for someone like us… there would be no reason to not recommend you. It really makes a difference." },
     ],
   },
@@ -544,6 +566,19 @@ export function pillText(story: CustomerStory) {
   return story.pill ?? `${story.metrics[0].figure} ${story.metrics[0].label}`;
 }
 
+/** "At a glance" facts: the story's own list, else derived from its fields. */
+export function glanceFacts(story: CustomerStory): { label: string; value: string }[] {
+  if (story.glance) return story.glance;
+  const { facts } = story;
+  return [
+    { label: "Business", value: story.product },
+    ...(facts.hq ? [{ label: "Headquarters", value: facts.hq }] : []),
+    ...(facts.team ? [{ label: "Team", value: facts.team }] : []),
+    { label: "Channels", value: story.channels.join(", ") },
+    ...(facts.since ? [{ label: "On Roma since", value: facts.since }] : []),
+  ];
+}
+
 export function storyHref(slug: string) {
   return `/customers/${slug}`;
 }
@@ -562,6 +597,9 @@ export const customersCopy = {
 
 export const storyPageCopy = {
   breadcrumb: "Customers",
+  toc: "On this page",
+  glance: "At a glance",
+  glanceCta: { label: "Book a demo", href: DEMO_HREF },
   about: "About",
   summary: { challenge: "Challenge", solution: "Solution", channels: "Channels", results: "Results" },
   more: "More customer stories",

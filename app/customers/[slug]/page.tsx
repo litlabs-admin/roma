@@ -9,6 +9,9 @@ import ClosingCta from "@/components/sections/closing/ClosingCta";
 import LogoCard from "@/components/customers/LogoCard";
 import StoryIntro from "@/components/customers/story/StoryIntro";
 import StorySummary from "@/components/customers/story/StorySummary";
+import StoryGlance from "@/components/customers/story/StoryGlance";
+import ArticleToc from "@/components/blog/ArticleToc";
+import { getToc } from "@/lib/content/blog";
 import { CUSTOMER_STORIES, custClosing, getRelatedStories, getStory, storyHref, storyPageCopy } from "@/lib/content/customers";
 import a from "@/components/blog/article.module.css";
 import c from "@/components/customers/customers.module.css";
@@ -62,10 +65,10 @@ function Story({ slug }: { slug: string }) {
   const st = getStory(slug);
   if (!st) notFound();
 
-  // The attributed quote opens "What changed" (else "The results", else the end), so it
-  // never stacks against a quote block that closes a section.
-  const at = (id: string) => st.body.findIndex((blk) => blk.type === "h2" && blk.id === id);
-  const split = at("what-changed") >= 0 ? at("what-changed") : at("results");
+  // The attributed quote closes the first section (just before the second h2, else the
+  // end). Write that section so it doesn't itself end on a quote block.
+  const h2s = st.body.flatMap((blk, i) => (blk.type === "h2" ? [i] : []));
+  const split = h2s[1] ?? -1;
   const head = split < 0 ? st.body : st.body.slice(0, split);
   const tail = split < 0 ? [] : st.body.slice(split);
   const related = getRelatedStories(st.slug);
@@ -111,22 +114,32 @@ function Story({ slug }: { slug: string }) {
     <>
       <main>
         <div className={s.page}>
-          <div className={s.column}>
+          <div className={`${s.body} ${s.head}`}>
             <StoryIntro story={st} />
-            <Reveal mode="each">
-              <StorySummary story={st} />
-            </Reveal>
-            <Reveal mode="each" as="article" className={`${a.prose} ${s.prose}`} aria-labelledby="story-title">
-              <ArticleBody blocks={head} />
-              <figure className={s.quote} data-reveal>
-                <blockquote>“{st.quote.text}”</blockquote>
-                <figcaption>
-                  {who} @ {st.brand.name}
-                </figcaption>
-              </figure>
-              <ArticleBody blocks={tail} />
-            </Reveal>
-            <p className={s.note}>{storyPageCopy.note}</p>
+          </div>
+
+          {/* Hyperline article grid: "On this page" | story | "At a glance". */}
+          <div className={s.body}>
+            <div className={s.tocCol}>
+              <ArticleToc items={getToc(st)} label={storyPageCopy.toc} />
+            </div>
+            <div className={s.center}>
+              <Reveal mode="each">
+                <StorySummary story={st} />
+              </Reveal>
+              <Reveal mode="each" as="article" className={`${a.prose} ${s.prose}`} aria-labelledby="story-title">
+                <ArticleBody blocks={head} />
+                <figure className={s.quote} data-reveal>
+                  <blockquote>“{st.quote.text}”</blockquote>
+                  <figcaption>
+                    {who} @ {st.brand.name}
+                  </figcaption>
+                </figure>
+                <ArticleBody blocks={tail} />
+              </Reveal>
+              <p className={s.note}>{storyPageCopy.note}</p>
+            </div>
+            <StoryGlance story={st} />
           </div>
 
           <Reveal as="section" className={`container-lg ${s.more}`} aria-labelledby="more-heading">

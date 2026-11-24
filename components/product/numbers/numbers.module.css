@@ -111,11 +111,10 @@
 }
 .cardLabel {
   color: var(--color-ink-500);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-weight: 500;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
 }
 .figure {
   margin: 0.75rem 0 0.75rem;

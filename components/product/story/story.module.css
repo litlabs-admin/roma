@@ -125,11 +125,10 @@
 }
 .mono {
   color: var(--color-ink-500);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-weight: 500;
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
 }
 .legend {
   display: inline-flex;

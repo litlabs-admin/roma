@@ -142,9 +142,16 @@ h1.heroTitle {
 }
 @media (min-width: 992px) {
   .layout {
-    grid-template-columns: 13rem minmax(0, 44rem);
+    grid-template-columns: 13rem minmax(0, 40rem);
     justify-content: center;
-    gap: 5rem;
+    gap: 4rem;
+  }
+}
+/* Hyperline article grid: TOC | 40rem text | aside (empty on blog posts). */
+@media (min-width: 1200px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 40rem) minmax(0, 1fr);
+    gap: 3rem;
   }
 }
 
@@ -198,15 +205,13 @@ h1.heroTitle {
 /* ── Prose ───────────────────────────────────────────────────────────── */
 
 .prose {
+  /* Hyperline .prose: 1.0625rem / 1.6, weight 500, +0.02em, 39rem measure. */
   min-width: 0;
   color: var(--color-ink-800);
-  font-size: 1rem;
+  font-size: 1.0625rem;
+  font-weight: 500;
   line-height: 1.6;
-}
-@media (min-width: 992px) {
-  .prose {
-    font-size: 1.0625rem;
-  }
+  letter-spacing: 0.02em;
 }
 .prose > * {
   margin: 0;
@@ -220,7 +225,7 @@ h1.heroTitle {
 .prose > h2,
 .prose > h3,
 .prose > blockquote {
-  max-width: 64ch;
+  max-width: 39rem;
 }
 .prose > p {
   text-wrap: pretty;
@@ -230,14 +235,22 @@ h1.heroTitle {
   font-weight: 500;
 }
 .prose > h2 {
-  margin-top: 3rem;
+  margin-top: 3.5rem;
   color: var(--color-ink-900);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0;
   text-wrap: balance;
   scroll-margin-top: calc(var(--nav-h) + 1.5rem);
 }
 .prose > h3 {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   color: var(--color-ink-900);
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0;
 }
 .prose > h2 + *,
 .prose > h3 + * {
@@ -291,30 +304,26 @@ h1.heroTitle {
   left: 0;
   top: 0.2em;
   color: var(--color-red-700);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   font-variant-numeric: tabular-nums;
 }
 
+/* Hyperline blockquote: plain, larger, ink, hanging opening mark; 2rem around it. */
 .quote {
-  margin-block: 2.5rem !important;
-  padding-left: 1.25rem;
-  border-left: 2px solid var(--color-red-600);
+  margin-block: 2rem !important;
 }
 .quote p {
   margin: 0;
   color: var(--color-ink-900);
   font-size: 1.25rem;
+  font-weight: 500;
   line-height: 1.35;
-  letter-spacing: -0.01em;
-  text-wrap: balance;
-}
-@media (min-width: 992px) {
-  .quote p {
-    font-size: 1.375rem;
-  }
+  letter-spacing: 0;
+  text-indent: -0.5em;
+  text-wrap: pretty;
 }
 
 .callout {
@@ -396,11 +405,10 @@ h1.heroTitle {
 .table thead th {
   background: var(--color-cream-50);
   color: var(--color-ink-500);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 .table tbody th {
   color: var(--color-ink-900);
@@ -463,4 +471,47 @@ h1.heroTitle {
   .inlineLink {
     transition: none;
   }
+}
+
+/* Outcome / highlight cards (Block "cards"): 2×2 at ≥640px. */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-block: 2rem !important;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 640px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.card {
+  padding: 1.25rem;
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+}
+.cardTitle {
+  margin: 0;
+  color: var(--color-ink-900);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+.cardTitle::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 0.5rem 0.15em 0;
+  background: var(--color-red-600);
+}
+.cardText {
+  margin: 0.375rem 0 0;
+  color: var(--color-ink-600);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  text-wrap: pretty;
 }

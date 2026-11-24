@@ -6,7 +6,8 @@ import AskRomaLoader from "@/components/chat/AskRomaLoader";
 import "./globals.css";
 
 // DESIGN.md §C.1 — swap a family here and every token follows.
-// Instrument Sans (wdth 94 via `font-stretch` in globals.css) is the free stand-in for Hyperline's Season Sans.
+// Instrument Sans (wdth 94 via `font-stretch` in globals.css) is the free stand-in for Hyperline's Season Sans;
+// globals.css sets it the way Hyperline sets Season Sans (text at 500, +0.02em tracking).
 const instrument = Instrument_Sans({
   variable: "--font-instrument",
   subsets: ["latin"],
