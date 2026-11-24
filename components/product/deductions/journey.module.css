@@ -233,20 +233,11 @@
   grid-column: 1 / -1;
   margin-top: 1.75rem;
 }
-/* Phones: the stage runs edge to edge and crops 30 units off each side of the canvas,
-   so the scene reads ~25% larger (objects that bleed off read as intentional). */
+/* Phones: the stage stays inside the page gutter and shows the whole canvas, so every
+   scene keeps clear space on both sides. */
 @media (max-width: 767px) {
   .stageOne {
-    aspect-ratio: 500 / 460;
-    margin-inline: calc(-1 * var(--gutter));
-    border-inline: 0;
-    border-radius: 0;
-  }
-  .stageOne .canvas {
-    --u: calc(100cqw / 500);
-    right: auto;
-    left: calc(var(--u) * -30);
-    width: calc(var(--u) * 560);
+    border-radius: var(--radius-lg);
   }
 }
 .stageCol {

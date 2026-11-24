@@ -181,6 +181,40 @@
   .card:not([data-active]) .bar .extras {
     display: none;
   }
+  /* Active card: photo on top, details in a solid band below it, so the pills never
+     sit on the speaker's face. The image/teaser keep their inline `fill` box, so the
+     height override needs !important. */
+  .card[data-active] {
+    --photo-h: min(19rem, 46svh);
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+  .card[data-active]::before {
+    content: "";
+    flex: none;
+    height: var(--photo-h);
+  }
+  .card[data-active] > img,
+  .card[data-active] > video {
+    height: var(--photo-h) !important;
+    bottom: auto !important;
+  }
+  .card[data-active] .scrim {
+    bottom: auto;
+    height: var(--photo-h);
+    background: linear-gradient(to top, rgba(31, 10, 8, 0.35) 0%, transparent 35%);
+  }
+  .card[data-active] .bar {
+    position: relative;
+    inset: auto;
+    gap: 1rem;
+    padding: 1.125rem 1.25rem 1.25rem;
+    background: var(--color-red-950);
+  }
+  .card[data-active] .extras {
+    gap: 0.5rem;
+  }
 }
 /* White logo through an alpha mask (Hyperline maskStyle). */
 .logo {
@@ -311,6 +345,12 @@
 @media (max-width: 1023px) {
   .cream .card[data-active] {
     height: min(26rem, 56svh);
+  }
+}
+/* Phones: the active card sizes to photo + details band (see .bar above). */
+@media (max-width: 639px) {
+  .cream .card[data-active] {
+    height: auto;
   }
 }
 @media (min-width: 1024px) {
