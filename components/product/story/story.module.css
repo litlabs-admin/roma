@@ -17,14 +17,34 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
-  padding: 1.75rem 1.25rem 1.25rem;
-  border-radius: var(--radius-xl);
+  padding: 1.5rem 1.25rem 1.25rem;
+  border-radius: var(--radius-lg);
   background: var(--color-white);
   box-shadow: 0 40px 80px -40px rgba(31, 10, 8, 0.6);
 }
 @media (min-width: 768px) {
   .card {
     padding: 2.5rem;
+    border-radius: var(--radius-xl);
+  }
+}
+@media (max-width: 991.98px) {
+  .stats {
+    align-self: stretch;
+  }
+}
+@media (max-width: 767px) {
+  .stat dd {
+    font-size: 1.75rem;
+  }
+  .visual {
+    padding: 0.75rem;
+  }
+  .chartCard {
+    padding: 1rem 1rem 0.875rem;
+  }
+  .chartHead {
+    margin-bottom: 2.75rem;
   }
 }
 @media (min-width: 992px) {
@@ -70,7 +90,8 @@
 }
 .stats {
   display: flex;
-  gap: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
   margin: 0.5rem 0 0;
   padding-top: 1.25rem;
   border-top: 1px solid var(--color-sand-300);

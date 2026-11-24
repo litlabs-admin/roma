@@ -407,6 +407,7 @@
 }
 .foot {
   display: grid;
+  white-space: nowrap;
   grid-template-columns: auto 8rem;
   gap: 1.5rem;
   color: var(--color-ink-600);
@@ -511,10 +512,15 @@
   }
 }
 @media (max-width: 767px) {
+  .sheet {
+    padding: 0.75rem;
+    border-radius: var(--radius-lg);
+  }
+  /* One inset (0.75rem) shared by the check row, the lines and the footing. */
   .line {
-    grid-template-columns: 1.1rem 1fr 6rem;
+    grid-template-columns: 1.1rem minmax(0, 1fr) auto;
     gap: 0.5rem;
-    padding: 0 0.5rem;
+    padding: 0 0.75rem;
     height: auto;
     min-height: 2.6rem;
   }
@@ -529,8 +535,43 @@
   .checkRow > :nth-child(3) {
     display: none;
   }
+  .checkTitle {
+    min-width: 0;
+  }
+  .checkTitle b,
+  .checkTitle span {
+    white-space: nowrap;
+  }
+  .checkAmt {
+    font-size: 1.05rem;
+  }
   .bottom {
-    padding: 0 0.5rem;
+    gap: 1.25rem;
+    margin-top: 1rem;
+    padding: 0 0.75rem 0.25rem;
+  }
+  .stamp {
+    margin-left: 0.25rem;
+  }
+  .footing {
+    justify-items: stretch;
+    padding-top: 1rem;
+    border-top: 1px solid var(--ui-line-soft);
+  }
+  .foot {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+  }
+  .foot > span {
+    white-space: nowrap;
+  }
+  .rule {
+    justify-self: end;
+  }
+}
+@media (max-width: 991.98px) {
+  .stepper {
+    gap: 1.5rem 1.25rem;
   }
 }
 

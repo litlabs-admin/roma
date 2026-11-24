@@ -119,6 +119,7 @@ export const navMenus: NavMenu[] = [
       { label: "Blog", href: "/blogs", desc: "Guides on deductions, retailers and trade spend.", icon: "blog" },
       { label: "Deduction codes", href: "/deduction-codes", desc: "Look up a retailer's deduction code and what it means.", icon: "codes" },
       { label: "FAQs", href: "/#faq", desc: "Quick answers on setup, retailers and security.", icon: "faq" },
+      { label: "Compare all tools", href: "/compare", desc: "Roma and every alternative on the same eight questions.", icon: "compare" as const },
       ...competitors.map((c) => ({ label: `Roma vs. ${c.name}`, href: compareHref(c.slug), desc: c.blurb, icon: "compare" as const })),
     ],
     feature: latestPostFeature(),

@@ -160,4 +160,15 @@ export const glimpse: Competitor = {
     { q: "Does Roma replace my ERP?", a: "No. Roma works alongside your accounting stack and exports coded lines to NetSuite, QuickBooks or CSV." },
     { q: "Where does the Glimpse information come from?", a: `From Glimpse’s public website, checked on ${CHECKED_ON}. We quote it directly and list every source on this page. If anything has changed, tell us through our contact page and we’ll update it.` },
   ],
+  // The /compare matrix (DESIGN.md §G.13a): every answer is read from this page's table rows.
+  matrix: {
+    what: { value: "Managed service", row: "What it is" },
+    price: { value: "Custom quote", row: "Price" },
+    live: { value: "45 days", row: "Time to go live" },
+    disputes: { value: "Their specialists", row: "Who files disputes" },
+    classify: { value: "AI-checked", row: "Classification" },
+    backups: { value: "Pulled for you", row: "Backups" },
+    accounting: { value: "QuickBooks, NetSuite", row: "ERP" },
+    security: { value: "SOC 2", row: "Security" },
+  },
 };

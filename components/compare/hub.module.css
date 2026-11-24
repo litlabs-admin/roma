@@ -36,6 +36,15 @@
   line-height: 1.45;
 }
 
+.leadCol {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+}
+.all {
+  font-size: 0.9375rem;
+}
+
 .grid {
   display: grid;
   gap: 1rem;
@@ -44,7 +53,16 @@
   list-style: none;
 }
 @media (min-width: 768px) {
-  .grid {
+  .leadCol {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+}
+.all {
+  font-size: 0.9375rem;
+}
+
+.grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.25rem;
   }
@@ -106,4 +124,21 @@
 .card:focus-visible {
   outline: 2px solid var(--color-red-600);
   outline-offset: 2px;
+}
+
+/* /compare hub: the spotlighted competitor's card (§E.6 active border). */
+.cardOn {
+  border-color: var(--color-red-600);
+  box-shadow: 0 0 0 1px var(--color-red-600);
+  transition:
+    border-color var(--dur-state, 300ms) var(--ease-state),
+    box-shadow var(--dur-state, 300ms) var(--ease-state);
+}
+.cardOn .arrow {
+  color: var(--color-red-600);
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

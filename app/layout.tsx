@@ -40,15 +40,6 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${instrument.variable} ${inter.variable} ${geistMono.variable} ${sourceSerif.variable}`} suppressHydrationWarning>
-      <head>
-        {/* Pre-paint guard: entrance elements start hidden only when JS + motion are available (DESIGN.md §F.10). */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('js-motion')}catch(e){}",
-          }}
-        />
-      </head>
       <body>
         <SmoothScroll />
         {children}

@@ -1,0 +1,432 @@
+/* The /compare matrix (DESIGN.md §G.13a). Same sheet as the one comparison table
+   (table.module.css): white, sand hairlines, Roma column in a faint red wash under a red
+   rule. Spotlight ≥1024px lights one competitor column and steps the rest back; below
+   1024px it chooses the one competitor shown beside Roma (no sideways scroll). */
+
+.section {
+  scroll-margin-top: calc(var(--nav-h) + 1rem);
+}
+
+/* ── spotlight control (pricing matrixTabs dress) ── */
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+.barLabel {
+  color: var(--color-ink-500);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.tabs {
+  box-sizing: border-box;
+  max-width: 100%;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--color-sand-400);
+  border-radius: var(--radius-pill);
+  background: #fff;
+}
+.tab {
+  min-height: 2.5rem;
+  padding: 0 1.1rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-ink-800);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-state, 300ms) var(--ease-state),
+    color var(--dur-state, 300ms) var(--ease-state);
+}
+.tabOn {
+  background: var(--color-ink-900);
+  color: #fff;
+}
+.tab:focus-visible {
+  outline: 2px solid var(--color-red-600);
+  outline-offset: 2px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .tab:not(.tabOn):hover {
+    background: var(--color-cream-100);
+  }
+}
+
+/* ── sheet + table ── */
+.sheet {
+  border: 1px solid var(--color-sand-300);
+  border-radius: var(--radius-lg);
+  background: #fff;
+}
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+.table th,
+.table td {
+  text-align: left;
+  vertical-align: top;
+}
+
+/* head: sticky under the nav, opaque so rows slide under it */
+.table thead th {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 2;
+  padding: 1.25rem 1rem 1rem;
+  border-bottom: 1px solid var(--color-ink-900);
+  background: #fff;
+  vertical-align: bottom;
+  font-weight: 500;
+}
+.table thead th:first-child {
+  border-top-left-radius: var(--radius-lg);
+}
+.table thead th:last-child {
+  border-top-right-radius: var(--radius-lg);
+}
+.corner {
+  width: 19%;
+}
+.roma {
+  width: 17%;
+}
+.them {
+  width: 16%;
+}
+.headIn {
+  display: grid;
+  justify-items: start;
+  gap: 0.6rem;
+}
+.romaLogo {
+  display: block;
+  width: auto;
+  height: 1.35rem;
+}
+.logo {
+  display: flex;
+  align-items: flex-end;
+  min-height: 1.75rem;
+}
+.headLink {
+  color: var(--color-ink-500);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color var(--dur-micro, 150ms) ease;
+}
+.headLink:hover {
+  color: var(--color-red-700);
+}
+.headLink:focus-visible {
+  outline: 2px solid var(--color-red-600);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Roma column: wash + rule (§G.13 table). Opaque mix so the sticky head stays solid. */
+.table .roma {
+  background: color-mix(in srgb, var(--color-red-100) 28%, #fff);
+}
+.table thead .roma {
+  box-shadow: inset 0 3px 0 var(--color-red-600);
+}
+
+/* rows */
+.row > * {
+  border-bottom: 1px solid var(--color-sand-300);
+}
+.label {
+  padding: 1.1rem 1rem 1.15rem 1.25rem;
+  font-weight: 400;
+}
+.cell {
+  padding: 1.1rem 1rem 1.15rem;
+  text-wrap: pretty;
+}
+.cellIn {
+  display: grid;
+  gap: 0.35rem;
+  transition: opacity var(--dur-state, 300ms) var(--ease-state);
+}
+.value {
+  color: var(--color-ink-900);
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.valueRoma {
+  color: var(--color-red-600);
+  font-size: 1.125rem;
+}
+.text {
+  color: var(--color-ink-600);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+.roma .text {
+  color: var(--color-ink-800);
+}
+/* "Not published": dashed chip, the Floret dial / code-placeholder language. */
+.np {
+  justify-self: start;
+  padding: 0.15rem 0.5rem;
+  border: 1px dashed var(--color-sand-400);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink-500);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.badge {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.4rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-red-600);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  vertical-align: 0.1em;
+}
+
+/* Best fit if */
+.fit > * {
+  border-top: 1px solid var(--color-ink-900);
+  border-bottom: 0;
+}
+.fitText {
+  display: block;
+  color: var(--color-ink-800);
+  font-size: 0.875rem;
+}
+.fitRoma {
+  color: var(--color-ink-900);
+  font-weight: 500;
+}
+
+/* ── spotlight (≥1024px): the picked column lit, the others stepped back ── */
+@media (min-width: 1024px) {
+  .table .on {
+    background: color-mix(in srgb, var(--color-red-100) 14%, #fff);
+    transition: background-color var(--dur-state, 300ms) var(--ease-state);
+  }
+  .table thead .on {
+    box-shadow: inset 0 2px 0 var(--color-ink-900);
+  }
+  .off .cellIn,
+  .off .headIn {
+    opacity: 0.45;
+  }
+  .table .them {
+    transition: background-color var(--dur-state, 300ms) var(--ease-state);
+  }
+  .label {
+    padding-left: 1.75rem;
+  }
+}
+
+/* Point at a row: it comes forward, the rest step back (§G.16 partner hub idea). */
+@media (hover: hover) and (pointer: fine) {
+  .table tbody:has(.row:hover) .row:not(:hover) .cellIn,
+  .table tbody:has(.row:hover) .row:not(:hover) .label > * {
+    opacity: 0.62;
+  }
+  .table tbody:has(.row:hover) .row:not(:hover) .off .cellIn {
+    opacity: 0.3;
+  }
+  .table tbody .row:hover > * {
+    background-color: var(--color-cream-50);
+  }
+  .table tbody .row:hover > .roma {
+    background-color: color-mix(in srgb, var(--color-red-100) 40%, #fff);
+  }
+  .label > * {
+    transition: opacity var(--dur-micro, 150ms) ease;
+  }
+}
+
+/* "Read the full comparison" (hidden on desktop while "All" is picked). */
+.foot {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--color-sand-300);
+}
+.full {
+  font-size: 0.9375rem;
+}
+@media (min-width: 1024px) {
+  .foot {
+    padding-inline: 1.75rem;
+  }
+  .footAll {
+    display: none;
+  }
+}
+
+/* ── sources, grouped by competitor ── */
+.srcGroups {
+  display: grid;
+  gap: 1.5rem;
+  padding: 0 1.25rem 1.5rem;
+}
+@media (min-width: 768px) {
+  .srcGroups {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 2.5rem;
+    padding-inline: 2rem;
+  }
+}
+.srcHead {
+  display: flex;
+  margin: 0 0 0.75rem;
+}
+.srcList {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--color-ink-600);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+.srcList li {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: 0.4rem;
+}
+
+/* ── below 1024px: Roma + the one competitor the tabs pick ── */
+@media (max-width: 1023px) {
+  .bar {
+    position: sticky;
+    top: calc(var(--nav-h) + 0.5rem);
+    z-index: 3;
+  }
+  .barLabel {
+    display: none;
+  }
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: 100%;
+  }
+  .tab {
+    padding: 0 0.25rem;
+    font-size: 0.875rem;
+  }
+  .tabAll {
+    display: none;
+  }
+  .tabPhoneOn {
+    background: var(--color-ink-900);
+    color: #fff;
+  }
+  .them:not(.shown) {
+    display: none;
+  }
+  .table thead th {
+    position: static;
+  }
+  .corner {
+    width: 32%;
+  }
+  .roma,
+  .them {
+    width: 34%;
+  }
+  /* The column that just came in fades up, row by row. */
+  .table td.shown .cellIn,
+  .table th.shown .headIn {
+    animation: mxIn 320ms var(--ease-state) both;
+    animation-delay: calc(var(--r, 0) * 40ms);
+  }
+}
+@keyframes mxIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* ── phones: each criterion is a block, Roma and the competitor side by side ── */
+@media (max-width: 639px) {
+  .table,
+  .table thead,
+  .table tbody,
+  .table tfoot {
+    display: block;
+  }
+  .table tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .corner {
+    display: none;
+  }
+  .table thead th {
+    padding: 1rem 0.875rem 0.875rem;
+  }
+  .table thead th:nth-child(2) {
+    border-top-left-radius: var(--radius-lg);
+  }
+  .row > * {
+    border-bottom: 0;
+  }
+  .row {
+    border-bottom: 1px solid var(--color-sand-300);
+  }
+  .label {
+    grid-column: 1 / -1;
+    padding: 1rem 0.875rem 0.5rem;
+  }
+  .cell {
+    padding: 0.5rem 0.875rem 1rem;
+  }
+  .fit {
+    border-top: 1px solid var(--color-ink-900);
+    border-bottom: 0;
+  }
+  .fit > * {
+    border-top: 0;
+  }
+  .them,
+  .roma,
+  .corner {
+    width: auto;
+  }
+  .valueRoma {
+    font-size: 1.0625rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab,
+  .cellIn,
+  .label > *,
+  .table .on,
+  .table .them {
+    transition: none;
+  }
+  .table td.shown .cellIn,
+  .table th.shown .headIn {
+    animation: none;
+  }
+}

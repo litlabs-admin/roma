@@ -143,7 +143,12 @@
 /* ── Card: photo ground, caption on top, art flush on the band's bottom edge ── */
 
 .figure {
-  margin: 3rem 0 0;
+  margin: 2.5rem 0 0;
+}
+@media (min-width: 768px) {
+  .figure {
+    margin-top: 3rem;
+  }
 }
 @media (min-width: 992px) {
   .figure {
@@ -155,12 +160,13 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-  padding: 1rem 1rem 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: 0.875rem 0.75rem 0;
   background: var(--color-red-950);
 }
 @media (min-width: 768px) {
   .card {
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
     padding: 1.25rem 2.5rem 0;
   }
 }

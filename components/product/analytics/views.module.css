@@ -5,6 +5,11 @@
   position: relative;
   padding-block: var(--section-lg);
 }
+@media (max-width: 767px) {
+  .section {
+    padding-bottom: var(--section-md);
+  }
+}
 .inner {
   width: 100%;
   max-width: var(--container-lg);
@@ -51,8 +56,11 @@
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
+}
+.grid > * {
+  min-width: 0;
 }
 @media (min-width: 992px) {
   .grid {
@@ -93,7 +101,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 3.25rem 1rem 1.25rem;
+  padding: 3rem 0.75rem 1rem;
   border-radius: calc(var(--radius-xl) - 0.5rem);
   background: var(--well-neutral);
   font-variant-numeric: tabular-nums;
@@ -131,7 +139,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1.25rem 1rem 1.5rem;
+  padding: 1.25rem 1.25rem 1.5rem;
 }
 @media (min-width: 992px) {
   .text {
@@ -511,12 +519,58 @@
   opacity: 0.7;
 }
 @media (max-width: 767px) {
+  .card {
+    border-radius: var(--radius-lg);
+  }
+  .well {
+    border-radius: calc(var(--radius-lg) - 0.5rem);
+  }
+  .tag {
+    top: 1.1rem;
+    left: 1rem;
+  }
   .months span:nth-child(even) {
     visibility: hidden;
   }
+  .table {
+    font-size: 0.8125rem;
+  }
   .tr {
-    grid-template-columns: minmax(0, 1.4fr) 1fr 1fr;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 0.95fr);
+    gap: 0.4rem;
     padding: 0 0.75rem;
+  }
+  .sortBtn {
+    gap: 0.1rem;
+    margin: 0 -0.2rem;
+    padding: 0.3rem 0.2rem;
+    font-size: 0.6875rem;
+  }
+  .sortIc {
+    width: 0.65rem;
+    height: 0.65rem;
+  }
+  .mix,
+  .when {
+    padding: 0.9rem 0.875rem 0.8rem;
+  }
+  /* Chips get their own row above the total, scrolling sideways if they run out of room. */
+  .mixHead {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .chips {
+    order: 2;
+    flex: 1 1 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+  .mixRow {
+    grid-template-columns: 4.25rem minmax(0, 1fr) 4.25rem;
+    gap: 0.6rem;
   }
   .tr > :nth-child(3),
   .tr > :nth-child(5) {

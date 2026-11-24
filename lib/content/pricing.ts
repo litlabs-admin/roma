@@ -2,7 +2,7 @@
 // Brief: "Roma website: ROI calculator and pricing brief", 20 Nov 2026, §3.
 // Pricing model B (tiers by portals connected). Entries with `confirmed: false` are drafts
 // awaiting Roma's sign-off; edit them here and every surface (plan cards, matrix,
-// calculator's suggested plan, JSON-LD) follows.
+// JSON-LD) follows.
 
 import { DEMO_HREF, SIGNUP_HREF } from "@/components/chat/data";
 
@@ -17,7 +17,7 @@ export type Plan = {
   /** "From" before the figure (entry plan). */
   from?: boolean;
   portals: string;
-  /** Upper bound of portals for this plan; drives the calculator's suggestion. null = no cap. */
+  /** Upper bound of portals for this plan. null = no cap. */
   maxPortals: number | null;
   users: string;
   modules: string;
@@ -112,11 +112,6 @@ export const pricingCopy = {
     included: "Included",
     notIncluded: "Not included",
     planSwitch: "Show plan",
-  },
-  embed: {
-    label: "Return on Roma",
-    heading: "Will Roma pay for itself?",
-    lead: "Three numbers from your business. We’ll weigh what Roma could bring back against the price of the plan.",
   },
   alternatives: {
     label: "Roma vs. alternatives",

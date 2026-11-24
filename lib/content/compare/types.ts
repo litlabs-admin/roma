@@ -141,6 +141,21 @@ export type MatrixRow = {
   key?: { figure: string };
 };
 
+/**
+ * The /compare matrix (DESIGN.md §G.13a): the same eight questions for every brand.
+ * Order and labels live in criteria.ts.
+ */
+export type CriterionId = "what" | "price" | "live" | "disputes" | "classify" | "backups" | "accounting" | "security";
+
+/**
+ * One competitor's answer to one criterion. `value` is the short figure set large.
+ * `row` names this competitor's own `table.rows[].label`: the quote and source are read
+ * from that row, so the matrix always says what the comparison page says. `them` is only
+ * for criteria the page's table doesn't cover; its source lives in `matrixSources` so the
+ * page's own footnotes stay as they are. Neither = "Not published" (shown as such).
+ */
+export type MatrixCell = { value: string; row?: string; them?: Claim };
+
 export type Competitor = {
   slug: string;
   name: string;
@@ -156,4 +171,8 @@ export type Competitor = {
   table: { heading: Heading; lead: string; rows: MatrixRow[]; choose: { roma: string[]; them: string[] } };
   story: GlimpseStory | PromomashStory | VividlyStory | FloretStory;
   faqs: Faq[];
+  /** This competitor's column in the /compare matrix. */
+  matrix: Record<CriterionId, MatrixCell>;
+  /** Sources cited only by the /compare matrix (not listed on the comparison page). */
+  matrixSources?: Record<string, Source>;
 };

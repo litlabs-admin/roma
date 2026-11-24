@@ -16,6 +16,11 @@ export function CompareProvider({ competitor, order, children }: { competitor: C
   return <CompareCtx.Provider value={value}>{children}</CompareCtx.Provider>;
 }
 
+/** The current competitor, or null outside a comparison page (the /compare hub). */
+export function useCompareOptional() {
+  return useContext(CompareCtx);
+}
+
 export function useCompare() {
   const v = useContext(CompareCtx);
   if (!v) throw new Error("useCompare must be used inside <CompareProvider>");

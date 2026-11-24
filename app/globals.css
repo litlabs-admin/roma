@@ -285,12 +285,15 @@ html.lenis body {
   letter-spacing: inherit;
 }
 
-/* Pre-paint entrance guard; the fallback reveals content if JS never runs the entrance. */
-.js-motion [data-anim],
-.js-motion [data-hero] [data-w],
-.js-motion [data-nav-light] [data-w] {
-  opacity: 0;
-  animation: enterFallback 0s linear 4s forwards;
+/* Pre-paint entrance guard (JS on, motion allowed): pure CSS, so it applies before first
+   paint with no inline script. The fallback reveals content if JS never runs the entrance. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  [data-anim],
+  [data-hero] [data-w],
+  [data-nav-light] [data-w] {
+    opacity: 0;
+    animation: enterFallback 0s linear 4s forwards;
+  }
 }
 /* Once GSAP owns the elements, drop the fallback so it can't override inline styles. */
 .motion-ready [data-anim],

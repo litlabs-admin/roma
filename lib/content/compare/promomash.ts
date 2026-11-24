@@ -152,4 +152,23 @@ export const promomash: Competitor = {
     { q: "Does Roma work with NetSuite and QuickBooks?", a: "Yes. Roma exports coded lines to NetSuite, QuickBooks or CSV, alongside your current accounting stack." },
     { q: "Where does the Promomash information come from?", a: `From Promomash’s public website, checked on ${CHECKED_ON}. We quote it directly and list every source on this page. If anything has changed, tell us through our contact page and we’ll update it.` },
   ],
+  // The /compare matrix (DESIGN.md §G.13a): read from this page's table rows, except
+  // backups (no row on the page): the brand submits the documents (checked 24 Nov 2026).
+  matrix: {
+    what: { value: "Trade suite", row: "What it is" },
+    price: { value: "Priced on volume", row: "Price" },
+    live: { value: "2–4 months", row: "Time to go live" },
+    disputes: { value: "Their specialists", row: "Who handles disputes" },
+    classify: { value: "AI-assisted coding", row: "Classification" },
+    backups: { value: "You send them", them: { text: "“The Client submits all deduction chargebacks, checks and invoices.”", source: "submit" } },
+    accounting: { value: "NetSuite, QuickBooks, Sage", row: "ERP" },
+    security: { value: "SOC 2 Type II", row: "Security" },
+  },
+  matrixSources: {
+    submit: {
+      quote: "The Client submits all deduction chargebacks, checks and invoices. Documents are digitally captured and converted into a structured data set.",
+      url: "https://www.promomash.com/deduction-management",
+      where: "promomash.com/deduction-management, step 1 (Capture)",
+    },
+  },
 };

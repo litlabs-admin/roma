@@ -5,6 +5,19 @@
   position: relative;
   padding-block: var(--section-lg);
 }
+/* Phones: the section above already ends with its own padding; don't stack a second full gap. */
+@media (max-width: 767px) {
+  .section {
+    padding-top: var(--section-md);
+  }
+  .card {
+    border-radius: var(--radius-lg);
+  }
+  .well {
+    height: 10.5rem;
+    border-radius: calc(var(--radius-lg) - 0.5rem) calc(var(--radius-lg) - 0.5rem) 0 0;
+  }
+}
 .inner {
   width: 100%;
   max-width: var(--container-lg);
@@ -63,10 +76,23 @@
   padding: 0;
   list-style: none;
 }
+/* Tablet: two up, the third card spans; three up only once each card has room. */
 @media (min-width: 768px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+  .grid > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+@media (min-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.5rem;
+  }
+  .grid > :last-child:nth-child(odd) {
+    grid-column: auto;
   }
 }
 .card {
@@ -119,7 +145,7 @@
 .figure {
   margin: 0.75rem 0 0.75rem;
   font-weight: 500;
-  font-size: 3.25rem;
+  font-size: clamp(2.75rem, 12vw, 3.25rem);
   line-height: 1;
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;

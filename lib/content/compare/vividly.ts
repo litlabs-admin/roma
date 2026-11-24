@@ -141,4 +141,25 @@ export const vividly: Competitor = {
     { q: "Is Roma secure?", a: "Yes. Roma is SOC 2 Type II and ISO 27001 compliant, your data is only accessible to your team, and it never trains our models." },
     { q: "Where does the Vividly information come from?", a: `From Vividly’s public website, checked on ${CHECKED_ON}. We quote it directly and list every source on this page. If anything has changed, tell us through our contact page and we’ll update it.` },
   ],
+  // The /compare matrix (DESIGN.md §G.13a): read from this page's table rows; backups
+  // and accounting have no row on the page, so they're quoted here (checked 24 Nov 2026).
+  // No ERP is named on its site besides one NetSuite customer story, so none is claimed.
+  matrix: {
+    what: { value: "Trade promotion platform", row: "What it is" },
+    price: { value: "No public prices", row: "Price" },
+    live: { value: "From 2 weeks", row: "Time to go live" },
+    disputes: { value: "Auto Disputes + service", row: "Disputes" },
+    classify: { value: "Against trade plans", row: "Classification" },
+    backups: { value: "Pulled for you", them: { text: "Auto Disputes “automatically pulls documents from your retailers' and distributors' portals”.", source: "backups" } },
+    accounting: { value: "Any ERP", them: { text: "“Works With Any ERP, Every Retailer.”", source: "erp" } },
+    security: { value: "SOC 1 + SOC 2 Type II", row: "Security" },
+  },
+  matrixSources: {
+    backups: {
+      quote: "Auto Disputes automatically pulls documents from your retailers' and distributors' portals, or ingests them through auto-forwarded emails, then scans each one and matches it to the correct dispute, linking it automatically.",
+      url: "https://www.govividly.com/vividly-auto-disputes",
+      where: "govividly.com/vividly-auto-disputes, Backup Retrieval",
+    },
+    erp: { quote: "Works With Any ERP, Every Retailer.", url: "https://www.govividly.com/integrations", where: "govividly.com/integrations" },
+  },
 };

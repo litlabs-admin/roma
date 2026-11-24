@@ -3,7 +3,7 @@
 import { useState, type CSSProperties } from "react";
 import type { InputSpec } from "@/lib/content/calculator";
 import { calcCopy } from "@/lib/content/calculator";
-import { clamp, fmtMoneyShort, parseMoney, parseNumber, parsePercent } from "@/lib/calculator/math";
+import { clamp, fmtMoneyShort, parseMoney, parsePercent } from "@/lib/calculator/math";
 import s from "./calculator.module.css";
 
 /**
@@ -22,8 +22,6 @@ export function formatInput(spec: InputSpec, v: number) {
       return usd.format(v);
     case "percent":
       return `${Number.isInteger(v) ? v : v.toFixed(1)}%`;
-    default:
-      return String(Math.round(v));
   }
 }
 
@@ -35,14 +33,10 @@ function formatShort(spec: InputSpec, v: number) {
 const DISALLOWED: Record<InputSpec["unit"], RegExp> = {
   money: /[^0-9.,$kmbKMB\s]/g,
   percent: /[^0-9.%\s]/g,
-  hours: /[^0-9]/g,
-  count: /[^0-9]/g,
 };
 
 function parse(spec: InputSpec, raw: string) {
-  if (spec.unit === "money") return parseMoney(raw);
-  if (spec.unit === "percent") return parsePercent(raw);
-  return parseNumber(raw);
+  return spec.unit === "money" ? parseMoney(raw) : parsePercent(raw);
 }
 
 const STEPS = 1000;
@@ -82,9 +76,9 @@ export default function RangeField({
   onChange: (v: number) => void;
   idPrefix: string;
   label?: string;
-  /** Unit shown after the typed field ("hrs / week"). */
+  /** Unit shown after the typed field. */
   unitAfter?: string;
-  /** Advisory note under the slider (e.g. "That is high…"). */
+  /** Advisory note under the slider. */
   note?: string;
   compact?: boolean;
 }) {
@@ -118,7 +112,7 @@ export default function RangeField({
       setMsg({ kind: "range", text: blocked ? calcCopy.notes.format[spec.unit] : rangeMsg });
       return;
     }
-    onChange(spec.key === "n" ? Math.round(v) : v);
+    onChange(v);
     setMsg(blocked ? { kind: "range", text: calcCopy.notes.format[spec.unit] } : null);
   };
 

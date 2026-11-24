@@ -420,8 +420,40 @@
   .glName {
     display: none;
   }
+  /* Fixed tracks so the header and every row share one set of columns. */
   .row {
-    grid-template-columns: 1fr auto auto;
-    gap: 0.6rem;
+    grid-template-columns: 5.5rem minmax(0, 1fr) 4.25rem;
+    gap: 0.5rem;
+    height: 2.75rem;
+  }
+  .headRow {
+    height: 2.25rem;
+  }
+  .headRow > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .amt {
+    font-size: 0.8125rem;
+  }
+  .cBook {
+    justify-self: end;
+    justify-items: end;
+  }
+  .done,
+  .pending {
+    padding: 0.2rem 0.45rem;
+    font-size: 0.6875rem;
+  }
+  .done svg {
+    display: none;
+  }
+  /* Room for the tilted check so its corners aren't clipped. */
+  .checkCol {
+    padding-block: 0.75rem 0.25rem;
+  }
+  .check {
+    margin-inline: auto;
   }
 }

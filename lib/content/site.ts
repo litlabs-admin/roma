@@ -89,6 +89,7 @@ export const footer = {
         { label: "Blog", href: "/blogs" },
         { label: "Deduction codes", href: "/deduction-codes" },
         { label: "FAQs", href: "/#faq" },
+        { label: "Compare all tools", href: "/compare" },
         // Every /compare page, from the registry (lib/content/compare).
         ...competitors.map((c) => ({ label: `Roma vs. ${c.name}`, href: `/compare/${c.slug}` })),
       ],

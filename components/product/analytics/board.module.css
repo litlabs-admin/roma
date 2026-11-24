@@ -301,7 +301,7 @@
 }
 @container (max-width: 44rem) {
   .head {
-    padding: 0.9rem 1rem;
+    padding: 0.9rem 0.875rem;
   }
   .sync,
   .chip {
@@ -310,7 +310,7 @@
   .equation {
     grid-template-columns: 1fr;
     gap: 0.5rem;
-    padding: 1rem;
+    padding: 1rem 0.875rem;
   }
   .op {
     justify-self: center;
@@ -335,11 +335,26 @@
     display: none;
   }
   .card {
-    margin: 0 1rem;
+    margin: 0 0.875rem;
     padding: 0.875rem 1rem 0.25rem;
   }
   .cardTitle span {
     display: none;
+  }
+  /* Title on its own line, the toggle full-width beneath it. */
+  .cardHead {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 0.25rem;
+  }
+  .cardTitle {
+    flex: 1 1 100%;
+  }
+  .toggle {
+    flex: 1 1 100%;
+  }
+  .tBtn {
+    padding-inline: 0.5rem;
   }
   .row {
     grid-template-columns: 7.5rem 1fr 4.75rem;

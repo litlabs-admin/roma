@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import type { Source } from "@/lib/content/compare/types";
 import { useCompare } from "./context";
 import s from "./cite.module.css";
 
@@ -10,12 +11,17 @@ import s from "./cite.module.css";
  * click/Enter (everyone). Esc or an outside click closes it and focus stays on the
  * marker. The numbered source list at the foot of the working paper is the static,
  * always-available version of the same information.
+ *
+ * `Cite` reads the page's competitor and footnote order from context; `CiteMark` is the
+ * same marker with everything passed in (the /compare matrix numbers across competitors).
  */
 
 export default function Cite({ id, tone = "light" }: { id: string; tone?: "light" | "dark" }) {
   const { c, order } = useCompare();
-  const src = c.sources[id];
-  const n = order.indexOf(id) + 1;
+  return <CiteMark n={order.indexOf(id) + 1} src={c.sources[id]} who={c.name} tone={tone} />;
+}
+
+export function CiteMark({ n, src, who, tone = "light" }: { n: number; src: Source; who: string; tone?: "light" | "dark" }) {
   const pid = useId();
   const [open, setOpen] = useState(false);
   const [shift, setShift] = useState(0);
@@ -61,7 +67,7 @@ export default function Cite({ id, tone = "light" }: { id: string; tone?: "light
         {n}
       </button>
       <span ref={pop} id={pid} role="note" className={s.pop} style={{ ["--shift" as string]: `${shift}px` }}>
-        <span className={s.who}>{c.name}, in its words</span>
+        <span className={s.who}>{who}, in its words</span>
         <q className={s.quote}>{src.quote}</q>
         <a className={s.link} href={src.url} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
           {src.where}

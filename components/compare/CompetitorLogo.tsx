@@ -2,7 +2,7 @@
 
 import type { CSSProperties } from "react";
 import type { Competitor } from "@/lib/content/compare/types";
-import { useCompare } from "./context";
+import { useCompareOptional } from "./context";
 import s from "./logo.module.css";
 
 /**
@@ -12,8 +12,9 @@ import s from "./logo.module.css";
  * is decorative and the name sits beside it in text.
  */
 export default function CompetitorLogo({ of, height, label = false, className = "" }: { of?: Competitor; height?: number; label?: boolean; className?: string }) {
-  const ctx = useCompare();
-  const c = of ?? ctx.c;
+  const ctx = useCompareOptional();
+  const c = of ?? ctx?.c;
+  if (!c) throw new Error("CompetitorLogo needs `of` outside <CompareProvider>");
   const { logo } = c;
   const h = height ?? logo.size;
   const style = {

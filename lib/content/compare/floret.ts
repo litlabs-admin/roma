@@ -165,4 +165,17 @@ export const floret: Competitor = {
     { q: "Does Roma work with QuickBooks and NetSuite?", a: "Yes. Roma exports coded lines to NetSuite, QuickBooks or CSV, alongside your current accounting stack." },
     { q: "Where does the Floret information come from?", a: `From Floret’s public website, checked on ${CHECKED_ON}. We quote it directly and list every source on this page. If anything has changed, tell us through our contact page and we’ll update it.` },
   ],
+  // The /compare matrix (DESIGN.md §G.13a): read from this page's table rows. Backups and
+  // security: nothing on tryfloret.com (home, /deductions-trade, /disputes,
+  // /cash-application, /security; checked 24 Nov 2026), so "Not published".
+  matrix: {
+    what: { value: "Software + dispute team", row: "What it is" },
+    price: { value: "Pilot, then a quote", row: "Price" },
+    live: { value: "Not published", row: "Time to go live" },
+    disputes: { value: "Their team, or you", row: "Who files disputes" },
+    classify: { value: "Coded to your GL", row: "Classification" },
+    backups: { value: "Not published" },
+    accounting: { value: "QuickBooks, NetSuite, Sage", row: "Accounting" },
+    security: { value: "Not published" },
+  },
 };

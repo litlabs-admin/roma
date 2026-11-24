@@ -3,7 +3,6 @@
 
 import type { FormValues } from "./validation";
 import { countryByIso } from "@/lib/content/countries";
-import type { CalculatorPayload } from "@/lib/calculator/payload";
 
 export type SubmitResult = { ok: true } | { ok: false; message: string };
 
@@ -60,14 +59,6 @@ export async function submitDemo(values: FormValues, context: DemoContext = {}):
 // TODO(backend): POST toPayload(values) to the partner-application endpoint (/partners, §G.16).
 export async function submitPartner(values: FormValues): Promise<SubmitResult> {
   void toPayload(values);
-  await wait(SIMULATED_MS);
-  return { ok: true };
-}
-
-// TODO(backend): submit to the HubSpot "ROI calculator" form (brief §2.7): `payload.fields`
-// as the form fields, `payload.context` as the HubSpot context (hutk, pageUri, pageName).
-export async function submitCalculator(payload: CalculatorPayload): Promise<SubmitResult> {
-  void payload;
   await wait(SIMULATED_MS);
   return { ok: true };
 }

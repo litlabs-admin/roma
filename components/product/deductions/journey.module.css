@@ -312,3 +312,17 @@
     padding-bottom: var(--section-lg);
   }
 }
+/* Phones: tighter chapter rhythm, and Numbers below already brings its own top gap. */
+@media (max-width: 767px) {
+  .section {
+    padding-bottom: var(--section-md);
+  }
+  .chapters,
+  .section[data-static] .chapters {
+    gap: 3rem;
+    margin-top: 2.5rem;
+  }
+  .stageOne {
+    margin-top: 1.5rem;
+  }
+}

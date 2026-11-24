@@ -55,7 +55,7 @@ const jsonLd = [
 /**
  * /pricing (DESIGN.md §G.18, brief §3.2): the /customers centred intro with the plans where
  * /customers has its story strip (the fitting plan on the home Stories red) → what's
- * included → "Will Roma pay for itself?" (red band) → Roma vs alternatives (price tags) →
+ * included → the deductions calculator (red band) → Roma vs alternatives (price tags) →
  * logo strip → proof on the red backdrop → FAQ sheet → closing CTA. [data-nav-light] + LIGHT_ROUTES:
  * the nav is solid cream from the top.
  */
