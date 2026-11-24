@@ -13,8 +13,9 @@ import f from "./forms.module.css";
 
 /**
  * The contact / demo / partner form (DESIGN.md §G.12). Contact and demo ask for name,
- * email, company, job title and an optional phone, nothing anyone has to look up
- * (client, Nov 2026); partner adds its type and a message.
+ * email, company, job title, an optional phone and an optional message; partner asks
+ * for its type and a required message instead of job title. Fields mirror the HubSpot
+ * forms (lib/forms/hubspot.ts).
  *
  * Validation: a field is checked on blur, then re-checked on every change once
  * touched (no errors while someone is still typing into a fresh field). Submit checks
@@ -35,7 +36,7 @@ const LABELS: Record<FieldName, string> = {
   jobTitle: C.jobTitle.label,
   phone: C.phone.label,
   partnerType: P.partnerType.label,
-  message: P.message.label,
+  message: C.message.label,
   consent: "Privacy policy",
 };
 
@@ -397,25 +398,24 @@ export default function LeadForm({ kind }: { kind: FormKind }) {
         />
       </Field>
 
-      {partner && (
-        <Field
+      <Field
+        name="message"
+        label={partner ? P.message.label : C.message.label}
+        required={partner}
+        error={e.message}
+        counter={<Counter length={values.message.trim().length} max={MESSAGE_MAX} />}
+      >
+        <TextArea
           name="message"
-          label={P.message.label}
+          rows={5}
           error={e.message}
-          counter={<Counter length={values.message.trim().length} max={MESSAGE_MAX} />}
-        >
-          <TextArea
-            name="message"
-            rows={5}
-            error={e.message}
-            placeholder={P.message.placeholder}
-            value={values.message}
-            onChange={(ev) => set("message", ev.target.value)}
-            onBlur={() => blur("message")}
-            readOnly={sending}
-          />
-        </Field>
-      )}
+          placeholder={partner ? P.message.placeholder : C.message.placeholder}
+          value={values.message}
+          onChange={(ev) => set("message", ev.target.value)}
+          onBlur={() => blur("message")}
+          readOnly={sending}
+        />
+      </Field>
 
       {/* Honeypot: hidden from people and assistive tech; bots fill it. */}
       <div className={f.hp} aria-hidden="true">

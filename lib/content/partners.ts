@@ -253,7 +253,7 @@ export const partnerPage = {
 
 export const partnerFieldCopy = {
   partnerType: { label: "Type of partnership", placeholder: "Choose a type" },
-  message: { label: "Anything we should know?", placeholder: "The brands you work with, your product, your portfolio, anything." },
+  message: { label: "Tell us about your work", placeholder: "The brands you work with, your product, your portfolio, anything." },
 };
 
 /* ── Illustrations (all illustrative; fictional firm and brands) ───────── */

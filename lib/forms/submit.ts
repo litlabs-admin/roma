@@ -1,12 +1,10 @@
-// The only backend touch-point for the contact and demo forms (DESIGN.md §G.12).
-// Until the backend exists these simulate a successful request.
+// The only backend touch-point for the contact, demo and partner forms (DESIGN.md §G.12).
+// Posts to /api/forms, which validates and forwards to HubSpot (lib/forms/hubspot.ts).
 
-import type { FormValues } from "./validation";
+import type { FormKind, FormValues } from "./validation";
 import { countryByIso } from "@/lib/content/countries";
 
 export type SubmitResult = { ok: true } | { ok: false; message: string };
-
-const SIMULATED_MS = 900;
 
 /** Splits the single Name field at the first space, for CRMs that want first/last
  *  (HubSpot's firstname/lastname). "Jordan Alvarez" → ["Jordan", "Alvarez"];
@@ -37,28 +35,26 @@ export function toPayload(v: FormValues) {
   };
 }
 
-const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const ERROR = "Something went wrong sending your details. Please try again, or email us directly.";
 
-// TODO(backend): POST toPayload(values) to the contact endpoint; map failures to { ok: false, message }.
-export async function submitContact(values: FormValues): Promise<SubmitResult> {
-  void toPayload(values);
-  await wait(SIMULATED_MS);
-  return { ok: true };
+async function send(kind: FormKind, values: FormValues, context?: DemoContext): Promise<SubmitResult> {
+  try {
+    const res = await fetch("/api/forms", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kind, values, context, pageUri: window.location.href, pageName: document.title }),
+    });
+    return res.ok ? { ok: true } : { ok: false, message: ERROR };
+  } catch {
+    return { ok: false, message: ERROR };
+  }
 }
+
+export const submitContact = (values: FormValues) => send("contact", values);
 
 /** Where a demo request came from, from the URL (/book-a-demo?src=calculator&plan=starter). */
 export type DemoContext = { src?: string; plan?: string; rev?: string };
 
-// TODO(backend): POST { ...toPayload(values), ...context } to the demo endpoint (or CRM, e.g. HubSpot).
-export async function submitDemo(values: FormValues, context: DemoContext = {}): Promise<SubmitResult> {
-  void { ...toPayload(values), ...context };
-  await wait(SIMULATED_MS);
-  return { ok: true };
-}
+export const submitDemo = (values: FormValues, context: DemoContext = {}) => send("demo", values, context);
 
-// TODO(backend): POST toPayload(values) to the partner-application endpoint (/partners, §G.16).
-export async function submitPartner(values: FormValues): Promise<SubmitResult> {
-  void toPayload(values);
-  await wait(SIMULATED_MS);
-  return { ok: true };
-}
+export const submitPartner = (values: FormValues) => send("partner", values);

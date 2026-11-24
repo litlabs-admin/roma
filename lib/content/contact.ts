@@ -22,13 +22,14 @@ export const MESSAGE_MIN = 10;
 export const MESSAGE_MAX = 2000;
 
 /** Labels and placeholders shared by the contact, demo and partner forms. Contact and
- *  demo ask only for these five plus consent (client, Nov 2026: nothing to look up). */
+ *  demo ask for these plus an optional message and consent (matches the HubSpot forms). */
 export const fieldCopy = {
   name: { label: "Name", placeholder: "Jordan Alvarez" },
   email: { label: "Work email", placeholder: "jordan@yourbrand.com" },
   company: { label: "Company", placeholder: "Your brand" },
   jobTitle: { label: "Job title", placeholder: "Founder, Head of Finance…" },
   phone: { label: "Phone", placeholder: "555 123 4567", country: "Country code", search: "Search country or code" },
+  message: { label: "Message", placeholder: "Anything you’d like us to know before we talk?" },
   consent: { before: "I agree to Roma’s ", link: "Privacy policy", href: "/privacy-policy", after: "." },
   required: "Required",
 };

@@ -105,7 +105,7 @@ export function validateField(field: FieldName, v: FormValues, kind: FormKind): 
     case "partnerType":
       return kind === "partner" && !v.partnerType ? "Please choose a type of partnership." : "";
     case "message":
-      return message(v.message, false); // partner only, optional
+      return message(v.message, kind === "partner"); // required on partner, optional elsewhere
     case "consent":
       return v.consent ? "" : "Please accept the privacy policy to continue.";
   }
@@ -113,8 +113,8 @@ export function validateField(field: FieldName, v: FormValues, kind: FormKind): 
 
 /** Fields each form shows, in on-screen order (drives focus order of errors). */
 export const FIELDS: Record<FormKind, FieldName[]> = {
-  contact: ["name", "email", "company", "jobTitle", "phone", "consent"],
-  demo: ["name", "email", "company", "jobTitle", "phone", "consent"],
+  contact: ["name", "email", "company", "jobTitle", "phone", "message", "consent"],
+  demo: ["name", "email", "company", "jobTitle", "phone", "message", "consent"],
   partner: ["name", "email", "company", "partnerType", "phone", "message", "consent"],
 };
 
